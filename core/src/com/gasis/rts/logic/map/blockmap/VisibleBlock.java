@@ -9,7 +9,7 @@ import java.util.LinkedList;
 /**
  * A map block that has some image(s) displayed
  */
-public class VisibleBlock extends NormalBlock {
+public class VisibleBlock extends Block {
 
     // the image in the foreground of the block
     protected Deque<String> images = new LinkedList<String>();
