@@ -11,17 +11,17 @@ import java.util.LinkedList;
  */
 public class VisibleBlock extends Block {
 
-    // the image in the foreground of the block
-    protected Deque<String> images = new LinkedList<String>();
+    // the image(s) in block
+    protected Deque<BlockImage> images = new LinkedList<BlockImage>();
 
     /**
-     * Adds a new image to be drawn in the block
+     * Adds a new image to be drawn in the block.
      *
-     * @param image name of the image texture
+     * @param image name of the image texture. Format - "atlas_name/texture_region_name"
      * @param bottom should the image be inserted in the bottom of the block (meaning it
      * is being drawn first, and other images are drawn after it)
      */
-    public void addImage(String image, boolean bottom) {
+    public void addImage(BlockImage image, boolean bottom) {
         if (bottom) {
             images.addFirst(image);
         } else {
@@ -34,7 +34,7 @@ public class VisibleBlock extends Block {
      *
      * @param image name of the image to remove
      */
-    public void removeImage(String image) {
+    public void removeImage(BlockImage image) {
         images.remove(image);
     }
 
@@ -47,8 +47,8 @@ public class VisibleBlock extends Block {
      */
     @Override
     public void render(SpriteBatch batch, Resources res, float delta) {
-        for (String image: images) {
-            batch.draw(res.texture(image), x * Block.BLOCK_SIZE, y * Block.BLOCK_SIZE, Block.BLOCK_SIZE, Block.BLOCK_SIZE);
+        for (BlockImage image: images) {
+            batch.draw(res.atlas(image.atlas).findRegion(image.texture), x * Block.BLOCK_SIZE, y * Block.BLOCK_SIZE, Block.BLOCK_SIZE, Block.BLOCK_SIZE);
         }
     }
 }
