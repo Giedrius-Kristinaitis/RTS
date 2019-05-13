@@ -5,7 +5,7 @@ import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.resources.Resources;
 
 /**
- * Map made of blocks (or tiles)
+ * 2D map made of blocks (or tiles)
  */
 public class BlockMap implements Map {
 
