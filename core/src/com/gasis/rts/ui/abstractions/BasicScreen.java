@@ -3,6 +3,7 @@ package com.gasis.rts.ui.abstractions;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.resources.Resources;
@@ -51,15 +52,17 @@ public abstract class BasicScreen extends ScreenAdapter {
         // of course I could call draw() before update() to avoid this issue,
         // but I think it is better for game state to update before drawing, so...
         if (!disposed) {
-            draw(batch, delta);
+            draw(batch, (OrthographicCamera) port.getCamera(), delta);
         }
     }
 
     /**
      * Called when the screen should render itself
      * @param delta time elapsed since last render
+     * @param batch batch used to draw sprites to
+     * @param cam world's camera
      */
-    public abstract void draw(SpriteBatch batch, float delta);
+    public abstract void draw(SpriteBatch batch, OrthographicCamera cam, float delta);
 
     /**
      * Called when the screen should update itself
