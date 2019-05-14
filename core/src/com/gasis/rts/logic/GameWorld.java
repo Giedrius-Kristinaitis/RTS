@@ -2,6 +2,9 @@ package com.gasis.rts.logic;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.map.MapParser;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.map.blockmap.TiledMapParser;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -12,12 +15,28 @@ public class GameWorld {
     // resources used by the game
     private Resources resources;
 
+    // game map
+    private BlockMap map;
+
     /**
      * Default class constructor
      * @param resources resources used by the game
      */
     public GameWorld(Resources resources) {
         this.resources = resources;
+
+        parseMap("map.tmx");
+    }
+
+    /**
+     * Parses a tiled map into a block map
+     *
+     * @param map name of the map to parse
+     */
+    private void parseMap(String map) {
+        MapParser parser = new TiledMapParser();
+
+        this.map = (BlockMap) parser.parse(resources.map(map));
     }
 
     /**
@@ -26,7 +45,7 @@ public class GameWorld {
      * @param delta time elapsed since last render
      */
     public void draw(SpriteBatch batch, float delta) {
-
+        map.render(batch, resources, delta);
     }
 
     /**
