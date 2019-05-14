@@ -44,11 +44,6 @@ public class LoadingScreen extends BasicScreen {
      */
     public LoadingScreen(BasicScreen screenToSwitch, String image, boolean unloadImage, Map<String, Class> assets, String[] maps) {
         this.screenToSwitch = screenToSwitch;
-
-        if (assets == null && maps == null) {
-            switchScreen();
-        }
-
         this.image = image;
         this.assets = assets;
         this.maps = maps;
@@ -111,7 +106,7 @@ public class LoadingScreen extends BasicScreen {
      */
     @Override
     public void update(float delta) {
-        if (resources.update()) {
+        if (resources.update() || (assets == null && maps == null)) {
             if (unloadImage) {
                 resources.unload(image);
             }

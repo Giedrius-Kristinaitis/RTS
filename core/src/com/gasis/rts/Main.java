@@ -8,6 +8,8 @@ import com.gasis.rts.resources.Resources;
 import com.gasis.rts.ui.abstractions.BasicScreen;
 import com.gasis.rts.ui.abstractions.ScreenSwitcher;
 import com.gasis.rts.ui.abstractions.ScreenWithInput;
+import com.gasis.rts.ui.implementations.GameScreen;
+import com.gasis.rts.ui.implementations.LoadingScreen;
 import com.gasis.rts.utils.Constants;
 
 /**
@@ -30,6 +32,14 @@ public class Main extends Game implements ScreenSwitcher {
 	@Override
 	public void create () {
 		resources = new Resources();
+
+		showScreen(new LoadingScreen(
+				new GameScreen(),
+				"loading.png",
+				true,
+				null,
+				null
+		));
 	}
 
 	/**
