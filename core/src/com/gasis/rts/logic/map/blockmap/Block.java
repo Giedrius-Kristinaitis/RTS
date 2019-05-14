@@ -9,7 +9,8 @@ import com.gasis.rts.resources.Resources;
 public abstract class Block {
 
     // how big the block is on the map
-    public static final float BLOCK_SIZE = 1f;
+    public static final float BLOCK_WIDTH = 1.2f;
+    public static final float BLOCK_HEIGHT = 0.8f;
 
     // block coordinates
     protected short x;
