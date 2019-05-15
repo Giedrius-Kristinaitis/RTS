@@ -37,11 +37,6 @@ public class Main extends Game implements ScreenSwitcher {
 	public void create () {
 		resources = new Resources();
 
-		// define maps to be loaded
-		String[] mapsToLoad = new String[] {
-				"map.tmx"
-		};
-
 		// define assets to be loaded
 		Map<String, Class> assetsToLoad = new TreeMap<String, Class>();
 
@@ -53,7 +48,7 @@ public class Main extends Game implements ScreenSwitcher {
 				"loading.png",
 				true,
 				assetsToLoad,
-				mapsToLoad
+				null
 		));
 	}
 
