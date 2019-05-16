@@ -6,7 +6,7 @@ import com.gasis.rts.resources.Resources;
 /**
  * A normal map block without background, foreground, or content in it by default
  */
-public abstract class Block {
+public class Block {
 
     // how big the block is on the map
     public static final float BLOCK_WIDTH = 1.2f;
@@ -87,5 +87,10 @@ public abstract class Block {
      * @param res object used to access assets
      * @param delta time elapsed since the last render
      */
-    public abstract void render(SpriteBatch batch, Resources res, float delta);
+    public void render(SpriteBatch batch, Resources res, float delta) {
+        // render the object that occupies this block
+        if (isOccupied()) {
+
+        }
+    }
 }

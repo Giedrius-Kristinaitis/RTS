@@ -47,6 +47,7 @@ public class VisibleBlock extends Block {
      */
     @Override
     public void render(SpriteBatch batch, Resources res, float delta) {
+        // render the block itself
         for (BlockImage image: images) {
             batch.draw(
                     res.atlas(image.atlas).findRegion(image.texture),
@@ -56,5 +57,8 @@ public class VisibleBlock extends Block {
                     image.height
             );
         }
+
+        // render the object that occupies this block
+        super.render(batch, res, delta);
     }
 }
