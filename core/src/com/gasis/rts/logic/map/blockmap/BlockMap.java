@@ -6,6 +6,8 @@ import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class BlockMap implements Map {
     protected short height;
 
     // map layers
-    protected List<MapLayer> layers = new ArrayList<MapLayer>();
+    protected Deque<MapLayer> layers = new LinkedList<MapLayer>();
 
     /**
      * Initializes an empty map
@@ -33,10 +35,16 @@ public class BlockMap implements Map {
 
     /**
      * Adds a new layer to the map
+     *
      * @param layer layer to add
+     * @param bottom should the layer be added to the bottom or not
      */
-    public void addMapLayer(MapLayer layer) {
-        layers.add(layer);
+    public void addMapLayer(MapLayer layer, boolean bottom) {
+        if (bottom) {
+            layers.addFirst(layer);
+        } else {
+            layers.addLast(layer);
+        }
     }
 
     /**
