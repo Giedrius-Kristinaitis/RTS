@@ -5,10 +5,8 @@ import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.resources.Resources;
 
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 2D map made of blocks (or tiles)
