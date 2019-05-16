@@ -84,7 +84,9 @@ public class BlockMapLayer implements MapLayer {
                     continue;
                 }
 
-                blocks[x][y].render(batch, resources, delta);
+                if (blocks[x][y] instanceof VisibleBlock) {
+                    ((VisibleBlock) blocks[x][y]).render(batch, resources, delta);
+                }
             }
         }
     }

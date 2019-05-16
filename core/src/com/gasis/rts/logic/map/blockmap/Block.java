@@ -1,8 +1,5 @@
 package com.gasis.rts.logic.map.blockmap;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.resources.Resources;
-
 /**
  * A normal map block without background, foreground, or content in it by default
  */
@@ -78,19 +75,5 @@ public class Block {
      */
     public void setY(short y) {
         this.y = y;
-    }
-
-    /**
-     * Renders the block to the screen
-     *
-     * @param batch sprite batch to draw the map to
-     * @param res object used to access assets
-     * @param delta time elapsed since the last render
-     */
-    public void render(SpriteBatch batch, Resources res, float delta) {
-        // render the object that occupies this block
-        if (isOccupied()) {
-
-        }
     }
 }
