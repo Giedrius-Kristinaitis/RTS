@@ -2,7 +2,11 @@ package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
+import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.resources.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 2D map made of blocks (or tiles)
@@ -13,8 +17,8 @@ public class BlockMap implements Map {
     protected short width;
     protected short height;
 
-    // blocks in the map
-    protected Block[][] blocks;
+    // map layers
+    protected List<MapLayer> layers = new ArrayList<MapLayer>();
 
     /**
      * Initializes an empty map
@@ -25,43 +29,47 @@ public class BlockMap implements Map {
     public BlockMap(short width, short height) {
         this.width = width;
         this.height = height;
-
-        blocks = new Block[width][height];
     }
 
     /**
-     * Adds a block to the map
-     *
-     * @param block block to add
-     * @param x x coordinate of the block
-     * @param y y coordinate of the block
+     * Adds a new layer to the map
+     * @param layer layer to add
      */
-    public void addBlock(Block block, short x, short y) {
-        block.setX(x);
-        block.setY(y);
-
-        blocks[x][y] = block;
+    public void addMapLayer(MapLayer layer) {
+        layers.add(layer);
     }
 
     /**
-     * Gets a block from the map
+     * Removes a layer from the map
      *
-     * @param x x coordinate of the block
-     * @param y y coordinate of the block
-     * @return block at (x, y)
+     * @param name name of the layer to remove
      */
-    public Block getBlock(short x, short y) {
-        return blocks[x][y];
+    public void removeMapLayer(String name) {
+        MapLayer existing = getLayerByName(name);
+
+        if (existing == null) {
+            return;
+        }
+
+        layers.remove(existing);
     }
 
     /**
-     * Removes a block from the map
+     * Returns a map layer with the specified name
      *
-     * @param x x coordinate of the block
-     * @param y y coordinate of the block
+     * @param name name of the layer
+     * @return map layer, null if not found
      */
-    public void removeBlock(short x, short y) {
-        blocks[x][y] = null;
+    public MapLayer getLayerByName(String name) {
+        for (MapLayer layer: layers) {
+            BlockMapLayer blockLayer = (BlockMapLayer) layer;
+
+            if (blockLayer.getName().equals(name)) {
+                return blockLayer;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -73,10 +81,8 @@ public class BlockMap implements Map {
      */
     @Override
     public void render(SpriteBatch batch, Resources res, float delta) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                blocks[x][y].render(batch, res, delta);
-            }
+        for (MapLayer layer: layers) {
+            layer.render(batch, res, delta);
         }
     }
 }

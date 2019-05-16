@@ -2,7 +2,6 @@ package com.gasis.rts;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.resources.Resources;
@@ -39,8 +38,6 @@ public class Main extends Game implements ScreenSwitcher {
 
 		// define assets to be loaded
 		Map<String, Class> assetsToLoad = new TreeMap<String, Class>();
-
-		assetsToLoad.put("ground.atlas", TextureAtlas.class);
 
 		// change the current screen to loading screen
 		showScreen(new LoadingScreen(

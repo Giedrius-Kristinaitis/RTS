@@ -8,6 +8,12 @@ public class BlockImage {
     public String atlas; // name of the texture atlas
     public String texture; // name of the texture
 
+    public float offsetX; // bottom left corner offset on the x axis
+    public float offsetY; // bottom left corner offset on the y axis
+
+    public float width = Block.BLOCK_WIDTH; // width of the image
+    public float height = Block.BLOCK_HEIGHT; // height of the image
+
     /**
      * Gets the hash code of this object
      */
