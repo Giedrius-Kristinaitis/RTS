@@ -30,6 +30,18 @@ public class VisibleBlock extends Block {
     }
 
     /**
+     * Gets the image that is at the bottom
+     * @return
+     */
+    public BlockImage getBottomImage() {
+        if (images.size() > 0) {
+            return images.getFirst();
+        }
+
+        return null;
+    }
+
+    /**
      * Removes an image from the block
      *
      * @param image name of the image to remove
@@ -51,8 +63,13 @@ public class VisibleBlock extends Block {
                     res.atlas(image.atlas).findRegion(image.texture),
                     x * Block.BLOCK_WIDTH + image.offsetX,
                     y * Block.BLOCK_HEIGHT + image.offsetY,
+                    image.width / 2,
+                    image.height / 2,
                     image.width,
-                    image.height
+                    image.height,
+                    1,
+                    1,
+                    image.rotation
             );
         }
     }

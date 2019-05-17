@@ -16,6 +16,9 @@ public class Block {
     // what currently is on this block
     protected Object occupyingObject;
 
+    // is the block passable or not (can units and buildings be on it or not)
+    protected boolean passable;
+
     /**
      * Checks if the block has something on it
      *
@@ -23,6 +26,22 @@ public class Block {
      */
     public boolean isOccupied() {
         return occupyingObject != null;
+    }
+
+    /**
+     * Checks if the block is passable or not
+     * @return
+     */
+    public boolean isPassable() {
+        return passable;
+    }
+
+    /**
+     * Sets the passable value for this block
+     * @param passable new passable value
+     */
+    public void setPassable(boolean passable) {
+        this.passable = passable;
     }
 
     /**

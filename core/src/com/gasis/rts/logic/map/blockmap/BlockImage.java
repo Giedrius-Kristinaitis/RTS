@@ -14,6 +14,8 @@ public class BlockImage {
     public float width = Block.BLOCK_WIDTH; // width of the image
     public float height = Block.BLOCK_HEIGHT; // height of the image
 
+    public float rotation; // rotation of the image in degrees
+
     /**
      * Gets the hash code of this object
      */
