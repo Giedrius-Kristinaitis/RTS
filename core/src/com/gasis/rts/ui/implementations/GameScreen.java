@@ -3,7 +3,7 @@ package com.gasis.rts.ui.implementations;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.gasis.rts.logic.GameWorld;
+import com.gasis.rts.logic.GameInstance;
 import com.gasis.rts.ui.abstractions.StagedScreen;
 
 /**
@@ -12,14 +12,14 @@ import com.gasis.rts.ui.abstractions.StagedScreen;
 public class GameScreen extends StagedScreen {
 
     // instance of the game-world
-    private GameWorld game;
+    private GameInstance game;
 
     /**
      * Called when the screen becomes the current screen
      */
     @Override
     public void show() {
-        game = new GameWorld(resources);
+        game = new GameInstance(resources);
     }
 
     /**

@@ -3,30 +3,43 @@ package com.gasis.rts.logic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.map.Map;
+import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
+import com.gasis.rts.logic.map.blockmap.BlockMapRenderer;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
 /**
- * Game world. Holds game state, draws the game world and updates it
+ * Game instance. Holds game state, draws the game world and updates it
  */
-public class GameWorld {
+public class GameInstance {
 
     // resources used by the game
     private Resources resources;
 
+    // renders the game map
+    private MapRenderer mapRenderer;
+
     // game map
-    private BlockMap map;
+    private Map map;
 
     /**
      * Default class constructor
      *
      * @param resources resources used by the game
      */
-    public GameWorld(Resources resources) {
+    public GameInstance(Resources resources) {
         this.resources = resources;
 
         map = new BlockMapGenerator().generate(Gdx.files.internal("main.map"));
+
+        mapRenderer = new BlockMapRenderer();
+        mapRenderer.setRenderedMap(map);
+        mapRenderer.setRenderX(0);
+        mapRenderer.setRenderY(0);
+        mapRenderer.setRenderWidth(Constants.WIDTH);
+        mapRenderer.setRenderHeight(Constants.HEIGHT);
     }
 
     /**
@@ -36,7 +49,7 @@ public class GameWorld {
      * @param delta time elapsed since last render
      */
     public void draw(SpriteBatch batch, float delta) {
-        map.render(batch, resources, delta);
+        mapRenderer.render(batch, resources, delta);
     }
 
     /**

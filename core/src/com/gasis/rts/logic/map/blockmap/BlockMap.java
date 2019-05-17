@@ -1,11 +1,10 @@
 package com.gasis.rts.logic.map.blockmap;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
-import com.gasis.rts.resources.Resources;
 
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -79,17 +78,12 @@ public class BlockMap implements Map {
     }
 
     /**
-     * Renders the map to the screen
+     * Gets all map layers
      *
-     * @param batch sprite batch to draw the map to
-     * @param res object used to access assets
-     * @param delta time elapsed since the last render
+     * @return
      */
-    @Override
-    public void render(SpriteBatch batch, Resources res, float delta) {
-        for (MapLayer layer: layers) {
-            layer.render(batch, res, delta);
-        }
+    public Iterator<MapLayer> getLayers() {
+        return layers.iterator();
     }
 
     /**

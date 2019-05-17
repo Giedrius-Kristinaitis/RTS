@@ -1,9 +1,7 @@
 package com.gasis.rts.logic.map.blockmap;
 
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.MapLayer;
-import com.gasis.rts.resources.Resources;
 
 /**
  * A layer of blocks
@@ -67,28 +65,6 @@ public class BlockMapLayer implements MapLayer {
      */
     public void removeBlock(short x, short y) {
         blocks[x][y] = null;
-    }
-
-    /**
-     * Renders the layer to the screen
-     *
-     * @param batch     sprite batch to draw to
-     * @param resources game assets
-     * @param delta     time elapsed since the last render
-     */
-    @Override
-    public void render(SpriteBatch batch, Resources resources, float delta) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (blocks[x][y] == null) {
-                    continue;
-                }
-
-                if (blocks[x][y] instanceof VisibleBlock) {
-                    ((VisibleBlock) blocks[x][y]).render(batch, resources, delta);
-                }
-            }
-        }
     }
 
     /**
