@@ -107,4 +107,36 @@ public class BlockMapLayer implements MapLayer {
     public String getName() {
         return name;
     }
+
+    /**
+     * Gets the width of the layer in blocks
+     * @return
+     */
+    public short getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the height of the layer in blocks
+     * @return
+     */
+    public short getHeight() {
+        return height;
+    }
+
+    /**
+     * Sets the width of the layer
+     * @param width new width in blocks
+     */
+    public void setWidth(short width) {
+        this.width = width;
+    }
+
+    /**
+     * Sets the height of the layer
+     * @param height new height in blocks
+     */
+    public void setHeight(short height) {
+        this.height = height;
+    }
 }

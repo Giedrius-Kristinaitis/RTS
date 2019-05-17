@@ -1,7 +1,10 @@
 package com.gasis.rts.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -12,6 +15,9 @@ public class GameWorld {
     // resources used by the game
     private Resources resources;
 
+    // game map
+    private BlockMap map;
+
     /**
      * Default class constructor
      *
@@ -19,6 +25,8 @@ public class GameWorld {
      */
     public GameWorld(Resources resources) {
         this.resources = resources;
+
+        map = new BlockMapGenerator().generate(Gdx.files.internal("main.map"));
     }
 
     /**
@@ -28,7 +36,7 @@ public class GameWorld {
      * @param delta time elapsed since last render
      */
     public void draw(SpriteBatch batch, float delta) {
-
+        map.render(batch, resources, delta);
     }
 
     /**

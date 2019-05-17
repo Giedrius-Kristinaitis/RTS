@@ -91,4 +91,20 @@ public class BlockMap implements Map {
             layer.render(batch, res, delta);
         }
     }
+
+    /**
+     * Gets the width of the map in blocks
+     * @return
+     */
+    public short getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the height of the map in blocks
+     * @return
+     */
+    public short getHeight() {
+        return height;
+    }
 }
