@@ -1,5 +1,7 @@
 package com.gasis.rts.logic.map.blockmap;
 
+import com.gasis.rts.logic.object.GameObject;
+
 /**
  * A normal map block without background, foreground, or content in it by default
  */
@@ -14,7 +16,7 @@ public class Block {
     protected short y;
 
     // what currently is on this block
-    protected Object occupyingObject;
+    protected GameObject occupyingObject;
 
     // is the block passable or not (can units and buildings be on it or not)
     protected boolean passable;
@@ -49,7 +51,7 @@ public class Block {
      *
      * @return occupying object
      */
-    public Object getOccupyingObject() {
+    public GameObject getOccupyingObject() {
         return occupyingObject;
     }
 
@@ -58,7 +60,7 @@ public class Block {
      *
      * @param object the object that occupies the block now
      */
-    public void setOccupyingObject(Object object) {
+    public void setOccupyingObject(GameObject object) {
         occupyingObject = object;
     }
 
