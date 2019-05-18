@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,14 @@ public class FrameAnimation implements Animation {
     protected float x;
     protected float y;
 
+    // initial position of the animation
+    protected float initialX;
+    protected float initialY;
+
+    // final position of the animation (where the animation is when finished)
+    protected float finalX;
+    protected float finalY;
+
     // dimensions of the animation
     protected float width;
     protected float height;
@@ -40,8 +49,14 @@ public class FrameAnimation implements Animation {
     // how fast the animation rotates in degrees every second
     protected float rotationSpeed;
 
+    // initial rotation of the animation
+    protected float initialRotation;
+
     // scale of the animation
     protected float scale = 1f;
+
+    // initial scale
+    protected float initialScale = 1f;
 
     // the scale the animation should get to from start to finish
     protected float finalScale = 1f;
@@ -58,6 +73,9 @@ public class FrameAnimation implements Animation {
     // frames of the animation
     protected List<String> frames;
 
+    // how many frames are there in the animation
+    protected int frameCount;
+
     /**
      * Adds an animation finish listener
      *
@@ -65,6 +83,144 @@ public class FrameAnimation implements Animation {
      */
     public void addFinishListener(AnimationFinishListener finishListener) {
         finishListeners.add(finishListener);
+    }
+
+    /**
+     * Gets the number of frames in this animation
+     *
+     * @return
+     */
+    public int getFrameCount() {
+        return frameCount;
+    }
+
+    /**
+     * Sets the number of frames of the animation
+     *
+     * @param frameCount new number of frames
+     */
+    public void setFrameCount(int frameCount) {
+        this.frameCount = frameCount;
+    }
+
+    /**
+     * Gets the final x coordinate of the animation
+     * @return
+     */
+    public float getFinalX() {
+        return finalX;
+    }
+
+    /**
+     * Gets the final y coordinate of the animation
+     * @return
+     */
+    public float getFinalY() {
+        return finalY;
+    }
+
+    /**
+     * Gets the initial rotation
+     * @return
+     */
+    public float getInitialRotation() {
+        return initialRotation;
+    }
+
+    /**
+     * Sets the initial rotation
+     *
+     * @param initialRotation new initial rotation
+     */
+    public void setInitialRotation(float initialRotation) {
+        this.initialRotation = initialRotation;
+    }
+
+    /**
+     * Sets the final x coordinate of the animation
+     *
+     * @param finalX new final x coordinate
+     */
+    public void setFinalX(float finalX) {
+        this.finalX = finalX;
+    }
+
+    /**
+     * Sets the final y coordinate of the animation
+     *
+     * @param finalY new final y coordinate
+     */
+    public void setFinalY(float finalY) {
+        this.finalY = finalY;
+    }
+
+    /**
+     * Sets the final center x coordinate of the animation
+     *
+     * @param finalX new final x coordinate
+     */
+    public void setFinalCenterX(float finalX) {
+        this.finalX = finalX - width / 2f;
+    }
+
+    /**
+     * Sets the final center y coordinate of the animation
+     *
+     * @param finalY new final y coordinate
+     */
+    public void setFinalCenterY(float finalY) {
+        this.finalY = finalY - height / 2f;
+    }
+
+    /**
+     * Gets the initial x coordinate
+     * @return
+     */
+    public float getInitialX() {
+        return initialX;
+    }
+
+    /**
+     * Gets the initial y coordinate
+     * @return
+     */
+    public float getInitialY() {
+        return initialY;
+    }
+
+    /**
+     * Gets the initial scale
+     * @return
+     */
+    public float getInitialScale() {
+        return initialScale;
+    }
+
+    /**
+     * Sets the initial x coordinate
+     *
+     * @param initialX new initial x
+     */
+    public void setInitialX(float initialX) {
+        this.initialX = initialX;
+    }
+
+    /**
+     * Sets the initial y coordinate
+     *
+     * @param initialY new initial y
+     */
+    public void setInitialY(float initialY) {
+        this.initialY = initialY;
+    }
+
+    /**
+     * Sets the initial scale
+     *
+     * @param initialScale new initial scale
+     */
+    public void setInitialScale(float initialScale) {
+        this.initialScale = initialScale;
     }
 
     /**
@@ -307,6 +463,14 @@ public class FrameAnimation implements Animation {
     }
 
     /**
+     * Gets the duration of the animation
+     * @return
+     */
+    public float getDuration() {
+        return frameCount * updateInterval;
+    }
+
+    /**
      * Resets the state of the animation
      */
     public void resetAnimation() {
@@ -319,9 +483,10 @@ public class FrameAnimation implements Animation {
      *
      * @param delta time elapsed since the last render
      */
+    @Override
     public void update(float delta) {
         // check if the animation is looping
-        if (currentFrame == frames.size() - 1 && !loop) {
+        if (currentFrame == frameCount - 1 && !loop && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
             // notify finish listeners
             if (timeSinceLastUpdate >= updateInterval && !listenersNotified) {
                 listenersNotified = true;
@@ -336,11 +501,24 @@ public class FrameAnimation implements Animation {
             return;
         }
 
+        // check if the animation needs to be reset
+        else if (currentFrame == frameCount - 1 && loop && (timeSinceLastUpdate >= updateInterval * frameCount || frameCount > 1)) {
+            x = initialX;
+            y = initialY;
+            scale = initialScale;
+            rotation = initialRotation;
+            currentFrame = 0;
+
+            if (frameCount == 1) {
+                timeSinceLastUpdate = 0;
+            }
+        }
+
         // update the animation frame
-        if (timeSinceLastUpdate >= updateInterval) {
+        if (frameCount > 1 && timeSinceLastUpdate >= updateInterval) {
             timeSinceLastUpdate = 0;
 
-            currentFrame = currentFrame == frames.size() - 1 ? 0 : currentFrame + 1;
+            currentFrame = currentFrame == frameCount - 1 ? 0 : currentFrame + 1;
         } else {
             timeSinceLastUpdate += delta;
         }
@@ -349,7 +527,11 @@ public class FrameAnimation implements Animation {
         rotation += rotationSpeed * delta;
 
         // update the scale of the animation
-        scale += (finalScale - scale) / (frames.size() * updateInterval) * delta;
+        scale += (finalScale - initialScale) / (frameCount * updateInterval) * delta;
+
+        // update the position of the animation
+        x += (finalX - initialX) / (frameCount * updateInterval) * delta;
+        y += ((finalY - initialY) / (frameCount * updateInterval)) * delta;
     }
 
     /**
@@ -358,9 +540,10 @@ public class FrameAnimation implements Animation {
      * @param batch     sprite batch to draw to
      * @param resources game assets
      */
+    @Override
     public void render(SpriteBatch batch, Resources resources) {
         batch.draw(
-                resources.atlas(atlas).findRegion(frames.get(currentFrame)),
+                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(frames.get(currentFrame)),
                 x,
                 y,
                 width / 2,

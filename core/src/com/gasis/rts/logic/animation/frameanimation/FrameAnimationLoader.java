@@ -50,10 +50,6 @@ public class FrameAnimationLoader extends AnimationLoader {
      */
     @Override
     public boolean load(FileHandle animationFile) {
-        if (loaded) {
-            throw new IllegalStateException("Animation already loaded");
-        }
-
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(animationFile.read()));
 
@@ -119,13 +115,16 @@ public class FrameAnimationLoader extends AnimationLoader {
 
         animation.setAtlas(atlas);
         animation.setFrames(frames);
+        animation.setFrameCount(frames.size());
         animation.setWidth(width);
         animation.setHeight(height);
         animation.setUpdateInterval(duration / (float) frames.size());
         animation.setLooping(loop);
         animation.setRotation(rotation);
+        animation.setInitialRotation(rotation);
         animation.setRotationSpeed(rotationSpeed);
         animation.setScale(scale);
+        animation.setInitialScale(scale);
         animation.setFinalScale(finalScale);
 
         return animation;
@@ -136,11 +135,13 @@ public class FrameAnimationLoader extends AnimationLoader {
      *
      * @param x x coordinate of the animation
      * @param y y coordinate of the animation
+     * @param finalX final x position of the animation
+     * @param finalY final y position of the animation
      * @param center are the given coordinates of the center point or the bottom-left corner
      *
      * @return new instance of the loaded animation, null if the animation is not loaded
      */
-    public FrameAnimation newInstance(float x, float y, boolean center) {
+    public FrameAnimation newInstance(float x, float y, float finalX, float finalY, boolean center) {
         FrameAnimation animation = newInstance();
 
         if (animation == null) {
@@ -154,6 +155,11 @@ public class FrameAnimationLoader extends AnimationLoader {
             animation.setX(x);
             animation.setY(y);
         }
+
+        animation.setInitialX(animation.getX());
+        animation.setInitialY(animation.getY());
+        animation.setFinalCenterX(finalX);
+        animation.setFinalCenterY(finalY);
 
         return animation;
     }
