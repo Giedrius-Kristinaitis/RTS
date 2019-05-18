@@ -1,6 +1,6 @@
 package com.gasis.rts.logic.animation;
 
-import java.awt.*;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 
 /**
  * Callback that gets called when an animation finishes

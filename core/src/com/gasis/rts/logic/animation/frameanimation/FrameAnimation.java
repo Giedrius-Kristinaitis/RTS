@@ -1,6 +1,8 @@
-package com.gasis.rts.logic.animation;
+package com.gasis.rts.logic.animation.frameanimation;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.animation.Animation;
+import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;

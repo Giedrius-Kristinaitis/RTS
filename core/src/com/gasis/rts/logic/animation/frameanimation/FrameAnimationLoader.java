@@ -1,6 +1,7 @@
-package com.gasis.rts.logic.animation;
+package com.gasis.rts.logic.animation.frameanimation;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.logic.animation.AnimationLoader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
