@@ -2,6 +2,7 @@ package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.logic.map.MapGenerator;
+import com.gasis.rts.utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -140,17 +141,17 @@ public class BlockMapGenerator implements MapGenerator {
 
         BlockImage image = new BlockImage();
 
-        image.atlas = "terrain_1.atlas";
+        image.atlas = "t1.atlas";
 
         if (thickTerrain) {
             // insert a thick terrain block here
             // add the block of the correct terrain type
             if (terrainType.equals("grass")) {
-                image.texture = "grass_" + (2 + random.nextInt(2));
+                image.texture = "g" + (2 + random.nextInt(2));
             } else if (terrainType.equals("dirt")) {
-                image.texture = "dirt_" + (1 + random.nextInt(2));
+                image.texture = "d" + (1 + random.nextInt(2));
             } else if (terrainType.equals("water")) {
-                image.texture = "water_1";
+                image.texture = "w1";
                 block.setPassable(false);
             }
 
@@ -173,11 +174,11 @@ public class BlockMapGenerator implements MapGenerator {
                 // insert a medium thick terrain block here
                 // add the block of the correct terrain type
                 if (terrainType.equals("grass")) {
-                    image.texture = "grass_pieces_" + (1 + random.nextInt(2));
+                    image.texture = "gp" + (1 + random.nextInt(2));
                 } else if (terrainType.equals("dirt")) {
-                    image.texture = "dirt_pieces_" + (1 + random.nextInt(3));
+                    image.texture = "dp" + (1 + random.nextInt(3));
                 } else if (terrainType.equals("water")) {
-                    image.texture = "water_pieces_1";
+                    image.texture = "wp1";
                 }
 
                 if (image.texture != null) {
