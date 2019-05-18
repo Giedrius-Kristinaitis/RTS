@@ -32,7 +32,7 @@ public class GameInstance {
     public GameInstance(Resources resources) {
         this.resources = resources;
 
-        map = new BlockMapGenerator().generate(Gdx.files.internal("main.map"));
+        map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
 
         mapRenderer = new BlockMapRenderer();
         mapRenderer.setRenderedMap(map);

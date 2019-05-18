@@ -2,6 +2,7 @@ package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -60,7 +61,7 @@ public class VisibleBlock extends Block {
     public void render(SpriteBatch batch, Resources res, float delta) {
         for (BlockImage image: images) {
             batch.draw(
-                    res.atlas(image.atlas).findRegion(image.texture),
+                    res.atlas(Constants.FOLDER_ATLASES + image.atlas).findRegion(image.texture),
                     x * Block.BLOCK_WIDTH + image.offsetX,
                     y * Block.BLOCK_HEIGHT + image.offsetY,
                     image.width / 2,
