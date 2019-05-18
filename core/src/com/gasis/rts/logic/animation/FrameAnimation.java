@@ -10,7 +10,7 @@ import java.util.List;
  * An animation that changes frames
  */
 @SuppressWarnings("unused")
-public abstract class FrameAnimation {
+public class FrameAnimation implements Animation {
 
     // how often the animation frame changes (in seconds)
     protected float updateInterval;
@@ -20,9 +20,6 @@ public abstract class FrameAnimation {
 
     // the frame that is currently visible
     protected int currentFrame;
-
-    // how many frames does the animation have
-    protected int frameCount;
 
     // is the animation played on loop (forever) ?
     protected boolean loop;
@@ -38,14 +35,26 @@ public abstract class FrameAnimation {
     // rotation in degrees (relative to the center point) (counter-clockwise)
     protected float rotation;
 
+    // how fast the animation rotates in degrees every second
+    protected float rotationSpeed;
+
     // scale of the animation
     protected float scale = 1f;
+
+    // the scale the animation should get to from start to finish
+    protected float finalScale = 1f;
 
     // the animation observers who wait for the animation to finish
     protected List<AnimationFinishListener> finishListeners = new ArrayList<AnimationFinishListener>();
 
     // have the listeners been notified or not
     protected boolean listenersNotified = false;
+
+    // name of the texture atlas
+    protected String atlas;
+
+    // frames of the animation
+    protected List<String> frames;
 
     /**
      * Adds an animation finish listener
@@ -54,6 +63,75 @@ public abstract class FrameAnimation {
      */
     public void addFinishListener(AnimationFinishListener finishListener) {
         finishListeners.add(finishListener);
+    }
+
+    /**
+     * Gets the rotation speed (how many degrees in one second)
+     * @return
+     */
+    public float getRotationSpeed() {
+        return rotationSpeed;
+    }
+
+    /**
+     * Gets the final scale of the animation
+     * @return
+     */
+    public float getFinalScale() {
+        return finalScale;
+    }
+
+    /**
+     * Sets the rotation speed of the animation
+     *
+     * @param rotationSpeed how many degrees in one second
+     */
+    public void setRotationSpeed(float rotationSpeed) {
+        this.rotationSpeed = rotationSpeed;
+    }
+
+    /**
+     * Sets the final scale of the animation
+     *
+     * @param finalScale new final scale relative to the center of the animation
+     */
+    public void setFinalScale(float finalScale) {
+        this.finalScale = finalScale;
+    }
+
+    /**
+     * Gets the texture atlas of the animation
+     * @return
+     */
+    public String getAtlas() {
+        return atlas;
+    }
+
+    /**
+     * Gets the frames of the animation
+     *
+     * @return iterable with frames
+     */
+    public Iterable<String> getFrames() {
+        return frames;
+    }
+
+    /**
+     * Sets the texture atlas for the animation
+     *
+     * @param atlas name of the new atlas
+     */
+    public void setAtlas(String atlas) {
+        this.atlas = atlas;
+    }
+
+    /**
+     * Sets the frames of the animation
+     *
+     * @param frames new frame list
+     */
+    public void setFrames(List<String> frames) {
+        this.frames = frames;
     }
 
     /**
@@ -235,30 +313,13 @@ public abstract class FrameAnimation {
     }
 
     /**
-     * Gets the frame count of the animation
-     * @return
-     */
-    public int getFrameCount() {
-        return frameCount;
-    }
-
-    /**
-     * Sets the frame count of the animation
-     *
-     * @param frameCount new frame count
-     */
-    public void setFrameCount(int frameCount) {
-        this.frameCount = frameCount;
-    }
-
-    /**
      * Updates the animation
      *
      * @param delta time elapsed since the last render
      */
     public void update(float delta) {
         // check if the animation is looping
-        if (currentFrame == frameCount - 1 && !loop) {
+        if (currentFrame == frames.size() - 1 && !loop) {
             // notify finish listeners
             if (timeSinceLastUpdate >= updateInterval && !listenersNotified) {
                 listenersNotified = true;
@@ -277,10 +338,16 @@ public abstract class FrameAnimation {
         if (timeSinceLastUpdate >= updateInterval) {
             timeSinceLastUpdate = 0;
 
-            currentFrame = currentFrame == frameCount - 1 ? 0 : currentFrame + 1;
+            currentFrame = currentFrame == frames.size() - 1 ? 0 : currentFrame + 1;
         } else {
             timeSinceLastUpdate += delta;
         }
+
+        // update the rotation of the animation
+        rotation += rotationSpeed * delta;
+
+        // update the scale of the animation
+        scale += (finalScale - scale) / (frames.size() * updateInterval) * delta;
     }
 
     /**
@@ -288,10 +355,8 @@ public abstract class FrameAnimation {
      *
      * @param batch     sprite batch to draw to
      * @param resources game assets
-     * @param atlas     name of the texture atlas the animation uses
-     * @param frames    frame list of the animation
      */
-    public void render(SpriteBatch batch, Resources resources, String atlas, List<String> frames) {
+    public void render(SpriteBatch batch, Resources resources) {
         batch.draw(
                 resources.atlas(atlas).findRegion(frames.get(currentFrame)),
                 x,

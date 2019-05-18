@@ -49,6 +49,8 @@ public class BlockMapGenerator implements MapGenerator {
                 processCommand(command, map);
             }
 
+            reader.close();
+
             // return the final result
             return map;
         } catch (Exception ex) {
