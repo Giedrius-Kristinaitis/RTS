@@ -3,6 +3,7 @@ package com.gasis.rts.logic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
@@ -32,14 +33,19 @@ public class GameInstance {
     public GameInstance(Resources resources) {
         this.resources = resources;
 
+        // initialize the map
         map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
 
+        // initialize the map renderer
         mapRenderer = new BlockMapRenderer();
         mapRenderer.setRenderedMap(map);
         mapRenderer.setRenderX(0);
         mapRenderer.setRenderY(0);
         mapRenderer.setRenderWidth(Constants.WIDTH);
         mapRenderer.setRenderHeight(Constants.HEIGHT);
+
+        // call FrameAnimationFactory.getInstance() to load animations in advance
+        FrameAnimationFactory.getInstance();
     }
 
     /**

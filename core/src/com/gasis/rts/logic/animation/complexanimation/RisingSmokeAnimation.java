@@ -1,20 +1,15 @@
 package com.gasis.rts.logic.animation.complexanimation;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
-import com.gasis.rts.logic.animation.frameanimation.FrameAnimationLoader;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.resources.Resources;
-import com.gasis.rts.utils.Constants;
 
 /**
  * A rising smoke animation used for building (power plant, machine factory...) animations
  */
 public class RisingSmokeAnimation implements Animation {
-
-    // used to load frame animations
-    protected static final FrameAnimationLoader loader = new FrameAnimationLoader();
 
     // position of the animation (bottom-left corner)
     protected float x;
@@ -27,10 +22,8 @@ public class RisingSmokeAnimation implements Animation {
      * Class constructor
      */
     public RisingSmokeAnimation(float x, float y) {
-        loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "smoke_ball"));
-
         for (int i = 0; i < smokeBalls.length; i++) {
-            smokeBalls[i] = loader.newInstance(x, y, x, y + smokeBalls.length * 0.35f, true);
+            smokeBalls[i] = FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_WHITE_SMOKE_BALL, x, y, x, y + smokeBalls.length * 0.35f, true);
             smokeBalls[i].setLooping(true);
             smokeBalls[i].setDelay(i * smokeBalls[i].getUpdateInterval() * 0.9f);
         }

@@ -134,45 +134,4 @@ public class FrameAnimationLoader extends AnimationLoader {
 
         return animation;
     }
-
-    /**
-     * Creates a new instance of the animation with the specified position
-     *
-     * @param x x coordinate of the animation
-     * @param y y coordinate of the animation
-     * @param finalX final x position of the animation
-     * @param finalY final y position of the animation
-     * @param center are the given coordinates of the center point or the bottom-left corner
-     *
-     * @return new instance of the loaded animation, null if the animation is not loaded
-     */
-    public FrameAnimation newInstance(float x, float y, float finalX, float finalY, boolean center) {
-        FrameAnimation animation = newInstance();
-
-        if (animation == null) {
-            return null;
-        }
-
-        if (center) {
-            animation.setCenterX(x);
-            animation.setCenterY(y);
-
-            animation.setInitialCenterX(x);
-            animation.setInitialCenterY(y);
-
-            animation.setFinalCenterX(finalX);
-            animation.setFinalCenterY(finalY);
-        } else {
-            animation.setX(x);
-            animation.setY(y);
-
-            animation.setInitialX(x);
-            animation.setInitialY(y);
-
-            animation.setFinalX(finalX);
-            animation.setFinalY(finalY);
-        }
-
-        return animation;
-    }
 }
