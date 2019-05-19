@@ -76,6 +76,12 @@ public class FrameAnimation implements Animation {
     // how many frames are there in the animation
     protected int frameCount;
 
+    // delay of the animation in seconds
+    protected float delay;
+
+    // how much time of the delay has elapsed
+    protected float delayTime;
+
     /**
      * Adds an animation finish listener
      *
@@ -83,6 +89,27 @@ public class FrameAnimation implements Animation {
      */
     public void addFinishListener(AnimationFinishListener finishListener) {
         finishListeners.add(finishListener);
+    }
+
+    /**
+     * Gets the delay of the animation
+     * @return
+     */
+    public float getDelay() {
+        return delay;
+    }
+
+    /**
+     * Sets the delay of the animation
+     *
+     * @param delay new delay
+     */
+    public void setDelay(float delay) {
+        if (delayTime != 0) {
+            throw new IllegalStateException("Animation delay already started");
+        }
+
+        this.delay = delay;
     }
 
     /**
@@ -485,6 +512,11 @@ public class FrameAnimation implements Animation {
      */
     @Override
     public void update(float delta) {
+        if (delayTime <= delay) {
+            delayTime += delta;
+            return;
+        }
+
         // check if the animation is looping
         if (currentFrame == frameCount - 1 && !loop && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
             // notify finish listeners
@@ -542,6 +574,10 @@ public class FrameAnimation implements Animation {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        if (delayTime <= delay) {
+            return;
+        }
+
         batch.draw(
                 resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(frames.get(currentFrame)),
                 x,

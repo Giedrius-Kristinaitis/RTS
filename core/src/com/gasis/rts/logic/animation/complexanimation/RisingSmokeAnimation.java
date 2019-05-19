@@ -23,9 +23,6 @@ public class RisingSmokeAnimation implements Animation {
     // all smoke ball animations that make up this animation
     protected final FrameAnimation[] smokeBalls = new FrameAnimation[5];
 
-    // how much time has elapsed since the start of the animation
-    protected float timeElapsed;
-
     /**
      * Class constructor
      */
@@ -35,6 +32,7 @@ public class RisingSmokeAnimation implements Animation {
         for (int i = 0; i < smokeBalls.length; i++) {
             smokeBalls[i] = loader.newInstance(x, y, x, y + smokeBalls.length * 0.35f, true);
             smokeBalls[i].setLooping(true);
+            smokeBalls[i].setDelay(i * smokeBalls[i].getUpdateInterval() * 0.9f);
         }
     }
 
@@ -45,15 +43,9 @@ public class RisingSmokeAnimation implements Animation {
      */
     @Override
     public void update(float delta) {
-        smokeBalls[0].update(delta);
-
-        for (int i = 1; i < smokeBalls.length; i++) {
-            if (timeElapsed >= smokeBalls[i].getUpdateInterval() * i) {
-                smokeBalls[i].update(delta);
-            }
+        for (FrameAnimation animation: smokeBalls) {
+            animation.update(delta);
         }
-
-        timeElapsed += delta;
     }
 
     /**
@@ -64,12 +56,8 @@ public class RisingSmokeAnimation implements Animation {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        smokeBalls[0].render(batch, resources);
-
-        for (int i = 1; i < smokeBalls.length; i++) {
-            if (timeElapsed >= smokeBalls[i].getUpdateInterval() * i) {
-                smokeBalls[i].render(batch, resources);
-            }
+        for (FrameAnimation animation: smokeBalls) {
+            animation.render(batch, resources);
         }
     }
 }

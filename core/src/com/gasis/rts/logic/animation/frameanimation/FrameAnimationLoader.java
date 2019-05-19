@@ -41,6 +41,9 @@ public class FrameAnimationLoader extends AnimationLoader {
     // the scale the animation should get to from start to finish
     protected float finalScale;
 
+    // delay of the animation in seconds
+    protected float delay;
+
     /**
      * Loads the animation from a file
      *
@@ -78,6 +81,7 @@ public class FrameAnimationLoader extends AnimationLoader {
         atlas = reader.readLine().trim();
         width = Float.parseFloat(reader.readLine());
         height = Float.parseFloat(reader.readLine());
+        delay = Float.parseFloat(reader.readLine());
         duration = Float.parseFloat(reader.readLine());
         loop = Boolean.parseBoolean(reader.readLine());
         rotation = Float.parseFloat(reader.readLine());
@@ -118,6 +122,7 @@ public class FrameAnimationLoader extends AnimationLoader {
         animation.setFrameCount(frames.size());
         animation.setWidth(width);
         animation.setHeight(height);
+        animation.setDelay(delay);
         animation.setUpdateInterval(duration / (float) frames.size());
         animation.setLooping(loop);
         animation.setRotation(rotation);
