@@ -555,6 +555,12 @@ public class FrameAnimation implements Animation {
     public void resetAnimation() {
         timeSinceLastUpdate = 0;
         currentFrame = 0;
+        x = initialX;
+        y = initialY;
+        rotation = initialRotation;
+        scale = initialScale;
+        delayTime = 0;
+        listenersNotified = false;
     }
 
     /**
