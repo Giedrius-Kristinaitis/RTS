@@ -147,6 +147,24 @@ public class FrameAnimation implements Animation {
     }
 
     /**
+     * Gets the final x coordinate of the center point
+     *
+     * @return
+     */
+    public float getFinalCenterX() {
+        return finalX + width / 2f;
+    }
+
+    /**
+     * Gets the final y coordinate of the center point
+     *
+     * @return
+     */
+    public float getFinalCenterY() {
+        return finalY + height / 2f;
+    }
+
+    /**
      * Gets the initial rotation
      * @return
      */
@@ -239,6 +257,40 @@ public class FrameAnimation implements Animation {
      */
     public void setInitialY(float initialY) {
         this.initialY = initialY;
+    }
+
+    /**
+     * Gets the initial x coordinate of the center point
+     * @return
+     */
+    public float getInitialCenterX() {
+        return initialX + width / 2f;
+    }
+
+    /**
+     * Gets the initial y coordinate of the center point
+     * @return
+     */
+    public float getInitialCenterY() {
+        return initialY + height / 2f;
+    }
+
+    /**
+     * Sets the initial x coordinate of the center point
+     *
+     * @param x new initial center x
+     */
+    public void setInitialCenterX(float x) {
+        initialX = x - width / 2f;
+    }
+
+    /**
+     * Sets the initial y coordinate of the center point
+     *
+     * @param y new initial y
+     */
+    public void setInitialCenterY(float y) {
+        initialY = y - height / 2f;
     }
 
     /**

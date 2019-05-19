@@ -156,15 +156,22 @@ public class FrameAnimationLoader extends AnimationLoader {
         if (center) {
             animation.setCenterX(x);
             animation.setCenterY(y);
+
+            animation.setInitialCenterX(x);
+            animation.setInitialCenterY(y);
+
+            animation.setFinalCenterX(finalX);
+            animation.setFinalCenterY(finalY);
         } else {
             animation.setX(x);
             animation.setY(y);
-        }
 
-        animation.setInitialX(animation.getX());
-        animation.setInitialY(animation.getY());
-        animation.setFinalCenterX(finalX);
-        animation.setFinalCenterY(finalY);
+            animation.setInitialX(x);
+            animation.setInitialY(y);
+
+            animation.setFinalX(finalX);
+            animation.setFinalY(finalY);
+        }
 
         return animation;
     }
