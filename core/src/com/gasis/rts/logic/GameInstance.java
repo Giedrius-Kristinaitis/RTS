@@ -44,8 +44,8 @@ public class GameInstance {
         mapRenderer.setRenderWidth(Constants.WIDTH);
         mapRenderer.setRenderHeight(Constants.HEIGHT);
 
-        // call FrameAnimationFactory.getInstance() to load animations in advance
-        FrameAnimationFactory.getInstance();
+        // load all animations in advance
+        FrameAnimationFactory.loadAnimations();
     }
 
     /**

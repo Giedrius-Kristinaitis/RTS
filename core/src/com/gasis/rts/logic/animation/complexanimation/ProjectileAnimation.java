@@ -11,7 +11,7 @@ import com.gasis.rts.resources.Resources;
  * end animation finishes. If you do, nothing will crash, just the end animation will
  * disappear
  */
-public abstract class ProjectileAnimation implements Animation, AnimationFinishListener {
+public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     // the flying projectile
     protected FrameAnimation projectile;
@@ -28,6 +28,9 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
     // has the projectile reached it's target
     protected boolean targetReached = false;
 
+    // has the end animation finished or not
+    protected boolean endAnimationFinished = false;
+
     /**
      * Class constructor
      */
@@ -38,6 +41,7 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
 
         fireAnimation.addFinishListener(this);
         projectile.addFinishListener(this);
+        endAnimation.addFinishListener(this);
     }
 
     /**
@@ -51,6 +55,8 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
             fireAnimationFinished = true;
         } else if (animation == projectile) {
             targetReached = true;
+        } else if (animation == endAnimation) {
+            endAnimationFinished = true;
         }
     }
 
@@ -61,6 +67,15 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
      */
     public void addTargetReachedListener(AnimationFinishListener listener) {
         projectile.addFinishListener(listener);
+    }
+
+    /**
+     * Adds a listener that listens for the end of the end animation
+     *
+     * @param listener end animation's finish listener
+     */
+    public void addEndAnimationFinishListener(AnimationFinishListener listener) {
+        endAnimation.addFinishListener(listener);
     }
 
     /**
@@ -96,41 +111,100 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
     }
 
     /**
-     * Sets the firing x coordinate
+     * Sets the trajectory of the projectile
      *
-     * @param startingX new x coordinate
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param targetX target x coordinate
+     * @param targetY target y coordinate
      */
-    public void setStartingX(float startingX) {
-        projectile.setCenterX(startingX);
-        projectile.setInitialCenterX(startingX);
-    }
+    public void setTrajectory(float x, float y, float targetX, float targetY) {
+        projectile.setInitialCenterX(x);
+        projectile.setInitialCenterY(y);
 
-    /**
-     * Sets the firing y coordinate
-     *
-     * @param startingY new y coordinate
-     */
-    public void setStartingY(float startingY) {
-        projectile.setCenterY(startingY);
-        projectile.setInitialCenterY(startingY);
-    }
+        projectile.setCenterX(x);
+        projectile.setCenterY(y);
 
-    /**
-     * Sets the x coordinate of the target
-     *
-     * @param targetX new target x
-     */
-    public void setTargetX(float targetX) {
         projectile.setFinalCenterX(targetX);
+        projectile.setFinalCenterY(targetY);
+
+        fireAnimation.setCenterX(x);
+        fireAnimation.setCenterY(y);
+
+        fireAnimation.setFinalCenterX(x);
+        fireAnimation.setFinalCenterY(y);
+
+        fireAnimation.setInitialCenterX(x);
+        fireAnimation.setInitialCenterY(y);
+
+        endAnimation.setCenterX(targetX);
+        endAnimation.setY(targetY);
+
+        endAnimation.setInitialCenterX(targetX);
+        endAnimation.setInitialY(targetY);
+
+        endAnimation.setFinalCenterX(targetX);
+        endAnimation.setFinalY(targetY);
+
+        // rotate projectile to match the moving direction
+        rotateProjectile(x, y, targetX, targetY);
     }
 
     /**
-     * Sets the y coordinate of the target
+     * Rotates the projectile animation to match the moving direction
      *
-     * @param targetY new target y
+     * @param x starting x coordinate
+     * @param y starting y coordinate
+     * @param targetX target x coordinate
+     * @param targetY target y coordinate
      */
-    public void setTargetY(float targetY) {
-        projectile.setFinalCenterY(targetY);
+    protected void rotateProjectile(float x, float y, float targetX, float targetY) {
+        float xDiff = x - targetX;
+        float yDiff = y - targetY;
+
+        // if the yDiff is 0, the rotation is either 0 or 180 degrees
+        if (yDiff == 0) {
+            if (xDiff > 0) {
+                projectile.setRotation(180);
+            } else {
+                projectile.setRotation(0);
+            }
+
+            return;
+        }
+
+        // calculate the tangent of the angle
+        float tan = Math.abs(yDiff / xDiff);
+
+        // get the angle from the tangent value
+        float angle = (float) Math.atan(tan);
+
+        // convert the angle from radians to degrees
+        angle = (float) (angle * (180 / Math.PI));
+
+        // rotate the projectile
+        if (yDiff > 0) {
+            if (xDiff < 0) {
+                projectile.setRotation(-angle);
+            } else {
+                projectile.setRotation(-180 + angle);
+            }
+        } else {
+            if (xDiff < 0) {
+                projectile.setRotation(angle);
+            } else {
+                projectile.setRotation(180 - angle);
+            }
+        }
+    }
+
+    /**
+     * Sets the projectile speed based on the flight time
+     *
+     * @param flightTime how many seconds will the projectile fly
+     */
+    public void setFlightTime(float flightTime) {
+        projectile.setUpdateInterval(flightTime / projectile.getFrameCount());
     }
 
     /**
@@ -145,12 +219,28 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
         }
 
         if (targetReached) {
-            if (endAnimation != null) {
+            if (endAnimation != null && !endAnimationFinished) {
                 endAnimation.update(delta);
             }
         } else {
             projectile.update(delta);
         }
+    }
+
+    /**
+     * Resets the state of the animation
+     */
+    public void reset() {
+        endAnimationFinished = false;
+        targetReached = false;
+        fireAnimationFinished = false;
+
+        endAnimation.resetAnimation();
+        fireAnimation.resetAnimation();
+        projectile.resetAnimation();
+
+        rotateProjectile(projectile.getInitialCenterX(), projectile.getInitialCenterY(),
+                projectile.getFinalCenterX(), projectile.getFinalCenterY());
     }
 
     /**
@@ -166,7 +256,7 @@ public abstract class ProjectileAnimation implements Animation, AnimationFinishL
         }
 
         if (targetReached) {
-            if (endAnimation != null) {
+            if (endAnimation != null && !endAnimationFinished) {
                 endAnimation.render(batch, resources);
             }
         } else {

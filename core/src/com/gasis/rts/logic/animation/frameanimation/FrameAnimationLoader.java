@@ -77,6 +77,7 @@ public class FrameAnimationLoader extends AnimationLoader {
      * @param reader buffered reader to read from
      * @throws Exception
      */
+    @SuppressWarnings("Duplicates")
     protected void readData(BufferedReader reader) throws Exception {
         atlas = reader.readLine().trim();
         width = Float.parseFloat(reader.readLine());

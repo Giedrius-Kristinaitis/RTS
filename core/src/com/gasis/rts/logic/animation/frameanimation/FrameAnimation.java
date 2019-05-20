@@ -570,7 +570,7 @@ public class FrameAnimation implements Animation {
      */
     @Override
     public void update(float delta) {
-        if (delayTime <= delay) {
+        if (delayTime < delay) {
             delayTime += delta;
             return;
         }
@@ -632,7 +632,7 @@ public class FrameAnimation implements Animation {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        if (delayTime <= delay) {
+        if (delayTime < delay) {
             return;
         }
 
