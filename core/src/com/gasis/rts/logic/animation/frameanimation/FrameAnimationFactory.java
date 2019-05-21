@@ -11,7 +11,6 @@ public class FrameAnimationFactory implements AnimationFactory {
 
     // ***** ANIMATION ID VALUES ***** //
     public static final short ID_WHITE_SMOKE_BALL = 0;
-
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_R = 1;
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_TR = 2;
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_T = 3;
@@ -20,15 +19,15 @@ public class FrameAnimationFactory implements AnimationFactory {
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_BL = 6;
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_B = 7;
     public static final short ID_ONE_TANK_GUN_SHELL_FIRE_BR = 8;
-
     public static final short ID_PROJECTILE_EXPLOSION = 9;
-
     public static final short ID_TANK_PROJECTILE = 10;
+    public static final short ID_MISSILE = 11;
+    public static final short ID_MISSILE_TRAIL = 12;
+    public static final short ID_MISSILE_LAUNCH = 13;
     // ***** END OF ANIMATION ID ***** //
 
     // ***** ANIMATION LOADERS ***** //
     private static final FrameAnimationLoader whiteSmokeBallLoader = new FrameAnimationLoader();
-
     private static final FrameAnimationLoader oneTankGunShellFireR_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader oneTankGunShellFireTR_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader oneTankGunShellFireT_loader = new FrameAnimationLoader();
@@ -37,17 +36,18 @@ public class FrameAnimationFactory implements AnimationFactory {
     private static final FrameAnimationLoader oneTankGunShellFireBL_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader oneTankGunShellFireB_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader oneTankGunShellFireBR_loader = new FrameAnimationLoader();
-
     private static final FrameAnimationLoader projectileExplosionLoader = new FrameAnimationLoader();
-
     private static final FrameAnimationLoader tankProjectileLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader missileLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader missileTrailLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader missileLaunchLoader = new FrameAnimationLoader();
     // ***** END OF ANIMATION LOADERS ***** //
 
     // instance of the factory
     private static FrameAnimationFactory instance;
 
     // are the animations in memory or not
-    protected static boolean animationsLoaded = false;
+    private static boolean animationsLoaded = false;
 
     /**
      * Class constructor
@@ -73,6 +73,9 @@ public class FrameAnimationFactory implements AnimationFactory {
         //oneTankGunShellFireBR_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_br"));
         //projectileExplosionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "projectile_explosion"));
         //tankProjectileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "tank_projectile"));
+        //missileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile"));
+        //missileTrailLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_trail"));
+        //missileLaunchLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_launch"));
 
         animationsLoaded = true;
     }
@@ -136,6 +139,15 @@ public class FrameAnimationFactory implements AnimationFactory {
                 break;
             case ID_TANK_PROJECTILE:
                 animation = tankProjectileLoader.newInstance();
+                break;
+            case ID_MISSILE:
+                animation = missileLoader.newInstance();
+                break;
+            case ID_MISSILE_TRAIL:
+                animation = missileTrailLoader.newInstance();
+                break;
+            case ID_MISSILE_LAUNCH:
+                animation = missileLaunchLoader.newInstance();
                 break;
             default:
                 throw new IllegalArgumentException("Bad animation id");

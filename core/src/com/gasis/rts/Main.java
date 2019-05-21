@@ -41,7 +41,7 @@ public class Main extends Game implements ScreenSwitcher {
 		Map<String, Class> assetsToLoad = new TreeMap<String, Class>();
 
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "t1.atlas", TextureAtlas.class);
-		
+
 		// change the current screen to loading screen
 		showScreen(new LoadingScreen(
 				new GameScreen(),
