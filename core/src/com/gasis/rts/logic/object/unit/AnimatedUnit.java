@@ -43,15 +43,15 @@ public class AnimatedUnit extends Unit {
             // create a new movement animation
             animation = FrameAnimationFactory.getInstance().create(
                 animationIds.get(facingDirection),
-                getX(),
-                getY(),
-                getX(),
-                getY(),
+                x,
+                y,
+                x,
+                y,
                 false
             );
 
-            animation.setWidth(getWidth());
-            animation.setHeight(getHeight());
+            animation.setWidth(width);
+            animation.setHeight(height);
         } else {
             animation = null;
         }
