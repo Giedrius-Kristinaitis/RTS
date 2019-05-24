@@ -19,6 +19,8 @@ public class AnimatedUnit extends Unit {
     protected FrameAnimation animation;
 
     // the ids of the movement animations
+    // indexes of animation ids must match the values of facing directions
+    // defined in the Unit class
     protected List<Short> animationIds;
 
     /**

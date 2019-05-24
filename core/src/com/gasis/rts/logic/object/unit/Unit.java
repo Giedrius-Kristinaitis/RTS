@@ -23,6 +23,8 @@ public abstract class Unit extends GameObject {
     public static final byte NORTH_WEST = 7;
 
     // textures used by the unit
+    // indexes of the textures must match the values of
+    // the facing directions defined above
     protected List<String> textures;
 
     // the index of the current texture in the texture list
