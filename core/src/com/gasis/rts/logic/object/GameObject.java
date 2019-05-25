@@ -8,6 +8,12 @@ import com.gasis.rts.resources.Resources;
  */
 public abstract class GameObject implements Damageable {
 
+    // the object type identifier (e.g. All tanks in a group have code T-21)
+    protected String code;
+
+    // identifier of one specific object
+    protected String id;
+
     // the name of the texture atlas to which the object's texture(s) belongs
     protected String atlas;
 
@@ -37,6 +43,40 @@ public abstract class GameObject implements Damageable {
     @Override
     public void doDamage(float attack) {
         hp -= attack / defence;
+    }
+
+    /**
+     * Gets the code of the object
+     * @return
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * Gets the id of the object
+     * @return
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the code of the object
+     *
+     * @param code new code
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
+     * Sets the id of the object
+     *
+     * @param id new id
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
