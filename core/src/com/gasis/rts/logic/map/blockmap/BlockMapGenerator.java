@@ -8,9 +8,24 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Generates a block map
+ * Generates a block map from a map script
  */
 public class BlockMapGenerator implements MapGenerator {
+
+    /**
+     * Map generation command format:
+     *
+     * [name of the terrain] [x] [y] [width] [height] [shape] [thickness]
+     *
+     * Explanations:
+     *  - name of the terrain: grass, dirt, or water
+     *  - x: x of the bottom left corner of the terrain shape
+     *  - y: y of the bottom left corner of the terrain shape
+     *  - width: width of the terrain shape
+     *  - height: height of the terrain shape
+     *  - shape: type of the terrain shape: circle or rectangle
+     *  - thickness: thickness of the terrain between 0 and 1
+     */
 
     // used to generate random structures and their properties
     protected Random random = new Random();
@@ -43,6 +58,7 @@ public class BlockMapGenerator implements MapGenerator {
             map.addMapLayer(new BlockMapLayer("terrain_1", map.getWidth(), map.getHeight()), true);
 
             // read map commands and generate a map based on them
+            // look at the beginning of the file to see the command format
             List<String> commands = reader.readLines("command");
 
             for (String command: commands) {
@@ -100,9 +116,9 @@ public class BlockMapGenerator implements MapGenerator {
 
         float thickness = Float.parseFloat(data[6]);
 
-        // put a square terrain piece
-        if (data[5].equals("square")) {
-            addTerrainSquare(data[0], dimensions, thickness, (BlockMapLayer) map.getLayerByName("terrain_1"));
+        // put a rectangular terrain piece
+        if (data[5].equals("rectangle")) {
+            addTerrainRectangle(data[0], dimensions, thickness, (BlockMapLayer) map.getLayerByName("terrain_1"));
         }
 
         // put a round terrain piece
@@ -187,14 +203,14 @@ public class BlockMapGenerator implements MapGenerator {
     }
 
     /**
-     * Adds a square piece of terrain to the map
+     * Adds a rectangular piece of terrain to the map
      *
      * @param terrainType type of the terrain
      * @param dimensions position and dimensions of the terrain piece
      * @param thickness thickness of the terrain
      * @param layer map layer to add the terrain to
      */
-    protected void addTerrainSquare(String terrainType, short[] dimensions, float thickness, BlockMapLayer layer) {
+    protected void addTerrainRectangle(String terrainType, short[] dimensions, float thickness, BlockMapLayer layer) {
         for (short x = dimensions[0]; x < dimensions[0] + dimensions[2]; x++) {
             for (short y = dimensions[1]; y < dimensions[1] + dimensions[3]; y++) {
                 addTerrainBlock(terrainType, x, y, thickness, layer);
