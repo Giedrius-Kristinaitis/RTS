@@ -44,7 +44,7 @@ public class Unit extends GameObject {
 
     // the ids of the movement animations
     // indexes of animation ids must match the values of facing directions
-    // defined in the Unit class
+    // defined above
     protected List<Short> movementAnimationIds;
 
     /**
