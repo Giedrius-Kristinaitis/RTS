@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Represents a single unit on a map
  */
-public abstract class Unit extends GameObject {
+public class Unit extends GameObject {
 
     // unit facing directions
     public static final byte NORTH = 0;
