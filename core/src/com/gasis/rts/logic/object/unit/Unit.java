@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -22,16 +24,80 @@ public abstract class Unit extends GameObject {
     public static final byte WEST = 6;
     public static final byte NORTH_WEST = 7;
 
-    // textures used by the unit
+    // textures used by the unit (when standing still)
     // indexes of the textures must match the values of
     // the facing directions defined above
-    protected List<String> textures;
+    protected List<String> stillTextures;
 
-    // the index of the current texture in the texture list
-    protected byte currentTexture;
+    // the index of the current texture (that is drawn when the unit is standing
+    // still) in the texture list
+    protected byte currentStillTexture;
 
     // the direction the unit is currently facing
     protected byte facingDirection;
+
+    // is the unit moving or not
+    protected boolean moving;
+
+    // the animation that is played when the unit moves
+    protected FrameAnimation movementAnimation;
+
+    // the ids of the movement animations
+    // indexes of animation ids must match the values of facing directions
+    // defined in the Unit class
+    protected List<Short> movementAnimationIds;
+
+    /**
+     * Checks if the unit is moving
+     * @return
+     */
+    public boolean isMoving() {
+        return moving;
+    }
+
+    /**
+     * Sets the moving value of the unit
+     *
+     * @param moving is the unit moving or not
+     */
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+
+        if (moving) {
+            // create a new movement animation
+            movementAnimation = FrameAnimationFactory.getInstance().create(
+                    movementAnimationIds.get(facingDirection),
+                    x,
+                    y,
+                    x,
+                    y,
+                    false
+            );
+
+            movementAnimation.setWidth(width);
+            movementAnimation.setHeight(height);
+        } else {
+            movementAnimation = null;
+        }
+    }
+
+    /**
+     * Sets the ids of the movement animations
+     *
+     * @param animationIds list of animation ids
+     */
+    public void setMovementAnimationIds(List<Short> animationIds) {
+        this.movementAnimationIds = animationIds;
+    }
+
+    /**
+     * Gets the ids of the movement animations
+     * @return
+     */
+    public Iterable<Short> getMovementAnimationIds() {
+        return movementAnimationIds;
+    }
+
 
     /**
      * Sets the direction the unit is facing
@@ -41,7 +107,7 @@ public abstract class Unit extends GameObject {
     public void setFacingDirection(byte facingDirection) {
         this.facingDirection = facingDirection;
 
-        currentTexture = facingDirection;
+        currentStillTexture = facingDirection;
     }
 
     /**
@@ -55,27 +121,27 @@ public abstract class Unit extends GameObject {
     /**
      * Sets the textures of the unit
      *
-     * @param textures new texture list
+     * @param stillTextures new texture list
      */
-    public void setTextures(List<String> textures) {
-        this.textures = textures;
+    public void setStillTextures(List<String> stillTextures) {
+        this.stillTextures = stillTextures;
     }
 
     /**
      * Gets the textures of the unit
      * @return
      */
-    public Iterable<String> getTextures() {
-        return textures;
+    public Iterable<String> getStillTextures() {
+        return stillTextures;
     }
 
     /**
      * Sets the current texture index
      *
-     * @param currentTexture new texture index
+     * @param currentStillTexture new texture index
      */
-    public void setCurrentTexture(byte currentTexture) {
-        this.currentTexture = currentTexture;
+    public void setCurrentStillTexture(byte currentStillTexture) {
+        this.currentStillTexture = currentStillTexture;
     }
 
     /**
@@ -83,8 +149,24 @@ public abstract class Unit extends GameObject {
      *
      * @return
      */
-    public byte getCurrentTexture() {
-        return currentTexture;
+    public byte getCurrentStillTexture() {
+        return currentStillTexture;
+    }
+
+    /**
+     * Updates the game object
+     *
+     * @param delta time elapsed since the last render
+     */
+    @Override
+    public void update(float delta) {
+        if (moving && movementAnimation != null) {
+            // update the movement animation
+            movementAnimation.update(delta);
+
+            movementAnimation.setCenterX(getCenterX());
+            movementAnimation.setCenterY(getCenterY());
+        }
     }
 
     /**
@@ -95,8 +177,15 @@ public abstract class Unit extends GameObject {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        if (moving && movementAnimation != null) {
+            // render the moving animation
+            movementAnimation.render(batch, resources);
+            return;
+        }
+
+        // render the still unit
         batch.draw(
-                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(textures.get(currentTexture)),
+                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(currentStillTexture)),
                 x,
                 y,
                 width,
