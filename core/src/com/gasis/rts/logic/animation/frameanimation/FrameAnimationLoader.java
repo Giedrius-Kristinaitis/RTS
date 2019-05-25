@@ -1,10 +1,9 @@
 package com.gasis.rts.logic.animation.frameanimation;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.animation.AnimationLoader;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,15 +53,13 @@ public class FrameAnimationLoader extends AnimationLoader {
     @Override
     public boolean load(FileHandle animationFile) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(animationFile.read()));
+            FileLineReader reader = new FileLineReader(animationFile.read(), ":");
 
             // get data
             readData(reader);
 
             // read each frame line by line
             readFrames(reader);
-
-            reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -74,35 +71,32 @@ public class FrameAnimationLoader extends AnimationLoader {
     /**
      * Reads the data of the animation
      *
-     * @param reader buffered reader to read from
+     * @param reader file line reader reader to read from
+     *
      * @throws Exception
      */
-    @SuppressWarnings("Duplicates")
-    protected void readData(BufferedReader reader) throws Exception {
-        atlas = reader.readLine().trim();
-        width = Float.parseFloat(reader.readLine());
-        height = Float.parseFloat(reader.readLine());
-        delay = Float.parseFloat(reader.readLine());
-        duration = Float.parseFloat(reader.readLine());
-        loop = Boolean.parseBoolean(reader.readLine());
-        rotation = Float.parseFloat(reader.readLine());
-        rotationSpeed = Float.parseFloat(reader.readLine());
-        scale = Float.parseFloat(reader.readLine());
-        finalScale = Float.parseFloat(reader.readLine());
+    protected void readData(FileLineReader reader) {
+        atlas = reader.readLine("textureAtlas").trim();
+        width = Float.parseFloat(reader.readLine("width"));
+        height = Float.parseFloat(reader.readLine("height"));
+        delay = Float.parseFloat(reader.readLine("delay"));
+        duration = Float.parseFloat(reader.readLine("duration"));
+        loop = Boolean.parseBoolean(reader.readLine("loop"));
+        rotation = Float.parseFloat(reader.readLine("rotation"));
+        rotationSpeed = Float.parseFloat(reader.readLine("rotationSpeed"));
+        scale = Float.parseFloat(reader.readLine("scale"));
+        finalScale = Float.parseFloat(reader.readLine("finalScale"));
     }
 
     /**
      * Reads the frames of the animation
      *
-     * @param reader buffered reader to read from
+     * @param reader file line reader to read from
+     *
      * @throws Exception
      */
-    protected void readFrames(BufferedReader reader) throws Exception {
-        String line = null;
-
-        while ((line = reader.readLine()) != null) {
-            frames.add(line.trim());
-        }
+    protected void readFrames(FileLineReader reader) {
+        frames.addAll(reader.readLines("frame"));
     }
 
     /**

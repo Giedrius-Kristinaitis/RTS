@@ -1,11 +1,10 @@
 package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.map.MapGenerator;
-import com.gasis.rts.utils.Constants;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -25,15 +24,15 @@ public class BlockMapGenerator implements MapGenerator {
      */
     @Override
     public BlockMap generate(FileHandle scriptFile) {
-        // create a buffered reader for easier reading
-        BufferedReader reader = new BufferedReader(new InputStreamReader(scriptFile.read()));
-
         try {
-            // read the map's meta-data
-            short width = Short.parseShort(reader.readLine());
-            short height = Short.parseShort(reader.readLine());
+            // create a file line reader for easier reading
+            FileLineReader reader = new FileLineReader(scriptFile.read(), ":");
 
-            long seed = Long.parseLong(reader.readLine());
+            // read the map's meta-data
+            short width = Short.parseShort(reader.readLine("width"));
+            short height = Short.parseShort(reader.readLine("height"));
+
+            long seed = Long.parseLong(reader.readLine("seed"));
 
             // initialize the map and other objects
             BlockMap map = new BlockMap(width, height);
@@ -44,20 +43,19 @@ public class BlockMapGenerator implements MapGenerator {
             map.addMapLayer(new BlockMapLayer("terrain_1", map.getWidth(), map.getHeight()), true);
 
             // read map commands and generate a map based on them
-            String command = null;
+            List<String> commands = reader.readLines("command");
 
-            while ((command = reader.readLine()) != null) {
+            for (String command: commands) {
                 processCommand(command, map);
             }
-
-            reader.close();
 
             // return the final result
             return map;
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
         }
+
+        return null;
     }
 
     /**
