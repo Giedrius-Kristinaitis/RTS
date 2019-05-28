@@ -1,20 +1,15 @@
 package com.gasis.rts.logic.object.unit;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.GameObjectLoader;
+
+import java.util.List;
 
 /**
  * Loads a unit from a unit description file
  */
 public class UnitLoader extends GameObjectLoader {
-
-    // code of the unit type
-    protected String code;
-
-    // name of the texture atlas that holds the unit's textures
-    protected String atlas;
 
     // combat data
     protected float hp;
@@ -22,24 +17,41 @@ public class UnitLoader extends GameObjectLoader {
     protected float defence;
     protected float speed;
 
+    // textures used when the unit is standing still or doesn't have movement animations
+    // texture indexes must match facing direction values defined in Unit class
+    protected List<String> stillTextures;
+
+    // id values of the movement animations
+    // animation id indexes must match facing direction values defined in Unit class
+    protected List<Short> movementAnimationIds;
+
     /**
-     * Loads a unit from the given file
+     * Reads the combat related data of a unit
      *
-     * @param file file to load from
-     * @return true if the unit was loaded successfully
+     * @param reader reader to read data from
+     */
+    protected void readCombatData(FileLineReader reader) {
+
+    }
+
+    /**
+     * Reads the texture and animation data of a unit
+     *
+     * @param reader reader to read data from
+     */
+    protected void readTexturesAndAnimations(FileLineReader reader) {
+
+    }
+
+    /**
+     * Reads other data of the object that is not meta data
+     *
+     * @param reader reader to read data from
      */
     @Override
-    public boolean load(FileHandle file) {
-        try {
-            FileLineReader reader = new FileLineReader(file.read(), ":");
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        return (loaded = true);
+    protected void readOtherData(FileLineReader reader) {
+        readCombatData(reader);
+        readTexturesAndAnimations(reader);
     }
 
     /**

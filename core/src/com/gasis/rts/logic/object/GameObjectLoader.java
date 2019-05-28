@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.filehandling.FileLineReader;
 
 /**
  * Loads a game object from a file
@@ -10,6 +11,12 @@ public abstract class GameObjectLoader {
     // has the object been loaded yet
     protected boolean loaded = false;
 
+    // code of the object
+    protected String code;
+
+    // name of the texture atlas that holds the object's textures
+    protected String atlas;
+
     /**
      * Loads a game object from the given file
      *
@@ -17,7 +24,36 @@ public abstract class GameObjectLoader {
      *
      * @return true if the object was loaded successfully
      */
-    public abstract boolean load(FileHandle file);
+    public final boolean load(FileHandle file) {
+        try {
+            FileLineReader reader = new FileLineReader(file.read(), ":");
+
+            readMetaData(reader);
+            readOtherData(reader);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return (loaded = true);
+    }
+
+    /**
+     * Reads meta data of a unit
+     *
+     * @param reader reader to read data from
+     */
+    protected void readMetaData(FileLineReader reader) {
+        code = reader.readLine("code");
+        atlas = reader.readLine("atlas");
+    }
+
+    /**
+     * Reads other data of the object that is not meta data
+     *
+     * @param reader reader to read data from
+     */
+    protected abstract void readOtherData(FileLineReader reader);
 
     /**
      * Creates a new instance of the loaded object
