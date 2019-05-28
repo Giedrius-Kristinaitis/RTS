@@ -63,7 +63,15 @@ public class Unit extends GameObject {
     public void setMoving(boolean moving) {
         this.moving = moving;
 
-        if (moving) {
+        createMovementAnimation();
+    }
+
+    /**
+     * Creates a new instance of the movement animation if movement animation ids
+     * are present
+     */
+    protected void createMovementAnimation() {
+        if (moving && movementAnimationIds != null) {
             // create a new movement animation
             movementAnimation = FrameAnimationFactory.getInstance().create(
                     movementAnimationIds.get(facingDirection),
@@ -98,7 +106,6 @@ public class Unit extends GameObject {
         return movementAnimationIds;
     }
 
-
     /**
      * Sets the direction the unit is facing
      *
@@ -108,6 +115,8 @@ public class Unit extends GameObject {
         this.facingDirection = facingDirection;
 
         currentStillTexture = facingDirection;
+
+        createMovementAnimation();
     }
 
     /**
