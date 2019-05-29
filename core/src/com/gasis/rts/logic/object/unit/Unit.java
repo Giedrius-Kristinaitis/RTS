@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.animation.Animation;
+import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObject;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends GameObject {
+public class Unit extends GameObject implements AnimationFinishListener {
 
     // unit facing directions
     public static final byte NORTH = 0;
@@ -46,6 +48,112 @@ public class Unit extends GameObject {
     // indexes of animation ids must match the values of facing directions
     // defined above
     protected List<Short> movementAnimationIds;
+
+    // is siege mode available for this unit
+    protected boolean siegeModeAvailable;
+
+    // is the unit in siege mode or not
+    protected boolean inSiegeMode;
+
+    // the ids of siege mode transition animations
+    // animation indexes must match the values of facing directions defined above
+    // if the length of this list is not 8, then the 0-th element is
+    // used as the transition animation and the unit can only transition to siege
+    // mode when facing east
+    protected List<Short> siegeModeTransitionAnimationIds;
+
+    // the animation played when the unit transitions into siege mode
+    protected FrameAnimation siegeModeTransitionAnimation;
+
+    /**
+     * Notifies the observer that the animation has finished
+     *
+     * @param animation the animation that just finished
+     */
+    @Override
+    public void finished(Animation animation) {
+        if (animation == siegeModeTransitionAnimation) {
+            siegeModeTransitionAnimation = null;
+        }
+    }
+
+    /**
+     * Checks if the unit is currently in siege mode
+     * @return
+     */
+    public boolean isInSiegeMode() {
+        return inSiegeMode;
+    }
+
+    /**
+     * Toggles unit's siege mode
+     *
+     * @param inSiegeMode is the unit in siege mode now
+     */
+    public void setInSiegeMode(boolean inSiegeMode) {
+        this.inSiegeMode = inSiegeMode;
+
+        if (siegeModeAvailable && inSiegeMode) {
+            // enter siege mode
+            createSiegeModeTransitionAnimation();
+        } else if (!inSiegeMode) {
+            // get out of siege mode
+
+        }
+    }
+
+    /**
+     * Creates a new instance of the correct siege mode transition animation
+     */
+    protected void createSiegeModeTransitionAnimation() {
+        short animationId = siegeModeTransitionAnimationIds.size() == 8 ? siegeModeTransitionAnimationIds.get(facingDirection) : 0;
+
+        siegeModeTransitionAnimation = FrameAnimationFactory.getInstance().create(
+                animationId,
+                x,
+                y,
+                x,
+                y,
+                false
+        );
+
+        siegeModeTransitionAnimation.setWidth(width);
+        siegeModeTransitionAnimation.setHeight(height);
+    }
+
+    /**
+     * Sets the animation ids for siege mode transition animations
+     *
+     * @param siegeModeTransitionAnimationIds new animation ids
+     */
+    public void setSiegeModeTransitionAnimationIds(List<Short> siegeModeTransitionAnimationIds) {
+        this.siegeModeTransitionAnimationIds = siegeModeTransitionAnimationIds;
+    }
+
+    /**
+     * Gets the animation ids for siege mode transitions
+     * @return
+     */
+    public Iterable<Short> getSiegeModeTransitionAnimationIds() {
+        return siegeModeTransitionAnimationIds;
+    }
+
+    /**
+     * Checks if siege mode is available for the unit
+     * @return
+     */
+    public boolean isSiegeModeAvailable() {
+        return siegeModeAvailable;
+    }
+
+    /**
+     * Sets the siege mode availability for the unit
+     *
+     * @param siegeModeAvailable is the siege mode available or not
+     */
+    public void setSiegeModeAvailable(boolean siegeModeAvailable) {
+        this.siegeModeAvailable = siegeModeAvailable;
+    }
 
     /**
      * Checks if the unit is moving
@@ -169,6 +277,11 @@ public class Unit extends GameObject {
      */
     @Override
     public void update(float delta) {
+        if (siegeModeTransitionAnimation != null) {
+            siegeModeTransitionAnimation.update(delta);
+            return;
+        }
+
         if (moving && movementAnimation != null) {
             // update the movement animation
             movementAnimation.update(delta);
@@ -186,6 +299,11 @@ public class Unit extends GameObject {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        if (siegeModeTransitionAnimation != null) {
+            siegeModeTransitionAnimation.render(batch, resources);
+            return;
+        }
+
         if (moving && movementAnimation != null) {
             // render the moving animation
             movementAnimation.render(batch, resources);
