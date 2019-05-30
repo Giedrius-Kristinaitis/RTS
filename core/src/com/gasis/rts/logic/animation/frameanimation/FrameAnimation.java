@@ -79,8 +79,38 @@ public class FrameAnimation implements Animation {
     // delay of the animation in seconds
     protected float delay;
 
+    // is the animation being delayed on every iteration if looping
+    protected boolean delayedOnLoop = false;
+
     // how much time of the delay has elapsed
     protected float delayTime;
+
+    // is the animation played in reverse
+    protected boolean reversed = false;
+
+    // the index of the first frame
+    protected int firstFrameIndex;
+
+    // the index of the last frame
+    protected int lastFrameIndex;
+
+    /**
+     * Checks whether the animation is being delayed on every iteration when looping
+     *
+     * @return
+     */
+    public boolean isDelayedOnLoop() {
+        return delayedOnLoop;
+    }
+
+    /**
+     * Sets the animation's delayed on loop value
+     *
+     * @param delayedOnLoop is the animation being delayed on every iteration
+     */
+    public void setDelayedOnLoop(boolean delayedOnLoop) {
+        this.delayedOnLoop = delayedOnLoop;
+    }
 
     /**
      * Adds an animation finish listener
@@ -550,11 +580,60 @@ public class FrameAnimation implements Animation {
     }
 
     /**
+     * Checks if the animation is played in reverse
+     * @return
+     */
+    public boolean isReversed() {
+        return reversed;
+    }
+
+    /**
+     * Sets the animation's reversed value
+     *
+     * @param reversed is the animation reversed
+     */
+    public void setReversed(boolean reversed) {
+        if (this.reversed != reversed) {
+            reverse();
+        }
+
+        this.reversed = reversed;
+    }
+
+    /**
+     * Reverses the animation. Used to reverse the animation and make the reversed animation
+     * normal again
+     */
+    protected void reverse() {
+        float temp = initialX;
+        initialX = finalX;
+        finalX = temp;
+
+        temp = initialY;
+        initialY = finalY;
+        finalY = temp;
+
+        temp = initialScale;
+        initialScale = finalScale;
+        finalScale = temp;
+
+        rotationSpeed *= -1;
+
+        if (reversed) {
+            firstFrameIndex = frameCount - 1;
+            lastFrameIndex = 0;
+        } else {
+            firstFrameIndex = 0;
+            lastFrameIndex = frameCount - 1;
+        }
+    }
+
+    /**
      * Resets the state of the animation
      */
     public void resetAnimation() {
         timeSinceLastUpdate = 0;
-        currentFrame = 0;
+        currentFrame = firstFrameIndex;
         x = initialX;
         y = initialY;
         rotation = initialRotation;
@@ -576,7 +655,7 @@ public class FrameAnimation implements Animation {
         }
 
         // check if the animation is looping
-        if (currentFrame == frameCount - 1 && !loop && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
+        if (currentFrame == lastFrameIndex && !loop && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
             // notify finish listeners
             if (timeSinceLastUpdate >= updateInterval && !listenersNotified) {
                 listenersNotified = true;
@@ -591,13 +670,18 @@ public class FrameAnimation implements Animation {
             return;
         }
 
-        // check if the animation needs to be reset
-        else if (currentFrame == frameCount - 1 && loop && (timeSinceLastUpdate >= updateInterval * frameCount || frameCount > 1)) {
+        // check if the animation's position, rotation, scale and frame needs to be reset
+        // (not the whole animation state, which calling resetAnimation would do!)
+        else if (currentFrame == lastFrameIndex && loop && (timeSinceLastUpdate >= updateInterval * frameCount || frameCount > 1)) {
             x = initialX;
             y = initialY;
             scale = initialScale;
             rotation = initialRotation;
-            currentFrame = 0;
+            currentFrame = firstFrameIndex;
+
+            if (delayedOnLoop) {
+                delayTime = 0;
+            }
 
             if (frameCount == 1) {
                 timeSinceLastUpdate = 0;
@@ -608,7 +692,7 @@ public class FrameAnimation implements Animation {
         if (frameCount > 1 && timeSinceLastUpdate >= updateInterval) {
             timeSinceLastUpdate = 0;
 
-            currentFrame = currentFrame == frameCount - 1 ? 0 : currentFrame + 1;
+            currentFrame = currentFrame == lastFrameIndex ? firstFrameIndex : (lastFrameIndex < firstFrameIndex ? currentFrame - 1 : currentFrame + 1);
         } else {
             timeSinceLastUpdate += delta;
         }
