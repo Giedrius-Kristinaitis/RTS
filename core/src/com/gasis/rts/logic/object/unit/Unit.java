@@ -17,6 +17,7 @@ import java.util.List;
 public class Unit extends GameObject implements AnimationFinishListener {
 
     // unit facing directions
+    public static final byte NONE = -1;
     public static final byte NORTH = 0;
     public static final byte NORTH_EAST = 1;
     public static final byte EAST = 2;
@@ -36,7 +37,7 @@ public class Unit extends GameObject implements AnimationFinishListener {
     protected byte currentStillTexture;
 
     // the direction the unit is currently facing
-    protected byte facingDirection;
+    protected byte facingDirection = EAST;
 
     // is the unit moving or not
     protected boolean moving;
@@ -55,6 +56,10 @@ public class Unit extends GameObject implements AnimationFinishListener {
     // is the unit in siege mode or not
     protected boolean inSiegeMode;
 
+    // the direction the unit is facing when in siege mode (only used when the unit
+    // can face one direction when in siege mode)
+    protected byte siegeModeFacingDirection = EAST;
+
     // the ids of siege mode transition animations
     // animation indexes must match the values of facing directions defined above
     // if the length of this list is not 8, then the 0-th element is
@@ -64,6 +69,130 @@ public class Unit extends GameObject implements AnimationFinishListener {
 
     // the animation played when the unit transitions into siege mode
     protected FrameAnimation siegeModeTransitionAnimation;
+
+    // the facing direction the unit is currently rotating to achieve
+    protected byte rotatingToDirection = NONE;
+
+    // how much time in seconds has elapsed since the last unit's rotation
+    protected float timeSinceLastRotation = 0;
+
+    // should the unit switch to siege mode when it's body rotates to the correct
+    // facing direction
+    protected boolean enterSiegeModeWhenFinishedRotating = false;
+
+    // unit's combat stats
+    protected float attack;
+    protected float defence;
+    protected float speed;
+    protected float sightRange;
+    protected float attackRange;
+
+    /**
+     * Gets the attack stat of the unit
+     * @return
+     */
+    public float getAttack() {
+        return attack;
+    }
+
+    /**
+     * Gets the defence stat of the unit
+     * @return
+     */
+    public float getDefence() {
+        return defence;
+    }
+
+    /**
+     * Gets the speed of the unit
+     * @return
+     */
+    public float getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Gets the sight range of the unit
+     * @return
+     */
+    public float getSightRange() {
+        return sightRange;
+    }
+
+    /**
+     * Gets the attack range of the unit
+     * @return
+     */
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    /**
+     * Sets the attack stat of the unit
+     *
+     * @param attack new attack
+     */
+    public void setAttack(float attack) {
+        this.attack = attack;
+    }
+
+    /**
+     * Sets the defence stat of the unit
+     *
+     * @param defence new defence
+     */
+    public void setDefence(float defence) {
+        this.defence = defence;
+    }
+
+    /**
+     * Sets the speed of the unit
+     *
+     * @param speed new speed
+     */
+    public void setSpeed(float speed) {
+        if (speed == 0) {
+            this.speed = 0.000001f; // speed can't be 0 because there is a value divided by it
+            return;                // and we can't divide by 0
+        }
+
+        this.speed = speed;
+    }
+
+    /**
+     * Sets the sight range of the unit
+     *
+     * @param sightRange new sight range
+     */
+    public void setSightRange(float sightRange) {
+        this.sightRange = sightRange;
+    }
+
+    /**
+     * Sets the attack range of the unit
+     *
+     * @param attackRange new attack range
+     */
+    public void setAttackRange(float attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    /**
+     * Gets the direction the unit is facing when in siege mode
+     * @return
+     */
+    public byte getSiegeModeFacingDirection() {
+        return siegeModeFacingDirection;
+    }
+
+    /**
+     * Sets the unit's facing direction when in siege mode
+     *
+     * @param siegeModeFacingDirection new facing direction
+     */
+    public void setSiegeModeFacingDirection(byte siegeModeFacingDirection) {
+        this.siegeModeFacingDirection = siegeModeFacingDirection;
+    }
 
     /**
      * Notifies the observer that the animation has finished
@@ -91,22 +220,52 @@ public class Unit extends GameObject implements AnimationFinishListener {
      * @param inSiegeMode is the unit in siege mode now
      */
     public void setInSiegeMode(boolean inSiegeMode) {
+        if (rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating || siegeModeTransitionAnimation != null) {
+            return;
+        }
+
+        if (siegeModeAvailable && this.inSiegeMode != inSiegeMode) {
+            // enter or leave siege mode
+            if (siegeModeTransitionAnimationIds.size() != 8) {
+                if (facingDirection == siegeModeFacingDirection) {
+                    createSiegeModeTransitionAnimation(!inSiegeMode);
+                } else {
+                    rotateToFaceDirection(siegeModeFacingDirection);
+                    enterSiegeModeWhenFinishedRotating = true;
+                }
+            } else {
+                createSiegeModeTransitionAnimation(!inSiegeMode);
+            }
+        }
+
         this.inSiegeMode = inSiegeMode;
+    }
 
-        if (siegeModeAvailable && inSiegeMode) {
-            // enter siege mode
-            createSiegeModeTransitionAnimation();
-        } else if (!inSiegeMode) {
-            // get out of siege mode
-
+    /**
+     * Rotates the unit if required in order for it to face the specified direction
+     *
+     * @param facingDirection new facing direction
+     */
+    protected void rotateToFaceDirection(byte facingDirection) {
+        if (this.facingDirection != facingDirection) {
+            rotatingToDirection = facingDirection;
+            timeSinceLastRotation = 0;
+        } else {
+            rotatingToDirection = NONE;
         }
     }
 
     /**
      * Creates a new instance of the correct siege mode transition animation
+     *
+     * @param reverse is the siege mode transition animation reversed or not
      */
-    protected void createSiegeModeTransitionAnimation() {
-        short animationId = siegeModeTransitionAnimationIds.size() == 8 ? siegeModeTransitionAnimationIds.get(facingDirection) : 0;
+    protected void createSiegeModeTransitionAnimation(boolean reverse) {
+        if (!siegeModeAvailable) {
+            return;
+        }
+
+        short animationId = siegeModeTransitionAnimationIds.size() == 8 ? siegeModeTransitionAnimationIds.get(facingDirection) : siegeModeTransitionAnimationIds.get(0);
 
         siegeModeTransitionAnimation = FrameAnimationFactory.getInstance().create(
                 animationId,
@@ -119,6 +278,8 @@ public class Unit extends GameObject implements AnimationFinishListener {
 
         siegeModeTransitionAnimation.setWidth(width);
         siegeModeTransitionAnimation.setHeight(height);
+        siegeModeTransitionAnimation.addFinishListener(this);
+        siegeModeTransitionAnimation.setReversed(reverse);
     }
 
     /**
@@ -219,7 +380,7 @@ public class Unit extends GameObject implements AnimationFinishListener {
      *
      * @param facingDirection new direction the unit is facing
      */
-    public void setFacingDirection(byte facingDirection) {
+    protected void setFacingDirection(byte facingDirection) {
         this.facingDirection = facingDirection;
 
         currentStillTexture = facingDirection;
@@ -277,17 +438,60 @@ public class Unit extends GameObject implements AnimationFinishListener {
      */
     @Override
     public void update(float delta) {
+        // if there is an instance of the siege mode transition animation update it and do nothing else
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.update(delta);
             return;
         }
 
+        updateBodyFacingDirection(delta);
+
+        // update the movement animation
         if (moving && movementAnimation != null) {
-            // update the movement animation
             movementAnimation.update(delta);
 
             movementAnimation.setCenterX(getCenterX());
             movementAnimation.setCenterY(getCenterY());
+        }
+    }
+
+    /**
+     * Updates the facing direction of the unit
+     *
+     * @param delta time elapsed since the last update
+     */
+    protected void updateBodyFacingDirection(float delta) {
+        // update unit's rotation if it is currently rotating
+        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / speed) {
+            byte directionDiff = (byte) Math.abs(facingDirection - rotatingToDirection);
+
+            byte directionIncrement = (byte) (facingDirection - rotatingToDirection < 0 ? 1 : -1);
+
+            if (directionDiff > 4) {
+                directionIncrement *= -1;
+            }
+
+            facingDirection += directionIncrement;
+
+            if (facingDirection < 0) {
+                facingDirection = 7;
+            } else if (facingDirection > 7) {
+                facingDirection = 0;
+            }
+
+            timeSinceLastRotation = 0;
+
+            if (facingDirection == rotatingToDirection) {
+                rotatingToDirection = NONE;
+
+                // enter siege mode if required
+                if (enterSiegeModeWhenFinishedRotating) {
+                    createSiegeModeTransitionAnimation(!inSiegeMode);
+                    enterSiegeModeWhenFinishedRotating = false;
+                }
+            }
+        } else {
+            timeSinceLastRotation += delta;
         }
     }
 
@@ -299,6 +503,7 @@ public class Unit extends GameObject implements AnimationFinishListener {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        // render the siege mode transition animation if present
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.render(batch, resources);
             return;
