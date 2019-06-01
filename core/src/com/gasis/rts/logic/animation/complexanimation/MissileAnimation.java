@@ -30,13 +30,13 @@ public class MissileAnimation extends ProjectileAnimation {
     /**
      * Class constructor
      *
-     * @param fireAnimation
-     * @param explosionScale
+     * @param explosionScale scale of the explosion animation
+     * @param missileScale scale of the fire animation and missile
      */
-    public MissileAnimation(FrameAnimation fireAnimation, float missileScale, float explosionScale) {
+    public MissileAnimation(float missileScale, float explosionScale) {
         super(
                 FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_MISSILE),
-                fireAnimation,
+                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_MISSILE_LAUNCH),
                 FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_PROJECTILE_EXPLOSION)
              );
 
