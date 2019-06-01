@@ -138,13 +138,13 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
         fireAnimation.setInitialCenterY(y);
 
         endAnimation.setCenterX(targetX);
-        endAnimation.setY(targetY);
+        endAnimation.setCenterY(targetY);
 
         endAnimation.setInitialCenterX(targetX);
-        endAnimation.setInitialY(targetY);
+        endAnimation.setInitialCenterY(targetY);
 
         endAnimation.setFinalCenterX(targetX);
-        endAnimation.setFinalY(targetY);
+        endAnimation.setFinalCenterY(targetY);
 
         // rotate projectile to match the moving direction
         rotateProjectile(x, y, targetX, targetY);
