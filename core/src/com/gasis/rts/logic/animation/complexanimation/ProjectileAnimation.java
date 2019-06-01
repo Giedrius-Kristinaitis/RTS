@@ -5,6 +5,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.object.combat.TargetReachListener;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
@@ -185,14 +186,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
             return;
         }
 
-        // calculate the tangent of the angle
-        float tan = Math.abs(yDiff / xDiff);
-
-        // get the angle from the tangent value
-        float angle = (float) Math.atan(tan);
-
-        // convert the angle from radians to degrees
-        angle = (float) (angle * (180 / Math.PI));
+        float angle = MathUtils.angle(x, y, targetX, targetY);
 
         // rotate the projectile
         if (yDiff > 0) {
