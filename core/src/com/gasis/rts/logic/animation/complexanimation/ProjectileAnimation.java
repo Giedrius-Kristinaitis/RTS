@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.resources.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An animation of a flying projectile. Do not dispose of this animation until the
@@ -31,6 +35,9 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     // has the end animation finished or not
     protected boolean endAnimationFinished = false;
 
+    // target reach listeners
+    protected List<TargetReachListener> targetReachListeners = new ArrayList<TargetReachListener>();
+
     /**
      * Class constructor
      */
@@ -55,6 +62,11 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
             fireAnimationFinished = true;
         } else if (animation == projectile) {
             targetReached = true;
+
+            // notify listeners
+            for (TargetReachListener listener: targetReachListeners) {
+                listener.targetReached(projectile.getFinalCenterX(), projectile.getFinalCenterY());
+            }
         } else if (animation == endAnimation) {
             endAnimationFinished = true;
         }
@@ -65,8 +77,8 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      *
      * @param listener target listener
      */
-    public void addTargetReachedListener(AnimationFinishListener listener) {
-        projectile.addFinishListener(listener);
+    public void addTargetReachedListener(TargetReachListener listener) {
+        targetReachListeners.add(listener);
     }
 
     /**
