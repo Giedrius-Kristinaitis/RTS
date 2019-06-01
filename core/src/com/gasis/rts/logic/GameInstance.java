@@ -55,7 +55,7 @@ public class GameInstance {
      * @param delta time elapsed since last render
      */
     public void draw(SpriteBatch batch, float delta) {
-        mapRenderer.render(batch, resources, delta);
+        mapRenderer.render(batch, resources);
     }
 
     /**
