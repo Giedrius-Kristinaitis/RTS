@@ -1,12 +1,14 @@
 package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.resources.Resources;
 
 /**
  * Represents all game objects: units, buildings
  */
-public abstract class GameObject implements Damageable {
+public abstract class GameObject implements Updatable, Renderable, Damageable {
 
     // the object type identifier (e.g. All tanks in a group have code T-21)
     protected String code;
@@ -274,6 +276,7 @@ public abstract class GameObject implements Damageable {
      *
      * @param delta time elapsed since the last render
      */
+    @Override
     public abstract void update(float delta);
 
     /**
@@ -282,5 +285,6 @@ public abstract class GameObject implements Damageable {
      * @param batch sprite batch to draw to
      * @param resources game assets
      */
+    @Override
     public abstract void render(SpriteBatch batch, Resources resources);
 }

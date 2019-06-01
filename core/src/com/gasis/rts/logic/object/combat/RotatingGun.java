@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -11,7 +13,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * Represents any gun that rotates around a fixed point (tank gun, rocket launcher...)
  */
-public class RotatingGun {
+public class RotatingGun implements Updatable, Renderable {
 
     // texture atlas that holds the textures of the gun
     protected String atlas;
@@ -159,6 +161,7 @@ public class RotatingGun {
      *
      * @param delta time elapsed since the last update
      */
+    @Override
     public void update(float delta) {
         updateFacingDirection(delta);
     }
@@ -204,6 +207,7 @@ public class RotatingGun {
      * @param batch sprite batch to draw to
      * @param resources game assets
      */
+    @Override
     public void render(SpriteBatch batch, Resources resources) {
         batch.draw(
                 resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(textures.get(facingDirection)),

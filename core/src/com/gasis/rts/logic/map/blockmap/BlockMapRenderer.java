@@ -27,10 +27,9 @@ public class BlockMapRenderer implements MapRenderer {
      *
      * @param batch     sprite batch to draw to
      * @param resources game assets
-     * @param delta     time elapsed since the last render
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources, float delta) {
+    public void render(SpriteBatch batch, Resources resources) {
         // position and dimensions of the rendered map portion (window)
         short windowX = (short) Math.max(0, (short) renderX - 3);
         short windowY = (short) Math.max(0, (short) renderY - 3);
@@ -51,11 +50,21 @@ public class BlockMapRenderer implements MapRenderer {
                     }
 
                     if (block instanceof VisibleBlock) {
-                        ((VisibleBlock) block).render(batch, resources, delta);
+                        ((VisibleBlock) block).render(batch, resources);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Updates the state of the map renderer
+     *
+     * @param delta time elapsed since the last update
+     */
+    @Override
+    public void update(float delta) {
+
     }
 
     /**

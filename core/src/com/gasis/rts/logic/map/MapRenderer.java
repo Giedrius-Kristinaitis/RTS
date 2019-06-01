@@ -1,12 +1,12 @@
 package com.gasis.rts.logic.map;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.resources.Resources;
+import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.Updatable;
 
 /**
  * Renders a map to the screen
  */
-public interface MapRenderer {
+public interface MapRenderer extends Renderable, Updatable {
 
     /**
      * Sets the x position of the rendered map portion's bottom-left corner
@@ -56,13 +56,4 @@ public interface MapRenderer {
      * @param map
      */
     void setRenderedMap(Map map);
-
-    /**
-     * Renders the map
-     *
-     * @param batch sprite batch to draw to
-     * @param resources game assets
-     * @param delta time elapsed since the last render
-     */
-    void render(SpriteBatch batch, Resources resources, float delta);
 }

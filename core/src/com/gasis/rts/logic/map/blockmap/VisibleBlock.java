@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 /**
  * A map block that has some image(s) displayed
  */
-public class VisibleBlock extends Block {
+public class VisibleBlock extends Block implements Renderable {
 
     // the image(s) in block
     protected Deque<BlockImage> images = new LinkedList<BlockImage>();
@@ -56,9 +57,9 @@ public class VisibleBlock extends Block {
      *
      * @param batch sprite batch to draw the map to
      * @param res object used to access assets
-     * @param delta time elapsed since the last render
      */
-    public void render(SpriteBatch batch, Resources res, float delta) {
+    @Override
+    public void render(SpriteBatch batch, Resources res) {
         for (BlockImage image: images) {
             batch.draw(
                     res.atlas(Constants.FOLDER_ATLASES + image.atlas).findRegion(image.texture),
