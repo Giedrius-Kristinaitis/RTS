@@ -460,6 +460,7 @@ public class Unit extends GameObject implements AnimationFinishListener {
      *
      * @param delta time elapsed since the last update
      */
+    @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
         if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / speed) {
