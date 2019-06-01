@@ -57,6 +57,24 @@ public class FrameAnimationFactory implements AnimationFactory {
     private static final FrameAnimationLoader missileLoader = new FrameAnimationLoader();
     private static final FrameAnimationLoader missileTrailLoader = new FrameAnimationLoader();
     private static final FrameAnimationLoader missileLaunchLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireNorthLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireNorthEastLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireEastLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireSouthEastLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireSouthLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireSouthWestLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireWestLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletFireNorthWestLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader bulletRicochetLoader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireEast_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireNorthEast_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireNorth_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireNorthWest_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireWest_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireSouthWest_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireSouth_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader twoTankGunShellFireSouthEast_loader = new FrameAnimationLoader();
     // ***** END OF ANIMATION LOADERS ***** //
 
     // instance of the factory
@@ -92,6 +110,24 @@ public class FrameAnimationFactory implements AnimationFactory {
         //missileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile"));
         //missileTrailLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_trail"));
         //missileLaunchLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_launch"));
+        //bulletLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet"));
+        //bulletFireNorthLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_north"));
+        //bulletFireNorthEastLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_north_east"));
+        //bulletFireEastLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_east"));
+        //bulletFireSouthEastLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_south_east"));
+        //bulletFireSouthLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_south"));
+        //bulletFireSouthWestLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_south_west"));
+        //bulletFireWestLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_west"));
+        //bulletFireNorthWestLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_north_west"));
+        //bulletRicochetLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_ricochet"));
+        //twoTankGunShellFireNorth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_north"));
+        //twoTankGunShellFireNorthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_north_east"));
+        //twoTankGunShellFireEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_east"));
+        //twoTankGunShellFireSouthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_south_east"));
+        //twoTankGunShellFireSouth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_south"));
+        //twoTankGunShellFireSouthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_south_west"));
+        //twoTankGunShellFireWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_west"));
+        //twoTankGunShellFireNorthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_north_west"));
 
         animationsLoaded = true;
     }
@@ -164,6 +200,60 @@ public class FrameAnimationFactory implements AnimationFactory {
                 break;
             case ID_MISSILE_LAUNCH:
                 animation = missileLaunchLoader.newInstance();
+                break;
+            case ID_BULLET:
+                animation = bulletLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_NORTH:
+                animation = bulletFireNorthLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_NORTH_EAST:
+                animation = bulletFireNorthEastLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_EAST:
+                animation = bulletFireEastLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_SOUTH_EAST:
+                animation = bulletFireSouthEastLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_SOUTH:
+                animation = bulletFireSouthLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_SOUTH_WEST:
+                animation = bulletFireSouthWestLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_WEST:
+                animation = bulletFireWestLoader.newInstance();
+                break;
+            case ID_BULLET_FIRE_NORTH_WEST:
+                animation = bulletFireNorthWestLoader.newInstance();
+                break;
+            case ID_BULLET_RICOCHET:
+                animation = bulletRicochetLoader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_NORTH:
+                animation = twoTankGunShellFireNorth_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_NORTH_EAST:
+                animation = twoTankGunShellFireNorthEast_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_EAST:
+                animation = twoTankGunShellFireEast_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_EAST:
+                animation = twoTankGunShellFireSouthEast_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH:
+                animation = twoTankGunShellFireSouth_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_WEST:
+                animation = twoTankGunShellFireSouthWest_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_WEST:
+                animation = twoTankGunShellFireWest_loader.newInstance();
+                break;
+            case ID_TWO_TANK_GUN_SHELL_FIRE_NORTH_WEST:
+                animation = twoTankGunShellFireNorthWest_loader.newInstance();
                 break;
             default:
                 throw new IllegalArgumentException("Bad animation id");
