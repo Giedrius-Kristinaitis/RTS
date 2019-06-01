@@ -195,6 +195,9 @@ public class RotatingGun implements Updatable, Renderable {
 
             if (facingDirection == rotatingToDirection) {
                 rotatingToDirection = NONE;
+
+                // make the gun be able to rotate again immediately
+                timeSinceLastRotation = 1f / rotationSpeed;
             }
         } else {
             timeSinceLastRotation += delta;
