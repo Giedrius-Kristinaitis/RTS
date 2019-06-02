@@ -5,6 +5,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.object.Fireable;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends GameObject implements AnimationFinishListener {
+public class Unit extends GameObject implements AnimationFinishListener, Fireable {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -394,6 +395,20 @@ public class Unit extends GameObject implements AnimationFinishListener {
      */
     public byte getCurrentStillTexture() {
         return currentStillTexture;
+    }
+
+    /**
+     * Fires a shot at a target
+     *
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
+     *
+     * @return has the shot been fired or not
+     */
+    @Override
+    public boolean fire(float targetX, float targetY) {
+
+        return true;
     }
 
     /**
