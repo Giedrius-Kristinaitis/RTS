@@ -7,10 +7,15 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.Fireable;
 import com.gasis.rts.logic.object.OffensiveGameObject;
+import com.gasis.rts.logic.object.combat.FireSource;
+import com.gasis.rts.logic.object.combat.TargetReachListener;
+import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a single unit on a map
@@ -32,10 +37,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // indexes of the textures must match the values of
     // the facing directions defined above
     protected List<String> stillTextures;
-
-    // the index of the current texture (that is drawn when the unit is standing
-    // still) in the texture list
-    protected byte currentStillTexture;
 
     // the direction the unit is currently facing
     protected byte facingDirection = EAST;
@@ -92,6 +93,38 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     // how long the unit stays in the firing texture when firing (in seconds)
     protected float firingTextureUsageDuration;
+
+    // how long has the firing texture been used so far
+    protected float firingTextureTime;
+
+    // fire sources of the unit
+    protected Map<String, FireSourceWithReloadAndFirePoints> fireSources = new HashMap<String, FireSourceWithReloadAndFirePoints>();
+
+    /**
+     * Creates a new fire source for the gun
+     *
+     * @param name name used to identify the source
+     * @param gunCount how many guns are firing
+     * @param type type of the projectile
+     * @param scale scale of the projectile
+     * @param flightTime projectile's flight time in seconds
+     * @param firePoints from where the source fires in each facing direction
+     * @param reloadSpeed reload speed in seconds
+     * @param listener listener that listens for the reach of the target
+     */
+    @SuppressWarnings("Duplicates")
+    public void createFireSource(String name, byte gunCount, byte type, byte scale, float flightTime, List<Point> firePoints, float reloadSpeed, TargetReachListener listener) {
+        FireSource source = new FireSource();
+        source.setFireType(type);
+        source.setProjectileScale(scale);
+        source.setGunCount(gunCount);
+        source.addTargetReachListener(listener);
+        source.setFlightTime(flightTime);
+
+        FireSourceWithReloadAndFirePoints combinedSource = new FireSourceWithReloadAndFirePoints(source, reloadSpeed, firePoints);
+
+        fireSources.put(name, combinedSource);
+    }
 
     /**
      * Gets the duration of the unit's firing texture usage after firing a shot
@@ -349,8 +382,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected void setFacingDirection(byte facingDirection) {
         this.facingDirection = facingDirection;
 
-        currentStillTexture = facingDirection;
-
         createMovementAnimation();
     }
 
@@ -380,24 +411,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Sets the current texture index
-     *
-     * @param currentStillTexture new texture index
-     */
-    public void setCurrentStillTexture(byte currentStillTexture) {
-        this.currentStillTexture = currentStillTexture;
-    }
-
-    /**
-     * Gets the index of the current unit's texture
-     *
-     * @return
-     */
-    public byte getCurrentStillTexture() {
-        return currentStillTexture;
-    }
-
-    /**
      * Fires a shot at a target
      *
      * @param targetX x coordinate of the target
@@ -405,10 +418,25 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      *
      * @return has the shot been fired or not
      */
+    @SuppressWarnings("Duplicates")
     @Override
     public boolean fire(float targetX, float targetY) {
+        boolean fired = false;
 
-        return true;
+        for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
+            if (source.timeSinceLastReload >= source.reloadSpeed) {
+                source.fireSource.setX(source.firePoints.get(facingDirection).x);
+                source.fireSource.setY(source.firePoints.get(facingDirection).y);
+                source.fireSource.fire(facingDirection, targetX, targetY);
+                source.timeSinceLastReload = 0;
+
+                firingTextureUsageDuration = 0;
+
+                fired = true;
+            }
+        }
+
+        return fired;
     }
 
     /**
@@ -425,6 +453,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         updateBodyFacingDirection(delta);
+        updateFireSources(delta);
+
+        // update fire texture's time
+        firingTextureTime += delta;
 
         // update the movement animation
         if (moving && movementAnimation != null) {
@@ -432,6 +464,17 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
             movementAnimation.setCenterX(getCenterX());
             movementAnimation.setCenterY(getCenterY());
+        }
+    }
+
+    /**
+     * Updates fire sources
+     *
+     * @param delta time since the last update
+     */
+    protected void updateFireSources(float delta) {
+        for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
+            source.update(delta);
         }
     }
 
@@ -496,13 +539,51 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             return;
         }
 
+        // render the firing texture if is being used
+        if (firingTextures != null && firingTextureTime <= firingTextureUsageDuration) {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(firingTextures.get(facingDirection)),
+                    x,
+                    y,
+                    width,
+                    height
+            );
+            return;
+        }
+
         // render the still unit
         batch.draw(
-                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(currentStillTexture)),
+                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(facingDirection)),
                 x,
                 y,
                 width,
                 height
         );
+    }
+
+    /**
+     * Holds a fire source, it's reload speed and firing points
+     */
+    protected class FireSourceWithReloadAndFirePoints {
+
+        protected FireSource fireSource;
+        protected float reloadSpeed; // in seconds
+        protected List<Point> firePoints;
+        protected float timeSinceLastReload;
+
+        protected FireSourceWithReloadAndFirePoints(FireSource fireSource, float reloadSpeed, List<Point> firePoints) {
+            this.fireSource = fireSource;
+            this.reloadSpeed = reloadSpeed;
+            this.firePoints = firePoints;
+        }
+
+        /**
+         * Updates the state of the fire source
+         *
+         * @param delta time elapses since the last update
+         */
+        protected void update(float delta) {
+            timeSinceLastReload += delta;
+        }
     }
 }
