@@ -6,7 +6,6 @@ import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.logic.object.combat.CombatSpecs;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
