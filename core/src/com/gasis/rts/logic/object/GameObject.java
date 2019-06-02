@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.object.combat.CombatSpecs;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -27,14 +28,30 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected float width;
     protected float height;
 
-    protected float maxHp; // maximum number of hit-points the object can have
     protected float hp; // current number of hit-points the object has
-
-    // defence stat of the object
-    protected float defence;
 
     // is the object passable or not
     protected boolean passable;
+
+    // object's combat specs
+    protected CombatSpecs combatSpecs;
+
+    /**
+     * Sets combat specs of the object
+     *
+     * @param combatSpecs new combat specs
+     */
+    public void setCombatSpecs(CombatSpecs combatSpecs) {
+        this.combatSpecs = combatSpecs;
+    }
+
+    /**
+     * Gets the combat specs of the object
+     * @return
+     */
+    public CombatSpecs getCombatSpecs() {
+        return combatSpecs;
+    }
 
     /**
      * Does damage to the object
@@ -44,7 +61,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     @Override
     public void doDamage(float attack) {
-        hp -= attack / defence;
+        hp -= attack / combatSpecs.getDefence();
     }
 
     /**
@@ -99,15 +116,6 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     }
 
     /**
-     * Sets the maximum amount of hp the object can have
-     *
-     * @param maxHp new max hp
-     */
-    public void setMaxHp(float maxHp) {
-        this.maxHp = maxHp;
-    }
-
-    /**
      * Sets the hp of the object
      *
      * @param hp new hp
@@ -117,37 +125,11 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     }
 
     /**
-     * Sets the defence stat of the object
-     *
-     * @param defence new defence
-     */
-    public void setDefence(float defence) {
-        this.defence = defence;
-    }
-
-    /**
-     * Gets the maximum amount of hp the object can have
-     *
-     * @return
-     */
-    public float getMaxHp() {
-        return maxHp;
-    }
-
-    /**
      * Gets the current hp of the object
      * @return
      */
     public float getHp() {
         return hp;
-    }
-
-    /**
-     * Gets the defence stat of the object
-     * @return
-     */
-    public float getDefence() {
-        return defence;
     }
 
     /**

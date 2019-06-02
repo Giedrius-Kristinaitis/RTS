@@ -6,6 +6,7 @@ import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.combat.CombatSpecs;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -80,101 +81,66 @@ public class Unit extends GameObject implements AnimationFinishListener {
     // facing direction
     protected boolean enterSiegeModeWhenFinishedRotating = false;
 
-    // unit's combat stats
-    protected float attack;
-    protected float defence;
-    protected float speed;
-    protected float sightRange;
-    protected float attackRange;
+    // textures used when the unit fires
+    // indexes of the textures must match the values of facing directions
+    // defined above
+    protected List<String> firingTextures;
+
+    // does the unit use the firing texture for it's facing direction
+    // when reloading
+    protected boolean stayInFiringTextureWhenReloading = false;
+
+    // how long the unit stays in the firing texture when firing (in seconds)
+    protected float firingTextureUsageDuration;
 
     /**
-     * Gets the attack stat of the unit
+     * Gets the duration of the unit's firing texture usage after firing a shot
      * @return
      */
-    public float getAttack() {
-        return attack;
+    public float getFiringTextureUsageDuration() {
+        return firingTextureUsageDuration;
     }
 
     /**
-     * Gets the defence stat of the unit
+     * Sets the duration of the unit's firing texture usage after firing a shot
+     *
+     * @param firingTextureUsageDuration usage duration in seconds
+     */
+    public void setFiringTextureUsageDuration(float firingTextureUsageDuration) {
+        this.firingTextureUsageDuration = firingTextureUsageDuration;
+    }
+
+    /**
+     * Checks if the unit stays in it's firing texture when reloading
+     */
+    public boolean isStayInFiringTextureWhenReloading() {
+        return stayInFiringTextureWhenReloading;
+    }
+
+    /**
+     * Makes the unit stay/not stay in it's firing texture when reloading
+     *
+     * @param stayInFiringTextureWhenReloading new stay value
+     */
+    public void setStayInFiringTextureWhenReloading(boolean stayInFiringTextureWhenReloading) {
+        this.stayInFiringTextureWhenReloading = stayInFiringTextureWhenReloading;
+    }
+
+    /**
+     * Sets the firing textures for the unit
+     *
+     * @param firingTextures new firing textures
+     */
+    public void setFiringTextures(List<String> firingTextures) {
+        this.firingTextures = firingTextures;
+    }
+
+    /**
+     * Gets the firing textures of the unit
      * @return
      */
-    public float getDefence() {
-        return defence;
-    }
-
-    /**
-     * Gets the speed of the unit
-     * @return
-     */
-    public float getSpeed() {
-        return speed;
-    }
-
-    /**
-     * Gets the sight range of the unit
-     * @return
-     */
-    public float getSightRange() {
-        return sightRange;
-    }
-
-    /**
-     * Gets the attack range of the unit
-     * @return
-     */
-    public float getAttackRange() {
-        return attackRange;
-    }
-
-    /**
-     * Sets the attack stat of the unit
-     *
-     * @param attack new attack
-     */
-    public void setAttack(float attack) {
-        this.attack = attack;
-    }
-
-    /**
-     * Sets the defence stat of the unit
-     *
-     * @param defence new defence
-     */
-    public void setDefence(float defence) {
-        this.defence = defence;
-    }
-
-    /**
-     * Sets the speed of the unit
-     *
-     * @param speed new speed
-     */
-    public void setSpeed(float speed) {
-        if (speed == 0) {
-            this.speed = 0.000001f; // speed can't be 0 because there is a value divided by it
-            return;                // and we can't divide by 0
-        }
-
-        this.speed = speed;
-    }
-
-    /**
-     * Sets the sight range of the unit
-     *
-     * @param sightRange new sight range
-     */
-    public void setSightRange(float sightRange) {
-        this.sightRange = sightRange;
-    }
-
-    /**
-     * Sets the attack range of the unit
-     *
-     * @param attackRange new attack range
-     */
-    public void setAttackRange(float attackRange) {
-        this.attackRange = attackRange;
+    public Iterable<String> getFiringTextures() {
+        return firingTextures;
     }
 
     /**
@@ -220,11 +186,11 @@ public class Unit extends GameObject implements AnimationFinishListener {
      * @param inSiegeMode is the unit in siege mode now
      */
     public void setInSiegeMode(boolean inSiegeMode) {
-        if (rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating || siegeModeTransitionAnimation != null) {
+        if (!siegeModeAvailable || (rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating) || siegeModeTransitionAnimation != null) {
             return;
         }
 
-        if (siegeModeAvailable && this.inSiegeMode != inSiegeMode) {
+        if (this.inSiegeMode != inSiegeMode) {
             // enter or leave siege mode
             if (siegeModeTransitionAnimationIds.size() != 8) {
                 if (facingDirection == siegeModeFacingDirection) {
@@ -463,7 +429,7 @@ public class Unit extends GameObject implements AnimationFinishListener {
     @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
-        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / speed) {
+        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / combatSpecs.getSpeed()) {
             byte directionDiff = (byte) Math.abs(facingDirection - rotatingToDirection);
 
             byte directionIncrement = (byte) (facingDirection - rotatingToDirection < 0 ? 1 : -1);
