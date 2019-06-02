@@ -3,7 +3,7 @@ package com.gasis.rts.logic.object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
-import com.gasis.rts.logic.object.combat.CombatSpecs;
+import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -34,23 +34,23 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected boolean passable;
 
     // object's combat specs
-    protected CombatSpecs combatSpecs;
+    protected DefensiveSpecs defensiveSpecs;
 
     /**
      * Sets combat specs of the object
      *
-     * @param combatSpecs new combat specs
+     * @param defensiveSpecs new combat specs
      */
-    public void setCombatSpecs(CombatSpecs combatSpecs) {
-        this.combatSpecs = combatSpecs;
+    public void setDefensiveSpecs(DefensiveSpecs defensiveSpecs) {
+        this.defensiveSpecs = defensiveSpecs;
     }
 
     /**
      * Gets the combat specs of the object
      * @return
      */
-    public CombatSpecs getCombatSpecs() {
-        return combatSpecs;
+    public DefensiveSpecs getDefensiveSpecs() {
+        return defensiveSpecs;
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     @Override
     public void doDamage(float attack) {
-        hp -= attack / combatSpecs.getDefence();
+        hp -= attack / defensiveSpecs.getDefence();
     }
 
     /**

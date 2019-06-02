@@ -6,7 +6,7 @@ import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.Fireable;
-import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends GameObject implements AnimationFinishListener, Fireable {
+public class Unit extends OffensiveGameObject implements AnimationFinishListener, Fireable {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -443,7 +443,7 @@ public class Unit extends GameObject implements AnimationFinishListener, Fireabl
     @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
-        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / combatSpecs.getSpeed()) {
+        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / offensiveSpecs.getSpeed()) {
             byte directionDiff = (byte) Math.abs(facingDirection - rotatingToDirection);
 
             byte directionIncrement = (byte) (facingDirection - rotatingToDirection < 0 ? 1 : -1);

@@ -1,38 +1,29 @@
 package com.gasis.rts.logic.object.combat;
 
 /**
- * Unit's or building's combat specs
+ * Offensive specs of any object that can attack
  */
-public class CombatSpecs {
+public class OffensiveSpecs {
 
-    // object's characteristics
     protected float attack;
-    protected float defence;
     protected float speed;
-    protected float sightRange;
     protected float attackRange;
-    protected float maxHp;
 
     /**
      * Default class constructor
      */
-    public CombatSpecs() { }
+    public OffensiveSpecs() { }
 
     /**
      * Constructor with arguments
      *
      * @param attack
-     * @param defence
      * @param speed
-     * @param sightRange
      * @param attackRange
-     * @param maxHp
      */
-    public CombatSpecs(float attack, float defence, float speed, float sightRange, float attackRange, float maxHp) {
+    public OffensiveSpecs(float attack, float speed, float attackRange) {
         this.attack = attack;
-        this.defence = defence;
         this.speed = speed;
-        this.sightRange = sightRange;
         this.attackRange = attackRange;
     }
 
@@ -51,23 +42,6 @@ public class CombatSpecs {
      */
     public void setAttack(float attack) {
         this.attack = attack;
-    }
-
-    /**
-     * Gets the defence
-     * @return
-     */
-    public float getDefence() {
-        return defence;
-    }
-
-    /**
-     * Sets the defence
-     *
-     * @param defence new defence
-     */
-    public void setDefence(float defence) {
-        this.defence = defence;
     }
 
     /**
@@ -93,23 +67,6 @@ public class CombatSpecs {
     }
 
     /**
-     * Gets the sight range
-     * @return
-     */
-    public float getSightRange() {
-        return sightRange;
-    }
-
-    /**
-     * Sets the sight range
-     *
-     * @param sightRange new sight range
-     */
-    public void setSightRange(float sightRange) {
-        this.sightRange = sightRange;
-    }
-
-    /**
      * Gets the attack range
      * @return
      */
@@ -124,22 +81,5 @@ public class CombatSpecs {
      */
     public void setAttackRange(float attackRange) {
         this.attackRange = attackRange;
-    }
-
-    /**
-     * Gets the maximum amount of hp the object can have
-     * @return
-     */
-    public float getMaxHp() {
-        return maxHp;
-    }
-
-    /**
-     * Sets the maximum amount of hp the object can have
-     *
-     * @param maxHp new maximum hp
-     */
-    public void setMaxHp(float maxHp) {
-        this.maxHp = maxHp;
     }
 }
