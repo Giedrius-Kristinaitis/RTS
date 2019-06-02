@@ -49,6 +49,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     // how many guns are firing (only has effect on things that fire shells)
     protected byte gunCount = 1;
 
+    // the flight time of the projectile in seconds
+    protected float flightTime;
+
     /**
      * Sets the gun count of the fire source
      *
@@ -68,6 +71,23 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      */
     public byte getGunCount() {
         return gunCount;
+    }
+
+    /**
+     * Sets the flight time of the projectile
+     *
+     * @param flightTime flight time in seconds
+     */
+    public void setFlightTime(float flightTime) {
+        this.flightTime = flightTime;
+    }
+
+    /**
+     * Gets the flight time of the projectile
+     * @return
+     */
+    public float getFlightTime() {
+        return flightTime;
     }
 
     /**
@@ -170,6 +190,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     public void fire(byte facingDirection, float targetX, float targetY) {
         ProjectileAnimation animation = createProjectileAnimation(facingDirection, targetX, targetY);
         animation.addTargetReachedListener(this);
+        animation.setFlightTime(flightTime);
 
         animations.add(animation);
     }
