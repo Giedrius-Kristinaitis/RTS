@@ -10,8 +10,6 @@ public interface Fireable {
      *
      * @param targetX x coordinate of the target
      * @param targetY y coordinate of the target
-     *
-     * @return has the shot been fired or not
      */
-    boolean fire(float targetX, float targetY);
+    void fire(float targetX, float targetY);
 }
