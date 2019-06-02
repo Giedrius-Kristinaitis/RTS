@@ -8,6 +8,7 @@ public class DefensiveSpecs {
     protected float defence;
     protected float maxHp;
     protected float sightRange;
+    protected float siegeModeSightRange;
 
     /**
      * Default class constructor
@@ -24,6 +25,34 @@ public class DefensiveSpecs {
         this.defence = defence;
         this.maxHp = maxHp;
         this.sightRange = sightRange;
+    }
+
+    /**
+     * Another constructor with arguments
+     *
+     * @param defence
+     * @param maxHp
+     */
+    public DefensiveSpecs(float defence, float maxHp, float sightRange, float siegeModeSightRange) {
+        this(defence, maxHp, sightRange);
+        this.siegeModeSightRange = siegeModeSightRange;
+    }
+
+    /**
+     * Gets the sight range when in siege mode
+     * @return
+     */
+    public float getSiegeModeSightRange() {
+        return siegeModeSightRange;
+    }
+
+    /**
+     * Sets the sight range when in siege mode
+     *
+     * @param siegeModeSightRange sight range in siege mode
+     */
+    public void setSiegeModeSightRange(float siegeModeSightRange) {
+        this.siegeModeSightRange = siegeModeSightRange;
     }
 
     /**

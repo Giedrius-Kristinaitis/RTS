@@ -8,6 +8,8 @@ public class OffensiveSpecs {
     protected float attack;
     protected float speed;
     protected float attackRange;
+    protected float siegeModeAttack;
+    protected float siegeModeAttackRange;
 
     /**
      * Default class constructor
@@ -25,6 +27,53 @@ public class OffensiveSpecs {
         this.attack = attack;
         this.speed = speed;
         this.attackRange = attackRange;
+    }
+
+    /**
+     * Another constructor with arguments
+     *
+     * @param attack
+     * @param speed
+     * @param attackRange
+     */
+    public OffensiveSpecs(float attack, float speed, float attackRange, float siegeModeAttack, float siegeModeAttackRange) {
+        this(attack, speed, attackRange);
+        this.siegeModeAttack = siegeModeAttack;
+        this.siegeModeAttackRange = siegeModeAttackRange;
+    }
+
+    /**
+     * Gets the attack when in siege mode
+     * @return
+     */
+    public float getSiegeModeAttack() {
+        return siegeModeAttack;
+    }
+
+    /**
+     * Sets the attack when in siege mode
+     *
+     * @param siegeModeAttack attack in siege mode
+     */
+    public void setSiegeModeAttack(float siegeModeAttack) {
+        this.siegeModeAttack = siegeModeAttack;
+    }
+
+    /**
+     * Gets the attack range when in siege mode
+     * @return
+     */
+    public float getSiegeModeAttackRange() {
+        return siegeModeAttackRange;
+    }
+
+    /**
+     * Sets the attack range when in siege mode
+     *
+     * @param siegeModeAttackRange siege mode attack range
+     */
+    public void setSiegeModeAttackRange(float siegeModeAttackRange) {
+        this.siegeModeAttackRange = siegeModeAttackRange;
     }
 
     /**
