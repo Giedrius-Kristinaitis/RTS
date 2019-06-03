@@ -41,6 +41,20 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Toggles unit's siege mode
+     *
+     * @param inSiegeMode is the unit in siege mode now
+     */
+    @Override
+    public void setInSiegeMode(boolean inSiegeMode) {
+        super.setInSiegeMode(inSiegeMode);
+
+        for (RotatingGun gun: guns.values()) {
+            gun.setInSiegeMode(inSiegeMode);
+        }
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render
