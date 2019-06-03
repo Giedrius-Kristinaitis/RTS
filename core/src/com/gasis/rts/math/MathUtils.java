@@ -30,4 +30,13 @@ public class MathUtils {
 
         return angle;
     }
+
+    /**
+     * Returns the distance between 2 points
+     *
+     * @return positive value of the distance
+     */
+    public static float distance(float x1, float x2, float y1, float y2) {
+        return (float) Math.abs(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)));
+    }
 }

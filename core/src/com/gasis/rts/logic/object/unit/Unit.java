@@ -5,23 +5,22 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
-import com.gasis.rts.logic.object.Fireable;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
+import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.FireSource;
-import com.gasis.rts.logic.object.combat.TargetReachListener;
+import com.gasis.rts.logic.object.combat.FiringLogic;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a single unit on a map
  */
-public class Unit extends OffensiveGameObject implements AnimationFinishListener, Fireable, Rotatable {
+public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -98,85 +97,48 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // how long has the firing texture been used so far
     protected float firingTextureTime;
 
-    // fire sources of the unit
-    protected Map<String, FireSourceWithReloadAndFirePoints> fireSources = new HashMap<String, FireSourceWithReloadAndFirePoints>();
+    // the gun's firing logic
+    protected FiringLogic firingLogic;
 
-    // how many shots are fired in siege mode before reloading
-    protected byte siegeModeShotCount = 1;
-
-    // how often (in seconds) the shots are fired when in siege mode (only applied when
-    // siegeModeShotCount > 1)
-    protected float siegeModeShotInterval;
-
-    // how much time has elapsed since the last siege mode shot
-    protected float timeSinceLastShot;
-
-    // how many shots are waiting to be fired
-    protected byte enqueuedShots;
-
-    // current target coordinates
-    protected float targetX;
-    protected float targetY;
+    // target of the unit
+    protected Point target;
 
     /**
-     * Gets the siege mode shot count
+     * Aims at the specified target coordinates
+     *
+     * @param targetX x of the target
+     * @param targetY y of the target
+     */
+    @Override
+    public void aimAt(float targetX, float targetY) {
+        target = new Point(targetX, targetY);
+    }
+
+    /**
+     * Sets the firing logic for the unit
+     *
+     * @param firingLogic new firing logic
+     */
+    public void setFiringLogic(FiringLogic firingLogic) {
+        this.firingLogic = firingLogic;
+    }
+
+    /**
+     * Gets the firing logic of the unit
      * @return
      */
-    public byte getSiegeModeShotCount() {
-        return siegeModeShotCount;
+    public FiringLogic getFiringLogic() {
+        return firingLogic;
     }
 
     /**
-     * Sets the siege mode shot count
-     *
-     * @param siegeModeShotCount new shot count
-     */
-    public void setSiegeModeShotCount(byte siegeModeShotCount) {
-        this.siegeModeShotCount = siegeModeShotCount;
-    }
-
-    /**
-     * Gets the siege mode shot interval
-     * @return
-     */
-    public float getSiegeModeShotInterval() {
-        return siegeModeShotInterval;
-    }
-
-    /**
-     * Sets the shot interval for siege mode shots
-     *
-     * @param siegeModeShotInterval new shot interval
-     */
-    public void setSiegeModeShotInterval(float siegeModeShotInterval) {
-        this.siegeModeShotInterval = siegeModeShotInterval;
-    }
-
-    /**
-     * Creates a new fire source for the gun
+     * Adds a new fire source to the unit
      *
      * @param name name used to identify the source
-     * @param gunCount how many guns are firing
-     * @param type type of the projectile
-     * @param scale scale of the projectile
-     * @param flightTime projectile's flight time in seconds
-     * @param firePoints from where the source fires in each facing direction
-     * @param reloadSpeed reload speed in seconds
-     * @param siegeModeReloadSpeed reload speed when in siege mode (in seconds)
-     * @param listener listener that listens for the reach of the target
+     * @param source fire source to add
      */
-    @SuppressWarnings("Duplicates")
-    public void createFireSource(String name, byte gunCount, byte type, byte scale, float flightTime, List<Point> firePoints, float reloadSpeed, float siegeModeReloadSpeed, TargetReachListener listener) {
-        FireSource source = new FireSource();
-        source.setFireType(type);
-        source.setProjectileScale(scale);
-        source.setGunCount(gunCount);
-        source.addTargetReachListener(listener);
-        source.setFlightTime(flightTime);
-
-        FireSourceWithReloadAndFirePoints combinedSource = new FireSourceWithReloadAndFirePoints(source, reloadSpeed, siegeModeReloadSpeed, firePoints);
-
-        fireSources.put(name, combinedSource);
+    public void addFireSource(String name, FireSource source) {
+        firingLogic.addFireSource(name, source);
     }
 
     /**
@@ -465,68 +427,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Fires a shot at a target
-     *
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
-     */
-    @Override
-    public void fire(float targetX, float targetY) {
-        if (inSiegeMode) {
-            enqueuedShots = siegeModeShotCount;
-        } else {
-            enqueuedShots = 1;
-        }
-
-        timeSinceLastShot = siegeModeShotInterval;
-
-        this.targetX = targetX;
-        this.targetY = targetY;
-    }
-
-    /**
-     * Updates the unit's firing
-     *
-     * @param delta time since the last update
-     */
-    protected void updateFiring(float delta) {
-        if (enqueuedShots > 0 && timeSinceLastShot >= siegeModeShotInterval) {
-            launchSingleShot();
-
-            if (enqueuedShots == 0) {
-                for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
-                    source.timeSinceLastReload = 0;
-                }
-            }
-        } else {
-            timeSinceLastShot += delta;
-        }
-    }
-
-    /**
-     * Launches a single shot at the target
-     */
-    @SuppressWarnings("Duplicates")
-    protected void launchSingleShot() {
-        for (FireSourceWithReloadAndFirePoints source : fireSources.values()) {
-            boolean fire = false;
-
-            if ((inSiegeMode && source.timeSinceLastReload >= source.siegeModeReloadSpeed) || (!inSiegeMode && source.timeSinceLastReload >= source.reloadSpeed)) {
-                fire = true;
-            }
-
-            if (fire) {
-                source.fireSource.setX(getCenterX() + source.firePoints.get(facingDirection).x);
-                source.fireSource.setY(getCenterY() + source.firePoints.get(facingDirection).y);
-                source.fireSource.fire(facingDirection, targetX, targetY);
-                firingTextureUsageDuration = 0;
-                enqueuedShots--;
-                timeSinceLastShot = 0;
-            }
-        }
-    }
-
-    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render
@@ -540,8 +440,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         updateBodyFacingDirection(delta);
-        updateFireSources(delta);
-        updateFiring(delta);
+        updateTarget();
+
+        if (firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
+            // reset the firing texture's usage time
+            firingTextureTime = 0;
+        }
 
         // update fire texture's time
         firingTextureTime += delta;
@@ -556,14 +460,18 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Updates fire sources
-     *
-     * @param delta time since the last update
+     * Updates the target logic
      */
-    protected void updateFireSources(float delta) {
-        for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
-            source.timeSinceLastReload += delta;
-            source.fireSource.update(delta);
+    @SuppressWarnings("Duplicates")
+    protected void updateTarget() {
+        if (target != null) {
+            if (inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                firingLogic.target = target;
+                firingLogic.enqueueShots(inSiegeMode);
+            } else if (!inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
+                firingLogic.target = target;
+                firingLogic.enqueueShots(inSiegeMode);
+            }
         }
     }
 
@@ -649,38 +557,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 height
         );
 
-        // render the fire sources
-        for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
-            source.fireSource.render(batch, resources);
-        }
-    }
-
-    /**
-     * Holds a fire source, it's reload speed and firing points
-     */
-    protected class FireSourceWithReloadAndFirePoints {
-
-        // firing source
-        protected FireSource fireSource;
-
-        // reload speed (in seconds)
-        protected float reloadSpeed;
-
-        // reload speed when in siege mode (in seconds)
-        protected float siegeModeReloadSpeed;
-
-        // the coordinates the fire source fires from
-        // indexes must match facing directions defined above
-        protected List<Point> firePoints;
-
-        // how much time has elapsed since the last reload (in seconds)
-        protected float timeSinceLastReload;
-
-        protected FireSourceWithReloadAndFirePoints(FireSource fireSource, float reloadSpeed, float siegeModeReloadSpeed, List<Point> firePoints) {
-            this.fireSource = fireSource;
-            this.reloadSpeed = reloadSpeed;
-            this.firePoints = firePoints;
-            this.siegeModeReloadSpeed = siegeModeReloadSpeed;
-        }
+        firingLogic.render(batch, resources);
     }
 }

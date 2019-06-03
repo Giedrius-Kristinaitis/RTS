@@ -8,6 +8,7 @@ import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.complexanimation.MissileAnimation;
 import com.gasis.rts.logic.animation.complexanimation.ProjectileAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
@@ -51,6 +52,27 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     // the flight time of the projectile in seconds
     protected float flightTime;
+
+    // from where the shots are fired for each facing direction
+    // point indexes must match facing directions defined in Unit class
+    protected List<Point> firePoints;
+
+    /**
+     * Gets the fire points of the fire source
+     * @return
+     */
+    public List<Point> getFirePoints() {
+        return firePoints;
+    }
+
+    /**
+     * Sets the fire points
+     *
+     * @param firePoints new fire points
+     */
+    public void setFirePoints(List<Point> firePoints) {
+        this.firePoints = firePoints;
+    }
 
     /**
      * Sets the gun count of the fire source
