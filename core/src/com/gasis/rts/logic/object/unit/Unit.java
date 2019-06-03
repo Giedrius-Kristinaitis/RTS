@@ -560,7 +560,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     protected void updateFireSources(float delta) {
         for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
-            source.update(delta);
+            source.timeSinceLastReload += delta;
         }
     }
 
@@ -673,15 +673,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             this.reloadSpeed = reloadSpeed;
             this.firePoints = firePoints;
             this.siegeModeReloadSpeed = siegeModeReloadSpeed;
-        }
-
-        /**
-         * Updates the state of the fire source
-         *
-         * @param delta time elapses since the last update
-         */
-        protected void update(float delta) {
-            timeSinceLastReload += delta;
         }
     }
 }
