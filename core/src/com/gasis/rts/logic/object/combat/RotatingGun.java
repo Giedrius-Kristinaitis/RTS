@@ -295,6 +295,11 @@ public class RotatingGun implements Updatable, Renderable, Rotatable {
      */
     @Override
     public void update(float delta) {
+        // update fire sources
+        for (FireSourceWithFirePoints source: fireSources.values()) {
+            source.fireSource.update(delta);
+        }
+
         updateFacingDirection(delta);
         updateOffset(delta);
     }
@@ -370,6 +375,11 @@ public class RotatingGun implements Updatable, Renderable, Rotatable {
                 width,
                 height
         );
+
+        // render fire sources
+        for (FireSourceWithFirePoints source: fireSources.values()) {
+            source.fireSource.render(batch, resources);
+        }
     }
 
     /**

@@ -518,8 +518,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             }
 
             if (fire) {
-                source.fireSource.setX(source.firePoints.get(facingDirection).x);
-                source.fireSource.setY(source.firePoints.get(facingDirection).y);
+                source.fireSource.setX(getCenterX() + source.firePoints.get(facingDirection).x);
+                source.fireSource.setY(getCenterY() + source.firePoints.get(facingDirection).y);
                 source.fireSource.fire(facingDirection, targetX, targetY);
                 firingTextureUsageDuration = 0;
             }
@@ -563,6 +563,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected void updateFireSources(float delta) {
         for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
             source.timeSinceLastReload += delta;
+            source.fireSource.update(delta);
         }
     }
 
@@ -647,6 +648,11 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 width,
                 height
         );
+
+        // render the fire sources
+        for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
+            source.fireSource.render(batch, resources);
+        }
     }
 
     /**
