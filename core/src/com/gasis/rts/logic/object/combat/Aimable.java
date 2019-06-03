@@ -12,4 +12,10 @@ public interface Aimable {
      * @param targetY y of the target
      */
     void aimAt(float targetX, float targetY);
+
+    /**
+     * Checks if this object has a target
+     * @return
+     */
+    boolean hasTarget();
 }

@@ -107,6 +107,16 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     }
 
     /**
+     * Checks if this object has a target
+     *
+     * @return
+     */
+    @Override
+    public boolean hasTarget() {
+        return target != null;
+    }
+
+    /**
      * Gets the relative x coordinate of the gun
      * @return
      */

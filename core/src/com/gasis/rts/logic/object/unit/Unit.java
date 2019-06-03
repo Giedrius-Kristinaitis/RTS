@@ -115,6 +115,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if this object has a target
+     *
+     * @return
+     */
+    @Override
+    public boolean hasTarget() {
+        return target != null;
+    }
+
+    /**
      * Sets the firing logic for the unit
      *
      * @param firingLogic new firing logic

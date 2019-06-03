@@ -36,7 +36,9 @@ public class RotatingGunUnit extends Unit {
 
         // if there is no target, rotate the guns as well
         for (RotatingGun gun: guns.values()) {
-            gun.rotateToDirection(facingDirection);
+            if (!gun.hasTarget()) {
+                gun.rotateToDirection(facingDirection);
+            }
         }
     }
 
