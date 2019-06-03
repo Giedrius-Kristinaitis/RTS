@@ -24,7 +24,23 @@ public class RotatingGunUnit extends Unit {
      * @param coordinates coordinates of the point the gun rotates around
      */
     public void addGun(String name, RotatingGun gun, Point coordinates) {
+        FixedRotatingGun fixedRotatingGun = new FixedRotatingGun(gun, coordinates);
+        guns.put(name, fixedRotatingGun);
+    }
 
+    /**
+     * Rotates the unit if required in order for it to face the specified direction
+     *
+     * @param facingDirection new facing direction
+     */
+    @Override
+    public void rotateToDirection(byte facingDirection) {
+        super.rotateToDirection(facingDirection);
+
+        // if there is no target, rotate the guns as well
+        for (FixedRotatingGun gun: guns.values()) {
+            gun.gun.rotateToDirection(facingDirection);
+        }
     }
 
     /**
@@ -39,7 +55,24 @@ public class RotatingGunUnit extends Unit {
         // update the rotating guns
         for (FixedRotatingGun gun: guns.values()) {
             gun.gun.update(delta);
+
+            gun.gun.setRotationPointX(getCenterX() + gun.coordinates.x);
+            gun.gun.setRotationPointY(getCenterY() + gun.coordinates.y);
         }
+    }
+
+    /**
+     * Fires a shot at a target
+     *
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
+     */
+    @Override
+    public void fire(float targetX, float targetY) {
+        super.fire(targetX, targetY);
+
+        // fire the guns
+        
     }
 
     /**
