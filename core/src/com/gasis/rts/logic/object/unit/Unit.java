@@ -492,8 +492,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected void updateFiring(float delta) {
         if (enqueuedShots > 0 && timeSinceLastShot >= siegeModeShotInterval) {
             launchSingleShot();
-            enqueuedShots--;
-            timeSinceLastShot = 0;
 
             if (enqueuedShots == 0) {
                 for (FireSourceWithReloadAndFirePoints source: fireSources.values()) {
@@ -522,6 +520,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 source.fireSource.setY(getCenterY() + source.firePoints.get(facingDirection).y);
                 source.fireSource.fire(facingDirection, targetX, targetY);
                 firingTextureUsageDuration = 0;
+                enqueuedShots--;
+                timeSinceLastShot = 0;
             }
         }
     }

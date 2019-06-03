@@ -72,7 +72,7 @@ public class RotatingGunUnit extends Unit {
         super.fire(targetX, targetY);
 
         // fire the guns
-        
+
     }
 
     /**
