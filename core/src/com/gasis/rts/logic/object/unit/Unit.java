@@ -7,6 +7,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.Fireable;
 import com.gasis.rts.logic.object.OffensiveGameObject;
+import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.FireSource;
 import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.math.Point;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends OffensiveGameObject implements AnimationFinishListener, Fireable {
+public class Unit extends OffensiveGameObject implements AnimationFinishListener, Fireable, Rotatable {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -281,7 +282,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 if (facingDirection == siegeModeFacingDirection) {
                     createSiegeModeTransitionAnimation(!inSiegeMode);
                 } else {
-                    rotateToFaceDirection(siegeModeFacingDirection);
+                    rotateToDirection(siegeModeFacingDirection);
                     enterSiegeModeWhenFinishedRotating = true;
                 }
             } else {
@@ -297,7 +298,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      *
      * @param facingDirection new facing direction
      */
-    protected void rotateToFaceDirection(byte facingDirection) {
+    @Override
+    public void rotateToDirection(byte facingDirection) {
         if (this.facingDirection != facingDirection) {
             rotatingToDirection = facingDirection;
             timeSinceLastRotation = 0;

@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -16,7 +17,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * Represents any gun that rotates around a fixed point (tank gun, rocket launcher...)
  */
-public class RotatingGun implements Updatable, Renderable {
+public class RotatingGun implements Updatable, Renderable, Rotatable {
 
     // texture atlas that holds the textures of the gun
     protected String atlas;
@@ -281,6 +282,7 @@ public class RotatingGun implements Updatable, Renderable {
      *
      * @param direction the direction the gun should face
      */
+    @Override
     public void rotateToDirection(byte direction) {
         this.rotatingToDirection = direction;
         timeSinceLastRotation = 0;
