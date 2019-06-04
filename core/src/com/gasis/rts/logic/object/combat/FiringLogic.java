@@ -68,6 +68,21 @@ public class FiringLogic implements Renderable {
     }
 
     /**
+     * Checks if there are enqueued shots
+     * @return
+     */
+    public boolean hasEnqueuedShots() {
+        return enqueuedShots > 0;
+    }
+
+    /**
+     * Removes all enqueued shots
+     */
+    public void removeEnqueuedShots() {
+        enqueuedShots = 0;
+    }
+
+    /**
      * Updates the state of the object
      *
      * @param siegeMode is the firing thing in siege mode
@@ -96,6 +111,11 @@ public class FiringLogic implements Renderable {
             } else if (!siegeMode && timeSinceLastShot >= shotInterval) {
                 fired = launchShot(false, facingDirection, x, y);
             }
+        }
+
+        if (!fired) {
+            timeSinceLastShot += delta;
+            timeSinceLastReload += delta;
         }
 
         return fired;

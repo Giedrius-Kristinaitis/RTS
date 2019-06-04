@@ -181,7 +181,13 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      * @param inSiegeMode is the gun in siege mode
      */
     public void setInSiegeMode(boolean inSiegeMode) {
-        this.inSiegeMode = inSiegeMode;
+        if (this.inSiegeMode != inSiegeMode) {
+            if (firingLogic.hasEnqueuedShots()) {
+                firingLogic.removeEnqueuedShots();
+            }
+
+            this.inSiegeMode = inSiegeMode;
+        }
     }
 
     /**

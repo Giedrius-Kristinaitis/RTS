@@ -260,9 +260,13 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             } else {
                 createSiegeModeTransitionAnimation(!inSiegeMode);
             }
-        }
 
-        this.inSiegeMode = inSiegeMode;
+            if (firingLogic.hasEnqueuedShots()) {
+                firingLogic.removeEnqueuedShots();
+            }
+
+            this.inSiegeMode = inSiegeMode;
+        }
     }
 
     /**
