@@ -13,4 +13,5 @@ public class Constants {
     public static final String FOLDER_MAPS = "maps/";
     public static final String FOLDER_ANIMATIONS = "animations/";
     public static final String FOLDER_STANDALONE_IMAGES = "standalone_images/";
+    public static final String FOLDER_UNITS = "units/";
 }
