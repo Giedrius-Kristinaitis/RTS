@@ -79,6 +79,23 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     protected OffensiveSpecs offensiveSpecs;
 
     /**
+     * Gets the name of the texture atlas used by the gun
+     * @return
+     */
+    public String getAtlas() {
+        return atlas;
+    }
+
+    /**
+     * Sets the name of the texture atlas to be used by the gun
+     *
+     * @param atlas new name of the atlas
+     */
+    public void setAtlas(String atlas) {
+        this.atlas = atlas;
+    }
+
+    /**
      * Gets the offensive specs of the object
      * @return
      */
@@ -220,7 +237,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      * Gets the textures of the gun
      * @return
      */
-    public Iterable<String> getTextures() {
+    public List<String> getTextures() {
         return textures;
     }
 

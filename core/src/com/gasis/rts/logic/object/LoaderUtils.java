@@ -171,6 +171,7 @@ public class LoaderUtils {
         gunTextures.add(reader.readLine(prefix + " texture west"));
         gunTextures.add(reader.readLine(prefix + " texture north west"));
 
+        rotatingGun.setAtlas(reader.readLine(prefix + " atlas"));
         rotatingGun.setTextures(gunTextures);
 
         rotatingGun.setRecoilResistance(Float.parseFloat(reader.readLine(prefix + " recoil resistance")));

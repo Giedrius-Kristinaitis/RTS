@@ -1,13 +1,9 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
-import com.gasis.rts.logic.object.combat.DefensiveSpecs;
-import com.gasis.rts.logic.object.combat.FireSource;
-import com.gasis.rts.logic.object.combat.OffensiveSpecs;
-import com.gasis.rts.logic.object.combat.RotatingGun;
+import com.gasis.rts.logic.object.combat.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +37,8 @@ public class UnitLoader extends GameObjectLoader {
     // is siege mode available for the unit
     protected boolean siegeModeAvailable;
 
-    // some firing data
-    protected byte shotCount;
-    protected byte siegeModeShotCount;
-    protected float reloadSpeed;
-    protected float siegeModeReloadSpeed;
-    protected float shotInterval;
-    protected float siegeModeShotInterval;
+    // firing data
+    protected FiringData firingData = new FiringData();
 
     // rotating guns of the unit (if it has any)
     protected Map<RotatingGun, List<FireSource>> rotatingGuns;
@@ -71,9 +62,9 @@ public class UnitLoader extends GameObjectLoader {
         offensiveSpecs.setSpeed(Float.parseFloat(reader.readLine("speed")));
         offensiveSpecs.setAttackRange(Float.parseFloat(reader.readLine("attack range")));
 
-        shotCount = Byte.parseByte(reader.readLine("shot count"));
-        shotInterval = Float.parseFloat(reader.readLine("shot interval"));
-        reloadSpeed = Float.parseFloat(reader.readLine("reload speed"));
+        firingData.setShotCount(Byte.parseByte(reader.readLine("shot count")));
+        firingData.setShotInterval(Float.parseFloat(reader.readLine("shot interval")));
+        firingData.setReloadSpeed(Float.parseFloat(reader.readLine("reload speed")));
 
         if (siegeModeAvailable) {
             defensiveSpecs.setSiegeModeSightRange(Float.parseFloat(reader.readLine("siege mode sight range")));
@@ -81,9 +72,9 @@ public class UnitLoader extends GameObjectLoader {
             offensiveSpecs.setSiegeModeAttack(Float.parseFloat(reader.readLine("siege mode attack")));
             offensiveSpecs.setSiegeModeAttackRange(Float.parseFloat(reader.readLine("siege mode attack range")));
 
-            siegeModeShotCount = Byte.parseByte(reader.readLine("siege mode shot count"));
-            siegeModeShotInterval = Float.parseFloat(reader.readLine("siege mode shot interval"));
-            siegeModeReloadSpeed = Float.parseFloat(reader.readLine("siege mode reload speed"));
+            firingData.setSiegeModeShotCount(Byte.parseByte(reader.readLine("siege mode shot count")));
+            firingData.setSiegeModeShotInterval(Float.parseFloat(reader.readLine("siege mode shot interval")));
+            firingData.setSiegeModeReloadSpeed(Float.parseFloat(reader.readLine("siege mode reload speed")));
         }
 
         // read unit's fire sources (excluding rotating gun sources)
@@ -165,11 +156,33 @@ public class UnitLoader extends GameObjectLoader {
      * @return new instance of the loaded unit
      */
     @Override
-    public GameObject newInstance() {
+    public Unit newInstance() {
         if (!loaded) {
             throw new IllegalStateException("Unit not loaded");
         }
 
-        return null;
+        Unit unit = rotatingGuns.size() > 0 ? new RotatingGunUnit() : new Unit();
+
+        unit.setDefensiveSpecs(defensiveSpecs);
+        unit.setOffensiveSpecs(offensiveSpecs);
+        unit.setStillTextures(stillTextures);
+        unit.setMovementAnimationIds(movementAnimationIds);
+        unit.setSiegeModeAvailable(siegeModeAvailable);
+        unit.setSiegeModeTransitionAnimationIds(siegeModeTransitionAnimationIds);
+        unit.setFiringTextures(firingTextures);
+
+        // create firing logic of the unit
+        unit.setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
+
+        // create rotating guns
+        if (rotatingGuns.size() > 0) {
+            int name = 1;
+
+            for (Map.Entry<RotatingGun, List<FireSource>> entry : rotatingGuns.entrySet()) {
+                ((RotatingGunUnit) unit).addGun(String.valueOf(name++), CombatUtils.createRotatingGun(entry, firingData, offensiveSpecs));
+            }
+        }
+
+        return unit;
     }
 }
