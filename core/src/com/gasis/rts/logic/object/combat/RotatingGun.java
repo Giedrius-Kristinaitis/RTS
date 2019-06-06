@@ -68,9 +68,9 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     // the strength of the recoil generated when it fires
     protected float recoil;
 
-    // coordinates relative to it's holder's center
-    protected float relativeX;
-    protected float relativeY;
+    // coordinates relative to it's holder's center for every facing direction
+    protected List<Float> relativeX;
+    protected List<Float> relativeY;
 
     // target of the gun
     protected Point target;
@@ -134,36 +134,36 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     }
 
     /**
-     * Gets the relative x coordinate of the gun
+     * Gets the relative x coordinates of the gun
      * @return
      */
-    public float getRelativeX() {
+    public List<Float> getRelativeX() {
         return relativeX;
     }
 
     /**
-     * Gets the relative y coordinate of the gun
+     * Gets the relative y coordinates of the gun
      * @return
      */
-    public float getRelativeY() {
+    public List<Float> getRelativeY() {
         return relativeY;
     }
 
     /**
-     * Sets the relative x coordinate of the gun
+     * Sets the relative x coordinates of the gun
      *
      * @param relativeX new x
      */
-    public void setRelativeX(float relativeX) {
+    public void setRelativeX(List<Float> relativeX) {
         this.relativeX = relativeX;
     }
 
     /**
-     * Sets the relative y coordinate of the gun
+     * Sets the relative y coordinates of the gun
      *
      * @param relativeY new y
      */
-    public void setRelativeY(float relativeY) {
+    public void setRelativeY(List<Float> relativeY) {
         this.relativeY = relativeY;
     }
 

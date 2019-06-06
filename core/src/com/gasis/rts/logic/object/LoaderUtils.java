@@ -177,8 +177,30 @@ public class LoaderUtils {
         rotatingGun.setRecoilResistance(Float.parseFloat(reader.readLine(prefix + " recoil resistance")));
         rotatingGun.setRecoil(Float.parseFloat(reader.readLine(prefix + " recoil")));
         rotatingGun.setRotationSpeed(Float.parseFloat(reader.readLine(prefix + " rotation speed")));
-        rotatingGun.setRelativeX(Float.parseFloat(reader.readLine(prefix + " relative x")));
-        rotatingGun.setRelativeY(Float.parseFloat(reader.readLine(prefix + " relative y")));
+
+        List<Float> relativeX = new ArrayList<Float>();
+        List<Float> relativeY = new ArrayList<Float>();
+
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x north")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x north east")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x east")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x south east")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x south")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x south west")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x west")));
+        relativeX.add(Float.parseFloat(reader.readLine(prefix + " relative x north west")));
+
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y north")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y north east")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y east")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y south east")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y south")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y south west")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y west")));
+        relativeY.add(Float.parseFloat(reader.readLine(prefix + " relative y north west")));
+
+        rotatingGun.setRelativeX(relativeX);
+        rotatingGun.setRelativeY(relativeY);
 
         List<FireSource> fireSources = readFireSources((String[]) reader.readLines(prefix + " fire source").toArray(), reader);
 

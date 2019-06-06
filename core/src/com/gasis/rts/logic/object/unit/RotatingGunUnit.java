@@ -67,8 +67,8 @@ public class RotatingGunUnit extends Unit {
 
         // update the rotating guns
         for (RotatingGun gun: guns.values()) {
-            gun.setRotationPointX(getCenterX() + gun.getRelativeX());
-            gun.setRotationPointY(getCenterY() + gun.getRelativeY());
+            gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
+            gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
             gun.update(delta);
         }
     }
