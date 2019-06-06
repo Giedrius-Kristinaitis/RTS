@@ -46,6 +46,10 @@ public class UnitLoader extends GameObjectLoader {
     // fire sources of the unit (if it has any)
     protected List<FireSource> fireSources;
 
+    // the direction the unit faces when in siege mode (only applied when there is
+    // 1 direction)
+    protected byte siegeModeFacingDirection = Unit.EAST;
+
     /**
      * Reads the combat related data of a unit
      *
@@ -67,6 +71,14 @@ public class UnitLoader extends GameObjectLoader {
         firingData.setReloadSpeed(Float.parseFloat(reader.readLine("reload speed")));
 
         if (siegeModeAvailable) {
+            try {
+                siegeModeFacingDirection = Unit.class.getField(reader.readLine("siege mode facing direction")).getByte(null);
+            } catch (NoSuchFieldException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
+
             defensiveSpecs.setSiegeModeSightRange(Float.parseFloat(reader.readLine("siege mode sight range")));
 
             offensiveSpecs.setSiegeModeAttack(Float.parseFloat(reader.readLine("siege mode attack")));
@@ -170,6 +182,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setSiegeModeAvailable(siegeModeAvailable);
         unit.setSiegeModeTransitionAnimationIds(siegeModeTransitionAnimationIds);
         unit.setFiringTextures(firingTextures);
+        unit.setSiegeModeFacingDirection(siegeModeFacingDirection);
 
         // create firing logic of the unit
         unit.setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
