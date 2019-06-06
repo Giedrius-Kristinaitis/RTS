@@ -140,14 +140,19 @@ public class UnitLoader extends GameObjectLoader {
         // check if siege mode is available
         if (siegeModeAvailable) {
             siegeModeTransitionAnimationIds = new ArrayList<Short>();
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north east")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id east")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south east")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south west")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id west")));
-            siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north west")));
+
+            if (Byte.parseByte(reader.readLine("")) == 1) {
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id")));
+            } else {
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north east")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id east")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south east")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south west")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id west")));
+                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north west")));
+            }
         }
     }
 
