@@ -208,6 +208,23 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     }
 
     /**
+     * Sets the textures of the gun
+     *
+     * @param textures new texture list
+     */
+    public void setTextures(List<String> textures) {
+        this.textures = textures;
+    }
+
+    /**
+     * Gets the textures of the gun
+     * @return
+     */
+    public Iterable<String> getTextures() {
+        return textures;
+    }
+
+    /**
      * Adds a new fire source to the gun
      *
      * @param name name used to identify the source

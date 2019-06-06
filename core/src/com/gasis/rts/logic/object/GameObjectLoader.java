@@ -17,6 +17,10 @@ public abstract class GameObjectLoader {
     // name of the texture atlas that holds the object's textures
     protected String atlas;
 
+    // dimensions of the object
+    protected float width;
+    protected float height;
+
     /**
      * Loads a game object from the given file
      *
@@ -46,6 +50,9 @@ public abstract class GameObjectLoader {
     protected void readMetaData(FileLineReader reader) {
         code = reader.readLine("code");
         atlas = reader.readLine("atlas");
+
+        width = Float.parseFloat(reader.readLine("width"));
+        height = Float.parseFloat(reader.readLine("height"));
     }
 
     /**
