@@ -441,7 +441,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
         updateFacingDirection(delta);
         updateOffset(delta);
 
-        if (firingLogic.update(inSiegeMode, facingDirection, delta, x, y)) {
+        if (firingLogic.update(inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
             applyRecoil(recoil);
         }
     }
