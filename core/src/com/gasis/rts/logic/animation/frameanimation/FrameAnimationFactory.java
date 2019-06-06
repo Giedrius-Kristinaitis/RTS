@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.animation.frameanimation;
 
+import com.badlogic.gdx.Gdx;
 import com.gasis.rts.logic.animation.AnimationFactory;
+import com.gasis.rts.utils.Constants;
 
 /**
  * Creates frame animations
@@ -40,6 +42,7 @@ public class FrameAnimationFactory implements AnimationFactory {
     public static final short ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_WEST = 29;
     public static final short ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH = 30;
     public static final short ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_EAST = 31;
+    public static final short ID_RHINO_SIEGE_MODE_TRANSITION = 32;
     // ***** END OF ANIMATION ID ***** //
 
     // ***** ANIMATION LOADERS ***** //
@@ -75,6 +78,7 @@ public class FrameAnimationFactory implements AnimationFactory {
     private static final FrameAnimationLoader twoTankGunShellFireSouthWest_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader twoTankGunShellFireSouth_loader = new FrameAnimationLoader();
     private static final FrameAnimationLoader twoTankGunShellFireSouthEast_loader = new FrameAnimationLoader();
+    private static final FrameAnimationLoader rhinoSiegeModeTransitionLoader = new FrameAnimationLoader();
     // ***** END OF ANIMATION LOADERS ***** //
 
     // instance of the factory
@@ -128,6 +132,7 @@ public class FrameAnimationFactory implements AnimationFactory {
         //twoTankGunShellFireSouthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_south_west"));
         //twoTankGunShellFireWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_west"));
         //twoTankGunShellFireNorthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_north_west"));
+        //rhinoSiegeModeTransitionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "rhino_siege_mode_transition"));
 
         animationsLoaded = true;
     }
@@ -254,6 +259,9 @@ public class FrameAnimationFactory implements AnimationFactory {
                 break;
             case ID_TWO_TANK_GUN_SHELL_FIRE_NORTH_WEST:
                 animation = twoTankGunShellFireNorthWest_loader.newInstance();
+                break;
+            case ID_RHINO_SIEGE_MODE_TRANSITION:
+                animation = rhinoSiegeModeTransitionLoader.newInstance();
                 break;
             default:
                 throw new IllegalArgumentException("Bad animation id");
