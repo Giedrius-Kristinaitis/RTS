@@ -173,7 +173,8 @@ public class LoaderUtils {
 
         rotatingGun.setAtlas(reader.readLine(prefix + " atlas"));
         rotatingGun.setTextures(gunTextures);
-
+        rotatingGun.setWidth(Float.parseFloat(reader.readLine(prefix + " width")));
+        rotatingGun.setHeight(Float.parseFloat(reader.readLine(prefix + " height")));
         rotatingGun.setRecoilResistance(Float.parseFloat(reader.readLine(prefix + " recoil resistance")));
         rotatingGun.setRecoil(Float.parseFloat(reader.readLine(prefix + " recoil")));
         rotatingGun.setRotationSpeed(Float.parseFloat(reader.readLine(prefix + " rotation speed")));
