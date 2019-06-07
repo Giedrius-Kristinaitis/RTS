@@ -629,6 +629,8 @@ public class FrameAnimation implements Animation {
             firstFrameIndex = 0;
             lastFrameIndex = frameCount - 1;
         }
+
+        currentFrame = lastFrameIndex;
     }
 
     /**
