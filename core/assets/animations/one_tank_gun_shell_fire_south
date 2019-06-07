@@ -1,0 +1,11 @@
+texture atlas: effects.atlas
+width: 0.2
+height: 0.2
+delay: 0
+duration: 1
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: one_tank_gun_fire_south

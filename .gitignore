@@ -6,7 +6,8 @@
 hs_err_pid*
 
 out/
-core/assets
+core/assets/atl
+core/assets/standalone_images
 
 ## Robovm
 /ios/robovm-build/

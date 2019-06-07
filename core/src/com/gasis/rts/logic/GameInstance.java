@@ -153,7 +153,7 @@ public class GameInstance {
             unit3.rotateToDirection(Unit.NORTH);
             unit4.rotateToDirection(Unit.SOUTH_WEST);
             unit5.rotateToDirection(Unit.SOUTH);
-            unit6.rotateToDirection(Unit.SOUTH_EAST);
+            unit6.rotateToDirection(Unit.SOUTH);
             unit7.rotateToDirection(Unit.NORTH_EAST);
         }
 

@@ -1,0 +1,12 @@
+texture atlas: effects.atlas
+width: 2
+height: 2
+delay: 0
+duration: 2
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 2
+frame: explosion_1
+frame: explosion_2
