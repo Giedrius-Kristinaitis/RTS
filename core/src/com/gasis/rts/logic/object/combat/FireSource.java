@@ -234,10 +234,10 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
                 scale = 0.5f;
                 break;
             case MEDIUM:
-                scale = 1f;
+                scale = 0.75f;
                 break;
             case HEAVY:
-                scale = 1.5f;
+                scale = 1f;
                 break;
             default:
                 scale = 1f;

@@ -61,20 +61,20 @@ f gun count: 1
 f flight time: 0.25
 f fire point north x: 0
 f fire point north y: 0.7
-f fire point north east x: 0.7
-f fire point north east y: 0.7
+f fire point north east x: 0.5
+f fire point north east y: 0.35
 f fire point east x: 0.7
 f fire point east y: 0
-f fire point south east x: 0.7
-f fire point south east y: -0.7
+f fire point south east x: 0.5
+f fire point south east y: -0.35
 f fire point south x: 0
 f fire point south y: -0.7
-f fire point south west x: -0.7
-f fire point south west y: -0.7
+f fire point south west x: -0.5
+f fire point south west y: -0.35
 f fire point west x: -0.7
 f fire point west y: 0
-f fire point north west x: -0.7
-f fire point north west y: 0.7
+f fire point north west x: -0.5
+f fire point north west y: 0.35
 still texture north: rhino_north
 still texture north east: rhino_north_east
 still texture east: rhino_east

@@ -51,21 +51,21 @@ f projectile scale: heavy
 f gun count: 1
 f flight time: 0.5
 f fire point north x: 0
-f fire point north y: -0.025
-f fire point north east x: -0.15
+f fire point north y: 0
+f fire point north east x: 0
 f fire point north east y: 0
-f fire point east x: -0.305
-f fire point east y: 0.25
-f fire point south east x: -0.2
-f fire point south east y: 0.285
+f fire point east x: 0
+f fire point east y: 0
+f fire point south east x: 0
+f fire point south east y: 0
 f fire point south x: 0
-f fire point south y: 0.25
-f fire point south west x: 0.175
-f fire point south west y: 0.25
-f fire point west x: 0.295
-f fire point west y: 0.25
-f fire point north west x: 0.075
-f fire point north west y: 0.1
+f fire point south y: 0
+f fire point south west x: 0
+f fire point south west y: 0
+f fire point west x: 0
+f fire point west y: 0
+f fire point north west x: 0
+f fire point north west y: 0
 fire source: f1
 f1 fire type: shell
 f1 projectile scale: heavy

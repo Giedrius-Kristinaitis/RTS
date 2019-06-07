@@ -497,7 +497,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         updateBodyFacingDirection(delta);
         updateTarget();
 
-        if (firingLogic != null && firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
+        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
             // reset the firing texture's usage time
             firingTextureTime = 0;
         }

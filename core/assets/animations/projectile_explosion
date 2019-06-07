@@ -7,6 +7,6 @@ loop: false
 rotation: 0
 rotation speed: 0
 scale: 1
-final scale: 2
+final scale: 1.5
 frame: explosion_1
 frame: explosion_2

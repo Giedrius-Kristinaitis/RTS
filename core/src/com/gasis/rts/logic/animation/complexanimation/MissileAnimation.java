@@ -13,7 +13,7 @@ import com.gasis.rts.resources.Resources;
 public class MissileAnimation extends ProjectileAnimation {
 
     // smoke trails left by the flying missile
-    protected FrameAnimation[] smokeTrails = new FrameAnimation[5];
+    protected FrameAnimation[] smokeTrails = new FrameAnimation[7];
 
     // how often missile trails are spawned in seconds
     protected float trailSpawnInterval;
@@ -149,7 +149,7 @@ public class MissileAnimation extends ProjectileAnimation {
 
         if (timeSinceTrailSpawn >= trailSpawnInterval && spawnTrails) {
             // spawn a new trail (or, more precisely, move one trail to the front)
-            trailToPutInFront = (byte) (trailToPutInFront == 4 ? 0 : trailToPutInFront + 1);
+            trailToPutInFront = (byte) (trailToPutInFront == smokeTrails.length - 1 ? 0 : trailToPutInFront + 1);
 
             FrameAnimation trail = smokeTrails[trailToPutInFront];
 

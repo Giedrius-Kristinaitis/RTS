@@ -158,6 +158,9 @@ public class FrameAnimation implements Animation {
      */
     public void setFrameCount(int frameCount) {
         this.frameCount = frameCount;
+
+        firstFrameIndex = 0;
+        lastFrameIndex = frameCount - 1;
     }
 
     /**
