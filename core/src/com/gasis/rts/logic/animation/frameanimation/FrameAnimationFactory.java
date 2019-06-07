@@ -111,9 +111,9 @@ public class FrameAnimationFactory implements AnimationFactory {
         oneTankGunShellFireSouthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south_east"));
         projectileExplosionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "projectile_explosion"));
         shellLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "shell"));
-        //missileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile"));
-        //missileTrailLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_trail"));
-        //missileLaunchLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_launch"));
+        missileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile"));
+        missileTrailLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_trail"));
+        missileLaunchLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_launch"));
         //bulletLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet"));
         //bulletFireNorthLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_north"));
         //bulletFireNorthEastLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "bullet_fire_north_east"));

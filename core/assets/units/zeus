@@ -1,0 +1,97 @@
+atlas: zeus.atlas
+code: t22-zeus
+width: 1.307
+height: 1
+hp: 50
+defence: 6
+sight range: 6
+attack: 35
+speed: 3
+attack range: 6
+shot count: 1
+shot interval: 2
+reload speed: 2
+movement animations available: false
+firing textures available: false
+siege mode available: false
+rotating gun: g
+g atlas: zeus.atlas
+g width: 0.6
+g height: 0.6
+g texture north: zeus_rocket_launcher_south_north
+g texture north east: zeus_rocket_launcher_north_east_south_west
+g texture east: zeus_rocket_launcher_east_west
+g texture south east: zeus_rocket_launcher_north_west_south_east
+g texture south: zeus_rocket_launcher_south_north
+g texture south west: zeus_rocket_launcher_north_east_south_west
+g texture west: zeus_rocket_launcher_east_west
+g texture north west: zeus_rocket_launcher_north_west_south_east
+g recoil: 0
+g recoil resistance: 1
+g rotation speed: 4
+g relative x north: 0
+g relative y north: 0
+g relative x north east: -0.1
+g relative y north east: 0.075
+g relative x east: -0.1
+g relative y east: 0.125
+g relative x south east: -0.075
+g relative y south east: 0.16
+g relative x south: 0
+g relative y south: 0.22
+g relative x south west: 0.075
+g relative y south west: 0.16
+g relative x west: 0.1
+g relative y west: 0.125
+g relative x north west: 0.075
+g relative y north west: 0.1
+g fire source: f
+f fire type: missile
+f projectile scale: heavy
+f gun count: 1
+f flight time: 0.5
+f fire point north x: 0
+f fire point north y: 0
+f fire point north east x: 0
+f fire point north east y: 0
+f fire point east x: 0
+f fire point east y: 0
+f fire point south east x: 0
+f fire point south east y: 0
+f fire point south x: 0
+f fire point south y: 0
+f fire point south west x: 0
+f fire point south west y: 0
+f fire point west x: 0
+f fire point west y: 0
+f fire point north west x: 0
+f fire point north west y: 0
+fire source: f1
+f1 fire type: shell
+f1 projectile scale: heavy
+f1 gun count: 1
+f1 flight time: 0.25
+f1 fire point north x: 0
+f1 fire point north y: 0
+f1 fire point north east x: 0
+f1 fire point north east y: 0
+f1 fire point east x: 0
+f1 fire point east y: 0
+f1 fire point south east x: 0
+f1 fire point south east y: 0
+f1 fire point south x: 0
+f1 fire point south y: 0
+f1 fire point south west x: 0
+f1 fire point south west y: 0
+f1 fire point west x: 0
+f1 fire point west y: 0
+f1 fire point north west x: 0
+f1 fire point north west y: 0
+still texture north: zeus_north
+still texture north east: zeus_north_east
+still texture east: zeus_east
+still texture south east: zeus_south_east
+still texture south: zeus_south
+still texture south west: zeus_south_west
+still texture west: zeus_west
+still texture north west: zeus_north_west

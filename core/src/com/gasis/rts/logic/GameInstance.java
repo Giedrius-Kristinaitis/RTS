@@ -37,6 +37,15 @@ public class GameInstance {
     private RotatingGunUnit unit7;
     private RotatingGunUnit unit8;
 
+    private Unit zeus1;
+    private Unit zeus2;
+    private Unit zeus3;
+    private Unit zeus4;
+    private Unit zeus5;
+    private Unit zeus6;
+    private Unit zeus7;
+    private Unit zeus8;
+
     /**
      * Default class constructor
      *
@@ -110,6 +119,58 @@ public class GameInstance {
         unit8.setY(5f);
         unit8.rotateToDirection(Unit.NORTH_EAST);
         unit8.aimAt(8.5f, 8.5f);
+
+        UnitLoader zeusLoader = new UnitLoader();
+        zeusLoader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "zeus"));
+
+        zeus1 = zeusLoader.newInstance();
+        zeus2 = zeusLoader.newInstance();
+        zeus3 = zeusLoader.newInstance();
+        zeus4 = zeusLoader.newInstance();
+        zeus5 = zeusLoader.newInstance();
+        zeus6 = zeusLoader.newInstance();
+        zeus7 = zeusLoader.newInstance();
+        zeus8 = zeusLoader.newInstance();
+
+        zeus1.setX(1.75f);
+        zeus1.setY(8.9f);
+        zeus1.rotateToDirection(Unit.EAST);
+        zeus1.aimAt(8, 8);
+
+        zeus2.setX(2.5f);
+        zeus2.setY(6.25f);
+        zeus2.rotateToDirection(Unit.SOUTH_EAST);
+        zeus2.aimAt(8, 8);
+
+        zeus3.setX(4);
+        zeus3.setY(5);
+        zeus3.rotateToDirection(Unit.SOUTH);
+        zeus3.aimAt(8, 8);
+
+        zeus4.setX(8.2f);
+        zeus4.setY(3.5f);
+        zeus4.rotateToDirection(Unit.SOUTH_WEST);
+        zeus4.aimAt(8.5f, 8.5f);
+
+        zeus5.setX(10f);
+        zeus5.setY(9f);
+        zeus5.rotateToDirection(Unit.WEST);
+        zeus5.aimAt(8.5f, 8.5f);
+
+        zeus6.setX(9.65f);
+        zeus6.setY(10.45f);
+        zeus6.rotateToDirection(Unit.NORTH_WEST);
+        zeus6.aimAt(8.5f, 8.5f);
+
+        zeus7.setX(6);
+        zeus7.setY(9);
+        zeus7.rotateToDirection(Unit.NORTH);
+        zeus7.aimAt(8.5f, 8.5f);
+
+        zeus8.setX(6f);
+        zeus8.setY(5f);
+        zeus8.rotateToDirection(Unit.NORTH_EAST);
+        zeus8.aimAt(8.5f, 8.5f);
     }
 
     /**
@@ -129,6 +190,15 @@ public class GameInstance {
         unit6.render(batch, resources);
         unit7.render(batch, resources);
         unit8.render(batch, resources);
+
+        zeus1.render(batch, resources);
+        zeus2.render(batch, resources);
+        zeus3.render(batch, resources);
+        zeus4.render(batch, resources);
+        zeus5.render(batch, resources);
+        zeus6.render(batch, resources);
+        zeus7.render(batch, resources);
+        zeus8.render(batch, resources);
     }
 
     /**
@@ -165,6 +235,15 @@ public class GameInstance {
         unit6.update(delta);
         unit7.update(delta);
         unit8.update(delta);
+
+        zeus1.update(delta);
+        zeus2.update(delta);
+        zeus3.update(delta);
+        zeus4.update(delta);
+        zeus5.update(delta);
+        zeus6.update(delta);
+        zeus7.update(delta);
+        zeus8.update(delta);
     }
 
     /**

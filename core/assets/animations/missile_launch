@@ -1,0 +1,14 @@
+texture atlas: effects.atlas
+width: 0.4
+height: 0.4
+delay: 0
+duration: 2
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: missile_launch_1
+frame: missile_launch_2
+frame: missile_launch_3
+frame: missile_launch_4

@@ -8,6 +8,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.Aimable;
+import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.combat.FireSource;
 import com.gasis.rts.logic.object.combat.FiringLogic;
 import com.gasis.rts.math.MathUtils;
@@ -519,6 +520,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
         if (firingLogic != null && target != null) {
+            rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+
             if (inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
