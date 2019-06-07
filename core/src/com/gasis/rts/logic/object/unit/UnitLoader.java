@@ -15,8 +15,8 @@ import java.util.Map;
 public class UnitLoader extends GameObjectLoader {
 
     // combat data
-    protected DefensiveSpecs defensiveSpecs;
-    protected OffensiveSpecs offensiveSpecs;
+    protected DefensiveSpecs defensiveSpecs = new DefensiveSpecs();
+    protected OffensiveSpecs offensiveSpecs = new OffensiveSpecs();
 
     // textures used when the unit is standing still or doesn't have movement animations
     // texture indexes must match facing direction values defined in Unit class
@@ -141,7 +141,7 @@ public class UnitLoader extends GameObjectLoader {
         if (siegeModeAvailable) {
             siegeModeTransitionAnimationIds = new ArrayList<Short>();
 
-            if (Byte.parseByte(reader.readLine("")) == 1) {
+            if (Byte.parseByte(reader.readLine("siege mode facing directions")) == 1) {
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id")));
             } else {
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north")));
@@ -180,6 +180,9 @@ public class UnitLoader extends GameObjectLoader {
 
         Unit unit = rotatingGuns.size() > 0 ? new RotatingGunUnit() : new Unit();
 
+        unit.setAtlas(atlas);
+        unit.setWidth(width);
+        unit.setHeight(height);
         unit.setDefensiveSpecs(defensiveSpecs);
         unit.setOffensiveSpecs(offensiveSpecs);
         unit.setStillTextures(stillTextures);
@@ -190,7 +193,9 @@ public class UnitLoader extends GameObjectLoader {
         unit.setSiegeModeFacingDirection(siegeModeFacingDirection);
 
         // create firing logic of the unit
-        unit.setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
+        if (fireSources.size() > 0) {
+            unit.setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
+        }
 
         // create rotating guns
         if (rotatingGuns.size() > 0) {

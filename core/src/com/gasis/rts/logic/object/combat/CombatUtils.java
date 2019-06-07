@@ -1,5 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
+import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 
 import java.util.List;
@@ -9,6 +11,49 @@ import java.util.Map;
  * Utility functions for combat related stuff
  */
 public class CombatUtils {
+
+    /**
+     * Gets the facing direction for the unit at (x, y) which is aiming at (x2, y2)
+     *
+     * @param x x of the unit
+     * @param y y of the unit
+     * @param x2 x of the target
+     * @param y2 y of the target
+     * @return facing direction
+     */
+    public static byte getFacingDirection(float x, float y, float x2, float y2) {
+        float xDiff = x - x2;
+        float yDiff = y - y2;
+
+        // if the yDiff is 0, the rotation is either 0 or 180 degrees
+        if (Math.abs(yDiff) < 1.5f) {
+            if (xDiff > 0) {
+                return Unit.WEST;
+            } else {
+                return Unit.EAST;
+            }
+        } else if (Math.abs(xDiff) < 1.5f) {
+            if (yDiff > 0) {
+                return Unit.SOUTH;
+            } else {
+                return Unit.NORTH;
+            }
+        }
+
+        if (yDiff > 0) {
+            if (xDiff < 0) {
+                return Unit.SOUTH_EAST;
+            } else {
+                return Unit.SOUTH_WEST;
+            }
+        } else {
+            if (xDiff < 0) {
+                return Unit.NORTH_EAST;
+            } else {
+                return Unit.NORTH_WEST;
+            }
+        }
+    }
 
     /**
      * Creates firing logic for the given fire sources

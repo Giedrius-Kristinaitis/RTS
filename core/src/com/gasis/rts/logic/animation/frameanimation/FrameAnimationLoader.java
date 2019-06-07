@@ -76,16 +76,16 @@ public class FrameAnimationLoader extends AnimationLoader {
      * @throws Exception
      */
     protected void readData(FileLineReader reader) {
-        atlas = reader.readLine("textureAtlas").trim();
+        atlas = reader.readLine("texture atlas").trim();
         width = Float.parseFloat(reader.readLine("width"));
         height = Float.parseFloat(reader.readLine("height"));
         delay = Float.parseFloat(reader.readLine("delay"));
         duration = Float.parseFloat(reader.readLine("duration"));
         loop = Boolean.parseBoolean(reader.readLine("loop"));
         rotation = Float.parseFloat(reader.readLine("rotation"));
-        rotationSpeed = Float.parseFloat(reader.readLine("rotationSpeed"));
+        rotationSpeed = Float.parseFloat(reader.readLine("rotation speed"));
         scale = Float.parseFloat(reader.readLine("scale"));
-        finalScale = Float.parseFloat(reader.readLine("finalScale"));
+        finalScale = Float.parseFloat(reader.readLine("final scale"));
     }
 
     /**

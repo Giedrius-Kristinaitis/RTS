@@ -24,6 +24,10 @@ public class LoaderUtils {
 
         List<String> sources = reader.readLines("fire source");
 
+        if (sources == null) {
+            return fireSources;
+        }
+
         for (String source: sources) {
             fireSources.add(readFireSource(source, reader));
         }
@@ -141,6 +145,10 @@ public class LoaderUtils {
 
         List<String> guns = reader.readLines("rotating gun");
 
+        if (guns == null) {
+            return rotatingGuns;
+        }
+
         for (String gun: guns) {
             Map.Entry<RotatingGun, List<FireSource>> entry = readRotatingGun(gun, reader);
 
@@ -203,7 +211,9 @@ public class LoaderUtils {
         rotatingGun.setRelativeX(relativeX);
         rotatingGun.setRelativeY(relativeY);
 
-        List<FireSource> fireSources = readFireSources((String[]) reader.readLines(prefix + " fire source").toArray(), reader);
+        Object[] lines = reader.readLines(prefix + " fire source").toArray();
+
+        List<FireSource> fireSources = readFireSources(Arrays.copyOf(lines, lines.length, String[].class), reader);
 
         AbstractMap.SimpleEntry<RotatingGun, List<FireSource>> entry = new AbstractMap.SimpleEntry<RotatingGun, List<FireSource>>(rotatingGun, fireSources);
 

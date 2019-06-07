@@ -46,6 +46,9 @@ public class FiringLogic implements Renderable {
     // how much time has elapsed since the last reload (in seconds)
     private float timeSinceLastReload;
 
+    // is it the first time enqueueing shots
+    private boolean initialEnqueue = true;
+
     /**
      * Gets the normal shot count
      * @return
@@ -166,6 +169,12 @@ public class FiringLogic implements Renderable {
     public void enqueueShots(boolean siegeMode) {
         if (enqueuedShots == 0) {
             enqueuedShots = siegeMode ? siegeModeShotCount : shotCount;
+
+            if (initialEnqueue) {
+                timeSinceLastReload = siegeMode ? siegeModeReloadSpeed : reloadSpeed;
+                timeSinceLastShot = siegeMode ? siegeModeShotInterval : shotInterval;
+                initialEnqueue = false;
+            }
         }
     }
 

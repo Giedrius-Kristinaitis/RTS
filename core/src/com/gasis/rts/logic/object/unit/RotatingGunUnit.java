@@ -70,6 +70,25 @@ public class RotatingGunUnit extends Unit {
             gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
             gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
             gun.update(delta);
+
+            if (!gun.hasTarget()) {
+                gun.rotateToDirection(facingDirection);
+            }
+        }
+    }
+
+    /**
+     * Aims at the specified target coordinates
+     *
+     * @param targetX x of the target
+     * @param targetY y of the target
+     */
+    @Override
+    public void aimAt(float targetX, float targetY) {
+        super.aimAt(targetX, targetY);
+
+        for (RotatingGun gun: guns.values()) {
+            gun.aimAt(targetX, targetY);
         }
     }
 

@@ -51,7 +51,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     protected byte facingDirection = EAST;
 
     // the direction the gun is currently rotating to
-    protected byte rotatingToDirection;
+    protected byte rotatingToDirection = NONE;
 
     // how much time has elapsed since the last rotation
     protected float timeSinceLastRotation;
@@ -427,8 +427,10 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      */
     @Override
     public void rotateToDirection(byte direction) {
-        this.rotatingToDirection = direction;
-        timeSinceLastRotation = 0;
+        if (rotatingToDirection != direction && facingDirection != direction) {
+            rotatingToDirection = direction;
+            timeSinceLastRotation = 0;
+        }
     }
 
     /**
@@ -440,8 +442,9 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     public void update(float delta) {
         updateFacingDirection(delta);
         updateOffset(delta);
+        updateTarget();
 
-        if (firingLogic.update(inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
+        if (firingLogic != null && firingLogic.update(inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
             applyRecoil(recoil);
         }
     }
@@ -452,6 +455,8 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
         if (target != null) {
+            rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+
             if (inSiegeMode && MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
@@ -472,12 +477,20 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
         yOffset += yOffsetSpeed * delta;
 
         // apply recoil resistance
-        xOffsetSpeed *= (1 - recoilResistance * delta);
-        yOffsetSpeed *= (1 - recoilResistance * delta);
+        xOffsetSpeed *= (1 - recoilResistance * delta * 10);
+        yOffsetSpeed *= (1 - recoilResistance * delta * 10);
 
         // make the offset approach 0
-        xOffset *= (1 - recoilResistance * delta);
-        yOffset *= (1 - recoilResistance * delta);
+        xOffset *= (1 - recoilResistance * delta * 10);
+        yOffset *= (1 - recoilResistance * delta * 10);
+    }
+
+    /**
+     * Checks if the gun is currently rotating
+     * @return
+     */
+    public boolean isRotating() {
+        return rotatingToDirection != NONE;
     }
 
     /**
@@ -534,6 +547,8 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
                 height
         );
 
-        firingLogic.render(batch, resources);
+        if (firingLogic != null) {
+            firingLogic.render(batch, resources);
+        }
     }
 }

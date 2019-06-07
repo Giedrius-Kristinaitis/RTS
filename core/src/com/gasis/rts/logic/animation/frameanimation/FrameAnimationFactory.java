@@ -101,16 +101,16 @@ public class FrameAnimationFactory implements AnimationFactory {
         }
 
         //whiteSmokeBallLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "white_smoke_ball"));
-        //oneTankGunShellFireEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_east"));
-        //oneTankGunShellFireNorthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north_east"));
-        //oneTankGunShellFireNorth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north"));
-        //oneTankGunShellFireNorthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north_west"));
-        //oneTankGunShellFireWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_west"));
-        //oneTankGunShellFireSouthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south_west"));
-        //oneTankGunShellFireSouth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south"));
-        //oneTankGunShellFireSouthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south_east"));
-        //projectileExplosionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "projectile_explosion"));
-        //shellLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "shell"));
+        oneTankGunShellFireEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_east"));
+        oneTankGunShellFireNorthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north_east"));
+        oneTankGunShellFireNorth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north"));
+        oneTankGunShellFireNorthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north_west"));
+        oneTankGunShellFireWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_west"));
+        oneTankGunShellFireSouthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south_west"));
+        oneTankGunShellFireSouth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south"));
+        oneTankGunShellFireSouthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_south_east"));
+        projectileExplosionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "projectile_explosion"));
+        shellLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "shell"));
         //missileLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile"));
         //missileTrailLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_trail"));
         //missileLaunchLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "missile_launch"));
@@ -132,7 +132,7 @@ public class FrameAnimationFactory implements AnimationFactory {
         //twoTankGunShellFireSouthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_south_west"));
         //twoTankGunShellFireWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_west"));
         //twoTankGunShellFireNorthWest_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "two_tank_gun_shell_fire_north_west"));
-        //rhinoSiegeModeTransitionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "rhino_siege_mode_transition"));
+        rhinoSiegeModeTransitionLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "rhino_siege_mode_transition"));
 
         animationsLoaded = true;
     }

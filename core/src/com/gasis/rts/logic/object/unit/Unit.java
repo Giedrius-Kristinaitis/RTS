@@ -276,11 +276,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void rotateToDirection(byte facingDirection) {
-        if (this.facingDirection != facingDirection) {
+        if (rotatingToDirection != facingDirection && this.facingDirection != facingDirection) {
             rotatingToDirection = facingDirection;
             timeSinceLastRotation = 0;
-        } else {
-            rotatingToDirection = NONE;
         }
     }
 
@@ -456,7 +454,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         updateBodyFacingDirection(delta);
         updateTarget();
 
-        if (firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
+        if (firingLogic != null && firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
             // reset the firing texture's usage time
             firingTextureTime = 0;
         }
@@ -478,7 +476,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
-        if (target != null) {
+        if (firingLogic != null && target != null) {
             if (inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
@@ -571,6 +569,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 height
         );
 
-        firingLogic.render(batch, resources);
+        if (firingLogic != null) {
+            firingLogic.render(batch, resources);
+        }
     }
 }
