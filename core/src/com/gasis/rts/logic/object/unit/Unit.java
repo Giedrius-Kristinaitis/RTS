@@ -298,8 +298,13 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Toggles siege mode
      */
     protected void toggleSiegeMode() {
-        this.inSiegeMode = siegeModeToggleValue;
-        createSiegeModeTransitionAnimation(!siegeModeToggleValue);
+        inSiegeMode = siegeModeToggleValue;
+
+        if (inSiegeMode) {
+            facingDirection = siegeModeTextures.size() != 8 ? siegeModeFacingDirection : facingDirection;
+        }
+
+        createSiegeModeTransitionAnimation(!inSiegeMode);
     }
 
     /**

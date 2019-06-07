@@ -147,6 +147,14 @@ public class GameInstance {
             unit6.setInSiegeMode(!unit6.isInSiegeMode());
             unit7.setInSiegeMode(!unit7.isInSiegeMode());
             unit8.setInSiegeMode(!unit8.isInSiegeMode());
+
+            unit1.rotateToDirection(Unit.WEST);
+            unit2.rotateToDirection(Unit.NORTH_WEST);
+            unit3.rotateToDirection(Unit.NORTH);
+            unit4.rotateToDirection(Unit.SOUTH_WEST);
+            unit5.rotateToDirection(Unit.SOUTH);
+            unit6.rotateToDirection(Unit.SOUTH_EAST);
+            unit7.rotateToDirection(Unit.NORTH_EAST);
         }
 
         unit1.update(delta);
