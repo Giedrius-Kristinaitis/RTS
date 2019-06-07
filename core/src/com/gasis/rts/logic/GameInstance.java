@@ -152,7 +152,7 @@ public class GameInstance {
         zeus4.rotateToDirection(Unit.SOUTH_WEST);
         zeus4.aimAt(8.5f, 8.5f);
 
-        zeus5.setX(10f);
+        zeus5.setX(11f);
         zeus5.setY(9f);
         zeus5.rotateToDirection(Unit.WEST);
         zeus5.aimAt(8.5f, 8.5f);
@@ -163,7 +163,7 @@ public class GameInstance {
         zeus6.aimAt(8.5f, 8.5f);
 
         zeus7.setX(6);
-        zeus7.setY(9);
+        zeus7.setY(11);
         zeus7.rotateToDirection(Unit.NORTH);
         zeus7.aimAt(8.5f, 8.5f);
 

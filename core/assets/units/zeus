@@ -30,19 +30,19 @@ g recoil: 0
 g recoil resistance: 1
 g rotation speed: 4
 g relative x north: 0
-g relative y north: 0
-g relative x north east: -0.1
-g relative y north east: 0.075
-g relative x east: -0.1
-g relative y east: 0.125
-g relative x south east: -0.075
-g relative y south east: 0.16
+g relative y north: -0.025
+g relative x north east: -0.15
+g relative y north east: 0
+g relative x east: -0.305
+g relative y east: 0.25
+g relative x south east: -0.2
+g relative y south east: 0.285
 g relative x south: 0
-g relative y south: 0.22
-g relative x south west: 0.075
-g relative y south west: 0.16
-g relative x west: 0.1
-g relative y west: 0.125
+g relative y south: 0.25
+g relative x south west: 0.175
+g relative y south west: 0.25
+g relative x west: 0.295
+g relative y west: 0.25
 g relative x north west: 0.075
 g relative y north west: 0.1
 g fire source: f
@@ -51,42 +51,42 @@ f projectile scale: heavy
 f gun count: 1
 f flight time: 0.5
 f fire point north x: 0
-f fire point north y: 0
-f fire point north east x: 0
+f fire point north y: -0.025
+f fire point north east x: -0.15
 f fire point north east y: 0
-f fire point east x: 0
-f fire point east y: 0
-f fire point south east x: 0
-f fire point south east y: 0
+f fire point east x: -0.305
+f fire point east y: 0.25
+f fire point south east x: -0.2
+f fire point south east y: 0.285
 f fire point south x: 0
-f fire point south y: 0
-f fire point south west x: 0
-f fire point south west y: 0
-f fire point west x: 0
-f fire point west y: 0
-f fire point north west x: 0
-f fire point north west y: 0
+f fire point south y: 0.25
+f fire point south west x: 0.175
+f fire point south west y: 0.25
+f fire point west x: 0.295
+f fire point west y: 0.25
+f fire point north west x: 0.075
+f fire point north west y: 0.1
 fire source: f1
 f1 fire type: shell
 f1 projectile scale: heavy
 f1 gun count: 1
 f1 flight time: 0.25
 f1 fire point north x: 0
-f1 fire point north y: 0
-f1 fire point north east x: 0
-f1 fire point north east y: 0
-f1 fire point east x: 0
-f1 fire point east y: 0
-f1 fire point south east x: 0
-f1 fire point south east y: 0
+f1 fire point north y: 0.5
+f1 fire point north east x: 0.5
+f1 fire point north east y: 0.5
+f1 fire point east x: 0.5
+f1 fire point east y: 0.15
+f1 fire point south east x: 0.5
+f1 fire point south east y: -0.25
 f1 fire point south x: 0
-f1 fire point south y: 0
-f1 fire point south west x: 0
-f1 fire point south west y: 0
-f1 fire point west x: 0
-f1 fire point west y: 0
-f1 fire point north west x: 0
-f1 fire point north west y: 0
+f1 fire point south y: -0.5
+f1 fire point south west x: -0.5
+f1 fire point south west y: -0.25
+f1 fire point west x: -0.5
+f1 fire point west y: 0.15
+f1 fire point north west x: -0.5
+f1 fire point north west y: 0.5
 still texture north: zeus_north
 still texture north east: zeus_north_east
 still texture east: zeus_east

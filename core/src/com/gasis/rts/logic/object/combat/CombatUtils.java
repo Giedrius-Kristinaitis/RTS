@@ -24,15 +24,15 @@ public class CombatUtils {
     public static byte getFacingDirection(float x, float y, float x2, float y2) {
         float xDiff = x - x2;
         float yDiff = y - y2;
+        float distance = MathUtils.distance(x, x2, y, y2);
 
-        // if the yDiff is 0, the rotation is either 0 or 180 degrees
-        if (Math.abs(yDiff) < 1.5f) {
+        if (Math.abs(yDiff) < distance / 3f) {
             if (xDiff > 0) {
                 return Unit.WEST;
             } else {
                 return Unit.EAST;
             }
-        } else if (Math.abs(xDiff) < 1.5f) {
+        } else if (Math.abs(xDiff) < distance / 3f) {
             if (yDiff > 0) {
                 return Unit.SOUTH;
             } else {
