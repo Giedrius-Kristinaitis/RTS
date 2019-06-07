@@ -34,6 +34,10 @@ public class UnitLoader extends GameObjectLoader {
     // texture indexes must match facing direction values defined in Unit class
     protected List<String> firingTextures;
 
+    // textures used when in siege mode
+    // texture indexes must match facing direction values defined in Unit class
+    protected List<String> siegeModeTextures;
+
     // is siege mode available for the unit
     protected boolean siegeModeAvailable;
 
@@ -140,9 +144,11 @@ public class UnitLoader extends GameObjectLoader {
         // check if siege mode is available
         if (siegeModeAvailable) {
             siegeModeTransitionAnimationIds = new ArrayList<Short>();
+            siegeModeTextures = new ArrayList<String>();
 
             if (Byte.parseByte(reader.readLine("siege mode facing directions")) == 1) {
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id")));
+                siegeModeTextures.add(reader.readLine("siege mode texture"));
             } else {
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north")));
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north east")));
@@ -152,6 +158,15 @@ public class UnitLoader extends GameObjectLoader {
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south west")));
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id west")));
                 siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north west")));
+
+                siegeModeTextures.add(reader.readLine("siege mode texture north"));
+                siegeModeTextures.add(reader.readLine("siege mode texture north east"));
+                siegeModeTextures.add(reader.readLine("siege mode texture east"));
+                siegeModeTextures.add(reader.readLine("siege mode texture south east"));
+                siegeModeTextures.add(reader.readLine("siege mode texture south"));
+                siegeModeTextures.add(reader.readLine("siege mode texture south west"));
+                siegeModeTextures.add(reader.readLine("siege mode texture west"));
+                siegeModeTextures.add(reader.readLine("siege mode texture north west"));
             }
         }
     }
@@ -186,6 +201,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setDefensiveSpecs(defensiveSpecs);
         unit.setOffensiveSpecs(offensiveSpecs);
         unit.setStillTextures(stillTextures);
+        unit.setSiegeModeTextures(siegeModeTextures);
         unit.setMovementAnimationIds(movementAnimationIds);
         unit.setSiegeModeAvailable(siegeModeAvailable);
         unit.setSiegeModeTransitionAnimationIds(siegeModeTransitionAnimationIds);

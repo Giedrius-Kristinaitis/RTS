@@ -82,10 +82,18 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // facing direction
     protected boolean enterSiegeModeWhenFinishedRotating = false;
 
+    // will the unit be in siege mode after toggling or not
+    protected boolean siegeModeToggleValue;
+
     // textures used when the unit fires
     // indexes of the textures must match the values of facing directions
     // defined above
     protected List<String> firingTextures;
+
+    // textures used when the unit is in siege mode
+    // indexes of the textures must match the values of facing directions
+    // defined above
+    protected List<String> siegeModeTextures;
 
     // does the unit use the firing texture for it's facing direction
     // when reloading
@@ -122,6 +130,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public boolean hasTarget() {
         return target != null;
+    }
+
+    /**
+     * Sets the textures used by the unit when it's in siege mode
+     *
+     * @param siegeModeTextures names of siege mode textures
+     */
+    public void setSiegeModeTextures(List<String> siegeModeTextures) {
+        this.siegeModeTextures = siegeModeTextures;
+    }
+
+    /**
+     * Gets the siege mode textures the unit is using
+     * @return
+     */
+    public Iterable<String> getSiegeModeTextures() {
+        return siegeModeTextures;
     }
 
     /**
@@ -252,21 +277,29 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             // enter or leave siege mode
             if (siegeModeTransitionAnimationIds.size() != 8) {
                 if (facingDirection == siegeModeFacingDirection) {
-                    createSiegeModeTransitionAnimation(!inSiegeMode);
+                    siegeModeToggleValue = inSiegeMode;
+                    toggleSiegeMode();
                 } else {
                     rotateToDirection(siegeModeFacingDirection);
                     enterSiegeModeWhenFinishedRotating = true;
+                    siegeModeToggleValue = inSiegeMode;
                 }
             } else {
-                createSiegeModeTransitionAnimation(!inSiegeMode);
+                toggleSiegeMode();
             }
 
-            if (firingLogic.hasEnqueuedShots()) {
+            if (firingLogic != null && firingLogic.hasEnqueuedShots()) {
                 firingLogic.removeEnqueuedShots();
             }
-
-            this.inSiegeMode = inSiegeMode;
         }
+    }
+
+    /**
+     * Toggles siege mode
+     */
+    protected void toggleSiegeMode() {
+        this.inSiegeMode = siegeModeToggleValue;
+        createSiegeModeTransitionAnimation(!siegeModeToggleValue);
     }
 
     /**
@@ -276,6 +309,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void rotateToDirection(byte facingDirection) {
+        if (inSiegeMode && siegeModeTextures.size() == 1) {
+            return;
+        }
+
         if (rotatingToDirection != facingDirection && this.facingDirection != facingDirection) {
             rotatingToDirection = facingDirection;
             timeSinceLastRotation = 0;
@@ -495,7 +532,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
-        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / offensiveSpecs.getSpeed()) {
+        if (rotatingToDirection != NONE && timeSinceLastRotation >= 2f / offensiveSpecs.getSpeed()) {
             byte directionDiff = (byte) Math.abs(facingDirection - rotatingToDirection);
 
             byte directionIncrement = (byte) (facingDirection - rotatingToDirection < 0 ? 1 : -1);
@@ -519,7 +556,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
                 // enter siege mode if required
                 if (enterSiegeModeWhenFinishedRotating) {
-                    createSiegeModeTransitionAnimation(!inSiegeMode);
+                    toggleSiegeMode();
                     enterSiegeModeWhenFinishedRotating = false;
                 }
             }
@@ -561,13 +598,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         // render the still unit
-        batch.draw(
-                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(facingDirection)),
-                x,
-                y,
-                width,
-                height
-        );
+        if (!inSiegeMode || rotatingToDirection != NONE) {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(facingDirection)),
+                    x,
+                    y,
+                    width,
+                    height
+            );
+        } else {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(siegeModeTextures.size() != 8 ? siegeModeTextures.get(0) : siegeModeTextures.get(facingDirection)),
+                    x,
+                    y,
+                    width,
+                    height
+            );
+        }
 
         if (firingLogic != null) {
             firingLogic.render(batch, resources);

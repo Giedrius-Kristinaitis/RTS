@@ -43,15 +43,13 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
-     * Toggles unit's siege mode
-     *
-     * @param inSiegeMode is the unit in siege mode now
+     * Toggles siege mode
      */
     @Override
-    public void setInSiegeMode(boolean inSiegeMode) {
-        super.setInSiegeMode(inSiegeMode);
+    protected void toggleSiegeMode() {
+        super.toggleSiegeMode();
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.setInSiegeMode(inSiegeMode);
         }
     }
