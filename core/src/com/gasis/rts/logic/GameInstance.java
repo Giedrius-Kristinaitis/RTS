@@ -255,25 +255,6 @@ public class GameInstance {
      * @param delta time elapsed since last update
      */
     public void update(OrthographicCamera cam, float delta) {
-        if (Gdx.input.isTouched()) {
-            unit1.setInSiegeMode(!unit1.isInSiegeMode());
-            unit2.setInSiegeMode(!unit2.isInSiegeMode());
-            unit3.setInSiegeMode(!unit3.isInSiegeMode());
-            unit4.setInSiegeMode(!unit4.isInSiegeMode());
-            unit5.setInSiegeMode(!unit5.isInSiegeMode());
-            unit6.setInSiegeMode(!unit6.isInSiegeMode());
-            unit7.setInSiegeMode(!unit7.isInSiegeMode());
-            unit8.setInSiegeMode(!unit8.isInSiegeMode());
-
-            unit1.rotateToDirection(Unit.WEST);
-            unit2.rotateToDirection(Unit.NORTH_WEST);
-            unit3.rotateToDirection(Unit.NORTH);
-            unit4.rotateToDirection(Unit.SOUTH_WEST);
-            unit5.rotateToDirection(Unit.SOUTH);
-            unit6.rotateToDirection(Unit.SOUTH);
-            unit7.rotateToDirection(Unit.NORTH_EAST);
-        }
-
         unit1.update(delta);
         unit2.update(delta);
         unit3.update(delta);
@@ -298,6 +279,25 @@ public class GameInstance {
         launcher2.update(delta);
         launcher3.update(delta);
         launcher4.update(delta);
+
+        if (Gdx.input.isTouched()) {
+            unit1.setInSiegeMode(!unit1.isInSiegeMode());
+            unit2.setInSiegeMode(!unit2.isInSiegeMode());
+            unit3.setInSiegeMode(!unit3.isInSiegeMode());
+            unit4.setInSiegeMode(!unit4.isInSiegeMode());
+            unit5.setInSiegeMode(!unit5.isInSiegeMode());
+            unit6.setInSiegeMode(!unit6.isInSiegeMode());
+            unit7.setInSiegeMode(!unit7.isInSiegeMode());
+            unit8.setInSiegeMode(!unit8.isInSiegeMode());
+
+            unit1.rotateToDirection(Unit.WEST);
+            unit2.rotateToDirection(Unit.NORTH_WEST);
+            unit3.rotateToDirection(Unit.NORTH);
+            unit4.rotateToDirection(Unit.SOUTH_WEST);
+            unit5.rotateToDirection(Unit.SOUTH);
+            unit6.rotateToDirection(Unit.SOUTH);
+            unit7.rotateToDirection(Unit.NORTH_EAST);
+        }
     }
 
     /**

@@ -278,12 +278,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             // enter or leave siege mode
             if (siegeModeTransitionAnimationIds.size() != 8) {
                 if (facingDirection == siegeModeFacingDirection) {
+                    rotatingToDirection = NONE;
+                    enterSiegeModeWhenFinishedRotating = false;
                     siegeModeToggleValue = inSiegeMode;
                     toggleSiegeMode();
-                } else {
+                } else if (inSiegeMode) {
                     rotateToDirection(siegeModeFacingDirection);
                     enterSiegeModeWhenFinishedRotating = true;
-                    siegeModeToggleValue = inSiegeMode;
+                    siegeModeToggleValue = true;
                 }
             } else {
                 toggleSiegeMode();
@@ -299,6 +301,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Toggles siege mode
      */
     protected void toggleSiegeMode() {
+        if (inSiegeMode == siegeModeToggleValue) {
+            return;
+        }
+
         inSiegeMode = siegeModeToggleValue;
 
         if (inSiegeMode) {
@@ -315,7 +321,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void rotateToDirection(byte facingDirection) {
-        if (inSiegeMode && siegeModeTextures.size() == 1) {
+        if ((rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating) || inSiegeMode && siegeModeTextures.size() == 1) {
             return;
         }
 
@@ -331,7 +337,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param reverse is the siege mode transition animation reversed or not
      */
     protected void createSiegeModeTransitionAnimation(boolean reverse) {
-        if (!siegeModeAvailable) {
+        if (!siegeModeAvailable || siegeModeTransitionAnimation != null) {
             return;
         }
 
@@ -564,8 +570,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
                 // enter siege mode if required
                 if (enterSiegeModeWhenFinishedRotating) {
-                    toggleSiegeMode();
                     enterSiegeModeWhenFinishedRotating = false;
+                    toggleSiegeMode();
                 }
             }
         } else {
