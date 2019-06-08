@@ -488,6 +488,11 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void update(float delta) {
+        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(siegeModeTransitionAnimation != null, inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
+            // reset the firing texture's usage time
+            firingTextureTime = 0;
+        }
+
         // if there is an instance of the siege mode transition animation update it and do nothing else
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.update(delta);
@@ -496,11 +501,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
         updateBodyFacingDirection(delta);
         updateTarget();
-
-        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
-            // reset the firing texture's usage time
-            firingTextureTime = 0;
-        }
 
         // update fire texture's time
         firingTextureTime += delta;
@@ -584,6 +584,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         // render the siege mode transition animation if present
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.render(batch, resources);
+        }
+
+        // firing logic should be rendered after siege mode transition animation
+        // so that the firing animations appear on top of the unit
+        if (firingLogic != null) {
+            firingLogic.render(batch, resources);
+        }
+
+        // stop rendering if switching between siege mode
+        if (siegeModeTransitionAnimation != null) {
             return;
         }
 
@@ -622,10 +632,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     width,
                     height
             );
-        }
-
-        if (firingLogic != null) {
-            firingLogic.render(batch, resources);
         }
     }
 }

@@ -443,8 +443,18 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
         updateFacingDirection(delta);
         updateOffset(delta);
         updateTarget();
+    }
 
-        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
+    /**
+     * Updates the state of the gun
+     *
+     * @param togglingSiegeMode is the holder switching between siege mode right now
+     * @param delta time elapsed since the last update
+     */
+    public void update(boolean togglingSiegeMode, float delta) {
+        update(delta);
+
+        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(togglingSiegeMode, inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
             applyRecoil(recoil);
         }
     }

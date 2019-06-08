@@ -162,7 +162,7 @@ public class OffensiveBuilding extends Building implements Aimable {
         super.update(delta);
 
         if (firingLogic != null) {
-            firingLogic.update(false, CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y),
+            firingLogic.update(false, false, CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y),
                     delta, getCenterX(), getCenterY());
         }
 

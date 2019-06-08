@@ -58,7 +58,7 @@ g fire source: f
 f fire type: shell
 f projectile scale: heavy
 f gun count: 1
-f flight time: 0.25
+f flight time: 0.2
 f fire point north x: 0
 f fire point north y: 0.7
 f fire point north east x: 0.5

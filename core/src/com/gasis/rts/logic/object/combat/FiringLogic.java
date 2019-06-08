@@ -196,6 +196,7 @@ public class FiringLogic implements Renderable {
     /**
      * Updates the state of the object
      *
+     * @param togglingSiegeMode is the firing thing switching between siege mode right now
      * @param siegeMode is the firing thing in siege mode
      * @param facingDirection the direction the firing thing is facing
      * @param delta time elapsed since the last update
@@ -204,12 +205,12 @@ public class FiringLogic implements Renderable {
      *
      * @return true if a shot was fired
      */
-    public boolean update(boolean siegeMode, byte facingDirection, float delta, float x, float y) {
+    public boolean update(boolean togglingSiegeMode, boolean siegeMode, byte facingDirection, float delta, float x, float y) {
         for (FireSource source: fireSources.values()) {
             source.update(delta);
         }
 
-        if (target == null) {
+        if (target == null || togglingSiegeMode) {
             return false;
         }
 
