@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.object.building;
 
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
@@ -120,6 +122,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setDefensiveSpecs(defensiveSpecs);
         building.setHp(defensiveSpecs.getMaxHp());
 
+        // add firing things to the building if it has any
         if (building instanceof OffensiveBuilding) {
             if (fireSources.size() > 0) {
                 ((OffensiveBuilding) building).setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
@@ -131,6 +134,18 @@ public class BuildingLoader extends GameObjectLoader {
                 for (Map.Entry<RotatingGun, List<FireSource>> entry : rotatingGuns.entrySet()) {
                     ((OffensiveBuilding) building).addGun(String.valueOf(name++), CombatUtils.createRotatingGun(entry, firingData, offensiveSpecs));
                 }
+            }
+        }
+
+        // add animations to the building
+        if (animationIds != null) {
+            for (Map.Entry<Short, Point> animation: animationIds.entrySet()) {
+                FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(animation.getKey());
+
+                frameAnimation.setCenterX(animation.getValue().x);
+                frameAnimation.setCenterY(animation.getValue().y);
+
+                building.addAnimation(frameAnimation);
             }
         }
 
