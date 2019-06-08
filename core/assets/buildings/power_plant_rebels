@@ -4,22 +4,22 @@ texture: plant
 width: 3.9
 height: 3
 hp: 100
-defense: 5
+defence: 5
 sight range: 5
 offensive: false
-animation: smoke1
-smoke1 animation id: 0
+complex animation: smoke1
+smoke1 animation name: rising smoke
 smoke1 relative x: 0
 smoke1 relative y: 1
-animation: smoke2
-smoke2 animation id: 0
+complex animation: smoke2
+smoke2 animation name: rising smoke
 smoke2 relative x: -0.25
 smoke2 relative y: 1.25
-animation: smoke3
-smoke3 animation id: 0
+complex animation: smoke3
+smoke3 animation name: rising smoke
 smoke3 relative x: 0.25
 smoke3 relative y: 1.25
-animation: smoke4
-smoke4 animation id: 0
+complex animation: smoke4
+smoke4 animation name: rising smoke
 smoke4 relative x: 0.2
 smoke4 relative y: 1.5

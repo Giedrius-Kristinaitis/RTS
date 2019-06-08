@@ -44,6 +44,7 @@ public class Main extends Game implements ScreenSwitcher {
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "unit.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "effects.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "zeus.atlas", TextureAtlas.class);
+		assetsToLoad.put(Constants.FOLDER_ATLASES + "building.atlas", TextureAtlas.class);
 
 		// change the current screen to loading screen
 		showScreen(new LoadingScreen(

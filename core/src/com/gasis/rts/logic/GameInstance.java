@@ -8,6 +8,8 @@ import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
 import com.gasis.rts.logic.map.blockmap.BlockMapRenderer;
+import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
@@ -45,6 +47,8 @@ public class GameInstance {
     private Unit zeus6;
     private Unit zeus7;
     private Unit zeus8;
+
+    private Building plant;
 
     /**
      * Default class constructor
@@ -171,6 +175,14 @@ public class GameInstance {
         zeus8.setY(5f);
         zeus8.rotateToDirection(Unit.NORTH_EAST);
         zeus8.aimAt(8.5f, 8.5f);
+
+        BuildingLoader buildingLoader = new BuildingLoader();
+        buildingLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "power_plant_rebels"));
+
+        plant = buildingLoader.newInstance();
+        plant.setX(0);
+        plant.setY(0);
+        plant.initializeAnimations();
     }
 
     /**
@@ -199,6 +211,8 @@ public class GameInstance {
         zeus6.render(batch, resources);
         zeus7.render(batch, resources);
         zeus8.render(batch, resources);
+
+        plant.render(batch, resources);
     }
 
     /**
@@ -244,6 +258,8 @@ public class GameInstance {
         zeus6.update(delta);
         zeus7.update(delta);
         zeus8.update(delta);
+
+        plant.update(delta);
     }
 
     /**

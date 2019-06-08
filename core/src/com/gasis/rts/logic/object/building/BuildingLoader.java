@@ -3,11 +3,9 @@ package com.gasis.rts.logic.object.building;
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
-import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
 import com.gasis.rts.logic.object.combat.*;
-import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.math.Point;
 
 import java.util.HashMap;
@@ -35,9 +33,13 @@ public class BuildingLoader extends GameObjectLoader {
     // texture of the building
     protected String texture;
 
-    // the ids of the animations and their center coordinates relative to
+    // the ids of the frame animations and their center coordinates relative to
     // the building's center
-    protected Map<Short, Point> animationIds;
+    protected Map<Point, Short> frameAnimations;
+
+    // names of the complex animations ant their center coordinates relative
+    // to the building's center
+    protected Map<Point, String> complexAnimations;
 
     // is the building offensive or not
     protected boolean offensive;
@@ -81,18 +83,33 @@ public class BuildingLoader extends GameObjectLoader {
     protected void readTexturesAndAnimations(FileLineReader reader) {
         texture = reader.readLine("texture");
 
-        // read animations
+        // read frame animations
         List<String> animations = reader.readLines("animation");
 
         if (animations != null) {
-            animationIds = new HashMap<Short, Point>();
+            frameAnimations = new HashMap<Point, Short>();
 
             for (String animation : animations) {
                 short id = Short.parseShort(reader.readLine(animation + " animation id"));
                 float x = Float.parseFloat(reader.readLine(animation + " relative x"));
                 float y = Float.parseFloat(reader.readLine(animation + " relative y"));
 
-                animationIds.put(id, new Point(x, y));
+                frameAnimations.put(new Point(x, y), id);
+            }
+        }
+
+        // read complex animations
+        animations = reader.readLines("complex animation");
+
+        if (animations != null) {
+            complexAnimations = new HashMap<Point, String>();
+
+            for (String animation : animations) {
+                String name = reader.readLine(animation + " animation name");
+                float x = Float.parseFloat(reader.readLine(animation + " relative x"));
+                float y = Float.parseFloat(reader.readLine(animation + " relative y"));
+
+                complexAnimations.put(new Point(x, y), name);
             }
         }
     }
@@ -114,12 +131,12 @@ public class BuildingLoader extends GameObjectLoader {
      * @return new instance of the loaded object
      */
     @Override
-    public GameObject newInstance() {
+    public Building newInstance() {
         if (!loaded) {
             throw new IllegalStateException("Building not loaded");
         }
 
-        Building building = fireSources.size() == 0 && rotatingGuns.size() == 0 ? new Building() : new OffensiveBuilding();
+        Building building = !offensive ? new Building() : new OffensiveBuilding();
 
         building.setAtlas(atlas);
         building.setWidth(width);
@@ -147,15 +164,12 @@ public class BuildingLoader extends GameObjectLoader {
         }
 
         // add animations to the building
-        if (animationIds != null) {
-            for (Map.Entry<Short, Point> animation: animationIds.entrySet()) {
-                FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(animation.getKey());
+        if (frameAnimations != null) {
+            building.setFrameAnimations(frameAnimations);
+        }
 
-                frameAnimation.setCenterX(animation.getValue().x);
-                frameAnimation.setCenterY(animation.getValue().y);
-
-                building.addAnimation(frameAnimation);
-            }
+        if (complexAnimations != null) {
+            building.setComplexAnimations(complexAnimations);
         }
 
         return building;

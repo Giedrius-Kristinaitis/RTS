@@ -25,7 +25,7 @@ public class RisingSmokeAnimation implements Animation {
         for (int i = 0; i < smokeBalls.length; i++) {
             smokeBalls[i] = FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_WHITE_SMOKE_BALL, x, y, x, y + smokeBalls.length * 0.35f, true);
             smokeBalls[i].setLooping(true);
-            smokeBalls[i].setDelay(i * smokeBalls[i].getUpdateInterval() * 0.9f);
+            smokeBalls[i].setDelay(i * smokeBalls[i].getDuration() / smokeBalls.length);
         }
     }
 
