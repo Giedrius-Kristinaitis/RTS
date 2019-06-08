@@ -198,6 +198,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setAtlas(atlas);
         unit.setWidth(width);
         unit.setHeight(height);
+        unit.setHp(defensiveSpecs.getMaxHp());
         unit.setDefensiveSpecs(defensiveSpecs);
         unit.setOffensiveSpecs(offensiveSpecs);
         unit.setStillTextures(stillTextures);
