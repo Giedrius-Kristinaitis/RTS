@@ -1,10 +1,7 @@
 package com.gasis.rts.logic.object.building;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.object.combat.Aimable;
-import com.gasis.rts.logic.object.combat.CombatUtils;
-import com.gasis.rts.logic.object.combat.FiringLogic;
-import com.gasis.rts.logic.object.combat.RotatingGun;
+import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
@@ -24,6 +21,26 @@ public class OffensiveBuilding extends Building implements Aimable {
 
     // rotating guns of the building (if it has any)
     protected Map<String, RotatingGun> rotatingGuns = new HashMap<String, RotatingGun>();
+
+    // offensive specs of the building
+    protected OffensiveSpecs offensiveSpecs;
+
+    /**
+     * Sets the offensive specs for the building
+     *
+     * @param offensiveSpecs new offensive specs
+     */
+    public void setOffensiveSpecs(OffensiveSpecs offensiveSpecs) {
+        this.offensiveSpecs = offensiveSpecs;
+    }
+
+    /**
+     * Gets the offensive specs of the building
+     * @return
+     */
+    public OffensiveSpecs getOffensiveSpecs() {
+        return offensiveSpecs;
+    }
 
     /**
      * Adds a rotating gun to the building

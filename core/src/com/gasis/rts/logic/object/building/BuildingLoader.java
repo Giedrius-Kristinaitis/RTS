@@ -39,6 +39,9 @@ public class BuildingLoader extends GameObjectLoader {
     // the building's center
     protected Map<Short, Point> animationIds;
 
+    // is the building offensive or not
+    protected boolean offensive;
+
     /**
      * Reads combat data of the building
      *
@@ -50,19 +53,23 @@ public class BuildingLoader extends GameObjectLoader {
         defensiveSpecs.setDefence(Float.parseFloat(reader.readLine("defence")));
         defensiveSpecs.setSightRange(Float.parseFloat(reader.readLine("sight range")));
 
-        offensiveSpecs.setAttack(Float.parseFloat(reader.readLine("attack")));
-        offensiveSpecs.setSpeed(Float.parseFloat(reader.readLine("speed")));
-        offensiveSpecs.setAttackRange(Float.parseFloat(reader.readLine("attack range")));
+        offensive = Boolean.parseBoolean(reader.readLine("offensive"));
 
-        firingData.setShotCount(Byte.parseByte(reader.readLine("shot count")));
-        firingData.setShotInterval(Float.parseFloat(reader.readLine("shot interval")));
-        firingData.setReloadSpeed(Float.parseFloat(reader.readLine("reload speed")));
+        if (offensive) {
+            offensiveSpecs.setAttack(Float.parseFloat(reader.readLine("attack")));
+            offensiveSpecs.setSpeed(Float.parseFloat(reader.readLine("speed")));
+            offensiveSpecs.setAttackRange(Float.parseFloat(reader.readLine("attack range")));
 
-        // read building's fire sources (excluding rotating gun sources)
-        fireSources = LoaderUtils.readFireSources(reader);
+            firingData.setShotCount(Byte.parseByte(reader.readLine("shot count")));
+            firingData.setShotInterval(Float.parseFloat(reader.readLine("shot interval")));
+            firingData.setReloadSpeed(Float.parseFloat(reader.readLine("reload speed")));
 
-        // read rotating gun data (and fire sources)
-        rotatingGuns = LoaderUtils.readRotatingGuns(reader);
+            // read building's fire sources (excluding rotating gun sources)
+            fireSources = LoaderUtils.readFireSources(reader);
+
+            // read rotating gun data (and fire sources)
+            rotatingGuns = LoaderUtils.readRotatingGuns(reader);
+        }
     }
 
     /**
@@ -123,7 +130,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setHp(defensiveSpecs.getMaxHp());
 
         // add firing things to the building if it has any
-        if (building instanceof OffensiveBuilding) {
+        if (offensive) {
             if (fireSources.size() > 0) {
                 ((OffensiveBuilding) building).setFiringLogic(CombatUtils.createFiringLogic(fireSources, firingData));
             }
@@ -135,6 +142,8 @@ public class BuildingLoader extends GameObjectLoader {
                     ((OffensiveBuilding) building).addGun(String.valueOf(name++), CombatUtils.createRotatingGun(entry, firingData, offensiveSpecs));
                 }
             }
+
+            ((OffensiveBuilding) building).setOffensiveSpecs(offensiveSpecs);
         }
 
         // add animations to the building
