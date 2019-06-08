@@ -10,6 +10,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
 import com.gasis.rts.logic.map.blockmap.BlockMapRenderer;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
+import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
@@ -49,6 +50,10 @@ public class GameInstance {
     private Unit zeus8;
 
     private Building plant;
+    private OffensiveBuilding launcher;
+    private OffensiveBuilding launcher2;
+    private OffensiveBuilding launcher3;
+    private OffensiveBuilding launcher4;
 
     /**
      * Default class constructor
@@ -183,6 +188,29 @@ public class GameInstance {
         plant.setX(0);
         plant.setY(0);
         plant.initializeAnimations();
+
+        BuildingLoader launcherLoader = new BuildingLoader();
+        launcherLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "rocket_launcher_conf"));
+
+        launcher = (OffensiveBuilding) launcherLoader.newInstance();
+        launcher.setX(15.5f);
+        launcher.setY(10);
+        launcher.aimAt(8.5f, 8.5f);
+
+        launcher2 = (OffensiveBuilding) launcherLoader.newInstance();
+        launcher2.setX(15.5f);
+        launcher2.setY(7);
+        launcher2.aimAt(8.5f, 8.5f);
+
+        launcher3 = (OffensiveBuilding) launcherLoader.newInstance();
+        launcher3.setX(4);
+        launcher3.setY(1.5f);
+        launcher3.aimAt(8.5f, 8.5f);
+
+        launcher4 = (OffensiveBuilding) launcherLoader.newInstance();
+        launcher4.setX(0);
+        launcher4.setY(5);
+        launcher4.aimAt(8.5f, 8.5f);
     }
 
     /**
@@ -213,6 +241,11 @@ public class GameInstance {
         zeus8.render(batch, resources);
 
         plant.render(batch, resources);
+
+        launcher.render(batch, resources);
+        launcher2.render(batch, resources);
+        launcher3.render(batch, resources);
+        launcher4.render(batch, resources);
     }
 
     /**
@@ -260,6 +293,11 @@ public class GameInstance {
         zeus8.update(delta);
 
         plant.update(delta);
+
+        launcher.update(delta);
+        launcher2.update(delta);
+        launcher3.update(delta);
+        launcher4.update(delta);
     }
 
     /**

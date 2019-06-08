@@ -1,0 +1,88 @@
+atlas: building2.atlas
+code: rocker launcher conf
+texture: mountable_tower_conf
+width: 1.75
+height: 1.5
+hp: 100
+defence: 5
+sight range: 12
+offensive: true
+attack: 30
+defence: 7
+attack range: 12
+shot count: 2
+shot interval: 0.2
+reload speed: 2
+rotating gun: g
+g atlas: building2.atlas
+g width: 1.15
+g height: 1.15
+g texture north: rocket_launcher_north_conf
+g texture north east: rocket_launcher_north_east_conf
+g texture east: rocket_launcher_east_conf
+g texture south east: rocket_launcher_south_east_conf
+g texture south: rocket_launcher_south_conf
+g texture south west: rocket_launcher_south_west_conf
+g texture west: rocket_launcher_west_conf
+g texture north west: rocket_launcher_north_west_conf
+g recoil: 0
+g recoil resistance: 1
+g rotation speed: 4
+g relative x north: 0
+g relative y north: 0.85
+g relative x north east: 0
+g relative y north east: 0.85
+g relative x east: 0
+g relative y east: 0.85
+g relative x south east: 0
+g relative y south east: 0.85
+g relative x south: 0
+g relative y south: 0.85
+g relative x south west: 0
+g relative y south west: 0.85
+g relative x west: 0
+g relative y west: 0.85
+g relative x north west: 0
+g relative y north west: 0.85
+g fire source: f
+f fire type: missile
+f projectile scale: heavy
+f gun count: 1
+f flight time: 0.5
+f fire point north x: -0.35
+f fire point north y: -0.35
+f fire point north east x: -0.5
+f fire point north east y: 0
+f fire point east x: -0.5
+f fire point east y: 0.25
+f fire point south east x: -0.4
+f fire point south east y: 0
+f fire point south x: 0.35
+f fire point south y: 0.35
+f fire point south west x: 0.5
+f fire point south west y: 0
+f fire point west x: 0.35
+f fire point west y: -0.15
+f fire point north west x: 0.55
+f fire point north west y: -0.15
+g fire source: f1
+f1 fire type: missile
+f1 projectile scale: heavy
+f1 gun count: 1
+f1 flight time: 0.5
+f1 fire point north x: 0.35
+f1 fire point north y: -0.35
+f1 fire point north east x: 0
+f1 fire point north east y: -0.25
+f1 fire point east x: -0.5
+f1 fire point east y: -0.25
+f1 fire point south east x: 0
+f1 fire point south east y: 0.35
+f1 fire point south x: -0.35
+f1 fire point south y: 0.35
+f1 fire point south west x: 0
+f1 fire point south west y: 0.4
+f1 fire point west x: 0.35
+f1 fire point west y: 0.25
+f1 fire point north west x: -0.1
+f1 fire point north west y: -0.3
