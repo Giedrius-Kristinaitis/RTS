@@ -59,6 +59,7 @@ public class UnitLoader extends GameObjectLoader {
      *
      * @param reader reader to read data from
      */
+    @SuppressWarnings("Duplicates")
     protected void readCombatData(FileLineReader reader) {
         siegeModeAvailable = Boolean.parseBoolean(reader.readLine("siege mode available"));
 
@@ -105,6 +106,7 @@ public class UnitLoader extends GameObjectLoader {
      *
      * @param reader reader to read data from
      */
+    @SuppressWarnings("Duplicates")
     protected void readTexturesAndAnimations(FileLineReader reader) {
         stillTextures.add(reader.readLine("still texture north"));
         stillTextures.add(reader.readLine("still texture north east"));
@@ -196,6 +198,7 @@ public class UnitLoader extends GameObjectLoader {
         Unit unit = rotatingGuns.size() > 0 ? new RotatingGunUnit() : new Unit();
 
         unit.setAtlas(atlas);
+        unit.setCode(code);
         unit.setWidth(width);
         unit.setHeight(height);
         unit.setHp(defensiveSpecs.getMaxHp());
