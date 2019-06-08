@@ -100,7 +100,7 @@ public class FrameAnimationFactory implements AnimationFactory {
             return;
         }
 
-        //whiteSmokeBallLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "white_smoke_ball"));
+        whiteSmokeBallLoader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "white_smoke_ball"));
         oneTankGunShellFireEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_east"));
         oneTankGunShellFireNorthEast_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north_east"));
         oneTankGunShellFireNorth_loader.load(Gdx.files.internal(Constants.FOLDER_ANIMATIONS + "one_tank_gun_shell_fire_north"));

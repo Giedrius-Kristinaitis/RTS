@@ -1,0 +1,18 @@
+texture atlas: effects.atlas
+width: 0.6
+height: 0.6
+delay: 0
+duration: 2
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1.5
+frame: white_smoke_ball_1
+frame: white_smoke_ball_2
+frame: white_smoke_ball_3
+frame: white_smoke_ball_4
+frame: white_smoke_ball_5
+frame: white_smoke_ball_6
+frame: white_smoke_ball_7
+frame: white_smoke_ball_8
