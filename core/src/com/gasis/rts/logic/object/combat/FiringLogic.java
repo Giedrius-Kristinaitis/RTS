@@ -6,6 +6,7 @@ import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -48,6 +49,9 @@ public class FiringLogic implements Renderable {
 
     // is it the first time enqueueing shots
     private boolean initialEnqueue = true;
+
+    // the index of the fire source that will be fired next
+    private byte nextFiringSourceIndex = 0;
 
     /**
      * Gets the normal shot count
@@ -246,18 +250,32 @@ public class FiringLogic implements Renderable {
     private boolean launchShot(boolean siegeMode, byte facingDirection, float x, float y) {
         boolean fired = false;
 
-        for (FireSource source: fireSources.values()) {
-            if ((siegeMode && timeSinceLastReload >= siegeModeReloadSpeed) || (!siegeMode && timeSinceLastReload >= reloadSpeed)) {
-                source.setX(x + source.getFirePoints().get(facingDirection).x);
-                source.setY(y + source.getFirePoints().get(facingDirection).y);
-                source.fire(facingDirection, target.x, target.y);
-                fired = true;
-                enqueuedShots--;
-                timeSinceLastShot = 0;
+        // select the correct fire source to fire and increment fire source index
+        Iterator<FireSource> iterator = fireSources.values().iterator();
+        FireSource source = iterator.next();
 
-                if (enqueuedShots == 0) {
-                    timeSinceLastReload = 0;
-                }
+        for (int i = 0; i < nextFiringSourceIndex; i++) {
+            source = iterator.next();
+        }
+
+        if (nextFiringSourceIndex == fireSources.values().size() - 1) {
+            nextFiringSourceIndex = 0;
+        } else {
+            nextFiringSourceIndex++;
+        }
+
+        // launch a shot
+        if ((siegeMode && timeSinceLastReload >= siegeModeReloadSpeed) || (!siegeMode && timeSinceLastReload >= reloadSpeed)) {
+            source.setX(x + source.getFirePoints().get(facingDirection).x);
+            source.setY(y + source.getFirePoints().get(facingDirection).y);
+            source.fire(facingDirection, target.x, target.y);
+
+            fired = true;
+            enqueuedShots--;
+            timeSinceLastShot = 0;
+
+            if (enqueuedShots == 0) {
+                timeSinceLastReload = 0;
             }
         }
 

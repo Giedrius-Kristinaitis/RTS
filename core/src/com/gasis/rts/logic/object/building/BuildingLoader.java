@@ -59,7 +59,6 @@ public class BuildingLoader extends GameObjectLoader {
 
         if (offensive) {
             offensiveSpecs.setAttack(Float.parseFloat(reader.readLine("attack")));
-            offensiveSpecs.setSpeed(Float.parseFloat(reader.readLine("speed")));
             offensiveSpecs.setAttackRange(Float.parseFloat(reader.readLine("attack range")));
 
             firingData.setShotCount(Byte.parseByte(reader.readLine("shot count")));

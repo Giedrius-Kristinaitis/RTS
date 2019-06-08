@@ -167,7 +167,7 @@ public class OffensiveBuilding extends Building implements Aimable {
         }
 
         for (RotatingGun gun: rotatingGuns.values()) {
-            gun.update(delta);
+            gun.update(false, delta);
         }
     }
 
@@ -181,12 +181,12 @@ public class OffensiveBuilding extends Building implements Aimable {
     public void render(SpriteBatch batch, Resources resources) {
         super.render(batch, resources);
 
-        if (firingLogic != null) {
-            firingLogic.render(batch, resources);
-        }
-
         for (RotatingGun gun: rotatingGuns.values()) {
             gun.render(batch, resources);
+        }
+
+        if (firingLogic != null) {
+            firingLogic.render(batch, resources);
         }
     }
 }
