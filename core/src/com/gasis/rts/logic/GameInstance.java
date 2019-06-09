@@ -55,6 +55,7 @@ public class GameInstance {
     private OffensiveBuilding launcher3;
     private OffensiveBuilding launcher4;
     private Building factory;
+    private Building factory2;
 
     /**
      * Default class constructor
@@ -220,6 +221,14 @@ public class GameInstance {
         factory.setX(10);
         factory.setY(0);
         factory.initializeAnimations();
+
+        BuildingLoader factoryLoader2 = new BuildingLoader();
+        factoryLoader2.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "machine_factory_rebels"));
+
+        factory2 = factoryLoader2.newInstance();
+        factory2.setX(16);
+        factory2.setY(0);
+        factory2.initializeAnimations();
     }
 
     /**
@@ -257,6 +266,7 @@ public class GameInstance {
         launcher4.render(batch, resources);
 
         factory.render(batch, resources);
+        factory2.render(batch, resources);
     }
 
     /**
@@ -292,6 +302,7 @@ public class GameInstance {
         launcher4.update(delta);
 
         factory.update(delta);
+        factory2.update(delta);
 
         if (Gdx.input.isTouched()) {
             unit1.setInSiegeMode(!unit1.isInSiegeMode());
