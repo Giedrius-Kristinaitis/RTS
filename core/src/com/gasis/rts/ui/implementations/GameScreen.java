@@ -20,6 +20,7 @@ public class GameScreen extends StagedScreen {
     @Override
     public void show() {
         game = new GameInstance(resources);
+        game.setCamera((OrthographicCamera) port.getCamera());
     }
 
     /**
@@ -42,7 +43,7 @@ public class GameScreen extends StagedScreen {
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-        game.draw(batch, delta);
+        game.draw(batch);
         batch.end();
     }
 
@@ -52,7 +53,7 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public void update(float delta) {
-        game.update((OrthographicCamera) port.getCamera(), delta);
+        game.update(delta);
     }
 
     /**
@@ -64,7 +65,7 @@ public class GameScreen extends StagedScreen {
     public void resize(int width, int height) {
         super.resize(width, height);
         port.update(width, height, true);
-        game.viewportDimensionsChanged(width, height);
+        game.screenSizeChanged(width, height);
     }
 
     /**

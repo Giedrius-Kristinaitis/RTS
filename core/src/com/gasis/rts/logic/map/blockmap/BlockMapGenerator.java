@@ -55,7 +55,7 @@ public class BlockMapGenerator implements MapGenerator {
             random.setSeed(seed);
 
             // create map layers
-            map.addMapLayer(new BlockMapLayer("terrain_1", map.getWidth(), map.getHeight()), true);
+            map.addMapLayer(new BlockMapLayer("terrain_1", (short) map.getWidth(), (short) map.getHeight()), true);
 
             // read map commands and generate a map based on them
             // look at the beginning of the file to see the command format

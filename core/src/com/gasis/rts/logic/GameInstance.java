@@ -1,11 +1,13 @@
 package com.gasis.rts.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
-import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
+import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
 import com.gasis.rts.logic.map.blockmap.BlockMapRenderer;
 import com.gasis.rts.logic.object.building.Building;
@@ -20,16 +22,27 @@ import com.gasis.rts.utils.Constants;
 /**
  * Game instance. Holds game state, draws the game world and updates it
  */
-public class GameInstance {
+public class GameInstance implements Updatable {
 
     // resources used by the game
     private Resources resources;
+
+    // the game world's camera
+    private OrthographicCamera cam;
+
+    // size of the screen (expressed in screen coordinates)
+    private int screenWidth;
+    private int screenHeight;
+
+    // half width and height of the screen (expressed in game coordinates)
+    private float halfWidth;
+    private float halfHeight;
 
     // renders the game map
     private MapRenderer mapRenderer;
 
     // game map
-    private Map map;
+    private BlockMap map;
 
     // the current zoom value
     private float zoom = 1;
@@ -40,6 +53,23 @@ public class GameInstance {
 
     // how much the zoom changes per second
     private float zoomSpeed;
+
+    // the speeds at which the map is being scrolled
+    private float xScrollSpeed;
+    private float yScrollSpeed;
+
+    // the maximum scroll speed per second(both positive and negative)
+    private final float maxScrollSpeed = 20;
+
+    // is one of the map scroll keys currently held down
+    private boolean scrollingUp;
+    private boolean scrollingDown;
+    private boolean scrollingLeft;
+    private boolean scrollingRight;
+
+    // how close to the screen edge the mouse has to be in order to start
+    // scrolling the map (expressed in screen width and height percentage)
+    private final float mouseTriggeredScrollBounds = 0.025f;
 
     private RotatingGunUnit unit1;
     private RotatingGunUnit unit2;
@@ -81,10 +111,6 @@ public class GameInstance {
         // initialize the map renderer
         mapRenderer = new BlockMapRenderer();
         mapRenderer.setRenderedMap(map);
-        mapRenderer.setRenderX(0);
-        mapRenderer.setRenderY(0);
-        mapRenderer.setRenderWidth(Constants.WIDTH);
-        mapRenderer.setRenderHeight(Constants.HEIGHT);
 
         // load all animations in advance
         FrameAnimationFactory.loadAnimations();
@@ -245,9 +271,8 @@ public class GameInstance {
      * Called when the game should render itself
      *
      * @param batch sprite batch to draw sprites with
-     * @param delta time elapsed since last render
      */
-    public void draw(SpriteBatch batch, float delta) {
+    public void draw(SpriteBatch batch) {
         mapRenderer.render(batch, resources);
 
         unit1.render(batch, resources);
@@ -282,11 +307,12 @@ public class GameInstance {
     /**
      * Called when the game state should be updated
      *
-     * @param cam world's camera
      * @param delta time elapsed since last update
      */
-    public void update(OrthographicCamera cam, float delta) {
+    @Override
+    public void update(float delta) {
         updateZoom(cam, delta);
+        updateScroll(delta);
 
         unit1.update(delta);
         unit2.update(delta);
@@ -337,11 +363,175 @@ public class GameInstance {
     }
 
     /**
+     * Updates the map's scrolling
+     *
+     * @param delta time elapsed since the last update
+     */
+    @SuppressWarnings("Duplicates") // ain't gonna write a separate method for this 'duplication'
+    private void updateScroll(float delta) {
+        cam.position.x += xScrollSpeed * delta;
+        cam.position.y += yScrollSpeed * delta;
+
+        // update the vertical scrolling
+        if (scrollingUp) {
+            yScrollSpeed += maxScrollSpeed * delta * 2;
+
+            if (yScrollSpeed > maxScrollSpeed) {
+                yScrollSpeed = maxScrollSpeed;
+            }
+        } else if (scrollingDown) {
+            yScrollSpeed -= maxScrollSpeed * delta * 2;
+
+            if (yScrollSpeed < -maxScrollSpeed) {
+                yScrollSpeed = -maxScrollSpeed;
+            }
+        } else {
+            yScrollSpeed *= Math.pow(Math.max(0, 1f - delta), 4);
+        }
+
+        // update the horizontal scrolling
+        if (scrollingLeft) {
+            xScrollSpeed -= maxScrollSpeed * delta * 2;
+
+            if (xScrollSpeed < -maxScrollSpeed) {
+                xScrollSpeed = -maxScrollSpeed;
+            }
+        } else if (scrollingRight) {
+            xScrollSpeed += maxScrollSpeed * delta * 2;
+
+            if (xScrollSpeed > maxScrollSpeed) {
+                xScrollSpeed = maxScrollSpeed;
+            }
+        } else {
+            xScrollSpeed *= Math.pow(Math.max(0, 1f - delta), 4);
+        }
+
+        // make sure the camera is in the bounds of the map
+        if (cam.position.x < halfWidth * cam.zoom) {
+            cam.position.x = halfWidth * cam.zoom;
+            xScrollSpeed = 0;
+        } else if (cam.position.x > map.getWidth() * Block.BLOCK_WIDTH - halfWidth * cam.zoom) {
+            cam.position.x = map.getWidth() * Block.BLOCK_WIDTH - halfWidth * cam.zoom;
+            xScrollSpeed = 0;
+        }
+
+        if (cam.position.y < halfHeight * cam.zoom) {
+            cam.position.y = halfHeight * cam.zoom;
+            yScrollSpeed = 0;
+        } else if (cam.position.y > map.getHeight() * Block.BLOCK_HEIGHT - halfHeight * cam.zoom) {
+            cam.position.y = map.getHeight() * Block.BLOCK_HEIGHT - halfHeight * cam.zoom;
+            yScrollSpeed = 0;
+        }
+
+        // make sure the correct portion of the map is rendered
+        mapRenderer.setRenderX(cam.position.x - cam.viewportWidth / 2f - 1);
+        mapRenderer.setRenderY(cam.position.y - cam.viewportHeight / 2f - 1);
+
+        // make sure the render width and height is always up to date
+        mapRenderer.setRenderWidth((cam.viewportWidth / Block.BLOCK_WIDTH + 1) * Math.max(1, cam.zoom));
+        mapRenderer.setRenderHeight((cam.viewportHeight / Block.BLOCK_HEIGHT + 1) * Math.max(1, cam.zoom));
+    }
+
+    /**
+     * Starts scrolling the map
+     *
+     * @param keycode code of the pressed key
+     */
+    private void startScrolling(int keycode) {
+        switch (keycode) {
+            case Input.Keys.UP:
+                if (!scrollingUp) {
+                    yScrollSpeed = 0;
+                }
+
+                scrollingUp = true;
+                scrollingDown = false;
+                break;
+            case Input.Keys.DOWN:
+                if (!scrollingDown) {
+                    yScrollSpeed = 0;
+                }
+
+                scrollingDown = true;
+                scrollingUp = false;
+                break;
+            case Input.Keys.LEFT:
+                if (!scrollingLeft) {
+                    xScrollSpeed = 0;
+                }
+
+                scrollingLeft = true;
+                scrollingRight = false;
+                break;
+            case Input.Keys.RIGHT:
+                if (!scrollingRight) {
+                    xScrollSpeed = 0;
+                }
+
+                scrollingRight = true;
+                scrollingLeft = false;
+                break;
+        }
+    }
+
+    /**
+     * Stops scrolling the map
+     *
+     * @param keycode code of the released key
+     */
+    private void stopScrolling(int keycode) {
+        switch (keycode) {
+            case Input.Keys.UP:
+                scrollingUp = false;
+                break;
+            case Input.Keys.DOWN:
+                scrollingDown = false;
+                break;
+            case Input.Keys.LEFT:
+                scrollingLeft = false;
+                break;
+            case Input.Keys.RIGHT:
+                scrollingRight = false;
+                break;
+        }
+    }
+
+    /**
+     * Starts scrolling the map with the mouse
+     *
+     * @param screenX mouse pointer's x coordinate on the screen
+     * @param screenY mouse pointer's y coordinate on the screen
+     */
+    private void initiateMouseScrolling(int screenX, int screenY) {
+        if (screenX <= screenWidth * mouseTriggeredScrollBounds) {
+            startScrolling(Input.Keys.LEFT);
+        } else if (screenX >= screenWidth - screenWidth * mouseTriggeredScrollBounds) {
+            startScrolling(Input.Keys.RIGHT);
+        } else {
+            stopScrolling(Input.Keys.LEFT);
+            stopScrolling(Input.Keys.RIGHT);
+        }
+
+        if (screenY <= screenHeight * mouseTriggeredScrollBounds) {
+            startScrolling(Input.Keys.UP);
+        } else if (screenY >= screenHeight - screenHeight * mouseTriggeredScrollBounds) {
+            startScrolling(Input.Keys.DOWN);
+        } else {
+            stopScrolling(Input.Keys.DOWN);
+            stopScrolling(Input.Keys.UP);
+        }
+    }
+
+    /**
      * Updates the camera's zoom
+     *
+     * @param cam game camera
+     * @param delta time elapsed since the last update
      */
     private void updateZoom(OrthographicCamera cam, float delta) {
         cam.zoom += zoomSpeed * delta;
-        zoomSpeed *= Math.max(0, 1 - delta);
+
+        zoomSpeed *= Math.max(0, 1f - delta);
 
         if (cam.zoom < maxZoomIn) {
             cam.zoom = maxZoomIn;
@@ -362,23 +552,14 @@ public class GameInstance {
     }
 
     /**
-     * Called when the size of the viewport changes
-     *
-     * @param width new width
-     * @param height new height
-     */
-    public void viewportDimensionsChanged(int width, int height) {
-
-    }
-
-    /**
      * Called when a key was pressed
      *
      * @param keycode one of the constants in Input.Keys
+     *
      * @return whether the input was processed
      */
     public void keyDown(int keycode) {
-
+        startScrolling(keycode);
     }
 
     /**
@@ -388,7 +569,7 @@ public class GameInstance {
      * @return whether the input was processed
      */
     public void keyUp(int keycode) {
-
+        stopScrolling(keycode);
     }
 
     /**
@@ -425,7 +606,7 @@ public class GameInstance {
      * @return whether the input was processed
      */
     public void mouseMoved(int screenX, int screenY) {
-
+        initiateMouseScrolling(screenX, screenY);
     }
 
     /**
@@ -439,9 +620,38 @@ public class GameInstance {
     }
 
     /**
+     * Called when the size of the screen changes
+     *
+     * @param width new width
+     * @param height new height
+     */
+    public void screenSizeChanged(int width, int height) {
+        screenWidth = width;
+        screenHeight = height;
+
+        halfWidth = cam.viewportWidth / 2f;
+        halfHeight = cam.viewportHeight / 2f;
+
+        if (width > height) {
+            halfHeight = halfWidth * ((float) height / (float) width);
+        } else {
+            halfWidth = halfHeight * ((float) width / (float) height);
+        }
+    }
+
+    /**
      * Cleans up resources
      */
     public void unloadResources() {
 
+    }
+
+    /**
+     * Sets the camera for the game
+     *
+     * @param cam camera to use
+     */
+    public void setCamera(OrthographicCamera cam) {
+        this.cam = cam;
     }
 }

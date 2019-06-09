@@ -90,7 +90,8 @@ public class BlockMap implements Map {
      * Gets the width of the map in blocks
      * @return
      */
-    public short getWidth() {
+    @Override
+    public float getWidth() {
         return width;
     }
 
@@ -98,7 +99,8 @@ public class BlockMap implements Map {
      * Gets the height of the map in blocks
      * @return
      */
-    public short getHeight() {
+    @Override
+    public float getHeight() {
         return height;
     }
 }
