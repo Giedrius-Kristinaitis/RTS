@@ -22,13 +22,13 @@ public class UnitLoader extends GameObjectLoader {
     // texture indexes must match facing direction values defined in Unit class
     protected List<String> stillTextures = new ArrayList<String>();
 
-    // id values of the movement animations
-    // animation id indexes must match facing direction values defined in Unit class
-    protected List<Short> movementAnimationIds;
+    // name values of the movement animations
+    // animation name indexes must match facing direction values defined in Unit class
+    protected List<String> movementAnimationNames;
 
-    // id values of the siege mode transition animations
-    // animation id indexes must match facing direction values defined in Unit class
-    protected List<Short> siegeModeTransitionAnimationIds;
+    // name values of the siege mode transition animations
+    // animation name indexes must match facing direction values defined in Unit class
+    protected List<String> siegeModeTransitionAnimationNames;
 
     // textures used when firing
     // texture indexes must match facing direction values defined in Unit class
@@ -119,15 +119,15 @@ public class UnitLoader extends GameObjectLoader {
 
         // check if movement animations are present
         if (Boolean.parseBoolean(reader.readLine("movement animations available"))) {
-            movementAnimationIds = new ArrayList<Short>();
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id north")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id north east")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id east")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id south east")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id south")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id south west")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id west")));
-            movementAnimationIds.add(Short.parseShort(reader.readLine("movement animation id north west")));
+            movementAnimationNames = new ArrayList<String>();
+            movementAnimationNames.add(reader.readLine("movement animation name north"));
+            movementAnimationNames.add(reader.readLine("movement animation name north east"));
+            movementAnimationNames.add(reader.readLine("movement animation name east"));
+            movementAnimationNames.add(reader.readLine("movement animation name south east"));
+            movementAnimationNames.add(reader.readLine("movement animation name south"));
+            movementAnimationNames.add(reader.readLine("movement animation name south west"));
+            movementAnimationNames.add(reader.readLine("movement animation name west"));
+            movementAnimationNames.add(reader.readLine("movement animation name north west"));
         }
 
         // check if firing textures are present
@@ -145,21 +145,21 @@ public class UnitLoader extends GameObjectLoader {
 
         // check if siege mode is available
         if (siegeModeAvailable) {
-            siegeModeTransitionAnimationIds = new ArrayList<Short>();
+            siegeModeTransitionAnimationNames = new ArrayList<String>();
             siegeModeTextures = new ArrayList<String>();
 
             if (Byte.parseByte(reader.readLine("siege mode facing directions")) == 1) {
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id")));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name"));
                 siegeModeTextures.add(reader.readLine("siege mode texture"));
             } else {
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north east")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id east")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south east")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id south west")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id west")));
-                siegeModeTransitionAnimationIds.add(Short.parseShort(reader.readLine("siege mode transition animation id north west")));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name north"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name north east"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name east"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name south east"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name south"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name south west"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name west"));
+                siegeModeTransitionAnimationNames.add(reader.readLine("siege mode transition animation name north west"));
 
                 siegeModeTextures.add(reader.readLine("siege mode texture north"));
                 siegeModeTextures.add(reader.readLine("siege mode texture north east"));
@@ -206,9 +206,9 @@ public class UnitLoader extends GameObjectLoader {
         unit.setOffensiveSpecs(offensiveSpecs);
         unit.setStillTextures(stillTextures);
         unit.setSiegeModeTextures(siegeModeTextures);
-        unit.setMovementAnimationIds(movementAnimationIds);
+        unit.setMovementAnimationNames(movementAnimationNames);
         unit.setSiegeModeAvailable(siegeModeAvailable);
-        unit.setSiegeModeTransitionAnimationIds(siegeModeTransitionAnimationIds);
+        unit.setSiegeModeTransitionAnimationNames(siegeModeTransitionAnimationNames);
         unit.setFiringTextures(firingTextures);
         unit.setSiegeModeFacingDirection(siegeModeFacingDirection);
 

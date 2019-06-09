@@ -83,4 +83,4 @@ still texture south: rhino_south
 still texture south west: rhino_south_west
 still texture west: rhino_west
 still texture north west: rhino_north_west
-siege mode transition animation id: 32
+siege mode transition animation name: rhino_siege_mode_transition

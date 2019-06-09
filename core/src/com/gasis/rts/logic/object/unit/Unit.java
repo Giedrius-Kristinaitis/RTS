@@ -48,10 +48,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the animation that is played when the unit moves
     protected FrameAnimation movementAnimation;
 
-    // the ids of the movement animations
-    // indexes of animation ids must match the values of facing directions
+    // the names of the movement animations
+    // indexes of animation names must match the values of facing directions
     // defined above
-    protected List<Short> movementAnimationIds;
+    protected List<String> movementAnimationNames;
 
     // is siege mode available for this unit
     protected boolean siegeModeAvailable;
@@ -63,12 +63,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // can face one direction when in siege mode)
     protected byte siegeModeFacingDirection = EAST;
 
-    // the ids of siege mode transition animations
+    // the names of siege mode transition animations
     // animation indexes must match the values of facing directions defined above
     // if the length of this list is not 8, then the 0-th element is
     // used as the transition animation and the unit can only transition to siege
     // mode when facing east
-    protected List<Short> siegeModeTransitionAnimationIds;
+    protected List<String> siegeModeTransitionAnimationNames;
 
     // the animation played when the unit transitions into siege mode
     protected FrameAnimation siegeModeTransitionAnimation;
@@ -276,7 +276,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
         if (this.inSiegeMode != inSiegeMode) {
             // enter or leave siege mode
-            if (siegeModeTransitionAnimationIds.size() != 8) {
+            if (siegeModeTransitionAnimationNames.size() != 8) {
                 if (facingDirection == siegeModeFacingDirection) {
                     rotatingToDirection = NONE;
                     enterSiegeModeWhenFinishedRotating = false;
@@ -341,10 +341,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             return;
         }
 
-        short animationId = siegeModeTransitionAnimationIds.size() == 8 ? siegeModeTransitionAnimationIds.get(facingDirection) : siegeModeTransitionAnimationIds.get(0);
+        String animationName = siegeModeTransitionAnimationNames.size() == 8 ? siegeModeTransitionAnimationNames.get(facingDirection) : siegeModeTransitionAnimationNames.get(0);
 
         siegeModeTransitionAnimation = FrameAnimationFactory.getInstance().create(
-                animationId,
+                animationName,
                 x,
                 y,
                 x,
@@ -359,20 +359,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Sets the animation ids for siege mode transition animations
+     * Sets the animation names for siege mode transition animations
      *
-     * @param siegeModeTransitionAnimationIds new animation ids
+     * @param siegeModeTransitionAnimationNames new animation names
      */
-    public void setSiegeModeTransitionAnimationIds(List<Short> siegeModeTransitionAnimationIds) {
-        this.siegeModeTransitionAnimationIds = siegeModeTransitionAnimationIds;
+    public void setSiegeModeTransitionAnimationNames(List<String> siegeModeTransitionAnimationNames) {
+        this.siegeModeTransitionAnimationNames = siegeModeTransitionAnimationNames;
     }
 
     /**
-     * Gets the animation ids for siege mode transitions
+     * Gets the animation names for siege mode transitions
      * @return
      */
-    public Iterable<Short> getSiegeModeTransitionAnimationIds() {
-        return siegeModeTransitionAnimationIds;
+    public Iterable<String> getSiegeModeTransitionAnimationNames() {
+        return siegeModeTransitionAnimationNames;
     }
 
     /**
@@ -416,10 +416,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * are present
      */
     protected void createMovementAnimation() {
-        if (moving && movementAnimationIds != null) {
+        if (moving && movementAnimationNames != null) {
             // create a new movement animation
             movementAnimation = FrameAnimationFactory.getInstance().create(
-                    movementAnimationIds.get(facingDirection),
+                    movementAnimationNames.get(facingDirection),
                     x,
                     y,
                     x,
@@ -435,20 +435,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Sets the ids of the movement animations
+     * Sets the names of the movement animations
      *
-     * @param animationIds list of animation ids
+     * @param animationIds list of animation names
      */
-    public void setMovementAnimationIds(List<Short> animationIds) {
-        this.movementAnimationIds = animationIds;
+    public void setMovementAnimationNames(List<String> animationIds) {
+        this.movementAnimationNames = animationIds;
     }
 
     /**
-     * Gets the ids of the movement animations
+     * Gets the names of the movement animations
      * @return
      */
-    public Iterable<Short> getMovementAnimationIds() {
-        return movementAnimationIds;
+    public Iterable<String> getMovementAnimationNames() {
+        return movementAnimationNames;
     }
 
     /**

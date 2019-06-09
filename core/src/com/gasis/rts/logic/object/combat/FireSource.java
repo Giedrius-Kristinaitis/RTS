@@ -270,41 +270,41 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
      * @return
      */
     protected ProjectileAnimation createBulletAnimation(byte facingDirection, float targetX, float targetY) {
-        short fireAnimationId = -1;
+        String fireAnimationName = "";
 
         switch (facingDirection) {
             case NORTH:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_NORTH;
+                fireAnimationName = "bullet_fire_north";
                 break;
             case NORTH_EAST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_NORTH_EAST;
+                fireAnimationName = "bullet_fire_north_east";
                 break;
             case EAST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_EAST;
+                fireAnimationName = "bullet_fire_east";
                 break;
             case SOUTH_EAST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_SOUTH_EAST;
+                fireAnimationName = "bullet_fire_south_east";
                 break;
             case SOUTH:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_SOUTH;
+                fireAnimationName = "bullet_fire_south";
                 break;
             case SOUTH_WEST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_SOUTH_WEST;
+                fireAnimationName = "bullet_fire_south_west";
                 break;
             case WEST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_WEST;
+                fireAnimationName = "bullet_fire_west";
                 break;
             case NORTH_WEST:
-                fireAnimationId = FrameAnimationFactory.ID_BULLET_FIRE_NORTH_WEST;
+                fireAnimationName = "bullet_fire_north_west";
                 break;
             default:
                 throw new RuntimeException("Bad facing direction");
         }
 
         return new ProjectileAnimation(
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_BULLET),
-                FrameAnimationFactory.getInstance().create(fireAnimationId),
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_BULLET_RICOCHET)
+                FrameAnimationFactory.getInstance().create("bullet"),
+                FrameAnimationFactory.getInstance().create(fireAnimationName),
+                FrameAnimationFactory.getInstance().create("bullet_ricochet")
         );
     }
 
@@ -317,70 +317,70 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
      * @return
      */
     protected ProjectileAnimation createShellAnimation(byte facingDirection, float targetX, float targetY) {
-        short fireAnimationId = -1;
+        String fireAnimationName = "";
 
         switch (facingDirection) {
             case NORTH:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_NORTH;
+                    fireAnimationName = "one_tank_gun_shell_fire_north";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_NORTH;
+                    fireAnimationName = "two_tank_gun_shell_fire_north";
                 }
 
                 break;
             case NORTH_EAST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_NORTH_EAST;
+                    fireAnimationName = "one_tank_gun_shell_fire_north_east";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_NORTH_EAST;
+                    fireAnimationName = "two_tank_gun_shell_fire_north_east";
                 }
 
                 break;
             case EAST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_EAST;
+                    fireAnimationName = "one_tank_gun_shell_fire_east";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_EAST;
+                    fireAnimationName = "two_tank_gun_shell_fire_east";
                 }
 
                 break;
             case SOUTH_EAST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_SOUTH_EAST;
+                    fireAnimationName = "one_tank_gun_shell_fire_south_east";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_EAST;
+                    fireAnimationName = "two_tank_gun_shell_fire_south_east";
                 }
 
                 break;
             case SOUTH:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_SOUTH;
+                    fireAnimationName = "one_tank_gun_shell_fire_south";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH;
+                    fireAnimationName = "two_tank_gun_shell_fire_south";
                 }
 
                 break;
             case SOUTH_WEST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_SOUTH_WEST;
+                    fireAnimationName = "one_tank_gun_shell_fire_south_west";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_SOUTH_WEST;
+                    fireAnimationName = "two_tank_gun_shell_fire_south_west";
                 }
 
                 break;
             case WEST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_WEST;
+                    fireAnimationName = "one_tank_gun_shell_fire_west";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_WEST;
+                    fireAnimationName = "two_tank_gun_shell_fire_west";
                 }
 
                 break;
             case NORTH_WEST:
                 if (gunCount == 1) {
-                    fireAnimationId = FrameAnimationFactory.ID_ONE_TANK_GUN_SHELL_FIRE_NORTH_WEST;
+                    fireAnimationName = "one_tank_gun_shell_fire_north_west";
                 } else {
-                    fireAnimationId = FrameAnimationFactory.ID_TWO_TANK_GUN_SHELL_FIRE_NORTH_WEST;
+                    fireAnimationName = "two_tank_gun_shell_fire_north_west";
                 }
 
                 break;
@@ -389,9 +389,9 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
         }
 
         return new ProjectileAnimation(
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_SHELL),
-                FrameAnimationFactory.getInstance().create(fireAnimationId),
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_PROJECTILE_EXPLOSION)
+                FrameAnimationFactory.getInstance().create("shell"),
+                FrameAnimationFactory.getInstance().create(fireAnimationName),
+                FrameAnimationFactory.getInstance().create("projectile_explosion")
         );
     }
 

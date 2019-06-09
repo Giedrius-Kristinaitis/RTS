@@ -38,9 +38,9 @@ public class MissileAnimation extends ProjectileAnimation {
      */
     public MissileAnimation(float missileScale, float explosionScale) {
         super(
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_MISSILE),
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_MISSILE_LAUNCH),
-                FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_PROJECTILE_EXPLOSION)
+                FrameAnimationFactory.getInstance().create("missile"),
+                FrameAnimationFactory.getInstance().create("missile_launch"),
+                FrameAnimationFactory.getInstance().create("projectile_explosion")
              );
 
         trailScale = missileScale;
@@ -109,7 +109,7 @@ public class MissileAnimation extends ProjectileAnimation {
 
         if (timeSinceTrailSpawn >= trailSpawnInterval && spawnTrails) {
             // spawn a new smoke trail
-            FrameAnimation trail = FrameAnimationFactory.getInstance().create(FrameAnimationFactory.ID_MISSILE_TRAIL);
+            FrameAnimation trail = FrameAnimationFactory.getInstance().create("missile_trail");
 
             trail.setInitialScale(trailScale);
             trail.setFinalScale(trailScale);

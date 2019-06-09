@@ -1,8 +1,6 @@
 package com.gasis.rts.logic.object.building;
 
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
-import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
 import com.gasis.rts.logic.object.combat.*;
@@ -33,9 +31,9 @@ public class BuildingLoader extends GameObjectLoader {
     // texture of the building
     protected String texture;
 
-    // the ids of the frame animations and their center coordinates relative to
+    // the names of the frame animations and their center coordinates relative to
     // the building's center
-    protected Map<Point, Short> frameAnimations;
+    protected Map<Point, String> frameAnimations;
 
     // names of the complex animations ant their center coordinates relative
     // to the building's center
@@ -86,14 +84,14 @@ public class BuildingLoader extends GameObjectLoader {
         List<String> animations = reader.readLines("animation");
 
         if (animations != null) {
-            frameAnimations = new HashMap<Point, Short>();
+            frameAnimations = new HashMap<Point, String>();
 
             for (String animation : animations) {
-                short id = Short.parseShort(reader.readLine(animation + " animation id"));
+                String name = reader.readLine(animation + " animation name");
                 float x = Float.parseFloat(reader.readLine(animation + " relative x"));
                 float y = Float.parseFloat(reader.readLine(animation + " relative y"));
 
-                frameAnimations.put(new Point(x, y), id);
+                frameAnimations.put(new Point(x, y), name);
             }
         }
 

@@ -22,8 +22,8 @@ public class Building extends GameObject {
     // the name of the building's texture
     protected String texture;
 
-    // building frame animations' ids and coordinates
-    protected Map<Point, Short> frameAnimations;
+    // building frame animations' names and coordinates
+    protected Map<Point, String> frameAnimations;
 
     // buildings complex animation's names and coordinates
     protected Map<Point, String> complexAnimations;
@@ -45,7 +45,7 @@ public class Building extends GameObject {
      */
     private void initializeFrameAnimations() {
         if (frameAnimations != null && frameAnimations.size() != 0) {
-            for (Map.Entry<Point, Short> animation: frameAnimations.entrySet()) {
+            for (Map.Entry<Point, String> animation: frameAnimations.entrySet()) {
                 FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(animation.getValue());
 
                 frameAnimation.setCenterX(getCenterX() + animation.getKey().x);
@@ -79,11 +79,11 @@ public class Building extends GameObject {
     }
 
     /**
-     * Sets the frame animations' ids and coordinates
+     * Sets the frame animations' names and coordinates
      *
-     * @param frameAnimations map with ids and coordinates
+     * @param frameAnimations map with names and coordinates
      */
-    public void setFrameAnimations(Map<Point, Short> frameAnimations) {
+    public void setFrameAnimations(Map<Point, String> frameAnimations) {
         this.frameAnimations = frameAnimations;
     }
 
