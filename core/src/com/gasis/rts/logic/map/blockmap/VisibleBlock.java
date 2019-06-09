@@ -69,8 +69,8 @@ public class VisibleBlock extends Block implements Renderable {
                     image.height / 2,
                     image.width,
                     image.height,
-                    1,
-                    1,
+                    image.scale,
+                    image.scale,
                     image.rotation
             );
         }

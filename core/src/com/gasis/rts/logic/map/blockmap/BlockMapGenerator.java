@@ -176,8 +176,10 @@ public class BlockMapGenerator implements MapGenerator {
                 if (bottomImage != null) {
                     bottomImage.atlas = image.atlas;
                     bottomImage.texture = image.texture;
+                    bottomImage.scale = 1.01f;
                 } else {
                     // no bottom image exists on this block, add a new one
+                    image.scale = 1.01f;
                     block.addImage(image, true);
                 }
             }

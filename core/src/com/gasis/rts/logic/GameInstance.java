@@ -31,6 +31,16 @@ public class GameInstance {
     // game map
     private Map map;
 
+    // the current zoom value
+    private float zoom = 1;
+
+    // zoom limitations
+    private final float maxZoomIn = 0.5f;
+    private final float maxZoomOut = 1.25f;
+
+    // how much the zoom changes per second
+    private float zoomSpeed;
+
     private RotatingGunUnit unit1;
     private RotatingGunUnit unit2;
     private RotatingGunUnit unit3;
@@ -276,6 +286,8 @@ public class GameInstance {
      * @param delta time elapsed since last update
      */
     public void update(OrthographicCamera cam, float delta) {
+        updateZoom(cam, delta);
+
         unit1.update(delta);
         unit2.update(delta);
         unit3.update(delta);
@@ -322,6 +334,108 @@ public class GameInstance {
             unit6.rotateToDirection(Unit.SOUTH);
             unit7.rotateToDirection(Unit.NORTH_EAST);
         }
+    }
+
+    /**
+     * Updates the camera's zoom
+     */
+    private void updateZoom(OrthographicCamera cam, float delta) {
+        cam.zoom += zoomSpeed * delta;
+        zoomSpeed *= Math.max(0, 1 - delta);
+
+        if (cam.zoom < maxZoomIn) {
+            cam.zoom = maxZoomIn;
+            zoomSpeed = 0;
+        } else if (cam.zoom > maxZoomOut) {
+            cam.zoom = maxZoomOut;
+            zoomSpeed = 0;
+        }
+    }
+
+    /**
+     * Updates the speed of the camera's zoom
+     *
+     * @param scrollAmount how much was the mouse wheel scrolled
+     */
+    private void updateZoomSpeed(int scrollAmount) {
+        zoomSpeed += scrollAmount / 10f;
+    }
+
+    /**
+     * Called when the size of the viewport changes
+     *
+     * @param width new width
+     * @param height new height
+     */
+    public void viewportDimensionsChanged(int width, int height) {
+
+    }
+
+    /**
+     * Called when a key was pressed
+     *
+     * @param keycode one of the constants in Input.Keys
+     * @return whether the input was processed
+     */
+    public void keyDown(int keycode) {
+
+    }
+
+    /**
+     * Called when a key was released
+     *
+     * @param keycode one of the constants in Input.Keys
+     * @return whether the input was processed
+     */
+    public void keyUp(int keycode) {
+
+    }
+
+    /**
+     * Called when the screen was touched or a mouse button was pressed
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
+    public void touchDown(int screenX, int screenY, int pointer, int button) {
+
+    }
+
+    /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
+    public void touchUp(int screenX, int screenY, int pointer, int button) {
+
+    }
+
+    /**
+     * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
+     *
+     * @param screenX
+     * @param screenY
+     * @return whether the input was processed
+     */
+    public void mouseMoved(int screenX, int screenY) {
+
+    }
+
+    /**
+     * Called when the mouse wheel is scrolled. Will not be called on iOS.
+     *
+     * @param amount the scroll amount, -1 or 1 depending on the direction the wheel was scrolled.
+     * @return whether the input was processed.
+     */
+    public void scrolled(int amount) {
+        updateZoomSpeed(amount);
     }
 
     /**
