@@ -119,7 +119,7 @@ public class BlockMapRenderer implements MapRenderer {
         renderWidth = width;
 
         if (renderWidth >= map.getWidth()) {
-            renderWidth = (float) map.getWidth();
+            renderWidth = map.getWidth();
             renderX = 0;
         }
     }
