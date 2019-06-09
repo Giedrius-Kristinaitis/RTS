@@ -604,6 +604,14 @@ public class FrameAnimation implements Animation {
     }
 
     /**
+     * Checks if the animation has finished yet
+     * @return
+     */
+    public boolean hasFinished() {
+        return currentFrame == lastFrameIndex && !loop && timeSinceLastUpdate >= updateInterval;
+    }
+
+    /**
      * Reverses the animation. Used to reverse the animation and make the reversed animation
      * normal again
      */

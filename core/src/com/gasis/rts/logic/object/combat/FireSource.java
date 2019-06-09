@@ -3,8 +3,6 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
-import com.gasis.rts.logic.animation.Animation;
-import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.complexanimation.MissileAnimation;
 import com.gasis.rts.logic.animation.complexanimation.ProjectileAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
@@ -19,7 +17,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * A point from which shots are fired
  */
-public class FireSource implements Updatable, Renderable, AnimationFinishListener, TargetReachListener {
+public class FireSource implements Updatable, Renderable, TargetReachListener {
 
     // all types of fire/projectiles
     public static final byte FIRE_TYPE_MISSILE = 0;
@@ -398,30 +396,17 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     }
 
     /**
-     * Notifies the observer that the animation has finished
-     *
-     * @param animation the animation that just finished
-     */
-    @Override
-    public void finished(Animation animation) {
-        for (int i = 0; i < animations.size(); i++) {
-            if (animations.get(i) == animation) {
-                animations.remove(i);
-                break;
-            }
-        }
-    }
-
-    /**
      * Updates the state of the object
      *
      * @param delta time elapsed since the last update
      */
     @Override
     public void update(float delta) {
-        for (ProjectileAnimation animation: animations) {
-            if (animation != null) {
-                animation.update(delta);
+        for (int i = 0; i < animations.size(); i++) {
+            animations.get(i).update(delta);
+
+            if (animations.get(i).hasEndAnimationFinished()) {
+                animations.remove(i--);
             }
         }
     }
@@ -435,9 +420,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     @Override
     public void render(SpriteBatch batch, Resources resources) {
         for (ProjectileAnimation animation: animations) {
-            if (animation != null) {
-                animation.render(batch, resources);
-            }
+            animation.render(batch, resources);
         }
     }
 }
