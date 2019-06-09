@@ -54,6 +54,7 @@ public class GameInstance {
     private OffensiveBuilding launcher2;
     private OffensiveBuilding launcher3;
     private OffensiveBuilding launcher4;
+    private Building factory;
 
     /**
      * Default class constructor
@@ -211,6 +212,14 @@ public class GameInstance {
         launcher4.setX(0);
         launcher4.setY(5);
         launcher4.aimAt(8.5f, 8.5f);
+
+        BuildingLoader factoryLoader = new BuildingLoader();
+        factoryLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "machine_factory_conf"));
+
+        factory = factoryLoader.newInstance();
+        factory.setX(10);
+        factory.setY(0);
+        factory.initializeAnimations();
     }
 
     /**
@@ -246,6 +255,8 @@ public class GameInstance {
         launcher2.render(batch, resources);
         launcher3.render(batch, resources);
         launcher4.render(batch, resources);
+
+        factory.render(batch, resources);
     }
 
     /**
@@ -279,6 +290,8 @@ public class GameInstance {
         launcher2.update(delta);
         launcher3.update(delta);
         launcher4.update(delta);
+
+        factory.update(delta);
 
         if (Gdx.input.isTouched()) {
             unit1.setInSiegeMode(!unit1.isInSiegeMode());

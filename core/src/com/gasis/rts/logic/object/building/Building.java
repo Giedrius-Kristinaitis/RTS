@@ -46,10 +46,16 @@ public class Building extends GameObject {
     private void initializeFrameAnimations() {
         if (frameAnimations != null && frameAnimations.size() != 0) {
             for (Map.Entry<Point, String> animation: frameAnimations.entrySet()) {
-                FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(animation.getValue());
+                FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(
+                        animation.getValue(),
+                        getCenterX() + animation.getKey().x,
+                        getCenterY() + animation.getKey().y,
+                        getCenterX() + animation.getKey().x,
+                        getCenterY() + animation.getKey().y,
+                        true);
 
-                frameAnimation.setCenterX(getCenterX() + animation.getKey().x);
-                frameAnimation.setCenterY(getCenterY() + animation.getKey().y);
+
+                frameAnimation.setDelayedOnLoop(true);
 
                 animations.add(frameAnimation);
             }

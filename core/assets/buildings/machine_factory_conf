@@ -1,0 +1,25 @@
+atlas: building3.atlas
+code: machine factory conf
+texture: machine_factory_conf
+width: 5.2
+height: 3
+hp: 100
+defence: 5
+sight range: 5
+offensive: false
+animation: fan1
+fan1 animation name: machine_factory_conf_fan_left
+fan1 relative x: -1.075
+fan1 relative y: 0.6
+animation: fan2
+fan2 animation name: machine_factory_conf_fan_right
+fan2 relative x: 1.15
+fan2 relative y: 0.35
+animation: mover1
+mover1 animation name: machine_factory_conf_mover_left
+mover1 relative x: -0.575
+mover1 relative y: 0.615
+animation: mover2
+mover2 animation name: machine_factory_conf_mover_right
+mover2 relative x: 0.525
+mover2 relative y: 0.49

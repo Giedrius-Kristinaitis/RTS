@@ -1,0 +1,12 @@
+texture atlas: building3.atlas
+width: 0.75
+height: 1.245
+delay: 0.1
+duration: 0.2
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: machine_factory_conf_fan_left_1
+frame: machine_factory_conf_fan_left_2
