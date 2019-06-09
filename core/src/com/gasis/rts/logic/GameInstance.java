@@ -49,8 +49,8 @@ public class GameInstance implements Updatable {
     private float zoom = 1;
 
     // zoom limitations
-    private final float maxZoomIn = 0.5f;
-    private final float maxZoomOut = 1.25f;
+    private final float maxZoomIn = 0.25f;
+    private final float maxZoomOut = 1.4f;
 
     // how much the zoom changes per second
     private float zoomSpeed;
@@ -425,8 +425,8 @@ public class GameInstance implements Updatable {
         }
 
         // make sure the correct portion of the map is rendered
-        mapRenderer.setRenderX(cam.position.x - cam.viewportWidth / 2f - 1);
-        mapRenderer.setRenderY(cam.position.y - cam.viewportHeight / 2f - 1);
+        mapRenderer.setRenderX(cam.position.x - cam.viewportWidth / 2f - 2);
+        mapRenderer.setRenderY(cam.position.y - cam.viewportHeight / 2f - 2);
 
         // make sure the render width and height is always up to date
         mapRenderer.setRenderWidth((cam.viewportWidth / Block.BLOCK_WIDTH + 1) * Math.max(1, cam.zoom));
