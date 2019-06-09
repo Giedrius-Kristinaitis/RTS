@@ -1,6 +1,7 @@
 package com.gasis.rts.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -560,6 +561,12 @@ public class GameInstance implements Updatable {
      */
     public void keyDown(int keycode) {
         startScrolling(keycode);
+
+        switch (keycode) {
+            case Input.Keys.F11:
+                toggleFullscreen();
+                break;
+        }
     }
 
     /**
@@ -640,10 +647,16 @@ public class GameInstance implements Updatable {
     }
 
     /**
-     * Cleans up resources
+     * Enters or leaves fullscreen mode
      */
-    public void unloadResources() {
+    public void toggleFullscreen() {
+        Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
 
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(mode.width, mode.height);
+        } else {
+            Gdx.graphics.setFullscreenMode(mode);
+        }
     }
 
     /**
@@ -653,5 +666,12 @@ public class GameInstance implements Updatable {
      */
     public void setCamera(OrthographicCamera cam) {
         this.cam = cam;
+    }
+
+    /**
+     * Cleans up resources
+     */
+    public void unloadResources() {
+
     }
 }
