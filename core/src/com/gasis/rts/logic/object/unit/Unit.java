@@ -112,6 +112,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // target of the unit
     protected Point target;
 
+    // should the still texture be rendered
+    private boolean renderStillUnit = true;
+
     /**
      * Aims at the specified target coordinates
      *
@@ -408,7 +411,11 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     public void setMoving(boolean moving) {
         this.moving = moving;
 
-        createMovementAnimation();
+        if (moving) {
+            createMovementAnimation();
+        } else {
+            movementAnimation = null;
+        }
     }
 
     /**
@@ -590,27 +597,17 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         // render the siege mode transition animation if present
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.render(batch, resources);
+            renderStillUnit = false;
         }
 
-        // firing logic should be rendered after siege mode transition animation
-        // so that the firing animations appear on top of the unit
-        if (firingLogic != null) {
-            firingLogic.render(batch, resources);
-        }
-
-        // stop rendering if switching between siege mode
-        if (siegeModeTransitionAnimation != null) {
-            return;
-        }
-
-        if (moving && movementAnimation != null) {
+        if (siegeModeTransitionAnimation == null && moving && movementAnimation != null) {
             // render the moving animation
             movementAnimation.render(batch, resources);
-            return;
+            renderStillUnit = false;
         }
 
         // render the firing texture if is being used
-        if (firingTextures != null && firingTextureTime <= firingTextureUsageDuration) {
+        if (siegeModeTransitionAnimation == null && movementAnimation == null && firingTextures != null && firingTextureTime <= firingTextureUsageDuration) {
             batch.draw(
                     resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(firingTextures.get(facingDirection)),
                     x,
@@ -618,26 +615,34 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     width,
                     height
             );
-            return;
+            renderStillUnit = false;
         }
 
         // render the still unit
-        if (!inSiegeMode || rotatingToDirection != NONE) {
-            batch.draw(
-                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(facingDirection)),
-                    x,
-                    y,
-                    width,
-                    height
-            );
-        } else {
-            batch.draw(
-                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(siegeModeTextures.size() != 8 ? siegeModeTextures.get(0) : siegeModeTextures.get(facingDirection)),
-                    x,
-                    y,
-                    width,
-                    height
-            );
+        if (renderStillUnit) {
+            if (!inSiegeMode || rotatingToDirection != NONE) {
+                batch.draw(
+                        resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(stillTextures.get(facingDirection)),
+                        x,
+                        y,
+                        width,
+                        height
+                );
+            } else {
+                batch.draw(
+                        resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(siegeModeTextures.size() != 8 ? siegeModeTextures.get(0) : siegeModeTextures.get(facingDirection)),
+                        x,
+                        y,
+                        width,
+                        height
+                );
+            }
         }
+
+        if (firingLogic != null) {
+            firingLogic.render(batch, resources);
+        }
+
+        renderStillUnit = true;
     }
 }
