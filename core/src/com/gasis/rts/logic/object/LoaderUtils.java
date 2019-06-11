@@ -10,6 +10,7 @@ import java.util.*;
 /**
  * Utility functions for game object loaders
  */
+@SuppressWarnings("Duplicates") // the damned IDE gets mad about 3 repeated lines
 public class LoaderUtils {
 
     /**
@@ -129,6 +130,19 @@ public class LoaderUtils {
         ));
 
         fireSource.setFirePoints(firePoints);
+
+        String presence = reader.readLine(prefix + " present");
+
+        if (presence.equalsIgnoreCase("always")) {
+            fireSource.setPresentInSiegeMode(true);
+            fireSource.setPresentOutOfSiegeMode(true);
+        } else if (presence.equalsIgnoreCase("siege mode")) {
+            fireSource.setPresentInSiegeMode(true);
+            fireSource.setPresentOutOfSiegeMode(false);
+        } else if (presence.equalsIgnoreCase("not siege mode")) {
+            fireSource.setPresentInSiegeMode(false);
+            fireSource.setPresentOutOfSiegeMode(true);
+        }
 
         return fireSource;
     }

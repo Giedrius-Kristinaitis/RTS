@@ -56,6 +56,7 @@ g relative y west: 0.125
 g relative x north west: 0.075
 g relative y north west: 0.1
 g fire source: f
+f present: always
 f fire type: shell
 f projectile scale: heavy
 f projectile speed: 30

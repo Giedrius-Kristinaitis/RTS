@@ -57,6 +57,44 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     // point indexes must match facing directions defined in Unit class
     protected List<Point> firePoints;
 
+    // is the source present in these conditions
+    protected boolean presentInSiegeMode;
+    protected boolean presentOutOfSiegeMode;
+
+    /**
+     * Checks if the source is present when the holder in siege mode
+     * @return
+     */
+    public boolean isPresentInSiegeMode() {
+        return presentInSiegeMode;
+    }
+
+    /**
+     * Sets the source's presence in is siege mode
+     *
+     * @param presentInSiegeMode new presence value
+     */
+    public void setPresentInSiegeMode(boolean presentInSiegeMode) {
+        this.presentInSiegeMode = presentInSiegeMode;
+    }
+
+    /**
+     * Checks if the source is present when the holder is not in siege mode
+     * @return
+     */
+    public boolean isPresentOutOfSiegeMode() {
+        return presentOutOfSiegeMode;
+    }
+
+    /**
+     * Sets the source's presence when not in siege mode
+     *
+     * @param presentOutOfSiegeMode new presence value
+     */
+    public void setPresentOutOfSiegeMode(boolean presentOutOfSiegeMode) {
+        this.presentOutOfSiegeMode = presentOutOfSiegeMode;
+    }
+
     /**
      * Gets the fire points of the fire source
      * @return

@@ -46,6 +46,7 @@ g relative y west: 0.85
 g relative x north west: 0
 g relative y north west: 0.85
 g fire source: f
+f present: always
 f fire type: missile
 f projectile scale: heavy
 f projectile speed: 17.5
@@ -68,6 +69,7 @@ f fire point west y: -0.15
 f fire point north west x: 0.55
 f fire point north west y: -0.15
 g fire source: f1
+f1 present: always
 f1 fire type: missile
 f1 projectile scale: heavy
 f1 projectile speed: 17.5

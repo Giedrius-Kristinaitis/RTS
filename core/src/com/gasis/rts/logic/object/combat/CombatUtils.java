@@ -80,7 +80,9 @@ public class CombatUtils {
                     fireSources.get(i).getProjectileScale(),
                     fireSources.get(i).getGunCount(),
                     fireSources.get(i).getProjectileSpeed(),
-                    fireSources.get(i).getFirePoints()
+                    fireSources.get(i).getFirePoints(),
+                    fireSources.get(i).isPresentInSiegeMode(),
+                    fireSources.get(i).isPresentOutOfSiegeMode()
             );
 
             logic.addFireSource(String.valueOf(i + 1), source);
@@ -128,10 +130,12 @@ public class CombatUtils {
      * @param gunCount             how many guns are firing
      * @param projectileSpeed      speed of the projectile
      * @param firePoints           list of fire points
+     * @param presentInSiegeMode   is the source present in siege mode
+     * @param presentOutOfSiegeMode is the source present when not in siege mode
      *
      * @return newly created fire source
      */
-    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints) {
+    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode) {
         FireSource source = new FireSource();
 
         source.setFirePoints(firePoints);
@@ -139,6 +143,8 @@ public class CombatUtils {
         source.setProjectileScale(scale);
         source.setGunCount(gunCount);
         source.setProjectileSpeed(projectileSpeed);
+        source.setPresentInSiegeMode(presentInSiegeMode);
+        source.setPresentOutOfSiegeMode(presentOutOfSiegeMode);
 
         return source;
     }

@@ -256,7 +256,7 @@ public class FiringLogic implements Renderable {
         FireSource source = fireSources.get(fireSourceNames.get(nextFiringSourceIndex));
 
         // launch a shot
-        if ((!siegeMode && timeSinceLastReload >= reloadSpeed) || (siegeMode && timeSinceLastReload >= siegeModeReloadSpeed)) {
+        if ((!siegeMode && timeSinceLastReload >= reloadSpeed && source.isPresentOutOfSiegeMode()) || (siegeMode && timeSinceLastReload >= siegeModeReloadSpeed && source.isPresentInSiegeMode())) {
             source.setX(x + source.getFirePoints().get(facingDirection).x);
             source.setY(y + source.getFirePoints().get(facingDirection).y);
             source.fire(facingDirection, target.x, target.y);
