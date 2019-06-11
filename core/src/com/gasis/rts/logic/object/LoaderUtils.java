@@ -211,6 +211,19 @@ public class LoaderUtils {
         rotatingGun.setRelativeX(relativeX);
         rotatingGun.setRelativeY(relativeY);
 
+        String presence = reader.readLine(prefix + " present");
+
+        if (presence.equalsIgnoreCase("always")) {
+            rotatingGun.setPresentInSiegeMode(true);
+            rotatingGun.setPresentOutOfSiegeMode(true);
+        } else if (presence.equalsIgnoreCase("siege mode")) {
+            rotatingGun.setPresentInSiegeMode(true);
+            rotatingGun.setPresentOutOfSiegeMode(false);
+        } else if (presence.equalsIgnoreCase("not siege mode")) {
+            rotatingGun.setPresentInSiegeMode(false);
+            rotatingGun.setPresentOutOfSiegeMode(true);
+        }
+
         Object[] lines = reader.readLines(prefix + " fire source").toArray();
 
         List<FireSource> fireSources = readFireSources(Arrays.copyOf(lines, lines.length, String[].class), reader);

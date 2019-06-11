@@ -49,6 +49,16 @@ public class Test implements Updatable, Renderable {
     private RotatingGunUnit porcupine7;
     private RotatingGunUnit porcupine8;
 
+    private RotatingGunUnit torrent1;
+    private RotatingGunUnit torrent2;
+    private RotatingGunUnit torrent3;
+    private RotatingGunUnit torrent4;
+    private RotatingGunUnit torrent5;
+    private RotatingGunUnit torrent6;
+    private RotatingGunUnit torrent7;
+    private RotatingGunUnit torrent8;
+
+
     public Test() {
         UnitLoader loader = new UnitLoader();
         loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "rhino"));
@@ -251,6 +261,57 @@ public class Test implements Updatable, Renderable {
         porcupine8.setY(4);
         porcupine8.rotateToDirection(Unit.NORTH_WEST);
         porcupine8.aimAt(25, 4.5f);
+
+        UnitLoader torrentLoader = new UnitLoader();
+        torrentLoader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "torrent"));
+
+        torrent1 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent1.setX(3);
+        torrent1.setY(12);
+        torrent1.rotateToDirection(Unit.EAST);
+        torrent1.aimAt(8.5f, 8.5f);
+
+        torrent2 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent2.setX(15);
+        torrent2.setY(5);
+        torrent2.rotateToDirection(Unit.NORTH_EAST);
+        torrent2.aimAt(8.5f, 8.5f);
+
+        torrent3 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent3.setX(12);
+        torrent3.setY(10);
+        torrent3.rotateToDirection(Unit.NORTH);
+        torrent3.aimAt(8.5f, 8.5f);
+
+        torrent4 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent4.setX(1);
+        torrent4.setY(10);
+        torrent4.rotateToDirection(Unit.SOUTH_EAST);
+        torrent4.aimAt(8.5f, 8.5f);
+
+        torrent5 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent5.setX(10);
+        torrent5.setY(4);
+        torrent5.rotateToDirection(Unit.SOUTH);
+        torrent5.aimAt(8.5f, 8.5f);
+
+        torrent6 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent6.setX(3);
+        torrent6.setY(4);
+        torrent6.rotateToDirection(Unit.SOUTH_WEST);
+        torrent6.aimAt(8.5f, 8.5f);
+
+        torrent7 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent7.setX(23);
+        torrent7.setY(8);
+        torrent7.rotateToDirection(Unit.WEST);
+        torrent7.aimAt(8.5f, 8.5f);
+
+        torrent8 = (RotatingGunUnit) torrentLoader.newInstance();
+        torrent8.setX(21);
+        torrent8.setY(5);
+        torrent8.rotateToDirection(Unit.NORTH_WEST);
+        torrent8.aimAt(8.5f, 8.5f);
     }
 
     /**
@@ -295,6 +356,15 @@ public class Test implements Updatable, Renderable {
         porcupine7.render(batch, resources);
         porcupine8.render(batch, resources);
 
+        torrent1.render(batch, resources);
+        torrent2.render(batch, resources);
+        torrent3.render(batch, resources);
+        torrent4.render(batch, resources);
+        torrent5.render(batch, resources);
+        torrent6.render(batch, resources);
+        torrent7.render(batch, resources);
+        torrent8.render(batch, resources);
+
         factory.render(batch, resources);
         factory2.render(batch, resources);
     }
@@ -335,6 +405,15 @@ public class Test implements Updatable, Renderable {
         porcupine7.update(delta);
         porcupine8.update(delta);
 
+        torrent1.update(delta);
+        torrent2.update(delta);
+        torrent3.update(delta);
+        torrent4.update(delta);
+        torrent5.update(delta);
+        torrent6.update(delta);
+        torrent7.update(delta);
+        torrent8.update(delta);
+
         launcher.update(delta);
         launcher2.update(delta);
         launcher3.update(delta);
@@ -360,6 +439,23 @@ public class Test implements Updatable, Renderable {
             unit5.rotateToDirection(Unit.SOUTH);
             unit6.rotateToDirection(Unit.SOUTH);
             unit7.rotateToDirection(Unit.NORTH_EAST);
+
+            torrent1.setInSiegeMode(!torrent1.isInSiegeMode());
+            torrent2.setInSiegeMode(!torrent2.isInSiegeMode());
+            torrent3.setInSiegeMode(!torrent3.isInSiegeMode());
+            torrent4.setInSiegeMode(!torrent4.isInSiegeMode());
+            torrent5.setInSiegeMode(!torrent5.isInSiegeMode());
+            torrent6.setInSiegeMode(!torrent6.isInSiegeMode());
+            torrent7.setInSiegeMode(!torrent7.isInSiegeMode());
+            torrent8.setInSiegeMode(!torrent8.isInSiegeMode());
+
+            torrent1.rotateToDirection(Unit.WEST);
+            torrent2.rotateToDirection(Unit.NORTH_WEST);
+            torrent3.rotateToDirection(Unit.NORTH);
+            torrent4.rotateToDirection(Unit.SOUTH_WEST);
+            torrent5.rotateToDirection(Unit.SOUTH);
+            torrent6.rotateToDirection(Unit.SOUTH);
+            torrent7.rotateToDirection(Unit.NORTH_EAST);
         }
     }
 }

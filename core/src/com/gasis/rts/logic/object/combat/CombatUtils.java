@@ -112,6 +112,10 @@ public class CombatUtils {
         gun.setRelativeX(data.getKey().getRelativeX());
         gun.setRelativeY(data.getKey().getRelativeY());
         gun.setFiringLogic(createFiringLogic(data.getValue(), firingData));
+        gun.setCurrentlyPresent(true);
+        gun.setPresentInSiegeMode(data.getKey().isPresentInSiegeMode());
+        gun.setPresentOutOfSiegeMode(data.getKey().isPresentOutOfSiegeMode());
+        gun.setCurrentlyPresent(data.getKey().isPresentOutOfSiegeMode());
 
         return gun;
     }

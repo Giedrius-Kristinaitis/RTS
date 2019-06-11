@@ -78,6 +78,66 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     // offensive specs of the gun
     protected OffensiveSpecs offensiveSpecs;
 
+    // is the gun present in these conditions
+    protected boolean presentInSiegeMode;
+    protected boolean presentOutOfSiegeMode;
+
+    // is the gun currently present or not
+    protected boolean currentlyPresent;
+
+    /**
+     * Sets the current gun's presence
+     *
+     * @param currentlyPresent new presence value
+     */
+    public void setCurrentlyPresent(boolean currentlyPresent) {
+        this.currentlyPresent = currentlyPresent;
+
+        firingLogic.reset();
+    }
+
+    /**
+     * Checks if the gun is currently present
+     * @return
+     */
+    public boolean isCurrentlyPresent() {
+        return currentlyPresent;
+    }
+
+    /**
+     * Checks if the gun is present when the holder in siege mode
+     * @return
+     */
+    public boolean isPresentInSiegeMode() {
+        return presentInSiegeMode;
+    }
+
+    /**
+     * Sets the guns presence in is siege mode
+     *
+     * @param presentInSiegeMode new presence value
+     */
+    public void setPresentInSiegeMode(boolean presentInSiegeMode) {
+        this.presentInSiegeMode = presentInSiegeMode;
+    }
+
+    /**
+     * Checks if the gun is present when the holder is not in siege mode
+     * @return
+     */
+    public boolean isPresentOutOfSiegeMode() {
+        return presentOutOfSiegeMode;
+    }
+
+    /**
+     * Sets the gun's presence when not in siege mode
+     *
+     * @param presentOutOfSiegeMode new presence value
+     */
+    public void setPresentOutOfSiegeMode(boolean presentOutOfSiegeMode) {
+        this.presentOutOfSiegeMode = presentOutOfSiegeMode;
+    }
+
     /**
      * Gets the name of the texture atlas used by the gun
      * @return
@@ -440,6 +500,10 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      */
     @Override
     public void update(float delta) {
+        if (!currentlyPresent) {
+            return;
+        }
+
         updateFacingDirection(delta);
         updateOffset(delta);
         updateTarget();
@@ -452,6 +516,10 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      * @param delta time elapsed since the last update
      */
     public void update(boolean togglingSiegeMode, float delta) {
+        if (!currentlyPresent) {
+            return;
+        }
+
         update(delta);
 
         if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(togglingSiegeMode, inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset)) {
@@ -549,6 +617,10 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        if (!currentlyPresent) {
+            return;
+        }
+
         batch.draw(
                 resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(textures.get(facingDirection)),
                 x + xOffset - width / 2f,

@@ -15,6 +15,7 @@ movement animations available: false
 firing textures available: false
 siege mode available: false
 rotating gun: g
+g present: always
 g atlas: porcupine.atlas
 g width: 0.6
 g height: 0.6

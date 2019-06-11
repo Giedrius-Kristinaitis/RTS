@@ -14,6 +14,7 @@ shot count: 2
 shot interval: 0.2
 reload speed: 2
 rotating gun: g
+g present: always
 g atlas: building2.atlas
 g width: 1.15
 g height: 1.15

@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.resources.Resources;
 
@@ -51,6 +52,36 @@ public class RotatingGunUnit extends Unit {
 
         for (RotatingGun gun : guns.values()) {
             gun.setInSiegeMode(inSiegeMode);
+
+            // update gun's presence
+            if (inSiegeMode && !gun.isPresentInSiegeMode()) {
+                gun.setCurrentlyPresent(false);
+            } else if (inSiegeMode) {
+                gun.setFacingDirection(super.facingDirection);
+                gun.setCurrentlyPresent(true);
+            }
+        }
+    }
+
+    /**
+     * Notifies the observer that the animation has finished
+     *
+     * @param animation the animation that just finished
+     */
+    @Override
+    public void finished(Animation animation) {
+        super.finished(animation);
+
+        if (animation == super.siegeModeTransitionAnimation && !inSiegeMode) {
+            // update guns' presence
+            for (RotatingGun gun : guns.values()) {
+                if (!gun.isPresentOutOfSiegeMode()) {
+                    gun.setCurrentlyPresent(false);
+                } else {
+                    gun.setFacingDirection(super.facingDirection);
+                    gun.setCurrentlyPresent(true);
+                }
+            }
         }
     }
 

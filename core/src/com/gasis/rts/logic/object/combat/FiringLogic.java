@@ -291,4 +291,15 @@ public class FiringLogic implements Renderable {
             source.render(batch, resources);
         }
     }
+
+    /**
+     * Resets the state of the logic
+     */
+    public void reset() {
+        enqueuedShots = 0;
+        timeSinceLastShot = 0;
+        timeSinceLastReload = 0;
+        initialEnqueue = true;
+        nextFiringSourceIndex = 0;
+    }
 }
