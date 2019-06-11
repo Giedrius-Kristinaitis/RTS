@@ -133,7 +133,9 @@ public class RotatingGunUnit extends Unit {
 
         // render the rotating guns
         for (RotatingGun gun: guns.values()) {
-            gun.render(batch, resources);
+            if (gun.isCurrentlyPresent()) {
+                gun.render(batch, resources);
+            }
         }
     }
 }

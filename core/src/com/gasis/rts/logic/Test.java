@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
-import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
