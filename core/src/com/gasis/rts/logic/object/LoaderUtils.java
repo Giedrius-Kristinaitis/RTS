@@ -84,7 +84,7 @@ public class LoaderUtils {
         }
 
         fireSource.setGunCount(Byte.parseByte(reader.readLine(prefix + " gun count")));
-        fireSource.setFlightTime(Float.parseFloat(reader.readLine(prefix + " flight time")));
+        fireSource.setProjectileSpeed(Float.parseFloat(reader.readLine(prefix + " projectile speed")));
 
         List<Point> firePoints = new ArrayList<Point>();
 

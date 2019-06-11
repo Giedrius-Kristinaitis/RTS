@@ -1,0 +1,11 @@
+texture atlas: effects.atlas
+width: 0.25
+height: 0.25
+delay: 0
+duration: 1
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: bullet_fire_north_west

@@ -79,7 +79,7 @@ public class CombatUtils {
                     fireSources.get(i).getFireType(),
                     fireSources.get(i).getProjectileScale(),
                     fireSources.get(i).getGunCount(),
-                    fireSources.get(i).getFlightTime(),
+                    fireSources.get(i).getProjectileSpeed(),
                     fireSources.get(i).getFirePoints()
             );
 
@@ -122,19 +122,19 @@ public class CombatUtils {
      * @param type                 type of the fire/projectile
      * @param scale                scale of the fire/projectile
      * @param gunCount             how many guns are firing
-     * @param flightTime           projectile's flight time
+     * @param projectileSpeed      speed of the projectile
      * @param firePoints           list of fire points
      *
      * @return newly created fire source
      */
-    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float flightTime, List<Point> firePoints) {
+    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints) {
         FireSource source = new FireSource();
 
         source.setFirePoints(firePoints);
         source.setFireType(type);
         source.setProjectileScale(scale);
-        source.setFlightTime(flightTime);
         source.setGunCount(gunCount);
+        source.setProjectileSpeed(projectileSpeed);
 
         return source;
     }

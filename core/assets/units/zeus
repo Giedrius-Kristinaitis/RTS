@@ -48,8 +48,8 @@ g relative y north west: 0.1
 g fire source: f
 f fire type: missile
 f projectile scale: heavy
+f projectile speed: 15
 f gun count: 1
-f flight time: 0.3
 f fire point north x: 0
 f fire point north y: 0
 f fire point north east x: 0
@@ -69,8 +69,8 @@ f fire point north west y: 0
 fire source: f1
 f1 fire type: shell
 f1 projectile scale: heavy
+f1 projectile speed: 30
 f1 gun count: 1
-f1 flight time: 0.2
 f1 fire point north x: 0
 f1 fire point north y: 0.5
 f1 fire point north east x: 0.5

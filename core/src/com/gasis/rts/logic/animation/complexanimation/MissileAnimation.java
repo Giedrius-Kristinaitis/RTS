@@ -22,7 +22,7 @@ public class MissileAnimation extends ProjectileAnimation {
     protected float trailScale;
 
     // how often missile trails are spawned in seconds
-    protected float trailSpawnInterval;
+    protected final float trailSpawnInterval = 0.016f;
 
     // how much time in seconds has passed since the last spawn of a trail
     protected float timeSinceTrailSpawn;
@@ -73,18 +73,6 @@ public class MissileAnimation extends ProjectileAnimation {
                 spawnTrails = false;
             }
         });
-    }
-
-    /**
-     * Sets the missile speed based on the flight time
-     *
-     * @param flightTime how many seconds will the projectile fly
-     */
-    @Override
-    public void setFlightTime(float flightTime) {
-        super.setFlightTime(flightTime);
-
-        trailSpawnInterval = flightTime / 40f;
     }
 
     /**

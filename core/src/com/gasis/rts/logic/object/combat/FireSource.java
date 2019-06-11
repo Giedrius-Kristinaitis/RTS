@@ -6,6 +6,7 @@ import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.animation.complexanimation.MissileAnimation;
 import com.gasis.rts.logic.animation.complexanimation.ProjectileAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
@@ -18,6 +19,10 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
  * A point from which shots are fired
  */
 public class FireSource implements Updatable, Renderable, TargetReachListener {
+
+    // projectile speed (game world distance units per second, for reference,
+    // a heavy tank is roughly 1.3 units long)
+    protected float projectileSpeed;
 
     // all types of fire/projectiles
     public static final byte FIRE_TYPE_MISSILE = 0;
@@ -47,9 +52,6 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
 
     // how many guns are firing (only has effect on things that fire shells)
     protected byte gunCount = 1;
-
-    // the flight time of the projectile in seconds
-    protected float flightTime;
 
     // from where the shots are fired for each facing direction
     // point indexes must match facing directions defined in Unit class
@@ -94,20 +96,20 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     }
 
     /**
-     * Sets the flight time of the projectile
-     *
-     * @param flightTime flight time in seconds
+     * Gets the speed of the projectile
+     * @return
      */
-    public void setFlightTime(float flightTime) {
-        this.flightTime = flightTime;
+    public float getProjectileSpeed() {
+        return projectileSpeed;
     }
 
     /**
-     * Gets the flight time of the projectile
-     * @return
+     * Sets the speed of teh projectile (units per second)
+     *
+     * @param projectileSpeed new speed
      */
-    public float getFlightTime() {
-        return flightTime;
+    public void setProjectileSpeed(float projectileSpeed) {
+        this.projectileSpeed = projectileSpeed;
     }
 
     /**
@@ -210,7 +212,7 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     public void fire(byte facingDirection, float targetX, float targetY) {
         ProjectileAnimation animation = createProjectileAnimation(facingDirection, targetX, targetY);
         animation.addTargetReachedListener(this);
-        animation.setFlightTime(flightTime);
+        animation.setFlightTime(MathUtils.distance(x, targetX, y, targetY) / projectileSpeed);
 
         animations.add(animation);
     }
