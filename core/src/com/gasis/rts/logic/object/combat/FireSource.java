@@ -12,6 +12,7 @@ import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.gasis.rts.logic.object.unit.Unit.*;
 
@@ -19,6 +20,9 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
  * A point from which shots are fired
  */
 public class FireSource implements Updatable, Renderable, TargetReachListener {
+
+    // used to deviate the projectile
+    private static final Random random = new Random();
 
     // projectile speed (game world distance units per second, for reference,
     // a heavy tank is roughly 1.3 units long)
@@ -60,6 +64,26 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     // is the source present in these conditions
     protected boolean presentInSiegeMode;
     protected boolean presentOutOfSiegeMode;
+
+    // how much can the projectile deviate from it's target
+    protected float projectileDeviation;
+
+    /**
+     * Sets the maximum possible deviation from the target
+     *
+     * @param projectileDeviation new deviation value
+     */
+    public void setProjectileDeviation(float projectileDeviation) {
+        this.projectileDeviation = projectileDeviation;
+    }
+
+    /**
+     * Gets the maximum possible deviation from the target
+     * @return
+     */
+    public float getProjectileDeviation() {
+        return projectileDeviation;
+    }
 
     /**
      * Checks if the source is present when the holder in siege mode
@@ -248,9 +272,12 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
      * @param targetY y coordinate of the target
      */
     public void fire(byte facingDirection, float targetX, float targetY) {
-        ProjectileAnimation animation = createProjectileAnimation(facingDirection, targetX, targetY);
+        float deviatedTargetX = targetX + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
+        float deviatedTargetY = targetY + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
+
+        ProjectileAnimation animation = createProjectileAnimation(facingDirection, deviatedTargetX, deviatedTargetY);
         animation.addTargetReachedListener(this);
-        animation.setFlightTime(MathUtils.distance(x, targetX, y, targetY) / projectileSpeed);
+        animation.setFlightTime(MathUtils.distance(x, deviatedTargetX, y, deviatedTargetY) / projectileSpeed);
 
         animations.add(animation);
     }

@@ -82,7 +82,8 @@ public class CombatUtils {
                     fireSources.get(i).getProjectileSpeed(),
                     fireSources.get(i).getFirePoints(),
                     fireSources.get(i).isPresentInSiegeMode(),
-                    fireSources.get(i).isPresentOutOfSiegeMode()
+                    fireSources.get(i).isPresentOutOfSiegeMode(),
+                    fireSources.get(i).getProjectileDeviation()
             );
 
             logic.addFireSource(String.valueOf(i + 1), source);
@@ -132,10 +133,11 @@ public class CombatUtils {
      * @param firePoints           list of fire points
      * @param presentInSiegeMode   is the source present in siege mode
      * @param presentOutOfSiegeMode is the source present when not in siege mode
+     * @param projectileDeviation  how much can the projectile deviate from it's target
      *
      * @return newly created fire source
      */
-    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode) {
+    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation) {
         FireSource source = new FireSource();
 
         source.setFirePoints(firePoints);
@@ -145,6 +147,7 @@ public class CombatUtils {
         source.setProjectileSpeed(projectileSpeed);
         source.setPresentInSiegeMode(presentInSiegeMode);
         source.setPresentOutOfSiegeMode(presentOutOfSiegeMode);
+        source.setProjectileDeviation(projectileDeviation);
 
         return source;
     }

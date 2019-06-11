@@ -130,6 +130,7 @@ public class LoaderUtils {
         ));
 
         fireSource.setFirePoints(firePoints);
+        fireSource.setProjectileDeviation(Float.parseFloat(reader.readLine(prefix + " projectile deviation")));
 
         String presence = reader.readLine(prefix + " present");
 
