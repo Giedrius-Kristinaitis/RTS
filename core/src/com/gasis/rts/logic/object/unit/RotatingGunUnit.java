@@ -57,7 +57,6 @@ public class RotatingGunUnit extends Unit {
             if (inSiegeMode && !gun.isPresentInSiegeMode()) {
                 gun.setCurrentlyPresent(false);
             } else if (inSiegeMode) {
-                gun.setFacingDirection(super.facingDirection);
                 gun.setCurrentlyPresent(true);
             }
         }
@@ -70,19 +69,18 @@ public class RotatingGunUnit extends Unit {
      */
     @Override
     public void finished(Animation animation) {
-        super.finished(animation);
-
         if (animation == super.siegeModeTransitionAnimation && !inSiegeMode) {
             // update guns' presence
             for (RotatingGun gun : guns.values()) {
                 if (!gun.isPresentOutOfSiegeMode()) {
                     gun.setCurrentlyPresent(false);
                 } else {
-                    gun.setFacingDirection(super.facingDirection);
                     gun.setCurrentlyPresent(true);
                 }
             }
         }
+
+        super.finished(animation);
     }
 
     /**
