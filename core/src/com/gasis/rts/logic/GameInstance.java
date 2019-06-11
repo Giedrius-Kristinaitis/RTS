@@ -410,18 +410,14 @@ public class GameInstance implements Updatable {
         // make sure the camera is in the bounds of the map
         if (cam.position.x < halfWidth * cam.zoom) {
             cam.position.x = halfWidth * cam.zoom;
-            xScrollSpeed = 0;
         } else if (cam.position.x > map.getWidth() * Block.BLOCK_WIDTH - halfWidth * cam.zoom) {
             cam.position.x = map.getWidth() * Block.BLOCK_WIDTH - halfWidth * cam.zoom;
-            xScrollSpeed = 0;
         }
 
         if (cam.position.y < halfHeight * cam.zoom) {
             cam.position.y = halfHeight * cam.zoom;
-            yScrollSpeed = 0;
         } else if (cam.position.y > map.getHeight() * Block.BLOCK_HEIGHT - halfHeight * cam.zoom) {
             cam.position.y = map.getHeight() * Block.BLOCK_HEIGHT - halfHeight * cam.zoom;
-            yScrollSpeed = 0;
         }
 
         // make sure the correct portion of the map is rendered
