@@ -1,6 +1,6 @@
 texture atlas: effects.atlas
-width: 0.25
-height: 0.25
+width: 0.2
+height: 0.2
 delay: 0
 duration: 1
 loop: false

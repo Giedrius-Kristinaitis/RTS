@@ -5,9 +5,7 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Logic for firing shots from fire sources
@@ -50,8 +48,11 @@ public class FiringLogic implements Renderable {
     // is it the first time enqueueing shots
     private boolean initialEnqueue = true;
 
-    // the index of the fire source that will be fired next
+    // the index of the fire source (in the fireSourceNames list) that will be fired next
     private byte nextFiringSourceIndex = 0;
+
+    // names of all fire sources (used to pick the correct fire source to fire)
+    private List<String> fireSourceNames = new ArrayList<String>();
 
     /**
      * Gets the normal shot count
@@ -163,6 +164,7 @@ public class FiringLogic implements Renderable {
      */
     public void addFireSource(String name, FireSource source) {
         fireSources.put(name, source);
+        fireSourceNames.add(name);
     }
 
     /**
@@ -251,21 +253,10 @@ public class FiringLogic implements Renderable {
         boolean fired = false;
 
         // select the correct fire source to fire and increment fire source index
-        Iterator<FireSource> iterator = fireSources.values().iterator();
-        FireSource source = iterator.next();
-
-        for (int i = 0; i < nextFiringSourceIndex; i++) {
-            source = iterator.next();
-        }
-
-        if (nextFiringSourceIndex == fireSources.values().size() - 1) {
-            nextFiringSourceIndex = 0;
-        } else {
-            nextFiringSourceIndex++;
-        }
+        FireSource source = fireSources.get(fireSourceNames.get(nextFiringSourceIndex));
 
         // launch a shot
-        if ((siegeMode && timeSinceLastReload >= siegeModeReloadSpeed) || (!siegeMode && timeSinceLastReload >= reloadSpeed)) {
+        if ((!siegeMode && timeSinceLastReload >= reloadSpeed) || (siegeMode && timeSinceLastReload >= siegeModeReloadSpeed)) {
             source.setX(x + source.getFirePoints().get(facingDirection).x);
             source.setY(y + source.getFirePoints().get(facingDirection).y);
             source.fire(facingDirection, target.x, target.y);
@@ -276,6 +267,12 @@ public class FiringLogic implements Renderable {
 
             if (enqueuedShots == 0) {
                 timeSinceLastReload = 0;
+            }
+
+            if (nextFiringSourceIndex == fireSourceNames.size() - 1) {
+                nextFiringSourceIndex = 0;
+            } else {
+                nextFiringSourceIndex++;
             }
         }
 

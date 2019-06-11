@@ -10,7 +10,7 @@ speed: 4
 attack range: 8
 shot count: 1
 shot interval: 0
-reload speed: 0.2
+reload speed: 0.15
 movement animations available: false
 firing textures available: false
 siege mode available: false
@@ -66,6 +66,27 @@ f fire point west x: 0
 f fire point west y: 0
 f fire point north west x: 0
 f fire point north west y: 0
+g fire source: f1
+f1 fire type: bullet
+f1 projectile scale: heavy
+f1 projectile speed: 15
+f1 gun count: 1
+f1 fire point north x: 0
+f1 fire point north y: 0.2
+f1 fire point north east x: 0.2
+f1 fire point north east y: 0.2
+f1 fire point east x: 0.2
+f1 fire point east y: 0
+f1 fire point south east x: 0.2
+f1 fire point south east y: -0.2
+f1 fire point south x: 0
+f1 fire point south y: -0.2
+f1 fire point south west x: -0.2
+f1 fire point south west y: 0.2
+f1 fire point west x: -0.2
+f1 fire point west y: 0
+f1 fire point north west x: -0.2
+f1 fire point north west y: 0.2
 still texture north: porcupine_north
 still texture north east: porcupine_north_east
 still texture east: porcupine_east
