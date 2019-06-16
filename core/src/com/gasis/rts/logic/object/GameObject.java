@@ -17,6 +17,9 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // identifier of one specific object
     protected Long id;
 
+    // the id of the player who owns this object
+    protected Long ownerId;
+
     // the name of the texture atlas to which the object's texture(s) belongs
     protected String atlas;
 
@@ -76,7 +79,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      * Gets the id of the object
      * @return
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -94,8 +97,25 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      *
      * @param id new id
      */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * Gets the id of the object's owner
+     * @return
+     */
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    /**
+     * Sets the id of the object's owner
+     *
+     * @param ownerId new owner's id
+     */
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     /**

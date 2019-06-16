@@ -1,7 +1,9 @@
 package com.gasis.rts.logic.player;
 
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.object.unit.UnitLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.List;
  */
 public abstract class Player {
 
+    // unique identifier
+    protected long id;
+
     // the current state of the player
     protected PlayerState state = new PlayerState();
 
@@ -19,6 +24,12 @@ public abstract class Player {
 
     // all of the buildings the player currently owns
     protected List<Building> buildings = new ArrayList<Building>();
+
+    // unit loaders to load and create units for this player
+    protected List<UnitLoader> unitLoaders = new ArrayList<UnitLoader>();
+
+    // building loaders to load and create buildings for this player
+    protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
 
     /**
      * Adds a new unit to the player's owned units
@@ -39,6 +50,22 @@ public abstract class Player {
     }
 
     /**
+     * Gets the unit loaders of the player
+     * @return
+     */
+    public Iterable<UnitLoader> getUnitLoaders() {
+        return unitLoaders;
+    }
+
+    /**
+     * Gets the building loaders of the player
+     * @return
+     */
+    public Iterable<BuildingLoader> getBuildingLoaders() {
+        return buildingLoaders;
+    }
+
+    /**
      * Gets the current state
      * @return
      */
@@ -53,5 +80,22 @@ public abstract class Player {
      */
     public void setState(PlayerState state) {
         this.state = state;
+    }
+
+    /**
+     * Gets the player's id
+     * @return
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the player's id
+     *
+     * @param id new id
+     */
+    public void setId(long id) {
+        this.id = id;
     }
 }
