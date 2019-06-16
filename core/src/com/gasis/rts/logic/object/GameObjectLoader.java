@@ -68,4 +68,12 @@ public abstract class GameObjectLoader {
      * @return new instance of the loaded object
      */
     public abstract GameObject newInstance();
+
+    /**
+     * Gets the code of the loaded object
+     * @return
+     */
+    public String getCode() {
+        return code;
+    }
 }
