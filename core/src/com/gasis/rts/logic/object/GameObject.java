@@ -15,7 +15,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected String code;
 
     // identifier of one specific object
-    protected String id;
+    protected Long id;
 
     // the name of the texture atlas to which the object's texture(s) belongs
     protected String atlas;
