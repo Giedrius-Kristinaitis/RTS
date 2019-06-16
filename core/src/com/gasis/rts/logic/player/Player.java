@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class Player {
 
     // unique identifier
-    protected long id;
+    protected Long id;
 
     // the current state of the player
     protected PlayerState state = new PlayerState();
@@ -86,7 +86,7 @@ public abstract class Player {
      * Gets the player's id
      * @return
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -95,7 +95,7 @@ public abstract class Player {
      *
      * @param id new id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
