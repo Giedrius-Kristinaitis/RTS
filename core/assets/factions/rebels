@@ -1,0 +1,5 @@
+name: Rebels
+unit: rhino
+unit: porcupine
+building: power_plant_rebels
+building: machine_factory_rebels

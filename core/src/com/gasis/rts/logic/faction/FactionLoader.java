@@ -7,6 +7,7 @@ import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class FactionLoader {
     protected String name;
 
     // all unit loaders for the units of the faction
-    protected List<UnitLoader> unitLoaders;
+    protected List<UnitLoader> unitLoaders = new ArrayList<UnitLoader>();
 
     // all building loaders for the buildings of the faction
-    protected List<BuildingLoader> buildingLoaders;
+    protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
 
     /**
      * Loads a faction
