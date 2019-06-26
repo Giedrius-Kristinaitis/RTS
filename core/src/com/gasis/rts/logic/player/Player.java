@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.object.building.Building;
@@ -33,11 +34,11 @@ public class Player {
     /**
      * Initializes the player's data with the given faction
      *
-     * @param factionName name of the faction file
+     * @param factionFile the faction file
      */
-    public void initialize(String factionName) {
+    public void initialize(FileHandle factionFile) {
         FactionLoader loader = new FactionLoader();
-        loader.load(Gdx.files.internal(Constants.FOLDER_FACTIONS + factionName));
+        loader.load(factionFile);
 
         faction = loader.createInstance();
     }

@@ -66,11 +66,13 @@ public class FactionLoader {
     protected void initializeUnitLoaders(FileLineReader reader) {
         List<String> units = reader.readLines("unit");
 
-        for (String unit: units) {
-            // create an instance of a unit loader
-            UnitLoader loader = new UnitLoader();
-            loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + unit));
-            unitLoaders.add(loader);
+        if (units != null) {
+            for (String unit : units) {
+                // create an instance of a unit loader
+                UnitLoader loader = new UnitLoader();
+                loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + unit));
+                unitLoaders.add(loader);
+            }
         }
     }
 
@@ -82,11 +84,13 @@ public class FactionLoader {
     protected void initializeBuildingLoaders(FileLineReader reader) {
         List<String> buildings = reader.readLines("building");
 
-        for (String building: buildings) {
-            // create an instance of a building loader
-            BuildingLoader loader = new BuildingLoader();
-            loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + building));
-            buildingLoaders.add(loader);
+        if (buildings != null) {
+            for (String building : buildings) {
+                // create an instance of a building loader
+                BuildingLoader loader = new BuildingLoader();
+                loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + building));
+                buildingLoaders.add(loader);
+            }
         }
     }
 

@@ -12,13 +12,13 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.map.blockmap.BlockMapGenerator;
 import com.gasis.rts.logic.map.blockmap.BlockMapRenderer;
 import com.gasis.rts.logic.object.building.Building;
-import com.gasis.rts.logic.object.building.BuildingLoader;
-import com.gasis.rts.logic.object.building.OffensiveBuilding;
-import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.logic.object.unit.Unit;
-import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Game instance. Holds game state, draws the game world and updates it
@@ -72,6 +72,9 @@ public class GameInstance implements Updatable {
     // scrolling the map (expressed in screen width and height percentage)
     private final float mouseTriggeredScrollBounds = 0.025f;
 
+    // all players in the game
+    private List<Player> players = new ArrayList<Player>();
+
     private Test test;
 
     /**
@@ -92,6 +95,16 @@ public class GameInstance implements Updatable {
         // load all animations in advance
         FrameAnimationFactory.loadAnimations();
 
+        // create some test players
+        Player one = new Player();
+        Player two = new Player();
+
+        one.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "rebels"));
+        two.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "confederation"));
+
+        players.add(one);
+        players.add(two);
+
         test = new Test();
     }
 
@@ -102,6 +115,16 @@ public class GameInstance implements Updatable {
      */
     public void draw(SpriteBatch batch) {
         mapRenderer.render(batch, resources);
+
+        for (Player player: players) {
+            for (Unit unit: player.getUnits()) {
+                unit.render(batch, resources);
+            }
+
+            for (Building building: player.getBuildings()) {
+                building.render(batch, resources);
+            }
+        }
 
         test.render(batch, resources);
     }
@@ -115,6 +138,16 @@ public class GameInstance implements Updatable {
     public void update(float delta) {
         updateZoom(cam, delta);
         updateScroll(delta);
+
+        for (Player player: players) {
+            for (Unit unit: player.getUnits()) {
+                unit.update(delta);
+            }
+
+            for (Building building: player.getBuildings()) {
+                building.update(delta);
+            }
+        }
 
         test.update(delta);
     }
