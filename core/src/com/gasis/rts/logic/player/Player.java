@@ -1,9 +1,11 @@
 package com.gasis.rts.logic.player;
 
+import com.badlogic.gdx.Gdx;
+import com.gasis.rts.logic.faction.Faction;
+import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.object.building.Building;
-import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.Unit;
-import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +27,19 @@ public class Player {
     // all of the buildings the player currently owns
     protected List<Building> buildings = new ArrayList<Building>();
 
-    // unit loaders to load and create units for this player
-    protected List<UnitLoader> unitLoaders = new ArrayList<UnitLoader>();
-
-    // building loaders to load and create buildings for this player
-    protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
+    // faction the player is controlling
+    protected Faction faction;
 
     /**
      * Initializes the player's data with the given faction
      *
-     * @param faction name of the faction file
+     * @param factionName name of the faction file
      */
-    public void initialize(String faction) {
+    public void initialize(String factionName) {
+        FactionLoader loader = new FactionLoader();
+        loader.load(Gdx.files.internal(Constants.FOLDER_FACTIONS + factionName));
 
+        faction = loader.createInstance();
     }
 
     /**
@@ -56,22 +58,6 @@ public class Player {
      */
     public void addBuilding(Building building) {
         buildings.add(building);
-    }
-
-    /**
-     * Gets the unit loaders of the player
-     * @return
-     */
-    public Iterable<UnitLoader> getUnitLoaders() {
-        return unitLoaders;
-    }
-
-    /**
-     * Gets the building loaders of the player
-     * @return
-     */
-    public Iterable<BuildingLoader> getBuildingLoaders() {
-        return buildingLoaders;
     }
 
     /**
@@ -122,5 +108,13 @@ public class Player {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * Gets the player's faction
+     * @return
+     */
+    public Faction getFaction() {
+        return faction;
     }
 }
