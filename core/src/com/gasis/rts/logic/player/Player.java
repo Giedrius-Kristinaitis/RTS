@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Represents any player of the game: human or AI
  */
-public abstract class Player {
+public class Player {
 
     // unique identifier
     protected Long id;
@@ -30,6 +30,15 @@ public abstract class Player {
 
     // building loaders to load and create buildings for this player
     protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
+
+    /**
+     * Initializes the player's data with the given faction
+     *
+     * @param faction name of the faction file
+     */
+    public void initialize(String faction) {
+
+    }
 
     /**
      * Adds a new unit to the player's owned units
