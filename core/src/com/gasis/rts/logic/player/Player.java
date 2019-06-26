@@ -34,19 +34,19 @@ public abstract class Player {
     /**
      * Adds a new unit to the player's owned units
      *
-     * @param code code of the unit
+     * @param unit the unit to add
      */
-    public void addUnit(String code) {
-
+    public void addUnit(Unit unit) {
+        units.add(unit);
     }
 
     /**
      * Adds a new building to the player's owned buildings
      *
-     * @param code code of the building
+     * @param building the building to add
      */
-    public void addBuilding(String code) {
-
+    public void addBuilding(Building building) {
+        buildings.add(building);
     }
 
     /**
@@ -63,6 +63,22 @@ public abstract class Player {
      */
     public Iterable<BuildingLoader> getBuildingLoaders() {
         return buildingLoaders;
+    }
+
+    /**
+     * Gets the units that the player owns
+     * @return
+     */
+    public Iterable<Unit> getUnits() {
+        return units;
+    }
+
+    /**
+     * Gets the buildings that the player owns
+     * @return
+     */
+    public Iterable<Building> getBuildings() {
+        return buildings;
     }
 
     /**
