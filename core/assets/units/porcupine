@@ -74,7 +74,7 @@ f1 projectile deviation: 0
 f1 present: always
 f1 fire type: bullet
 f1 projectile scale: heavy
-f1 projectile speed: 15
+f1 projectile speed: 20
 f1 gun count: 1
 f1 fire point north x: 0
 f1 fire point north y: 0.2
