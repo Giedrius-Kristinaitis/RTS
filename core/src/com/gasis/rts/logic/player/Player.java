@@ -1,12 +1,10 @@
 package com.gasis.rts.logic.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.unit.Unit;
-import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
