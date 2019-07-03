@@ -21,7 +21,7 @@ public class Faction {
     protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
 
     /**
-     * Sets the unit loaders for the factionn
+     * Sets the unit loaders for the faction
      *
      * @param unitLoaders unit loader list
      */
