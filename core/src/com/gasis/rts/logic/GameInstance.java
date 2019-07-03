@@ -11,7 +11,7 @@ import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
-import com.gasis.rts.logic.player.PlayerControls;
+import com.gasis.rts.logic.player.controls.PlayerControls;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 

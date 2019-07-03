@@ -1,4 +1,6 @@
-package com.gasis.rts.logic.player;
+package com.gasis.rts.logic.player.controls;
+
+import com.gasis.rts.logic.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +21,5 @@ public class PlayerControls {
         controlledPlayers.addAll(Arrays.asList(players));
     }
 
-    /**
-     * Called when a key on the keyboard is pressed down
-     *
-     * @param keycode code of the pressed key
-     */
-    public void keyDown(int keycode) {
 
-    }
 }
