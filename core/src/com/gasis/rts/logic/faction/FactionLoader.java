@@ -7,8 +7,9 @@ import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.utils.Constants;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Loads factions from it's files
@@ -22,10 +23,10 @@ public class FactionLoader {
     protected String name;
 
     // all unit loaders for the units of the faction
-    protected List<UnitLoader> unitLoaders = new ArrayList<UnitLoader>();
+    protected Map<String, UnitLoader> unitLoaders = new HashMap<String, UnitLoader>();
 
     // all building loaders for the buildings of the faction
-    protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
+    protected Map<String, BuildingLoader> buildingLoaders = new HashMap<String, BuildingLoader>();
 
     /**
      * Loads a faction
@@ -72,7 +73,7 @@ public class FactionLoader {
                 // create an instance of a unit loader
                 UnitLoader loader = new UnitLoader();
                 loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + unit));
-                unitLoaders.add(loader);
+                unitLoaders.put(loader.getCode(), loader);
             }
         }
     }
@@ -90,7 +91,7 @@ public class FactionLoader {
                 // create an instance of a building loader
                 BuildingLoader loader = new BuildingLoader();
                 loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + building));
-                buildingLoaders.add(loader);
+                buildingLoaders.put(loader.getCode(), loader);
             }
         }
     }

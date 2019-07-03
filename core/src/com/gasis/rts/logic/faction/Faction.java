@@ -3,8 +3,8 @@ package com.gasis.rts.logic.faction;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A playable faction
@@ -15,17 +15,17 @@ public class Faction {
     protected String name;
 
     // unit loaders to load and create units for this player
-    protected List<UnitLoader> unitLoaders = new ArrayList<UnitLoader>();
+    protected Map<String, UnitLoader> unitLoaders = new HashMap<String, UnitLoader>();
 
     // building loaders to load and create buildings for this player
-    protected List<BuildingLoader> buildingLoaders = new ArrayList<BuildingLoader>();
+    protected Map<String, BuildingLoader> buildingLoaders = new HashMap<String, BuildingLoader>();
 
     /**
      * Sets the unit loaders for the faction
      *
      * @param unitLoaders unit loader list
      */
-    public void setUnitLoaders(List<UnitLoader> unitLoaders) {
+    public void setUnitLoaders(Map<String, UnitLoader> unitLoaders) {
         this.unitLoaders = unitLoaders;
     }
 
@@ -34,7 +34,7 @@ public class Faction {
      *
      * @param buildingLoaders building loader list
      */
-    public void setBuildingLoaders(List<BuildingLoader> buildingLoaders) {
+    public void setBuildingLoaders(Map<String, BuildingLoader> buildingLoaders) {
         this.buildingLoaders = buildingLoaders;
     }
 
@@ -43,7 +43,7 @@ public class Faction {
      * @return
      */
     public Iterable<UnitLoader> getUnitLoaders() {
-        return unitLoaders;
+        return unitLoaders.values();
     }
 
     /**
@@ -51,7 +51,7 @@ public class Faction {
      * @return
      */
     public Iterable<BuildingLoader> getBuildingLoaders() {
-        return buildingLoaders;
+        return buildingLoaders.values();
     }
 
     /**
