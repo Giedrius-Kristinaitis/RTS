@@ -76,4 +76,20 @@ public abstract class GameObjectLoader {
     public String getCode() {
         return code;
     }
+
+    /**
+     * Gets the width of the object
+     * @return
+     */
+    public float getWidth() {
+        return width;
+    }
+
+    /**
+     * Gets the height of the object
+     * @return
+     */
+    public float getHeight() {
+        return height;
+    }
 }

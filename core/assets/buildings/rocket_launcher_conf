@@ -1,8 +1,11 @@
 atlas: building2.atlas
 code: rocker launcher conf
 texture: mountable_tower_conf
+placement texture: mountable_tower_conf
 width: 1.75
 height: 1.5
+width in blocks: 2
+height in blocks: 2
 hp: 100
 defence: 5
 sight range: 12

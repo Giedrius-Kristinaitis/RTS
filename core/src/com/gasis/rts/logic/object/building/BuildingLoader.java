@@ -31,6 +31,9 @@ public class BuildingLoader extends GameObjectLoader {
     // texture of the building
     protected String texture;
 
+    // the texture used when the building is being placed
+    protected String placementTexture;
+
     // the names of the frame animations and their center coordinates relative to
     // the building's center
     protected Map<Point, String> frameAnimations;
@@ -41,6 +44,10 @@ public class BuildingLoader extends GameObjectLoader {
 
     // is the building offensive or not
     protected boolean offensive;
+
+    // the building's dimensions in block map's blocks
+    protected byte widthInBlocks;
+    protected byte heightInBlocks;
 
     /**
      * Reads combat data of the building
@@ -79,6 +86,7 @@ public class BuildingLoader extends GameObjectLoader {
     @SuppressWarnings("Duplicates")
     protected void readTexturesAndAnimations(FileLineReader reader) {
         texture = reader.readLine("texture");
+        placementTexture = reader.readLine("placement texture");
 
         // read frame animations
         List<String> animations = reader.readLines("animation");
@@ -120,6 +128,9 @@ public class BuildingLoader extends GameObjectLoader {
     protected void readOtherData(FileLineReader reader) {
         readCombatData(reader);
         readTexturesAndAnimations(reader);
+
+        widthInBlocks = Byte.parseByte(reader.readLine("width in blocks"));
+        heightInBlocks = Byte.parseByte(reader.readLine("height in blocks"));
     }
 
     /**
@@ -138,6 +149,8 @@ public class BuildingLoader extends GameObjectLoader {
         building.setAtlas(atlas);
         building.setWidth(width);
         building.setHeight(height);
+        building.setWidthInBlocks(widthInBlocks);
+        building.setHeightInBlocks(heightInBlocks);
         building.setTexture(texture);
         building.setCode(code);
         building.setDefensiveSpecs(defensiveSpecs);
@@ -170,5 +183,21 @@ public class BuildingLoader extends GameObjectLoader {
         }
 
         return building;
+    }
+
+    /**
+     * Gets the building's placement texture
+     * @return
+     */
+    public String getPlacementTexture() {
+        return placementTexture;
+    }
+
+    /**
+     * Gets the name of the loaded object's texture atlas
+     * @return
+     */
+    public String getAtlas() {
+        return atlas;
     }
 }

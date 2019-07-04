@@ -1,8 +1,11 @@
 atlas: building3.atlas
 code: machine factory conf
 texture: machine_factory_conf
+placement texture: machine_factory_conf
 width: 5.2
 height: 3
+width in blocks: 4
+height in blocks: 3
 hp: 100
 defence: 5
 sight range: 5

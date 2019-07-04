@@ -31,6 +31,14 @@ public class Building extends GameObject {
     // animations of the building
     protected List<Animation> animations = new ArrayList<Animation>();
 
+    // building's dimensions in blocks
+    protected byte widthInBlocks;
+    protected byte heightInBlocks;
+
+    // building's coordinates in blocks
+    protected byte xInBlocks;
+    protected byte yInBlocks;
+
     /**
      * Initializes the building's animations. Must be called after the building's position
      * is set
@@ -150,5 +158,73 @@ public class Building extends GameObject {
         for (Animation animation: animations) {
             animation.render(batch, resources);
         }
+    }
+
+    /**
+     * Gets the building's width in blocks
+     * @return
+     */
+    public byte getWidthInBlocks() {
+        return widthInBlocks;
+    }
+
+    /**
+     * Sets the building's width in blocks
+     *
+     * @param widthInBlocks new width in blocks
+     */
+    public void setWidthInBlocks(byte widthInBlocks) {
+        this.widthInBlocks = widthInBlocks;
+    }
+
+    /**
+     * Gets the building's height in blocks
+     * @return
+     */
+    public byte getHeightInBlocks() {
+        return heightInBlocks;
+    }
+
+    /**
+     * Sets the building's height in blocks
+     *
+     * @param heightInBlocks new height in blocks
+     */
+    public void setHeightInBlocks(byte heightInBlocks) {
+        this.heightInBlocks = heightInBlocks;
+    }
+
+    /**
+     * Gets the building's x in blocks
+     * @return
+     */
+    public byte getXInBlocks() {
+        return xInBlocks;
+    }
+
+    /**
+     * Sets the building's x in blocks
+     *
+     * @param xInBlocks new x in blocks
+     */
+    public void setXInBlocks(byte xInBlocks) {
+        this.xInBlocks = xInBlocks;
+    }
+
+    /**
+     * Gets the building's y in blocks
+     * @return
+     */
+    public byte getYInBlocks() {
+        return yInBlocks;
+    }
+
+    /**
+     * Sets the building's y in blocks
+     *
+     * @param yInBlocks new y in blocks
+     */
+    public void setYInBlocks(byte yInBlocks) {
+        this.yInBlocks = yInBlocks;
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
@@ -55,6 +56,9 @@ public class GameInstance implements Updatable {
     // map zooming logic
     private BlockMapZoomer mapZoomer;
 
+    // current mouse coordinates (in screen units)
+    private Vector3 mouseCoords = new Vector3();
+
     private Test test;
 
     /**
@@ -90,7 +94,7 @@ public class GameInstance implements Updatable {
         players.add(two);
 
         // initialize player controls
-        playerControls = new PlayerControls(one);
+        playerControls = new PlayerControls(map, one);
 
         test = new Test();
     }
@@ -114,6 +118,8 @@ public class GameInstance implements Updatable {
         }
 
         test.render(batch, resources);
+
+        playerControls.render(batch, resources);
     }
 
     /**
@@ -123,6 +129,8 @@ public class GameInstance implements Updatable {
      */
     @Override
     public void update(float delta) {
+        playerControls.update(delta);
+
         mapZoomer.updateMapZoom(cam, delta);
         mapScroller.updateMapScroll(cam, delta);
 
@@ -202,6 +210,12 @@ public class GameInstance implements Updatable {
      */
     public void mouseMoved(int screenX, int screenY) {
         mapScroller.initiateMouseScrolling(screenX, screenY);
+
+        mouseCoords.x = screenX;
+        mouseCoords.y = screenY;
+        cam.unproject(mouseCoords);
+
+        playerControls.mouseMoved(mouseCoords.x, mouseCoords.y);
     }
 
     /**

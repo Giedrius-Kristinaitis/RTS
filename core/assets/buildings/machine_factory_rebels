@@ -1,8 +1,11 @@
 atlas: building4.atlas
 code: machine factory rebels
 texture: machine_factory_rebels
+placement texture: machine_factory_rebels
 width: 3.9
 height: 3.25
+width in blocks: 3
+height in blocks: 3
 hp: 100
 defence: 5
 sight range: 5

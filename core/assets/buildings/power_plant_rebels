@@ -1,8 +1,11 @@
 atlas: building.atlas
 code: power plant rebels
 texture: plant
+placement texture: plant
 width: 3.9
 height: 3
+width in blocks: 3
+height in blocks: 3
 hp: 100
 defence: 5
 sight range: 5
