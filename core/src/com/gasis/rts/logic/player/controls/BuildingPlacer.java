@@ -2,6 +2,7 @@ package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.resources.Resources;
@@ -63,8 +64,8 @@ public class BuildingPlacer implements Renderable {
      * @param y mouse y relative to map's bottom left
      */
     public void mouseMoved(float x, float y) {
-        buildingX = (int) (x - buildingWidth / 2f);
-        buildingY = (int) (y - buildingHeight / 2f);
+        buildingX = (int) (x / Block.BLOCK_WIDTH - buildingWidth / 2f) * Block.BLOCK_WIDTH;
+        buildingY = (int) (y / Block.BLOCK_HEIGHT - buildingHeight / 2f) * Block.BLOCK_HEIGHT;
     }
 
     /**
