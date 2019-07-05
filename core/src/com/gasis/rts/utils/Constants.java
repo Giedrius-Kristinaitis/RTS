@@ -17,4 +17,5 @@ public class Constants {
     public static final String FOLDER_BUILDINGS = "buildings/";
     public static final String FOLDER_TECHS = "techs/";
     public static final String FOLDER_FACTIONS = "factions/";
+    public static final String FOLDER_CONFIG = "config/";
 }
