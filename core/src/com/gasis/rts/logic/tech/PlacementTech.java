@@ -36,7 +36,11 @@ public class PlacementTech extends Tech {
     public void apply(Player player, Faction faction) {
         if (building != null) {
             BuildingLoader loader = faction.getBuildingLoaders().get(building);
-            placer.initiateBuildingPlacement(loader);
+
+            // if the loader is null, that means the faction doesn't have this building
+            if (loader != null) {
+                placer.initiateBuildingPlacement(loader);
+            }
         }
     }
 
