@@ -8,18 +8,20 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Handles controlling of a player
  */
 public class PlayerControls implements Updatable, Renderable {
 
-    // all the players that are being controlled
-    protected List<Player> controlledPlayers = new ArrayList<Player>();
+    // the player that is being controlled
+    protected Player controlledPlayer;
 
     // the game's map
     protected BlockMap map;
@@ -36,10 +38,9 @@ public class PlayerControls implements Updatable, Renderable {
     /**
      * Default class constructor
      */
-    public PlayerControls(BlockMap map, Player... players) {
+    public PlayerControls(BlockMap map, Player controlledPlayer) {
         this.map = map;
-
-        controlledPlayers.addAll(Arrays.asList(players));
+        this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
 
@@ -119,7 +120,7 @@ public class PlayerControls implements Updatable, Renderable {
      * @param keycode code of the released key
      */
     public void keyDown(int keycode) {
-
+        handleControlContextHotkeys(keycode);
     }
 
     /**
@@ -129,6 +130,17 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void keyUp(int keycode) {
 
+    }
+
+    /**
+     * Handles current control context's hotkeys
+     *
+     * @param keycode code of the pressed key
+     */
+    protected void handleControlContextHotkeys(int keycode) {
+        String pressedKey = Input.Keys.toString(keycode);
+        Tech tech = currentContext.getTech(pressedKey);
+        tech.apply(controlledPlayer, controlledPlayer.getFaction());
     }
 
     /**

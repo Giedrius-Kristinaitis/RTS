@@ -79,4 +79,14 @@ public class ControlContext {
 
         techs.put(keyBinding, tech);
     }
+
+    /**
+     * Gets a tech in this control context
+     *
+     * @param keyBinding hotkey for the tech
+     * @return
+     */
+    public Tech getTech(String keyBinding) {
+        return techs.get(keyBinding);
+    }
 }

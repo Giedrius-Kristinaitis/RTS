@@ -2,6 +2,7 @@ package com.gasis.rts.logic.tech;
 
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.faction.Faction;
+import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.BuildingPlacer;
 
@@ -33,7 +34,10 @@ public class PlacementTech extends Tech {
      */
     @Override
     public void apply(Player player, Faction faction) {
-
+        if (building != null) {
+            BuildingLoader loader = faction.getBuildingLoaders().get(building);
+            placer.initiateBuildingPlacement(loader);
+        }
     }
 
     /**
