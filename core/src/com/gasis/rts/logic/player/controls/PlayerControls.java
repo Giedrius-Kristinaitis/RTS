@@ -1,14 +1,12 @@
 package com.gasis.rts.logic.player.controls;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
-import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
-import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,11 +35,6 @@ public class PlayerControls implements Updatable, Renderable {
         controlledPlayers.addAll(Arrays.asList(players));
 
         buildingPlacer = new BuildingPlacer(map);
-
-        BuildingLoader loader = new BuildingLoader();
-        loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "machine_factory_conf"));
-
-        buildingPlacer.initiateBuildingPlacement(loader);
     }
 
     /**
@@ -52,6 +45,63 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void mouseMoved(float x, float y) {
         buildingPlacer.mouseMoved(x, y);
+    }
+
+    /**
+     * Called when the screen was touched or a mouse button was pressed
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     */
+    public void touchDown(int screenX, int screenY, int pointer, int button) {
+        handleBuildingPlacement(button);
+    }
+
+    /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     */
+    public void touchUp(int screenX, int screenY, int pointer, int button) {
+
+    }
+
+    /**
+     * Called when a key on the keyboard is released
+     *
+     * @param keycode code of the released key
+     */
+    public void keyDown(int keycode) {
+
+    }
+
+    /**
+     * Called when a key on the keyboard is pressed down
+     *
+     * @param keycode code of the pressed key
+     */
+    public void keyUp(int keycode) {
+
+    }
+
+    /**
+     * Handles building placement logic
+     *
+     * @param mouseButton the mouse button that was just pressed
+     */
+    protected void handleBuildingPlacement(int mouseButton) {
+        if (buildingPlacer.isPlacing()) {
+            if (mouseButton == Input.Buttons.LEFT) {
+                buildingPlacer.finishPlacement();
+            } else if (mouseButton == Input.Buttons.RIGHT) {
+                buildingPlacer.cancelPlacement();
+            }
+        }
     }
 
     /**

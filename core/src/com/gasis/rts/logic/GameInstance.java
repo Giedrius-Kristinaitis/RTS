@@ -155,6 +155,7 @@ public class GameInstance implements Updatable {
      */
     public void keyDown(int keycode) {
         mapScroller.startScrolling(keycode);
+        playerControls.keyDown(keycode);
 
         switch (keycode) {
             case Input.Keys.F11:
@@ -170,6 +171,7 @@ public class GameInstance implements Updatable {
      */
     public void keyUp(int keycode) {
         mapScroller.stopScrolling(keycode);
+        playerControls.keyUp(keycode);
     }
 
     /**
