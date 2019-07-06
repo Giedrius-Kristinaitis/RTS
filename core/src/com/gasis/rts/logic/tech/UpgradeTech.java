@@ -31,6 +31,13 @@ public class UpgradeTech extends Tech {
      */
     @Override
     protected boolean loadData(FileLineReader reader) {
-        return false;
+        try {
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

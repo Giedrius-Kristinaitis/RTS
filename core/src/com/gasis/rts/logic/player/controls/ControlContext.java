@@ -25,11 +25,12 @@ public class ControlContext {
      * Loads the control context
      *
      * @param file control context description file
+     * @param placer building placer used when initializing placement techs
      */
-    public boolean load(FileHandle file) {
+    public boolean load(FileHandle file, BuildingPlacer placer) {
         try {
             FileLineReader reader = new FileLineReader(file.read(), ":");
-            loadTechs(reader);
+            loadTechs(reader, placer);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -42,12 +43,13 @@ public class ControlContext {
      * Loads available techs
      *
      * @param reader file reader to read techs from
+     * @param placer building placer used when initializing placement techs
      */
-    protected void loadTechs(FileLineReader reader) {
+    protected void loadTechs(FileLineReader reader, BuildingPlacer placer) {
         List<String> techList = reader.readLines("tech");
 
         for (String tech: techList) {
-            loadTech(reader, tech);
+            loadTech(reader, tech, placer);
         }
     }
 
@@ -56,8 +58,9 @@ public class ControlContext {
      *
      * @param reader file reader to read the tech from
      * @param prefix tech prefix
+     * @param placer building placer used when initializing placement techs
      */
-    protected void loadTech(FileLineReader reader, String prefix) {
+    protected void loadTech(FileLineReader reader, String prefix, BuildingPlacer placer) {
         String techType = reader.readLine(prefix + " type");
         String techFile = reader.readLine(prefix + " file");
         String keyBinding = reader.readLine(prefix + " key binding");
@@ -67,7 +70,7 @@ public class ControlContext {
         if (techType.equalsIgnoreCase("upgrade")) {
             tech = new UpgradeTech();
         } else if (techType.equalsIgnoreCase("placement")) {
-            tech = new PlacementTech();
+            tech = new PlacementTech(placer);
         } else {
             return;
         }

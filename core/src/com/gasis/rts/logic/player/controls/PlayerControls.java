@@ -75,7 +75,7 @@ public class PlayerControls implements Updatable, Renderable {
      */
     protected void loadControlContext(FileHandle file) {
         ControlContext context = new ControlContext();
-        context.load(file);
+        context.load(file, buildingPlacer);
         controlContexts.put(file.name(), context);
     }
 
