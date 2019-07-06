@@ -73,7 +73,7 @@ public class FactionLoader {
                 // create an instance of a unit loader
                 UnitLoader loader = new UnitLoader();
                 loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + unit));
-                unitLoaders.put(loader.getCode(), loader);
+                unitLoaders.put(unit, loader);
             }
         }
     }
@@ -91,7 +91,7 @@ public class FactionLoader {
                 // create an instance of a building loader
                 BuildingLoader loader = new BuildingLoader();
                 loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + building));
-                buildingLoaders.put(loader.getCode(), loader);
+                buildingLoaders.put(building, loader);
             }
         }
     }
