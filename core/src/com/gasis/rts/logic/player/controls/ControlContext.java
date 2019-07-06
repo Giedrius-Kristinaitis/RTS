@@ -1,0 +1,79 @@
+package com.gasis.rts.logic.player.controls;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.tech.PlacementTech;
+import com.gasis.rts.logic.tech.Tech;
+import com.gasis.rts.logic.tech.UpgradeTech;
+import com.gasis.rts.utils.Constants;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A context with different techs that a player can control. Examples of control contexts:
+ * machine factory, command center, research center
+ */
+public class ControlContext {
+
+    // all techs in this context
+    protected Map<String, Tech> techs = new HashMap<String, Tech>();
+
+    /**
+     * Loads the control context
+     *
+     * @param file control context description file
+     */
+    public boolean load(FileHandle file) {
+        try {
+            FileLineReader reader = new FileLineReader(file.read(), ":");
+            loadTechs(reader);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Loads available techs
+     *
+     * @param reader file reader to read techs from
+     */
+    protected void loadTechs(FileLineReader reader) {
+        List<String> techList = reader.readLines("tech");
+
+        for (String tech: techList) {
+            loadTech(reader, tech);
+        }
+    }
+
+    /**
+     * Loads a single tech
+     *
+     * @param reader file reader to read the tech from
+     * @param prefix tech prefix
+     */
+    protected void loadTech(FileLineReader reader, String prefix) {
+        String techType = reader.readLine(prefix + " type");
+        String techFile = reader.readLine(prefix + " file");
+        String keyBinding = reader.readLine(prefix + " key binding");
+
+        Tech tech;
+
+        if (techType.equalsIgnoreCase("upgrade")) {
+            tech = new UpgradeTech();
+        } else if (techType.equalsIgnoreCase("placement")) {
+            tech = new PlacementTech();
+        } else {
+            return;
+        }
+
+        tech.load(Gdx.files.internal(Constants.FOLDER_TECHS + techFile));
+
+        techs.put(keyBinding, tech);
+    }
+}
