@@ -42,16 +42,16 @@ public class Faction {
      * Gets the unit loaders of the faction
      * @return
      */
-    public Iterable<UnitLoader> getUnitLoaders() {
-        return unitLoaders.values();
+    public Map<String, UnitLoader> getUnitLoaders() {
+        return unitLoaders;
     }
 
     /**
      * Gets the building loaders of the faction
      * @return
      */
-    public Iterable<BuildingLoader> getBuildingLoaders() {
-        return buildingLoaders.values();
+    public Map<String, BuildingLoader> getBuildingLoaders() {
+        return buildingLoaders;
     }
 
     /**
