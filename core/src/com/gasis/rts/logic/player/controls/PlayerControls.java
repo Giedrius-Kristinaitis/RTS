@@ -140,7 +140,10 @@ public class PlayerControls implements Updatable, Renderable {
     protected void handleControlContextHotkeys(int keycode) {
         String pressedKey = Input.Keys.toString(keycode);
         Tech tech = currentContext.getTech(pressedKey);
-        tech.apply(controlledPlayer, controlledPlayer.getFaction());
+
+        if (tech != null) {
+            tech.apply(controlledPlayer, controlledPlayer.getFaction());
+        }
     }
 
     /**
