@@ -1,6 +1,5 @@
 package com.gasis.rts.logic.tech;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.player.Player;
 
