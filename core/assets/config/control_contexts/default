@@ -1,0 +1,4 @@
+tech: machine factory conf
+machine factory conf type: placement
+machine factory conf file: placement_machine_factory_conf
+machine factory conf key binding: M
