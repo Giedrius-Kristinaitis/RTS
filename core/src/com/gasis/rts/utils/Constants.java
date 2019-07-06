@@ -18,4 +18,5 @@ public class Constants {
     public static final String FOLDER_TECHS = "techs/";
     public static final String FOLDER_FACTIONS = "factions/";
     public static final String FOLDER_CONFIG = "config/";
+    public static final String FOLDER_CONTROL_CONTEXTS = "config/control_contexts/";
 }
