@@ -1,16 +1,17 @@
 package com.gasis.rts.logic.player.controls;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Handles controlling of a player
@@ -26,6 +27,12 @@ public class PlayerControls implements Updatable, Renderable {
     // building placement logic
     protected BuildingPlacer buildingPlacer;
 
+    // all available control contexts
+    protected Map<String, ControlContext> controlContexts = new HashMap<String, ControlContext>();
+
+    // the currently active control context
+    protected ControlContext currentContext;
+
     /**
      * Default class constructor
      */
@@ -35,6 +42,41 @@ public class PlayerControls implements Updatable, Renderable {
         controlledPlayers.addAll(Arrays.asList(players));
 
         buildingPlacer = new BuildingPlacer(map);
+
+        loadControlContexts();
+    }
+
+    /**
+     * Loads available control contexts
+     */
+    protected void loadControlContexts() {
+        FileHandle dir = Gdx.files.internal(Constants.FOLDER_CONTROL_CONTEXTS);
+
+        for (FileHandle file: dir.list()) {
+            if (!file.isDirectory()) {
+                loadControlContext(file);
+            }
+        }
+
+        setDefaultControlContext();
+    }
+
+    /**
+     * Sets the default control context
+     */
+    protected void setDefaultControlContext() {
+        currentContext = controlContexts.get("default");
+    }
+
+    /**
+     * Loads a single control context
+     *
+     * @param file file to load the context from
+     */
+    protected void loadControlContext(FileHandle file) {
+        ControlContext context = new ControlContext();
+        context.load(file);
+        controlContexts.put(file.name(), context);
     }
 
     /**
