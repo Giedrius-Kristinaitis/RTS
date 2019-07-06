@@ -77,7 +77,7 @@ public class BuildingPlacer implements Renderable {
     }
 
     /**
-     * Calcels the current building's placement process
+     * Cancels the current building's placement process
      */
     public void cancelPlacement() {
         placing = false;
