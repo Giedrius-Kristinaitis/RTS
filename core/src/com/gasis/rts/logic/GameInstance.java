@@ -152,8 +152,6 @@ public class GameInstance implements Updatable {
      * Called when a key was pressed
      *
      * @param keycode one of the constants in Input.Keys
-     *
-     * @return whether the input was processed
      */
     public void keyDown(int keycode) {
         mapScroller.startScrolling(keycode);
@@ -169,7 +167,6 @@ public class GameInstance implements Updatable {
      * Called when a key was released
      *
      * @param keycode one of the constants in Input.Keys
-     * @return whether the input was processed
      */
     public void keyUp(int keycode) {
         mapScroller.stopScrolling(keycode);
@@ -182,10 +179,9 @@ public class GameInstance implements Updatable {
      * @param screenY The y coordinate, origin is in the upper left corner
      * @param pointer the pointer for the event.
      * @param button  the button
-     * @return whether the input was processed
      */
     public void touchDown(int screenX, int screenY, int pointer, int button) {
-
+        playerControls.touchDown(screenX, screenY, pointer, button);
     }
 
     /**
@@ -195,10 +191,9 @@ public class GameInstance implements Updatable {
      * @param screenY
      * @param pointer the pointer for the event.
      * @param button  the button
-     * @return whether the input was processed
      */
     public void touchUp(int screenX, int screenY, int pointer, int button) {
-
+        playerControls.touchUp(screenX, screenY, pointer, button);
     }
 
     /**
@@ -206,7 +201,6 @@ public class GameInstance implements Updatable {
      *
      * @param screenX
      * @param screenY
-     * @return whether the input was processed
      */
     public void mouseMoved(int screenX, int screenY) {
         mapScroller.initiateMouseScrolling(screenX, screenY);
@@ -222,7 +216,6 @@ public class GameInstance implements Updatable {
      * Called when the mouse wheel is scrolled. Will not be called on iOS.
      *
      * @param amount the scroll amount, -1 or 1 depending on the direction the wheel was scrolled.
-     * @return whether the input was processed.
      */
     public void scrolled(int amount) {
         mapZoomer.updateZoomSpeed(amount);
