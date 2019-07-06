@@ -2,6 +2,7 @@ package com.gasis.rts.logic.tech;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.player.Player;
 
 /**
@@ -13,8 +14,9 @@ public abstract class Tech {
      * Applies the tech to the specified player
      *
      * @param player player to apply the tech to
+     * @param faction the faction the tech belongs to
      */
-    public abstract void apply(Player player);
+    public abstract void apply(Player player, Faction faction);
 
     /**
      * Loads the tech from it's description file
