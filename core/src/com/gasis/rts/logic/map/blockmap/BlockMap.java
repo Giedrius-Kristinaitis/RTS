@@ -2,6 +2,7 @@ package com.gasis.rts.logic.map.blockmap;
 
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
+import com.gasis.rts.logic.object.GameObject;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -11,11 +12,12 @@ import java.util.LinkedList;
  */
 public class BlockMap implements Map {
 
-    // map dimensions
+    // map dimensions in blocks
     protected short width;
     protected short height;
 
     // map layers
+    // the first (bottom) layer is always the ground layer on which occupying objects are set
     protected Deque<BlockMapLayer> layers = new LinkedList<BlockMapLayer>();
 
     /**
@@ -30,6 +32,17 @@ public class BlockMap implements Map {
     }
 
     /**
+     * Occupies a map block
+     *
+     * @param x x of the block
+     * @param y y of the block
+     * @param occupier new occupying object
+     */
+    public void occupyBlock(short x, short y, GameObject occupier) {
+        layers.getFirst().getBlock(x, y).setOccupyingObject(occupier);
+    }
+
+    /**
      * Checks if the map block at (x, y) is occupied or not
      *
      * @param x x of the block
@@ -37,12 +50,10 @@ public class BlockMap implements Map {
      * @return
      */
     public boolean isBlockOccupied(short x, short y) {
-        for (BlockMapLayer layer: layers) {
-            Block block = layer.getBlock(x, y);
+        Block block = layers.getFirst().getBlock(x, y);
 
-            if (block != null && block.getOccupyingObject() != null) {
-                return true;
-            }
+        if (block != null && block.getOccupyingObject() != null) {
+            return true;
         }
 
         return false;
