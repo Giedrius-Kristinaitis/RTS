@@ -142,7 +142,7 @@ public class BuildingPlacer implements Renderable {
      * @return
      */
     protected boolean canPlaceInCurrentPosition() {
-        if (buildingX / Block.BLOCK_WIDTH < 0 || buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks() >= map.getWidth() || buildingY / Block.BLOCK_HEIGHT < 0 || buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks() >= map.getHeight()) {
+        if (buildingX / Block.BLOCK_WIDTH < 0 || buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks() > map.getWidth() || buildingY / Block.BLOCK_HEIGHT < 0 || buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks() > map.getHeight()) {
             return false;
         }
 
