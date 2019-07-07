@@ -199,6 +199,17 @@ public class GameInstance implements Updatable {
     }
 
     /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event
+     */
+    public void touchDragged(int screenX, int screenY, int pointer) {
+        playerControls.touchDragged(screenX, screenY, pointer);
+    }
+
+    /**
      * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
      *
      * @param screenX

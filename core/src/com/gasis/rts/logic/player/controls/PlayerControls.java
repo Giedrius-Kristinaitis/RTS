@@ -35,6 +35,9 @@ public class PlayerControls implements Updatable, Renderable {
     // the currently active control context
     protected ControlContext currentContext;
 
+    // unit selection logic
+    protected UnitSelector unitSelector;
+
     /**
      * Default class constructor
      */
@@ -43,6 +46,7 @@ public class PlayerControls implements Updatable, Renderable {
         this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
+        unitSelector = new UnitSelector(controlledPlayer);
 
         loadControlContexts();
     }
@@ -100,6 +104,7 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void touchDown(int screenX, int screenY, int pointer, int button) {
         handleBuildingPlacement(button);
+        unitSelector.touchDown(screenX, screenY, pointer, button);
     }
 
     /**
@@ -111,7 +116,18 @@ public class PlayerControls implements Updatable, Renderable {
      * @param button  the button
      */
     public void touchUp(int screenX, int screenY, int pointer, int button) {
+        unitSelector.touchUp(screenX, screenY, pointer, button);
+    }
 
+    /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event
+     */
+    public void touchDragged(int screenX, int screenY, int pointer) {
+        unitSelector.touchDragged(screenX, screenY, pointer);
     }
 
     /**

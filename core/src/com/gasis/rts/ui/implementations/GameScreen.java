@@ -123,6 +123,20 @@ public class GameScreen extends StagedScreen {
     }
 
     /**
+     * Called when a finger or the mouse was dragged.
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event.
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        game.touchDragged(screenX, screenY, pointer);
+        return true;
+    }
+
+    /**
      * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
      *
      * @param screenX
