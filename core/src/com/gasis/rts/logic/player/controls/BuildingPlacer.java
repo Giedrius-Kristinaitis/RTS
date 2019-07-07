@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -24,6 +26,7 @@ public class BuildingPlacer implements Renderable {
     protected boolean placing = false;
 
     // building's coordinates
+    protected float buildingCenterX;
     protected float buildingX;
     protected float buildingY;
 
@@ -31,8 +34,15 @@ public class BuildingPlacer implements Renderable {
     protected float buildingWidth;
     protected float buildingHeight;
 
+    // the last position of the mouse before initiating building placement
+    protected float lastMouseXBeforePlacing;
+    protected float lastMouseYBeforePlacing;
+
     // the game's map
     protected BlockMap map;
+
+    // the placed building's loader
+    protected BuildingLoader loader;
 
     /**
      * Default class constructor
@@ -48,6 +58,8 @@ public class BuildingPlacer implements Renderable {
      * @param loader building's loader
      */
     public void initiateBuildingPlacement(BuildingLoader loader) {
+        this.loader = loader;
+
         buildingWidth = loader.getWidth();
         buildingHeight = loader.getHeight();
 
@@ -55,6 +67,8 @@ public class BuildingPlacer implements Renderable {
         buildingAtlas = loader.getAtlas();
 
         placing = true;
+
+        calculateBuildingCoordinates(lastMouseXBeforePlacing, lastMouseYBeforePlacing);
     }
 
     /**
@@ -64,8 +78,24 @@ public class BuildingPlacer implements Renderable {
      * @param y mouse y relative to map's bottom left
      */
     public void mouseMoved(float x, float y) {
-        buildingX = (int) (x / Block.BLOCK_WIDTH - buildingWidth / 2f) * Block.BLOCK_WIDTH;
-        buildingY = (int) (y / Block.BLOCK_HEIGHT - buildingHeight / 2f) * Block.BLOCK_HEIGHT;
+        if (placing) {
+            calculateBuildingCoordinates(x, y);
+        } else {
+            lastMouseXBeforePlacing = x;
+            lastMouseYBeforePlacing = y;
+        }
+    }
+
+    /**
+     * Calculates the building's coordinates
+     *
+     * @param mouseX mouse pointer x
+     * @param mouseY mouse pointer y
+     */
+    protected void calculateBuildingCoordinates(float mouseX, float mouseY) {
+        buildingX = (int) (mouseX / Block.BLOCK_WIDTH - buildingWidth / 2f) * Block.BLOCK_WIDTH;
+        buildingY = (int) (mouseY / Block.BLOCK_HEIGHT - buildingHeight / 2f) * Block.BLOCK_HEIGHT;
+        buildingCenterX = buildingX + loader.getWidthInBlocks() * Block.BLOCK_WIDTH / 2f;
     }
 
     /**
@@ -86,11 +116,45 @@ public class BuildingPlacer implements Renderable {
     /**
      * Attempts to finish the current building's placement process
      */
-    public void finishPlacement() {
-        if (placing) {
+    public void finishPlacement(Player player) {
+        if (placing && canPlaceInCurrentPosition()) {
+            Building building = loader.newInstance();
+
+            for (short x = (short) (buildingX / Block.BLOCK_WIDTH); x < buildingX / Block.BLOCK_WIDTH + building.getWidthInBlocks(); x++) {
+                for (short y = (short) (buildingY / Block.BLOCK_HEIGHT); y < buildingY / Block.BLOCK_HEIGHT + building.getHeightInBlocks(); y++) {
+                    map.occupyBlock(x, y, building);
+                }
+            }
+
+            building.setCenterX(buildingCenterX);
+            building.setY(buildingY);
+            building.initializeAnimations();
+
+            player.addBuilding(building);
 
             placing = false;
         }
+    }
+
+    /**
+     * Checks if the building can be placed where it currently is positioned
+     *
+     * @return
+     */
+    protected boolean canPlaceInCurrentPosition() {
+        if (buildingX / Block.BLOCK_WIDTH < 0 || buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks() >= map.getWidth() || buildingY / Block.BLOCK_HEIGHT < 0 || buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks() >= map.getHeight()) {
+            return false;
+        }
+
+        for (short x = (short) (buildingX / Block.BLOCK_WIDTH); x < buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks(); x++) {
+            for (short y = (short) (buildingY / Block.BLOCK_HEIGHT); y < buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks(); y++) {
+                if (map.isBlockOccupied(x, y)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -103,7 +167,7 @@ public class BuildingPlacer implements Renderable {
     public void render(SpriteBatch batch, Resources resources) {
         if (placing) {
             batch.setColor(1, 1, 1, textureOpacity);
-            batch.draw(resources.atlas(Constants.FOLDER_ATLASES + buildingAtlas).findRegion(buildingTexture), buildingX, buildingY, buildingWidth, buildingHeight);
+            batch.draw(resources.atlas(Constants.FOLDER_ATLASES + buildingAtlas).findRegion(buildingTexture), buildingCenterX - buildingWidth / 2f, buildingY, buildingWidth, buildingHeight);
             batch.setColor(1, 1, 1, 1);
         }
     }

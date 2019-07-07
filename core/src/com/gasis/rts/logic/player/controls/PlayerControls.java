@@ -154,7 +154,7 @@ public class PlayerControls implements Updatable, Renderable {
     protected void handleBuildingPlacement(int mouseButton) {
         if (buildingPlacer.isPlacing()) {
             if (mouseButton == Input.Buttons.LEFT) {
-                buildingPlacer.finishPlacement();
+                buildingPlacer.finishPlacement(controlledPlayer);
             } else if (mouseButton == Input.Buttons.RIGHT) {
                 buildingPlacer.cancelPlacement();
             }

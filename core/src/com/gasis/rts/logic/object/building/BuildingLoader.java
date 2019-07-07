@@ -200,4 +200,20 @@ public class BuildingLoader extends GameObjectLoader {
     public String getAtlas() {
         return atlas;
     }
+
+    /**
+     * Gets the building's width in blocks
+     * @return
+     */
+    public byte getWidthInBlocks() {
+        return widthInBlocks;
+    }
+
+    /**
+     * Gets the building's height in blocks
+     * @return
+     */
+    public byte getHeightInBlocks() {
+        return heightInBlocks;
+    }
 }
