@@ -8,6 +8,7 @@ import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.unit.RotatingGunUnit;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -58,7 +59,7 @@ public class Test implements Updatable, Renderable {
     private RotatingGunUnit torrent8;
 
 
-    public Test() {
+    public Test(Player player) {
         UnitLoader loader = new UnitLoader();
         loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "rhino"));
 
@@ -311,6 +312,28 @@ public class Test implements Updatable, Renderable {
         torrent8.setY(5);
         torrent8.rotateToDirection(Unit.NORTH_WEST);
         torrent8.aimAt(8.5f, 8.5f);
+
+        player.addUnit(zeus1);
+        player.addUnit(zeus2);
+        player.addUnit(zeus3);
+        player.addUnit(zeus4);
+        player.addUnit(zeus5);
+        player.addUnit(zeus6);
+        player.addUnit(zeus7);
+        player.addUnit(zeus8);
+        player.addUnit(torrent1);
+        player.addUnit(torrent2);
+        player.addUnit(torrent3);
+        player.addUnit(torrent4);
+        player.addUnit(torrent5);
+        player.addUnit(torrent6);
+        player.addUnit(torrent7);
+        player.addUnit(torrent8);
+        player.addBuilding(launcher);
+        player.addBuilding(launcher2);
+        player.addBuilding(launcher3);
+        player.addBuilding(launcher4);
+        player.addBuilding(factory);
     }
 
     /**
@@ -330,21 +353,7 @@ public class Test implements Updatable, Renderable {
         unit7.render(batch, resources);
         unit8.render(batch, resources);
 
-        zeus1.render(batch, resources);
-        zeus2.render(batch, resources);
-        zeus3.render(batch, resources);
-        zeus4.render(batch, resources);
-        zeus5.render(batch, resources);
-        zeus6.render(batch, resources);
-        zeus7.render(batch, resources);
-        zeus8.render(batch, resources);
-
         plant.render(batch, resources);
-
-        launcher.render(batch, resources);
-        launcher2.render(batch, resources);
-        launcher3.render(batch, resources);
-        launcher4.render(batch, resources);
 
         porcupine1.render(batch, resources);
         porcupine2.render(batch, resources);
@@ -355,16 +364,6 @@ public class Test implements Updatable, Renderable {
         porcupine7.render(batch, resources);
         porcupine8.render(batch, resources);
 
-        torrent1.render(batch, resources);
-        torrent2.render(batch, resources);
-        torrent3.render(batch, resources);
-        torrent4.render(batch, resources);
-        torrent5.render(batch, resources);
-        torrent6.render(batch, resources);
-        torrent7.render(batch, resources);
-        torrent8.render(batch, resources);
-
-        factory.render(batch, resources);
         factory2.render(batch, resources);
     }
 
@@ -384,15 +383,6 @@ public class Test implements Updatable, Renderable {
         unit7.update(delta);
         unit8.update(delta);
 
-        zeus1.update(delta);
-        zeus2.update(delta);
-        zeus3.update(delta);
-        zeus4.update(delta);
-        zeus5.update(delta);
-        zeus6.update(delta);
-        zeus7.update(delta);
-        zeus8.update(delta);
-
         plant.update(delta);
 
         porcupine1.update(delta);
@@ -404,21 +394,6 @@ public class Test implements Updatable, Renderable {
         porcupine7.update(delta);
         porcupine8.update(delta);
 
-        torrent1.update(delta);
-        torrent2.update(delta);
-        torrent3.update(delta);
-        torrent4.update(delta);
-        torrent5.update(delta);
-        torrent6.update(delta);
-        torrent7.update(delta);
-        torrent8.update(delta);
-
-        launcher.update(delta);
-        launcher2.update(delta);
-        launcher3.update(delta);
-        launcher4.update(delta);
-
-        factory.update(delta);
         factory2.update(delta);
 
         if (Gdx.input.isTouched()) {
@@ -438,23 +413,6 @@ public class Test implements Updatable, Renderable {
             unit5.rotateToDirection(Unit.SOUTH);
             unit6.rotateToDirection(Unit.SOUTH);
             unit7.rotateToDirection(Unit.NORTH_EAST);
-
-            torrent1.setInSiegeMode(!torrent1.isInSiegeMode());
-            torrent2.setInSiegeMode(!torrent2.isInSiegeMode());
-            torrent3.setInSiegeMode(!torrent3.isInSiegeMode());
-            torrent4.setInSiegeMode(!torrent4.isInSiegeMode());
-            torrent5.setInSiegeMode(!torrent5.isInSiegeMode());
-            torrent6.setInSiegeMode(!torrent6.isInSiegeMode());
-            torrent7.setInSiegeMode(!torrent7.isInSiegeMode());
-            torrent8.setInSiegeMode(!torrent8.isInSiegeMode());
-
-            torrent1.rotateToDirection(Unit.WEST);
-            torrent2.rotateToDirection(Unit.NORTH_WEST);
-            torrent3.rotateToDirection(Unit.NORTH);
-            torrent4.rotateToDirection(Unit.SOUTH_WEST);
-            torrent5.rotateToDirection(Unit.SOUTH);
-            torrent6.rotateToDirection(Unit.SOUTH);
-            torrent7.rotateToDirection(Unit.NORTH_EAST);
         }
     }
 }
