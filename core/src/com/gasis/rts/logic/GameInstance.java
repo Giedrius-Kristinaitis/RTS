@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
@@ -30,6 +31,9 @@ public class GameInstance implements Updatable {
 
     // the game world's camera
     private OrthographicCamera cam;
+
+    // game's viewport
+    private Viewport viewport;
 
     // size of the screen (expressed in screen coordinates)
     private int screenWidth;
@@ -249,7 +253,7 @@ public class GameInstance implements Updatable {
     protected Vector3 convertScreenCoordsToWorldCoords(int screenX, int screenY) {
         screenCoords.x = screenX;
         screenCoords.y = screenY;
-        cam.unproject(screenCoords);
+        cam.unproject(screenCoords, viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 
         return screenCoords;
     }
@@ -306,6 +310,15 @@ public class GameInstance implements Updatable {
      */
     public void setCamera(OrthographicCamera cam) {
         this.cam = cam;
+    }
+
+    /**
+     * Sets the game's viewport
+     *
+     * @param viewport viewport to use
+     */
+    public void setViewport(Viewport viewport) {
+        this.viewport = viewport;
     }
 
     /**

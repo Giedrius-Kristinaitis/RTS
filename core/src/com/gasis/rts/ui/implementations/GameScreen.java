@@ -21,6 +21,7 @@ public class GameScreen extends StagedScreen {
     public void show() {
         game = new GameInstance(resources);
         game.setCamera((OrthographicCamera) port.getCamera());
+        game.setViewport(port);
     }
 
     /**
