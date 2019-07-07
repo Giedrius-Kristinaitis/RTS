@@ -5,6 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.MapRenderer;
@@ -59,6 +60,9 @@ public class GameInstance implements Updatable {
     // current mouse coordinates (in screen units)
     private Vector3 mouseCoords = new Vector3();
 
+    // used to render texture-less shapes
+    private ShapeRenderer shapeRenderer;
+
     private Test test;
 
     /**
@@ -68,6 +72,8 @@ public class GameInstance implements Updatable {
      */
     public GameInstance(Resources resources) {
         this.resources = resources;
+
+        shapeRenderer = new ShapeRenderer();
 
         // initialize the map
         map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
@@ -94,7 +100,7 @@ public class GameInstance implements Updatable {
         players.add(two);
 
         // initialize player controls
-        playerControls = new PlayerControls(map, two);
+        playerControls = new PlayerControls(shapeRenderer, map, two);
 
         test = new Test(two);
     }
@@ -105,6 +111,9 @@ public class GameInstance implements Updatable {
      * @param batch sprite batch to draw sprites with
      */
     public void draw(SpriteBatch batch) {
+        shapeRenderer.setProjectionMatrix(cam.combined);
+        shapeRenderer.begin();
+
         mapRenderer.render(batch, resources);
 
         for (Player player: players) {
@@ -118,8 +127,9 @@ public class GameInstance implements Updatable {
         }
 
         test.render(batch, resources);
-
         playerControls.render(batch, resources);
+
+        shapeRenderer.end();
     }
 
     /**
@@ -283,6 +293,6 @@ public class GameInstance implements Updatable {
      * Cleans up resources
      */
     public void unloadResources() {
-
+        shapeRenderer.dispose();
     }
 }

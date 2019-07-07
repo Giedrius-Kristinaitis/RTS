@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
@@ -41,12 +42,12 @@ public class PlayerControls implements Updatable, Renderable {
     /**
      * Default class constructor
      */
-    public PlayerControls(BlockMap map, Player controlledPlayer) {
+    public PlayerControls(ShapeRenderer shapeRenderer, BlockMap map, Player controlledPlayer) {
         this.map = map;
         this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
-        unitSelector = new UnitSelector(controlledPlayer);
+        unitSelector = new UnitSelector(shapeRenderer, controlledPlayer);
 
         loadControlContexts();
     }
