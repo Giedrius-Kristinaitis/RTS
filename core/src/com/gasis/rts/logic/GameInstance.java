@@ -224,6 +224,8 @@ public class GameInstance implements Updatable {
      * @param pointer the pointer for the event
      */
     public void touchDragged(int screenX, int screenY, int pointer) {
+        mouseMoved(screenX, screenY);
+        
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.touchDragged(screenCoords.x, screenCoords.y, pointer);
