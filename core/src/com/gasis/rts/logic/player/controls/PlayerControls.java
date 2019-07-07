@@ -197,5 +197,6 @@ public class PlayerControls implements Updatable, Renderable {
     @Override
     public void render(SpriteBatch batch, Resources resources) {
         buildingPlacer.render(batch, resources);
+        unitSelector.render(batch, resources);
     }
 }

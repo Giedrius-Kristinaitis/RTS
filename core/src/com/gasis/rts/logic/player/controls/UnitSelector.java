@@ -1,5 +1,6 @@
 package com.gasis.rts.logic.player.controls;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
@@ -18,10 +19,10 @@ public class UnitSelector implements Renderable {
     protected ShapeRenderer shapeRenderer;
 
     // selection rectangle's position and dimensions
-    protected float selectionX;
-    protected float selectionY;
-    protected float selectionWidth;
-    protected float selectionHeight;
+    protected float selectionStartX;
+    protected float selectionStartY;
+    protected float selectionEndX;
+    protected float selectionEndY;
 
     // should the selection rectangle be rendered or not
     protected boolean renderSelectionRectangle = false;
@@ -44,7 +45,10 @@ public class UnitSelector implements Renderable {
      * @param button  the button
      */
     public void touchDown(float x, float y, int pointer, int button) {
-
+        selectionStartX = x;
+        selectionStartY = y;
+        selectionEndX = x;
+        selectionEndY = y;
     }
 
     /**
@@ -56,7 +60,7 @@ public class UnitSelector implements Renderable {
      * @param button  the button
      */
     public void touchUp(float x, float y, int pointer, int button) {
-
+        renderSelectionRectangle = false;
     }
 
     /**
@@ -67,7 +71,10 @@ public class UnitSelector implements Renderable {
      * @param pointer the pointer for the event
      */
     public void touchDragged(float x, float y, int pointer) {
+        renderSelectionRectangle = true;
 
+        selectionEndX = x;
+        selectionEndY = y;
     }
 
     /**
@@ -78,13 +85,21 @@ public class UnitSelector implements Renderable {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        renderSelectionRectangle();
+        if (renderSelectionRectangle) {
+            renderSelectionRectangle();
+        }
     }
 
     /**
      * Renders the unit selection rectangle
      */
     protected void renderSelectionRectangle() {
+        shapeRenderer.setColor(Color.WHITE);
 
+        if (selectionEndX < selectionStartX || selectionEndY < selectionStartY) {
+            shapeRenderer.rect(selectionEndX, selectionEndY, selectionStartX - selectionEndX, selectionStartY - selectionEndY);
+        } else {
+            shapeRenderer.rect(selectionStartX, selectionStartY, selectionEndX - selectionStartX, selectionEndY - selectionStartY);
+        }
     }
 }
