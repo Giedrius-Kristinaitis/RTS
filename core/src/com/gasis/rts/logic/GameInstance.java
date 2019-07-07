@@ -58,7 +58,7 @@ public class GameInstance implements Updatable {
     private BlockMapZoomer mapZoomer;
 
     // current mouse coordinates (in screen units)
-    private Vector3 mouseCoords = new Vector3();
+    private Vector3 screenCoords = new Vector3();
 
     // used to render texture-less shapes
     private ShapeRenderer shapeRenderer;
@@ -112,7 +112,7 @@ public class GameInstance implements Updatable {
      */
     public void draw(SpriteBatch batch) {
         shapeRenderer.setProjectionMatrix(cam.combined);
-        shapeRenderer.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
         mapRenderer.render(batch, resources);
 
@@ -193,7 +193,9 @@ public class GameInstance implements Updatable {
      * @param button  the button
      */
     public void touchDown(int screenX, int screenY, int pointer, int button) {
-        playerControls.touchDown(screenX, screenY, pointer, button);
+        convertScreenCoordsToWorldCoords(screenX, screenY);
+
+        playerControls.touchDown(screenCoords.x, screenCoords.y, pointer, button);
     }
 
     /**
@@ -205,7 +207,9 @@ public class GameInstance implements Updatable {
      * @param button  the button
      */
     public void touchUp(int screenX, int screenY, int pointer, int button) {
-        playerControls.touchUp(screenX, screenY, pointer, button);
+        convertScreenCoordsToWorldCoords(screenX, screenY);
+
+        playerControls.touchUp(screenCoords.x, screenCoords.y, pointer, button);
     }
 
     /**
@@ -216,7 +220,9 @@ public class GameInstance implements Updatable {
      * @param pointer the pointer for the event
      */
     public void touchDragged(int screenX, int screenY, int pointer) {
-        playerControls.touchDragged(screenX, screenY, pointer);
+        convertScreenCoordsToWorldCoords(screenX, screenY);
+
+        playerControls.touchDragged(screenCoords.x, screenCoords.y, pointer);
     }
 
     /**
@@ -228,11 +234,24 @@ public class GameInstance implements Updatable {
     public void mouseMoved(int screenX, int screenY) {
         mapScroller.initiateMouseScrolling(screenX, screenY);
 
-        mouseCoords.x = screenX;
-        mouseCoords.y = screenY;
-        cam.unproject(mouseCoords);
+        convertScreenCoordsToWorldCoords(screenX, screenY);
 
-        playerControls.mouseMoved(mouseCoords.x, mouseCoords.y);
+        playerControls.mouseMoved(screenCoords.x, screenCoords.y);
+    }
+
+    /**
+     * Converts screen coordinates into world's coordinates
+     *
+     * @param screenX
+     * @param screenY
+     * @return
+     */
+    protected Vector3 convertScreenCoordsToWorldCoords(int screenX, int screenY) {
+        screenCoords.x = screenX;
+        screenCoords.y = screenY;
+        cam.unproject(screenCoords);
+
+        return screenCoords;
     }
 
     /**

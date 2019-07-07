@@ -98,37 +98,37 @@ public class PlayerControls implements Updatable, Renderable {
     /**
      * Called when the screen was touched or a mouse button was pressed
      *
-     * @param screenX The x coordinate, origin is in the upper left corner
-     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param x x coordinate relative to the bottom left map corner
+     * @param y y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
-    public void touchDown(int screenX, int screenY, int pointer, int button) {
+    public void touchDown(float x, float y, int pointer, int button) {
         handleBuildingPlacement(button);
-        unitSelector.touchDown(screenX, screenY, pointer, button);
+        unitSelector.touchDown(x, y, pointer, button);
     }
 
     /**
      * Called when a finger was lifted or a mouse button was released
      *
-     * @param screenX
-     * @param screenY
+     * @param x x coordinate relative to the bottom left map corner
+     * @param y y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
-    public void touchUp(int screenX, int screenY, int pointer, int button) {
-        unitSelector.touchUp(screenX, screenY, pointer, button);
+    public void touchUp(float x, float y, int pointer, int button) {
+        unitSelector.touchUp(x, y, pointer, button);
     }
 
     /**
-     * Called when a finger was lifted or a mouse button was released
+     * Called when a touch drag event occurs
      *
-     * @param screenX
-     * @param screenY
+     * @param x x coordinate relative to the bottom left map corner
+     * @param y y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event
      */
-    public void touchDragged(int screenX, int screenY, int pointer) {
-        unitSelector.touchDragged(screenX, screenY, pointer);
+    public void touchDragged(float x, float y, int pointer) {
+        unitSelector.touchDragged(x, y, pointer);
     }
 
     /**
