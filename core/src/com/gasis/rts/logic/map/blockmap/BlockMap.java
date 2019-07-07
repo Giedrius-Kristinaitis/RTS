@@ -4,7 +4,6 @@ import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
 
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -17,7 +16,7 @@ public class BlockMap implements Map {
     protected short height;
 
     // map layers
-    protected Deque<MapLayer> layers = new LinkedList<MapLayer>();
+    protected Deque<BlockMapLayer> layers = new LinkedList<BlockMapLayer>();
 
     /**
      * Initializes an empty map
@@ -31,12 +30,31 @@ public class BlockMap implements Map {
     }
 
     /**
+     * Checks if the map block at (x, y) is occupied or not
+     *
+     * @param x x of the block
+     * @param y y of the block
+     * @return
+     */
+    public boolean isBlockOccupied(short x, short y) {
+        for (BlockMapLayer layer: layers) {
+            Block block = layer.getBlock(x, y);
+
+            if (block != null && block.getOccupyingObject() != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Adds a new layer to the map
      *
      * @param layer layer to add
      * @param bottom should the layer be added to the bottom or not
      */
-    public void addMapLayer(MapLayer layer, boolean bottom) {
+    public void addMapLayer(BlockMapLayer layer, boolean bottom) {
         if (bottom) {
             layers.addFirst(layer);
         } else {
@@ -82,8 +100,8 @@ public class BlockMap implements Map {
      *
      * @return
      */
-    public Iterator<MapLayer> getLayers() {
-        return layers.iterator();
+    public Iterable<BlockMapLayer> getLayers() {
+        return layers;
     }
 
     /**

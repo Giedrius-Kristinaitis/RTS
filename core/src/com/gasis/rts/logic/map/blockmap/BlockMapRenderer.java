@@ -39,11 +39,8 @@ public class BlockMapRenderer implements MapRenderer {
 
         for (short x = windowX; x < windowX + windowWidth; x++) {
             for (short y = windowY; y < windowY + windowHeight; y++) {
-                Iterator<MapLayer> iterator = map.getLayers();
-
-                // loop through map layers and render the (x, y) block of each layer
-                while (iterator.hasNext()) {
-                    Block block = ((BlockMapLayer) iterator.next()).getBlock(x, y);
+                for (BlockMapLayer layer: map.getLayers()) {
+                    Block block = layer.getBlock(x, y);
 
                     if (block == null) {
                         continue;
