@@ -334,6 +334,9 @@ public class Test implements Updatable, Renderable {
         player.addBuilding(launcher3);
         player.addBuilding(launcher4);
         player.addBuilding(factory);
+
+        zeus1.setHp(zeus1.getDefensiveSpecs().getMaxHp() * 0.50f);
+        zeus2.setHp(zeus2.getDefensiveSpecs().getMaxHp() * 0.25f);
     }
 
     /**
