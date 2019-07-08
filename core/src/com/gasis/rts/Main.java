@@ -12,6 +12,7 @@ import com.gasis.rts.ui.abstractions.ScreenWithInput;
 import com.gasis.rts.ui.implementations.GameScreen;
 import com.gasis.rts.ui.implementations.LoadingScreen;
 import com.gasis.rts.utils.Constants;
+import com.sun.org.apache.bcel.internal.classfile.Constant;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -50,6 +51,7 @@ public class Main extends Game implements ScreenSwitcher {
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "building4.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "porcupine.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "torrent.atlas", TextureAtlas.class);
+		assetsToLoad.put(Constants.GENERAL_TEXTURE_ATLAS, TextureAtlas.class);
 
 		// change the current screen to loading screen
 		showScreen(new LoadingScreen(
