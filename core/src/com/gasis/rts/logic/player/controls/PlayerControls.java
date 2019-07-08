@@ -47,7 +47,7 @@ public class PlayerControls implements Updatable, Renderable {
         this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
-        unitSelector = new UnitSelector(shapeRenderer, controlledPlayer);
+        unitSelector = new UnitSelector(map, shapeRenderer, controlledPlayer);
 
         loadControlContexts();
     }

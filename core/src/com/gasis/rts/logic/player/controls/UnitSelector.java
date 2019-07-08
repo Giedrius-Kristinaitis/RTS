@@ -4,13 +4,23 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Unit selecting logic
  */
 public class UnitSelector implements Renderable {
+
+    // the game's map
+    protected BlockMap map;
 
     // player whose units are being selected
     protected Player player;
@@ -27,11 +37,15 @@ public class UnitSelector implements Renderable {
     // should the selection rectangle be rendered or not
     protected boolean renderSelectionRectangle = false;
 
+    // selected units (if any)
+    protected List<Unit> selectedUnits = new ArrayList<Unit>();
+
     /**
      * Default class constructor
      * @param player
      */
-    public UnitSelector(ShapeRenderer shapeRenderer, Player player) {
+    public UnitSelector(BlockMap map, ShapeRenderer shapeRenderer, Player player) {
+        this.map = map;
         this.shapeRenderer = shapeRenderer;
         this.player = player;
     }
@@ -49,6 +63,7 @@ public class UnitSelector implements Renderable {
         selectionStartY = y;
         selectionEndX = x;
         selectionEndY = y;
+        deselectUnits();
     }
 
     /**
@@ -61,6 +76,7 @@ public class UnitSelector implements Renderable {
      */
     public void touchUp(float x, float y, int pointer, int button) {
         renderSelectionRectangle = false;
+        selectUnitsInSelectionRectangle();
     }
 
     /**
@@ -75,6 +91,53 @@ public class UnitSelector implements Renderable {
 
         selectionEndX = x;
         selectionEndY = y;
+    }
+
+    /**
+     * Selects player's units that currently are in the selection rectangle
+     */
+    protected void selectUnitsInSelectionRectangle() {
+        for (Unit unit: player.getUnits()) {
+            if (isInSelectionRectangle(unit.getCenterX(), unit.getCenterY())) {
+                selectedUnits.add(unit);
+            }
+        }
+    }
+
+    /**
+     * Deselects all currently selected units
+     */
+    public void deselectUnits() {
+        for (Unit unit: selectedUnits) {
+            
+        }
+
+        selectedUnits.clear();
+    }
+
+    /**
+     * Checks if the specified point is in the selection rectangle
+     *
+     * @param x x of the point
+     * @param y y of the point
+     * @return
+     */
+    protected boolean isInSelectionRectangle(float x, float y) {
+        if (x >= Math.min(selectionStartX, selectionEndX) && x <= Math.min(selectionStartX, selectionEndX) + Math.abs(selectionStartX - selectionEndX)) {
+            if (y >= Math.min(selectionStartY, selectionEndY) && y <= Math.min(selectionStartY, selectionEndY) + Math.abs(selectionStartY - selectionEndY)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets all currently selected units
+     * @return
+     */
+    public List<Unit> getSelectedUnits() {
+        return selectedUnits;
     }
 
     /**

@@ -225,7 +225,7 @@ public class GameInstance implements Updatable {
      */
     public void touchDragged(int screenX, int screenY, int pointer) {
         mouseMoved(screenX, screenY);
-        
+
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.touchDragged(screenCoords.x, screenCoords.y, pointer);
