@@ -19,4 +19,11 @@ public class Constants {
     public static final String FOLDER_FACTIONS = "factions/";
     public static final String FOLDER_CONFIG = "config/";
     public static final String FOLDER_CONTROL_CONTEXTS = "config/control_contexts/";
+
+    // global textures
+    public static final String GENERAL_TEXTURE_ATLAS = "atl/general";
+    public static final String HP_BAR_BACKGROUND_TEXTURE = "hp_bar_background";
+    public static final String HP_BAR_GREEN_TEXTURE = "hp_bar_green";
+    public static final String HP_BAR_YELLOW_TEXTURE = "hp_bar_yellow";
+    public static final String HP_BAR_RED_TEXTURE = "hp_bar_red";
 }
