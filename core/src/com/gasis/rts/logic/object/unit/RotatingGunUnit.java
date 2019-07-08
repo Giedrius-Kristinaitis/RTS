@@ -127,7 +127,13 @@ public class RotatingGunUnit extends Unit {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        super.render(batch, resources);
+        if (renderHp) {
+            renderHp = false;
+            super.render(batch, resources);
+            renderHp = true;
+        } else {
+            super.render(batch, resources);
+        }
 
         // render the rotating guns
         for (RotatingGun gun: guns.values()) {
@@ -135,5 +141,7 @@ public class RotatingGunUnit extends Unit {
                 gun.render(batch, resources);
             }
         }
+
+        renderHp(batch, resources);
     }
 }

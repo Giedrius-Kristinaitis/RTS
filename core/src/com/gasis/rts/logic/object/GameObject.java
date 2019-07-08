@@ -303,17 +303,17 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected void renderHp(SpriteBatch batch, Resources resources) {
         if (renderHp) {
             batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
-                    x, y + height * 0.75f, width, height * 0.1f);
+                    x, y + height, width, height * 0.1f);
 
             if (hp / defensiveSpecs.getMaxHp() >= 0.66f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_GREEN_TEXTURE),
-                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+                        x, y + height, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
             } else if (hp / defensiveSpecs.getMaxHp() >= 0.33f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_YELLOW_TEXTURE),
-                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+                        x, y + height, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
             } else {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_RED_TEXTURE),
-                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+                        x, y + height, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
             }
         }
     }
