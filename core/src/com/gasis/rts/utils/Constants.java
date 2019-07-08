@@ -26,4 +26,5 @@ public class Constants {
     public static final String HP_BAR_GREEN_TEXTURE = "hp_bar_green";
     public static final String HP_BAR_YELLOW_TEXTURE = "hp_bar_yellow";
     public static final String HP_BAR_RED_TEXTURE = "hp_bar_red";
+    public static final String UNIT_SELECTION_CIRCLE_TEXTURE = "unit_selection_circle";
 }
