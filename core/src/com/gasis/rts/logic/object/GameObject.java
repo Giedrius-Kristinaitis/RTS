@@ -5,6 +5,7 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
 /**
  * Represents all game objects: units, buildings
@@ -38,6 +39,9 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
 
     // object's combat specs
     protected DefensiveSpecs defensiveSpecs;
+
+    // should the hp bar be rendered
+    protected boolean renderHp;
 
     /**
      * Sets combat specs of the object
@@ -289,4 +293,37 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     @Override
     public abstract void render(SpriteBatch batch, Resources resources);
+
+    /**
+     * Renders the object's hp bar
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected void renderHp(SpriteBatch batch, Resources resources) {
+        if (renderHp) {
+            batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
+                    x, y + height * 0.75f, width, height * 0.1f);
+
+            if (hp / defensiveSpecs.getMaxHp() >= 0.66f) {
+                batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_GREEN_TEXTURE),
+                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+            } else if (hp / defensiveSpecs.getMaxHp() >= 0.33f) {
+                batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_YELLOW_TEXTURE),
+                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+            } else {
+                batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_RED_TEXTURE),
+                        x, y + height * 0.75f, width * hp / defensiveSpecs.getMaxHp(), height * 0.1f);
+            }
+        }
+    }
+
+    /**
+     * Toggles hp bar's rendering
+     *
+     * @param renderHp should the hp bar be rendered or not
+     */
+    public void setRenderHp(boolean renderHp) {
+        this.renderHp = renderHp;
+    }
 }
