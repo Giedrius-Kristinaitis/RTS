@@ -158,6 +158,8 @@ public class Building extends GameObject {
         for (Animation animation: animations) {
             animation.render(batch, resources);
         }
+
+        renderHp(batch, resources);
     }
 
     /**

@@ -21,6 +21,9 @@ public abstract class GameObjectLoader {
     protected float width;
     protected float height;
 
+    // the width of the object's hp bar
+    protected float hpBarWidth = 1f;
+
     /**
      * Loads a game object from the given file
      *
@@ -53,6 +56,10 @@ public abstract class GameObjectLoader {
 
         width = Float.parseFloat(reader.readLine("width"));
         height = Float.parseFloat(reader.readLine("height"));
+
+        try {
+            hpBarWidth = Float.parseFloat(reader.readLine("hp bar width"));
+        } catch (Exception ex) {}
     }
 
     /**

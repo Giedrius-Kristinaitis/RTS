@@ -63,7 +63,7 @@ public class Player {
      * Gets the units that the player owns
      * @return
      */
-    public Iterable<Unit> getUnits() {
+    public List<Unit> getUnits() {
         return units;
     }
 
@@ -71,7 +71,7 @@ public class Player {
      * Gets the buildings that the player owns
      * @return
      */
-    public Iterable<Building> getBuildings() {
+    public List<Building> getBuildings() {
         return buildings;
     }
 

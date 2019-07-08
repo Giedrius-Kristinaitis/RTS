@@ -179,7 +179,13 @@ public class OffensiveBuilding extends Building implements Aimable {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        super.render(batch, resources);
+        if (renderHp) {
+            renderHp = false;
+            super.render(batch, resources);
+            renderHp = true;
+        } else {
+            super.render(batch, resources);
+        }
 
         for (RotatingGun gun: rotatingGuns.values()) {
             gun.render(batch, resources);
@@ -188,5 +194,7 @@ public class OffensiveBuilding extends Building implements Aimable {
         if (firingLogic != null) {
             firingLogic.render(batch, resources);
         }
+
+        renderHp(batch, resources);
     }
 }

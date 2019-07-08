@@ -43,6 +43,18 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // should the hp bar be rendered
     protected boolean renderHp;
 
+    // the width of the hp bar (in game units)
+    protected float hpBarWidth = 1f;
+
+    /**
+     * Sets the width of the hp bar
+     *
+     * @param hpBarWidth new hp bar width
+     */
+    public void setHpBarWidth(float hpBarWidth) {
+        this.hpBarWidth = hpBarWidth;
+    }
+
     /**
      * Sets combat specs of the object
      *
@@ -303,17 +315,17 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected void renderHp(SpriteBatch batch, Resources resources) {
         if (renderHp) {
             batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
-                    x, y + height, width, height * 0.1f);
+                    getCenterX() - hpBarWidth / 2f, y + height, hpBarWidth, 0.1f);
 
             if (hp / defensiveSpecs.getMaxHp() >= 0.66f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_GREEN_TEXTURE),
-                        x + width * 0.025f, y + height * 1.025f, width * hp / defensiveSpecs.getMaxHp() - width * 0.05f, height * 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             } else if (hp / defensiveSpecs.getMaxHp() >= 0.33f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_YELLOW_TEXTURE),
-                        x + width * 0.025f, y + height * 1.025f, width * hp / defensiveSpecs.getMaxHp() - width * 0.05f, height * 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             } else {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_RED_TEXTURE),
-                        x + width * 0.025f, y + height * 1.025f, width * hp / defensiveSpecs.getMaxHp() - width * 0.05f, height * 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             }
         }
     }

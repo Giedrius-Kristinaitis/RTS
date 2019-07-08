@@ -2,6 +2,7 @@ atlas: building3.atlas
 code: machine factory conf
 texture: machine_factory_conf
 placement texture: machine_factory_conf
+hp bar width: 5
 width: 5.2
 height: 3
 width in blocks: 4

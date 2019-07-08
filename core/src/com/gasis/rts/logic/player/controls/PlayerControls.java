@@ -39,6 +39,9 @@ public class PlayerControls implements Updatable, Renderable {
     // unit selection logic
     protected UnitSelector unitSelector;
 
+    // building selection logic
+    protected BuildingSelector buildingSelector;
+
     /**
      * Default class constructor
      */
@@ -48,6 +51,7 @@ public class PlayerControls implements Updatable, Renderable {
 
         buildingPlacer = new BuildingPlacer(map);
         unitSelector = new UnitSelector(map, shapeRenderer, controlledPlayer);
+        buildingSelector = new BuildingSelector(map, shapeRenderer, controlledPlayer);
 
         loadControlContexts();
     }
@@ -106,6 +110,7 @@ public class PlayerControls implements Updatable, Renderable {
     public void touchDown(float x, float y, int pointer, int button) {
         handleBuildingPlacement(button);
         unitSelector.touchDown(x, y, pointer, button);
+        buildingSelector.touchDown(x, y, pointer, button);
     }
 
     /**
@@ -198,5 +203,6 @@ public class PlayerControls implements Updatable, Renderable {
     public void render(SpriteBatch batch, Resources resources) {
         buildingPlacer.render(batch, resources);
         unitSelector.render(batch, resources);
+        buildingSelector.render(batch, resources);
     }
 }

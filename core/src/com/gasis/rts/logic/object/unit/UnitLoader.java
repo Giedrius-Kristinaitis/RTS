@@ -211,6 +211,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setSiegeModeTransitionAnimationNames(siegeModeTransitionAnimationNames);
         unit.setFiringTextures(firingTextures);
         unit.setSiegeModeFacingDirection(siegeModeFacingDirection);
+        unit.setHpBarWidth(hpBarWidth);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {
