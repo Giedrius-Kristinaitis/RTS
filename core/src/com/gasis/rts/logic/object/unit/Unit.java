@@ -115,6 +115,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // should the still texture be rendered
     private boolean renderStillUnit = true;
 
+    // should the unit's selection circle be rendered or not
+    protected boolean renderSelectionCircle;
+
     /**
      * Aims at the specified target coordinates
      *
@@ -594,6 +597,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        renderSelectionCircle(batch, resources);
+
         // render the siege mode transition animation if present
         if (siegeModeTransitionAnimation != null) {
             siegeModeTransitionAnimation.render(batch, resources);
@@ -644,5 +649,30 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         renderStillUnit = true;
+
+        // render unit's hp
+        renderHp(batch, resources);
+    }
+
+    /**
+     * Renders the unit's selection circle if required
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected void renderSelectionCircle(SpriteBatch batch, Resources resources) {
+        if (renderSelectionCircle) {
+            batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.UNIT_SELECTION_CIRCLE_TEXTURE),
+                    x, y, width, height);
+        }
+    }
+
+    /**
+     * Toggles unit's selection circle's rendering
+     *
+     * @param renderSelectionCircle should the selection circle be rendered or not
+     */
+    public void setRenderSelectionCircle(boolean renderSelectionCircle) {
+        this.renderSelectionCircle = renderSelectionCircle;
     }
 }
