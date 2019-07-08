@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
-import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
-import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
@@ -109,7 +107,7 @@ public class UnitSelector implements Renderable {
      */
     public void deselectUnits() {
         for (Unit unit: selectedUnits) {
-            
+
         }
 
         selectedUnits.clear();
