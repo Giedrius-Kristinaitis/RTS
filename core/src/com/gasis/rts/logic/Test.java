@@ -2,6 +2,8 @@ package com.gasis.rts.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
@@ -59,7 +61,7 @@ public class Test implements Updatable, Renderable {
     private RotatingGunUnit torrent8;
 
 
-    public Test(Player player) {
+    public Test(BlockMap map, Player player) {
         UnitLoader loader = new UnitLoader();
         loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "rhino"));
 
@@ -128,6 +130,7 @@ public class Test implements Updatable, Renderable {
         zeus1.setY(8.9f);
         zeus1.rotateToDirection(Unit.EAST);
         zeus1.aimAt(8, 8);
+        map.occupyBlock((short)(1.75f / Block.BLOCK_WIDTH), (short)(8.9f / Block.BLOCK_HEIGHT), zeus1);
 
         zeus2.setX(2.5f);
         zeus2.setY(6.25f);

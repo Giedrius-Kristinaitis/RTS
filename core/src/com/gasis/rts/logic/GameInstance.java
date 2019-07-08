@@ -106,7 +106,7 @@ public class GameInstance implements Updatable {
         // initialize player controls
         playerControls = new PlayerControls(shapeRenderer, map, two);
 
-        test = new Test(two);
+        test = new Test(map, two);
     }
 
     /**

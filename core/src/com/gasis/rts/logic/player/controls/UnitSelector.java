@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
@@ -65,6 +68,26 @@ public class UnitSelector implements Renderable {
     }
 
     /**
+     * Selects a single unit
+     *
+     * @param x mouse x
+     * @param y mouse y
+     */
+    protected void selectSingleUnit(float x, float y) {
+        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+        if (occupyingObject instanceof Unit) {
+            Unit unit = (Unit) occupyingObject;
+
+            if (player.getUnits().contains(unit)) {
+                unit.setRenderHp(true);
+                unit.setRenderSelectionCircle(true);
+                selectedUnits.add(unit);
+            }
+        }
+    }
+
+    /**
      * Called when a finger was lifted or a mouse button was released
      *
      * @param x x coordinate relative to the bottom left map corner
@@ -75,6 +98,10 @@ public class UnitSelector implements Renderable {
     public void touchUp(float x, float y, int pointer, int button) {
         renderSelectionRectangle = false;
         selectUnitsInSelectionRectangle();
+
+        if (selectedUnits.size() == 0) {
+            selectSingleUnit(x, y);
+        }
     }
 
     /**
