@@ -97,6 +97,8 @@ public class UnitSelector implements Renderable {
     protected void selectUnitsInSelectionRectangle() {
         for (Unit unit: player.getUnits()) {
             if (isInSelectionRectangle(unit.getCenterX(), unit.getCenterY())) {
+                unit.setRenderSelectionCircle(true);
+                unit.setRenderHp(true);
                 selectedUnits.add(unit);
             }
         }
@@ -107,7 +109,8 @@ public class UnitSelector implements Renderable {
      */
     public void deselectUnits() {
         for (Unit unit: selectedUnits) {
-
+            unit.setRenderHp(false);
+            unit.setRenderSelectionCircle(false);
         }
 
         selectedUnits.clear();
