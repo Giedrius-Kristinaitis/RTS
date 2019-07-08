@@ -39,6 +39,10 @@ public class BlockMap implements Map {
      * @param occupier new occupying object
      */
     public void occupyBlock(short x, short y, GameObject occupier) {
+        if (x < 0 || x > width || y < 0 || y > height) {
+            return;
+        }
+
         layers.getFirst().getBlock(x, y).setOccupyingObject(occupier);
     }
 
@@ -50,6 +54,10 @@ public class BlockMap implements Map {
      * @return
      */
     public boolean isBlockOccupied(short x, short y) {
+        if (x < 0 || x > width || y < 0 || y > height) {
+            return false;
+        }
+
         Block block = layers.getFirst().getBlock(x, y);
 
         if (block != null && block.getOccupyingObject() != null) {
@@ -57,6 +65,27 @@ public class BlockMap implements Map {
         }
 
         return false;
+    }
+
+    /**
+     * Gets the object that occupies the specified block
+     *
+     * @param x block x
+     * @param y block y
+     * @return occupying object, null if there is no such object
+     */
+    public GameObject getOccupyingObject(short x, short y) {
+        if (x < 0 || x > width || y < 0 || y > height) {
+            return null;
+        }
+
+        Block block = layers.getFirst().getBlock(x, y);
+
+        if (block != null) {
+            return block.getOccupyingObject();
+        }
+
+        return null;
     }
 
     /**
