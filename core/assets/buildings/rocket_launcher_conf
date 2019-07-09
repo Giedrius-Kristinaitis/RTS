@@ -5,6 +5,7 @@ placement texture: mountable_tower_conf
 width: 1.75
 height: 1.5
 hp bar width: 2.4
+hp bar height offset: 0.65
 width in blocks: 2
 height in blocks: 2
 hp: 100

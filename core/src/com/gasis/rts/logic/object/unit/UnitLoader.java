@@ -213,6 +213,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setSiegeModeFacingDirection(siegeModeFacingDirection);
         unit.setHpBarWidth(hpBarWidth);
         unit.setControlContextName(controlContextName);
+        unit.setHpBarYOffset(hpBarYOffset);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

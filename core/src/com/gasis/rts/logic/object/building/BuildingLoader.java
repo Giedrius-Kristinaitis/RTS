@@ -157,6 +157,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setHp(defensiveSpecs.getMaxHp());
         building.setHpBarWidth(hpBarWidth);
         building.setControlContextName(controlContextName);
+        building.setHpBarYOffset(hpBarYOffset);
 
         // add firing things to the building if it has any
         if (offensive) {

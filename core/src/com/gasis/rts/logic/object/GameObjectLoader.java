@@ -24,6 +24,9 @@ public abstract class GameObjectLoader {
     // the width of the object's hp bar
     protected float hpBarWidth = 1f;
 
+    // the offset of the hp bar upwards from the object's top
+    protected float hpBarYOffset = 0;
+
     // the object's control context's name
     protected String controlContextName = "default";
 
@@ -62,6 +65,10 @@ public abstract class GameObjectLoader {
 
         try {
             hpBarWidth = Float.parseFloat(reader.readLine("hp bar width"));
+        } catch (Exception ex) {}
+
+        try {
+            hpBarYOffset = Float.parseFloat(reader.readLine("hp bar height offset"));
         } catch (Exception ex) {}
     }
 

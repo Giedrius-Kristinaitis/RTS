@@ -46,8 +46,20 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the width of the hp bar (in game units)
     protected float hpBarWidth = 1f;
 
+    // the offset of the hp bar upwards from the object's top
+    protected float hpBarYOffset = 0f;
+
     // the name of the object's control context
     protected String controlContextName;
+
+    /**
+     * Sets the hp bar's height offset
+     *
+     * @param hpBarYOffset new offset
+     */
+    public void setHpBarYOffset(float hpBarYOffset) {
+        this.hpBarYOffset = hpBarYOffset;
+    }
 
     /**
      * Sets the width of the hp bar
@@ -318,17 +330,17 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected void renderHp(SpriteBatch batch, Resources resources) {
         if (renderHp) {
             batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
-                    getCenterX() - hpBarWidth / 2f, y + height, hpBarWidth, 0.1f);
+                    getCenterX() - hpBarWidth / 2f, y + height + hpBarYOffset, hpBarWidth, 0.1f);
 
             if (hp / defensiveSpecs.getMaxHp() >= 0.66f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_GREEN_TEXTURE),
-                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             } else if (hp / defensiveSpecs.getMaxHp() >= 0.33f) {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_YELLOW_TEXTURE),
-                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             } else {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_RED_TEXTURE),
-                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
+                        getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
             }
         }
     }
