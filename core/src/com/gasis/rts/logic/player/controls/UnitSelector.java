@@ -28,12 +28,33 @@ public class UnitSelector extends Selector {
     // selected units (if any)
     protected List<Unit> selectedUnits = new ArrayList<Unit>();
 
+    // unit selection listeners
+    protected List<UnitSelectionListener> listeners;
+
     /**
      * Default class constructor
      * @param player
      */
     public UnitSelector(BlockMap map, Player player) {
         super(map, player);
+    }
+
+    /**
+     * Adds a unit selection listener
+     *
+     * @param listener listener to add
+     */
+    public void addUnitSelectionListener(UnitSelectionListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Removes a unit selection listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeUnitSelectionListener(UnitSelectionListener listener) {
+        listeners.remove(listener);
     }
 
     /**
@@ -116,6 +137,19 @@ public class UnitSelector extends Selector {
                 unit.setRenderHp(true);
                 selectedUnits.add(unit);
             }
+        }
+
+        if (selectedUnits.size() > 0) {
+            notifySelectionListeners();
+        }
+    }
+
+    /**
+     * Notifies unit selection listeners that units were selected
+     */
+    protected void notifySelectionListeners() {
+        for (UnitSelectionListener listener: listeners) {
+            listener.unitsSelected(selectedUnits);
         }
     }
 
