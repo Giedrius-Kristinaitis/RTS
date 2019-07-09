@@ -24,6 +24,9 @@ public abstract class GameObjectLoader {
     // the width of the object's hp bar
     protected float hpBarWidth = 1f;
 
+    // the object's control context's name
+    protected String controlContextName = "default";
+
     /**
      * Loads a game object from the given file
      *
@@ -98,5 +101,22 @@ public abstract class GameObjectLoader {
      */
     public float getHeight() {
         return height;
+    }
+
+    /**
+     * Gets the name of the building's control context
+     * @return
+     */
+    public String getControlContextName() {
+        return controlContextName;
+    }
+
+    /**
+     * Sets the name of the building's control context
+     *
+     * @param controlContextName new name
+     */
+    public void setControlContextName(String controlContextName) {
+        this.controlContextName = controlContextName;
     }
 }

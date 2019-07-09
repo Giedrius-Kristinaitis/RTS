@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Handles controlling of a player
  */
-public class PlayerControls implements Updatable, Renderable {
+public class PlayerControls implements Updatable, Renderable, BuildingSelectionListener {
 
     // the player that is being controlled
     protected Player controlledPlayer;
@@ -35,6 +36,9 @@ public class PlayerControls implements Updatable, Renderable {
 
     // the currently active control context
     protected ControlContext currentContext;
+
+    // the previous control context
+    protected ControlContext previousControlContext;
 
     // unit selection logic
     protected UnitSelector unitSelector;
@@ -57,6 +61,24 @@ public class PlayerControls implements Updatable, Renderable {
     }
 
     /**
+     * Called when a building gets selected
+     *
+     * @param building the selected building
+     */
+    @Override
+    public void buildingSelected(Building building) {
+        changeControlContext(building.getControlContextName());
+    }
+
+    /**
+     * Called when the selected building gets deselected
+     */
+    @Override
+    public void buildingDeselected() {
+        changeControlContext("default");
+    }
+
+    /**
      * Loads available control contexts
      */
     protected void loadControlContexts() {
@@ -72,10 +94,31 @@ public class PlayerControls implements Updatable, Renderable {
     }
 
     /**
+     * Changes the current control context
+     *
+     * @param name name of the new control context
+     */
+    protected void changeControlContext(String name) {
+        previousControlContext = currentContext;
+        currentContext = controlContexts.get(name);
+    }
+
+    /**
+     * Changes the current control context
+     *
+     * @param context new control context
+     */
+    protected void changeControlContext(ControlContext context) {
+        previousControlContext = currentContext;
+        currentContext = context;
+    }
+
+    /**
      * Sets the default control context
      */
     protected void setDefaultControlContext() {
         currentContext = controlContexts.get("default");
+        previousControlContext = currentContext;
     }
 
     /**
@@ -97,8 +140,8 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void mouseMoved(float x, float y) {
         buildingPlacer.mouseMoved(x, y);
-        unitSelector.mouseMoved(x, y);
         buildingSelector.mouseMoved(x, y);
+        unitSelector.mouseMoved(x, y);
     }
 
     /**
@@ -111,8 +154,8 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void touchDown(float x, float y, int pointer, int button) {
         handleBuildingPlacement(button);
-        unitSelector.touchDown(x, y, pointer, button);
         buildingSelector.touchDown(x, y, pointer, button);
+        unitSelector.touchDown(x, y, pointer, button);
     }
 
     /**
@@ -124,8 +167,8 @@ public class PlayerControls implements Updatable, Renderable {
      * @param button  the button
      */
     public void touchUp(float x, float y, int pointer, int button) {
-        unitSelector.touchUp(x, y, pointer, button);
         buildingSelector.touchUp(x, y, pointer, button);
+        unitSelector.touchUp(x, y, pointer, button);
     }
 
     /**
@@ -136,8 +179,8 @@ public class PlayerControls implements Updatable, Renderable {
      * @param pointer the pointer for the event
      */
     public void touchDragged(float x, float y, int pointer) {
-        unitSelector.touchDragged(x, y, pointer);
         buildingSelector.touchDragged(x, y, pointer);
+        unitSelector.touchDragged(x, y, pointer);
     }
 
     /**

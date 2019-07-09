@@ -7,6 +7,9 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Building selecting logic
  */
@@ -15,12 +18,33 @@ public class BuildingSelector extends Selector {
     // selected building (if any)
     protected Building selectedBuilding;
 
+    // all listeners that listen for building selection
+    protected List<BuildingSelectionListener> listeners = new ArrayList<BuildingSelectionListener>();
+
     /**
      * Default class constructor
      * @param player
      */
     public BuildingSelector(BlockMap map, Player player) {
         super(map, player);
+    }
+
+    /**
+     * Adds a building selection listener
+     *
+     * @param listener listener to add
+     */
+    public void addBuildingSelectionListener(BuildingSelectionListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Removes a building selection listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeBuildingSelectionListener(BuildingSelectionListener listener) {
+        listeners.remove(listener);
     }
 
     /**
@@ -38,12 +62,39 @@ public class BuildingSelector extends Selector {
         GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
         if (occupyingObject instanceof Building) {
-            Building building = (Building) occupyingObject;
+            selectBuilding((Building) occupyingObject);
+        }
+    }
 
-            if (player.getBuildings().contains(building)) {
-                selectedBuilding = building;
-                selectedBuilding.setRenderHp(true);
-            }
+    /**
+     * Selects the specified building if it belongs to the controlled player
+     *
+     * @param building building to select
+     */
+    protected void selectBuilding(Building building) {
+        if (player.getBuildings().contains(building)) {
+            selectedBuilding = building;
+            selectedBuilding.setRenderHp(true);
+
+            notifySelectionListeners();
+        }
+    }
+
+    /**
+     * Notifies all building selection listeners that a building was selected
+     */
+    protected void notifySelectionListeners() {
+        for (BuildingSelectionListener listener: listeners) {
+            listener.buildingSelected(selectedBuilding);
+        }
+    }
+
+    /**
+     * Notifies all building selection listeners that a building was deselected
+     */
+    protected void notifyDeselectionListeners() {
+        for (BuildingSelectionListener listener: listeners) {
+            listener.buildingDeselected();
         }
     }
 
@@ -54,6 +105,7 @@ public class BuildingSelector extends Selector {
         if (selectedBuilding != null) {
             selectedBuilding.setRenderHp(false);
             selectedBuilding = null;
+            notifyDeselectionListeners();
         }
     }
 

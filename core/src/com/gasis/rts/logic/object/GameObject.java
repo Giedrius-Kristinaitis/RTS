@@ -46,6 +46,9 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the width of the hp bar (in game units)
     protected float hpBarWidth = 1f;
 
+    // the name of the object's control context
+    protected String controlContextName;
+
     /**
      * Sets the width of the hp bar
      *
@@ -337,5 +340,22 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public void setRenderHp(boolean renderHp) {
         this.renderHp = renderHp;
+    }
+
+    /**
+     * Gets the name of the building's control context
+     * @return
+     */
+    public String getControlContextName() {
+        return controlContextName;
+    }
+
+    /**
+     * Sets the name of the building's control context
+     *
+     * @param controlContextName new name
+     */
+    public void setControlContextName(String controlContextName) {
+        this.controlContextName = controlContextName;
     }
 }
