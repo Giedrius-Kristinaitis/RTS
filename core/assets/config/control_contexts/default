@@ -2,3 +2,8 @@ tech: machine factory conf
 machine factory conf type: placement
 machine factory conf file: placement_machine_factory_conf
 machine factory conf key binding: M
+
+tech: rocket launcher conf
+rocket launcher conf type: placement
+rocket launcher conf file: placement_rocket_launcher_conf
+rocket launcher conf key binding: R
