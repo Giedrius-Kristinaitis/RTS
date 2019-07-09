@@ -82,7 +82,25 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     @Override
     public void unitsSelected(List<Unit> selectedUnits) {
+        ControlContextMultiplexer multiplexer = constructControlContextMultipexer(selectedUnits);
+        changeControlContext(multiplexer);
+    }
 
+    /**
+     * Creates a control context multiplexer with the control contexts of the given units
+     *
+     * @param units units with different control contexts
+     * @return
+     */
+    protected ControlContextMultiplexer constructControlContextMultipexer(List<Unit> units) {
+        ControlContextMultiplexer multiplexer = new ControlContextMultiplexer();
+
+        for (Unit unit: units) {
+            String controlContext = unit.getControlContextName();
+            multiplexer.addControlContext(controlContexts.get(controlContext));
+        }
+
+        return multiplexer;
     }
 
     /**
