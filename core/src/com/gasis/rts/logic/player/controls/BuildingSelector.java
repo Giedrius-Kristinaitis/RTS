@@ -13,16 +13,7 @@ import com.gasis.rts.resources.Resources;
 /**
  * Building selecting logic
  */
-public class BuildingSelector implements Renderable {
-
-    // the game's map
-    protected BlockMap map;
-
-    // player whose buildings are being selected
-    protected Player player;
-
-    // used to render texture-less shapes
-    protected ShapeRenderer shapeRenderer;
+public class BuildingSelector extends Selector implements Renderable {
 
     // selected building (if any)
     protected Building selectedBuilding;
@@ -32,9 +23,7 @@ public class BuildingSelector implements Renderable {
      * @param player
      */
     public BuildingSelector(BlockMap map, ShapeRenderer shapeRenderer, Player player) {
-        this.map = map;
-        this.shapeRenderer = shapeRenderer;
-        this.player = player;
+        super(map, shapeRenderer, player);
     }
 
     /**
@@ -45,6 +34,7 @@ public class BuildingSelector implements Renderable {
      * @param pointer the pointer for the event.
      * @param button  the button
      */
+    @Override
     public void touchDown(float x, float y, int pointer, int button) {
         deselectBuilding();
 
@@ -87,7 +77,7 @@ public class BuildingSelector implements Renderable {
     @Override
     public void render(SpriteBatch batch, Resources resources) {
         if (selectedBuilding != null) {
-            // render corners indicating that the building is selected
+            renderSelectionCorners(selectedBuilding);
         }
     }
 }

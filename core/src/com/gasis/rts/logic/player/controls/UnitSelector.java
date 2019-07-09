@@ -7,7 +7,6 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
@@ -18,16 +17,7 @@ import java.util.List;
 /**
  * Unit selecting logic
  */
-public class UnitSelector implements Renderable {
-
-    // the game's map
-    protected BlockMap map;
-
-    // player whose units are being selected
-    protected Player player;
-
-    // used to render texture-less shapes
-    protected ShapeRenderer shapeRenderer;
+public class UnitSelector extends Selector implements Renderable {
 
     // selection rectangle's position and dimensions
     protected float selectionStartX;
@@ -46,9 +36,7 @@ public class UnitSelector implements Renderable {
      * @param player
      */
     public UnitSelector(BlockMap map, ShapeRenderer shapeRenderer, Player player) {
-        this.map = map;
-        this.shapeRenderer = shapeRenderer;
-        this.player = player;
+        super(map, shapeRenderer, player);
     }
 
     /**
@@ -59,6 +47,7 @@ public class UnitSelector implements Renderable {
      * @param pointer the pointer for the event.
      * @param button  the button
      */
+    @Override
     public void touchDown(float x, float y, int pointer, int button) {
         selectionStartX = x;
         selectionStartY = y;
@@ -95,6 +84,7 @@ public class UnitSelector implements Renderable {
      * @param pointer the pointer for the event.
      * @param button  the button
      */
+    @Override
     public void touchUp(float x, float y, int pointer, int button) {
         renderSelectionRectangle = false;
         selectUnitsInSelectionRectangle();
@@ -111,6 +101,7 @@ public class UnitSelector implements Renderable {
      * @param y y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event
      */
+    @Override
     public void touchDragged(float x, float y, int pointer) {
         renderSelectionRectangle = true;
 
