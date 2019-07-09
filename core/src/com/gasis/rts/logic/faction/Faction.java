@@ -20,6 +20,26 @@ public class Faction {
     // building loaders to load and create buildings for this player
     protected Map<String, BuildingLoader> buildingLoaders = new HashMap<String, BuildingLoader>();
 
+    // the name of the default control context for this faction
+    protected String defaultControlContextName;
+
+    /**
+     * Gets the name of the default control context
+     * @return
+     */
+    public String getDefaultControlContextName() {
+        return defaultControlContextName;
+    }
+
+    /**
+     * Sets the name of the default control context
+     *
+     * @param defaultControlContextName default context name
+     */
+    public void setDefaultControlContextName(String defaultControlContextName) {
+        this.defaultControlContextName = defaultControlContextName;
+    }
+
     /**
      * Sets the unit loaders for the faction
      *

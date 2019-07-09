@@ -1,5 +1,6 @@
 atlas: building4.atlas
 code: machine factory rebels
+control context: default_context_rebels
 texture: machine_factory_rebels
 placement texture: machine_factory_rebels
 width: 3.9

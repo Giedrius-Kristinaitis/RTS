@@ -28,7 +28,7 @@ public abstract class GameObjectLoader {
     protected float hpBarYOffset = 0;
 
     // the object's control context's name
-    protected String controlContextName = "default";
+    protected String controlContextName;
 
     /**
      * Loads a game object from the given file
@@ -62,6 +62,8 @@ public abstract class GameObjectLoader {
 
         width = Float.parseFloat(reader.readLine("width"));
         height = Float.parseFloat(reader.readLine("height"));
+
+        controlContextName = reader.readLine("control context");
 
         try {
             hpBarWidth = Float.parseFloat(reader.readLine("hp bar width"));

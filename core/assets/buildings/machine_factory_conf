@@ -1,5 +1,6 @@
 atlas: building3.atlas
 code: machine factory conf
+control context: default_context_conf
 texture: machine_factory_conf
 placement texture: machine_factory_conf
 hp bar width: 5

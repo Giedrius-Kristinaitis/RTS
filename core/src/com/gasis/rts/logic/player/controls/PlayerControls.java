@@ -142,7 +142,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * Sets the default control context
      */
     protected void setDefaultControlContext() {
-        currentContext = controlContexts.get("default");
+        currentContext = controlContexts.get(controlledPlayer.getFaction().getDefaultControlContextName());
         previousControlContext = currentContext;
     }
 
@@ -195,8 +195,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         buildingSelector.touchUp(x, y, pointer, button);
         unitSelector.touchUp(x, y, pointer, button);
 
-        if (buildingSelector.getSelectedBuilding() == null && unitSelector.getSelectedUnits().size() == 0 && currentContext != controlContexts.get("default")) {
-            changeControlContext("default");
+        if (buildingSelector.getSelectedBuilding() == null && unitSelector.getSelectedUnits().size() == 0 && currentContext != controlContexts.get(controlledPlayer.getFaction().getDefaultControlContextName())) {
+            changeControlContext(controlledPlayer.getFaction().getDefaultControlContextName());
         }
     }
 

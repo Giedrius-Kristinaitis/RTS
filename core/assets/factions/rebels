@@ -1,4 +1,5 @@
 name: Rebels
+default control context: default_context_rebels
 unit: rhino
 unit: porcupine
 building: power_plant_rebels

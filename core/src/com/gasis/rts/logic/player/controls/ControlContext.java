@@ -48,6 +48,10 @@ public class ControlContext {
     protected void loadTechs(FileLineReader reader, BuildingPlacer placer) {
         List<String> techList = reader.readLines("tech");
 
+        if (techList == null) {
+            return;
+        }
+
         for (String tech: techList) {
             loadTech(reader, tech, placer);
         }

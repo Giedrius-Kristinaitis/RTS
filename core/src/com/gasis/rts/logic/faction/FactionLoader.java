@@ -28,6 +28,9 @@ public class FactionLoader {
     // all building loaders for the buildings of the faction
     protected Map<String, BuildingLoader> buildingLoaders = new HashMap<String, BuildingLoader>();
 
+    // the name of the default control context for the faction
+    protected String defaultControlContextName;
+
     /**
      * Loads a faction
      *
@@ -58,6 +61,7 @@ public class FactionLoader {
      */
     protected void readMetaData(FileLineReader reader) {
         name = reader.readLine("name");
+        defaultControlContextName = reader.readLine("default control context");
     }
 
     /**
@@ -109,6 +113,7 @@ public class FactionLoader {
         Faction faction = new Faction();
 
         faction.setName(name);
+        faction.setDefaultControlContextName(defaultControlContextName);
         faction.setUnitLoaders(unitLoaders);
         faction.setBuildingLoaders(buildingLoaders);
 

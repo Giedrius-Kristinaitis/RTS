@@ -1,4 +1,5 @@
 name: Confederation
+default control context: default_context_conf
 unit: zeus
 unit: torrent
 building: rocket_launcher_conf

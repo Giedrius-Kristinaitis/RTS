@@ -1,5 +1,6 @@
 atlas: unit.atlas
 code: rhino
+control context: default_context_rebels
 width: 1.307
 height: 1
 hp: 50

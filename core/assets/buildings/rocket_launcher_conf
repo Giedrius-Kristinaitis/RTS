@@ -1,5 +1,6 @@
 atlas: building2.atlas
 code: rocker launcher conf
+control context: default_context_conf
 texture: mountable_tower_conf
 placement texture: mountable_tower_conf
 width: 1.75

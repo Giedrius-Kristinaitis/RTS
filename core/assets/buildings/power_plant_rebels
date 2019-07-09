@@ -1,5 +1,6 @@
 atlas: building.atlas
 code: power plant rebels
+control context: default_context_rebels
 texture: plant
 placement texture: plant
 width: 3.9

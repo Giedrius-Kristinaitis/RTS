@@ -1,5 +1,6 @@
 atlas: porcupine.atlas
 code: porcupine
+control context: default_context_rebels
 width: 1.307
 height: 1
 hp: 50
