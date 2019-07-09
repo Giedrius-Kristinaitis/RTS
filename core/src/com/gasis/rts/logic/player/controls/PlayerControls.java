@@ -82,7 +82,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     @Override
     public void unitsSelected(List<Unit> selectedUnits) {
-        ControlContextMultiplexer multiplexer = constructControlContextMultipexer(selectedUnits);
+        ControlContextMultiplexer multiplexer = constructControlContextMultiplexer(selectedUnits);
         changeControlContext(multiplexer);
     }
 
@@ -92,7 +92,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param units units with different control contexts
      * @return
      */
-    protected ControlContextMultiplexer constructControlContextMultipexer(List<Unit> units) {
+    protected ControlContextMultiplexer constructControlContextMultiplexer(List<Unit> units) {
         ControlContextMultiplexer multiplexer = new ControlContextMultiplexer();
 
         for (Unit unit: units) {
