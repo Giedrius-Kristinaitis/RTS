@@ -15,9 +15,4 @@ public interface UnitSelectionListener {
      * @param selectedUnits list with all selected units
      */
     void unitsSelected(List<Unit> selectedUnits);
-
-    /**
-     * Called when units get deselected
-     */
-    void unitsDeselected();
 }

@@ -9,18 +9,20 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Handles controlling of a player
  */
-public class PlayerControls implements Updatable, Renderable, BuildingSelectionListener {
+public class PlayerControls implements Updatable, Renderable, BuildingSelectionListener, UnitSelectionListener {
 
     // the player that is being controlled
     protected Player controlledPlayer;
@@ -71,11 +73,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     }
 
     /**
-     * Called when the selected building gets deselected
+     * Called when one or more units get selected
+     *
+     * @param selectedUnits list with all selected units
      */
     @Override
-    public void buildingDeselected() {
-        changeControlContext("default");
+    public void unitsSelected(List<Unit> selectedUnits) {
+
     }
 
     /**
@@ -169,6 +173,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     public void touchUp(float x, float y, int pointer, int button) {
         buildingSelector.touchUp(x, y, pointer, button);
         unitSelector.touchUp(x, y, pointer, button);
+
+        if (buildingSelector.getSelectedBuilding() == null && unitSelector.getSelectedUnits().size() == 0 && currentContext != controlContexts.get("default")) {
+            changeControlContext("default");
+        }
     }
 
     /**
