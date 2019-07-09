@@ -1,19 +1,16 @@
 package com.gasis.rts.logic.player.controls;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.player.Player;
-import com.gasis.rts.resources.Resources;
 
 /**
  * Building selecting logic
  */
-public class BuildingSelector extends Selector implements Renderable {
+public class BuildingSelector extends Selector {
 
     // selected building (if any)
     protected Building selectedBuilding;
@@ -22,8 +19,8 @@ public class BuildingSelector extends Selector implements Renderable {
      * Default class constructor
      * @param player
      */
-    public BuildingSelector(BlockMap map, ShapeRenderer shapeRenderer, Player player) {
-        super(map, shapeRenderer, player);
+    public BuildingSelector(BlockMap map, Player player) {
+        super(map, player);
     }
 
     /**
@@ -69,15 +66,16 @@ public class BuildingSelector extends Selector implements Renderable {
     }
 
     /**
-     * Renders the object to the screen
+     * Renders texture-less shapes
      *
-     * @param batch     sprite batch to draw to
-     * @param resources game assets
+     * @param shapeRenderer renderer to draw shapes to
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(ShapeRenderer shapeRenderer) {
+        super.render(shapeRenderer);
+
         if (selectedBuilding != null) {
-            renderSelectionCorners(selectedBuilding);
+            renderSelectionCorners(shapeRenderer, selectedBuilding);
         }
     }
 }

@@ -1,15 +1,12 @@
 package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
-import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.List;
 /**
  * Unit selecting logic
  */
-public class UnitSelector extends Selector implements Renderable {
+public class UnitSelector extends Selector {
 
     // selection rectangle's position and dimensions
     protected float selectionStartX;
@@ -35,8 +32,8 @@ public class UnitSelector extends Selector implements Renderable {
      * Default class constructor
      * @param player
      */
-    public UnitSelector(BlockMap map, ShapeRenderer shapeRenderer, Player player) {
-        super(map, shapeRenderer, player);
+    public UnitSelector(BlockMap map, Player player) {
+        super(map, player);
     }
 
     /**
@@ -160,22 +157,23 @@ public class UnitSelector extends Selector implements Renderable {
     }
 
     /**
-     * Renders the object to the screen
+     * Renders texture-less shapes
      *
-     * @param batch     sprite batch to draw to
-     * @param resources game assets
+     * @param shapeRenderer renderer to draw shapes to
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(ShapeRenderer shapeRenderer) {
         if (renderSelectionRectangle) {
-            renderSelectionRectangle();
+            renderSelectionRectangle(shapeRenderer);
         }
     }
 
     /**
      * Renders the unit selection rectangle
+     *
+     * @param shapeRenderer renderer to draw shapes to
      */
-    protected void renderSelectionRectangle() {
+    protected void renderSelectionRectangle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
 
         if (selectionEndX < selectionStartX || selectionEndY < selectionStartY) {

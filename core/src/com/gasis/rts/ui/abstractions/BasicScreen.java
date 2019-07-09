@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.resources.Resources;
 
@@ -22,6 +23,9 @@ public abstract class BasicScreen extends ScreenAdapter {
     // sprite batch used by the screen
     protected SpriteBatch batch;
 
+    // used to draw texture-less shapes
+    protected ShapeRenderer shapeRenderer;
+
     // viewport used by the screen
     protected Viewport port;
 
@@ -33,6 +37,7 @@ public abstract class BasicScreen extends ScreenAdapter {
      */
     public void initialize() {
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
 
         port.apply(true);
     }
@@ -52,17 +57,29 @@ public abstract class BasicScreen extends ScreenAdapter {
         // of course I could call draw() before update() to avoid this issue,
         // but I think it is better for game state to update before drawing, so...
         if (!disposed) {
+            port.getCamera().update();
             draw(batch, (OrthographicCamera) port.getCamera(), delta);
+            draw(shapeRenderer, (OrthographicCamera) port.getCamera(), delta);
         }
     }
 
     /**
      * Called when the screen should render itself
+     *
      * @param delta time elapsed since last render
      * @param batch batch used to draw sprites to
      * @param cam world's camera
      */
     public abstract void draw(SpriteBatch batch, OrthographicCamera cam, float delta);
+
+    /**
+     * Draws shapes
+     *
+     * @param shapeRenderer renderer to draw shapes to
+     * @param delta time elapsed since last render
+     * @param cam world's camera
+     */
+    public void draw(ShapeRenderer shapeRenderer, OrthographicCamera cam, float delta) {}
 
     /**
      * Called when the screen should update itself
@@ -103,5 +120,6 @@ public abstract class BasicScreen extends ScreenAdapter {
         disposed = true;
 
         batch.dispose();
+        shapeRenderer.dispose();
     }
 }

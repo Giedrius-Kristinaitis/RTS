@@ -45,13 +45,13 @@ public class PlayerControls implements Updatable, Renderable {
     /**
      * Default class constructor
      */
-    public PlayerControls(ShapeRenderer shapeRenderer, BlockMap map, Player controlledPlayer) {
+    public PlayerControls(BlockMap map, Player controlledPlayer) {
         this.map = map;
         this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
-        unitSelector = new UnitSelector(map, shapeRenderer, controlledPlayer);
-        buildingSelector = new BuildingSelector(map, shapeRenderer, controlledPlayer);
+        unitSelector = new UnitSelector(map, controlledPlayer);
+        buildingSelector = new BuildingSelector(map, controlledPlayer);
 
         loadControlContexts();
     }
@@ -97,6 +97,8 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void mouseMoved(float x, float y) {
         buildingPlacer.mouseMoved(x, y);
+        unitSelector.mouseMoved(x, y);
+        buildingSelector.mouseMoved(x, y);
     }
 
     /**
@@ -123,6 +125,7 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void touchUp(float x, float y, int pointer, int button) {
         unitSelector.touchUp(x, y, pointer, button);
+        buildingSelector.touchUp(x, y, pointer, button);
     }
 
     /**
@@ -134,6 +137,7 @@ public class PlayerControls implements Updatable, Renderable {
      */
     public void touchDragged(float x, float y, int pointer) {
         unitSelector.touchDragged(x, y, pointer);
+        buildingSelector.touchDragged(x, y, pointer);
     }
 
     /**
@@ -204,5 +208,15 @@ public class PlayerControls implements Updatable, Renderable {
         buildingPlacer.render(batch, resources);
         unitSelector.render(batch, resources);
         buildingSelector.render(batch, resources);
+    }
+
+    /**
+     * Renders texture-less shapes
+     *
+     * @param shapeRenderer renderer to draw to
+     */
+    public void render(ShapeRenderer shapeRenderer) {
+        unitSelector.render(shapeRenderer);
+        buildingSelector.render(shapeRenderer);
     }
 }

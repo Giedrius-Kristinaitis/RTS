@@ -2,6 +2,7 @@ package com.gasis.rts.ui.implementations;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gasis.rts.logic.GameInstance;
 import com.gasis.rts.ui.abstractions.StagedScreen;
@@ -41,11 +42,25 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera cam, float delta) {
-        cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         game.draw(batch);
         batch.end();
+    }
+
+    /**
+     * Draws shapes
+     *
+     * @param shapeRenderer renderer to draw shapes to
+     * @param cam           world's camera
+     * @param delta         time elapsed since last render
+     */
+    @Override
+    public void draw(ShapeRenderer shapeRenderer, OrthographicCamera cam, float delta) {
+        shapeRenderer.setProjectionMatrix(cam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        game.draw(shapeRenderer);
+        shapeRenderer.end();
     }
 
     /**

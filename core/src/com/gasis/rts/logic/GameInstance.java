@@ -64,9 +64,6 @@ public class GameInstance implements Updatable {
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
-    // used to render texture-less shapes
-    private ShapeRenderer shapeRenderer;
-
     private Test test;
 
     /**
@@ -76,8 +73,6 @@ public class GameInstance implements Updatable {
      */
     public GameInstance(Resources resources) {
         this.resources = resources;
-
-        shapeRenderer = new ShapeRenderer();
 
         // initialize the map
         map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
@@ -104,7 +99,7 @@ public class GameInstance implements Updatable {
         players.add(two);
 
         // initialize player controls
-        playerControls = new PlayerControls(shapeRenderer, map, two);
+        playerControls = new PlayerControls(map, two);
 
         test = new Test(map, two);
     }
@@ -115,9 +110,6 @@ public class GameInstance implements Updatable {
      * @param batch sprite batch to draw sprites with
      */
     public void draw(SpriteBatch batch) {
-        shapeRenderer.setProjectionMatrix(cam.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
         mapRenderer.render(batch, resources);
 
         for (Player player: players) {
@@ -132,8 +124,15 @@ public class GameInstance implements Updatable {
 
         test.render(batch, resources);
         playerControls.render(batch, resources);
+    }
 
-        shapeRenderer.end();
+    /**
+     * Draws texture-less shapes
+     *
+     * @param shapeRenderer renderer to draw shapes to
+     */
+    public void draw(ShapeRenderer shapeRenderer) {
+        playerControls.render(shapeRenderer);
     }
 
     /**
@@ -327,6 +326,6 @@ public class GameInstance implements Updatable {
      * Cleans up resources
      */
     public void unloadResources() {
-        shapeRenderer.dispose();
+
     }
 }
