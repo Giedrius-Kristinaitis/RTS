@@ -29,7 +29,7 @@ public class UnitSelector extends Selector {
     protected List<Unit> selectedUnits = new ArrayList<Unit>();
 
     // unit selection listeners
-    protected List<UnitSelectionListener> listeners;
+    protected List<UnitSelectionListener> listeners = new ArrayList<UnitSelectionListener>();
 
     /**
      * Default class constructor
