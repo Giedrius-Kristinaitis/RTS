@@ -59,6 +59,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         unitSelector = new UnitSelector(map, controlledPlayer);
         buildingSelector = new BuildingSelector(map, controlledPlayer);
 
+        unitSelector.addUnitSelectionListener(this);
+        buildingSelector.addBuildingSelectionListener(this);
+
         loadControlContexts();
     }
 
