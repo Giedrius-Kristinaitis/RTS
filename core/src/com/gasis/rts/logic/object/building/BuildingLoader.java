@@ -54,6 +54,9 @@ public class BuildingLoader extends GameObjectLoader {
     protected boolean animationsWhenIdle = false;
     protected boolean animationsWhenActive = false;
 
+    // how long does it take to construct the building (in seconds)
+    protected float constructionTime;
+
     /**
      * Default class constructor
      * @param map
@@ -160,6 +163,8 @@ public class BuildingLoader extends GameObjectLoader {
 
         widthInBlocks = Byte.parseByte(reader.readLine("width in blocks"));
         heightInBlocks = Byte.parseByte(reader.readLine("height in blocks"));
+
+        constructionTime = Float.parseFloat(reader.readLine("construction time"));
     }
 
     /**
@@ -189,6 +194,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setHpBarYOffset(hpBarYOffset);
         building.setAnimationsWhenActive(animationsWhenActive);
         building.setAnimationsWhenIdle(animationsWhenIdle);
+        building.setConstructionTime(constructionTime);
 
         // add firing things to the building if it has any
         if (offensive) {

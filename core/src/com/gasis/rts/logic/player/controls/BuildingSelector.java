@@ -62,7 +62,9 @@ public class BuildingSelector extends Selector {
         GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
         if (occupyingObject instanceof Building) {
-            selectBuilding((Building) occupyingObject);
+            if (!((Building) occupyingObject).isBeingConstructed()) {
+                selectBuilding((Building) occupyingObject);
+            }
         }
     }
 

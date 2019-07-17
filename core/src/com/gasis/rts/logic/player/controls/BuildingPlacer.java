@@ -135,6 +135,8 @@ public class BuildingPlacer implements Renderable {
             player.addBuilding(building);
             building.setOwner(player);
 
+            building.setBeingConstructed(true);
+
             placing = false;
         }
     }

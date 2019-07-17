@@ -3,6 +3,7 @@ code: rocker launcher conf
 control context: default_context_conf
 texture: mountable_tower_conf
 placement texture: mountable_tower_conf
+construction time: 50
 width: 1.75
 height: 1.5
 hp bar width: 2.4

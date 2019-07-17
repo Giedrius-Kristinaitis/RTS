@@ -64,12 +64,49 @@ public class Building extends GameObject implements UnitProducer {
     // the player that owns the building
     protected Player owner;
 
+    // is the building currently being constructed
+    protected boolean beingConstructed = false;
+
+    // how long does it take to construct the building (in seconds)
+    protected float constructionTime;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the building's construction time
+     *
+     * @param constructionTime new construction time in seconds
+     */
+    public void setConstructionTime(float constructionTime) {
+        this.constructionTime = constructionTime;
+    }
+
+    /**
+     * Sets the building's construction flag
+     *
+     * @param beingConstructed is the building being constructed right now
+     */
+    public void setBeingConstructed(boolean beingConstructed) {
+        this.beingConstructed = beingConstructed;
+
+        if (beingConstructed) {
+            hp = defensiveSpecs.getMaxHp() * 0.1f;
+            renderHp = true;
+        }
+    }
+
+    /**
+     * Checks if the building is being constructed
+     * @return
+     */
+    public boolean isBeingConstructed() {
+        return beingConstructed;
     }
 
     /**
@@ -97,7 +134,7 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void queueUp(UnitLoader unit) {
-        if (!producing) {
+        if (!producing && !beingConstructed) {
             producedUnitLoader = unit;
             progress = 0;
             producing = true;
@@ -282,11 +319,32 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void update(float delta) {
-        for (Animation animation: animations) {
-            animation.update(delta);
+        if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
+            for (Animation animation : animations) {
+                animation.update(delta);
+            }
         }
 
-        updateProduction(delta);
+        if (beingConstructed) {
+            updateConstruction(delta);
+        } else {
+            updateProduction(delta);
+        }
+    }
+
+    /**
+     * Updates the building's construction progress
+     *
+     * @param delta time elapsed since the last update
+     */
+    protected void updateConstruction(float delta) {
+        hp += defensiveSpecs.getMaxHp() * delta / constructionTime;
+
+        if (hp >= defensiveSpecs.getMaxHp()) {
+            hp = defensiveSpecs.getMaxHp();
+            beingConstructed = false;
+            renderHp = false;
+        }
     }
 
     /**
@@ -320,7 +378,7 @@ public class Building extends GameObject implements UnitProducer {
                 height
         );
 
-        if ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) {
+        if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
             for (Animation animation : animations) {
                 animation.render(batch, resources);
             }
@@ -345,6 +403,25 @@ public class Building extends GameObject implements UnitProducer {
 
         batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.PRODUCTION_PROGRESS_TEXTURE),
                 getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset - 0.15f, hpBarWidth * progress - 0.05f, 0.05f);
+    }
+
+    /**
+     * Renders the object's hp bar
+     *
+     * @param batch     sprite batch to draw to
+     * @param resources game's assets
+     */
+    @Override
+    protected void renderHp(SpriteBatch batch, Resources resources) {
+        if (!beingConstructed) {
+            super.renderHp(batch, resources);
+        } else {
+            batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
+                    getCenterX() - hpBarWidth / 2f, y + height + hpBarYOffset, hpBarWidth, 0.1f);
+
+            batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.CONSTRUCTION_HP_BAR_TEXTURE),
+                    getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
+        }
     }
 
     /**

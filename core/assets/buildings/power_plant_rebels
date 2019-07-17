@@ -3,6 +3,7 @@ code: power plant rebels
 control context: default_context_rebels
 texture: plant
 placement texture: plant
+construction time: 50
 width: 3.9
 height: 3
 width in blocks: 3
