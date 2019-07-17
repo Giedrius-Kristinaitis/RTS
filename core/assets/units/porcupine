@@ -1,6 +1,7 @@
 atlas: porcupine.atlas
 code: porcupine
 control context: default_context_rebels
+production time: 10
 width: 1.307
 height: 1
 hp: 50

@@ -54,6 +54,9 @@ public class UnitLoader extends GameObjectLoader {
     // 1 direction)
     protected byte siegeModeFacingDirection = Unit.EAST;
 
+    // how much time does it take to produce the unit (in seconds)
+    protected float productionTime;
+
     /**
      * Reads the combat related data of a unit
      *
@@ -174,12 +177,21 @@ public class UnitLoader extends GameObjectLoader {
     }
 
     /**
+     * Reads the unit's production data
+     * @param reader file reader to read data from
+     */
+    protected void readProductionData(FileLineReader reader) {
+        productionTime = Float.parseFloat(reader.readLine("production time"));
+    }
+
+    /**
      * Reads other data of the object that is not meta data
      *
      * @param reader reader to read data from
      */
     @Override
     protected void readOtherData(FileLineReader reader) {
+        readProductionData(reader);
         readCombatData(reader);
         readTexturesAndAnimations(reader);
     }
@@ -230,5 +242,13 @@ public class UnitLoader extends GameObjectLoader {
         }
 
         return unit;
+    }
+
+    /**
+     * Gets the unit's production time in seconds
+     * @return
+     */
+    public float getProductionTime() {
+        return productionTime;
     }
 }
