@@ -42,8 +42,8 @@ public class Building extends GameObject implements UnitProducer {
     protected byte heightInBlocks;
 
     // building's coordinates in blocks
-    protected byte xInBlocks;
-    protected byte yInBlocks;
+    protected short xInBlocks;
+    protected short yInBlocks;
 
     // the point at which units spawn
     protected Point spawnPoint;
@@ -100,6 +100,24 @@ public class Building extends GameObject implements UnitProducer {
              * At least it does it's job
              */
             while (true) {
+                // loop through the left side of the square
+                for (short y = (short) (closest.y + (short) (size / 2)); y > closest.y - (short) (size / 2); y-) {
+                    if (map.isBlockPassable((short) (closest.x - (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x - (short) (size / 2)), y)) {
+                        closest.y = y;
+                        closest.x = (short) (closest.x - (short) (size / 2));
+                        return closest;
+                    }
+                }
+
+                // loop through the right side of the square
+                for (short y = (short) (closest.y - (short) (size / 2)); y < closest.y + (short) (size / 2); y++) {
+                    if (map.isBlockPassable((short) (closest.x + (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x + (short) (size / 2)), y)) {
+                        closest.y = y;
+                        closest.x = (short) (closest.x + (short) (size / 2));
+                        return closest;
+                    }
+                }
+
                 // loop through the bottom side of the square
                 for (short x = (short) (closest.x - (short) (size / 2)); x < closest.x + (short) (size / 2); x++) {
                     if (map.isBlockPassable(x, (short) (closest.y - (short) (size / 2))) && !map.isBlockOccupied(x, (short) (closest.y - (short) (size / 2)))) {
@@ -114,24 +132,6 @@ public class Building extends GameObject implements UnitProducer {
                     if (map.isBlockPassable(x, (short) (closest.y + (short) (size / 2))) && !map.isBlockOccupied(x, (short) (closest.y + (short) (size / 2)))) {
                         closest.x = x;
                         closest.y = (short) (closest.y + (short) (size / 2));
-                        return closest;
-                    }
-                }
-
-                // loop through the left side of the square
-                for (short y = (short) (closest.y - (short) (size / 2)); y < closest.y + (short) (size / 2); y++) {
-                    if (map.isBlockPassable((short) (closest.x - (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x - (short) (size / 2)), y)) {
-                        closest.y = y;
-                        closest.x = (short) (closest.x - (short) (size / 2));
-                        return closest;
-                    }
-                }
-
-                // loop through the right side of the square
-                for (short y = (short) (closest.y - (short) (size / 2)); y < closest.y + (short) (size / 2); y++) {
-                    if (map.isBlockPassable((short) (closest.x + (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x + (short) (size / 2)), y)) {
-                        closest.y = y;
-                        closest.x = (short) (closest.x + (short) (size / 2));
                         return closest;
                     }
                 }
@@ -155,6 +155,8 @@ public class Building extends GameObject implements UnitProducer {
         unit.setY(spawn.y * Block.BLOCK_HEIGHT);
 
         owner.addUnit(unit);
+
+        map.occupyBlock((short) spawn.x, (short) spawn.y, unit);
 
         producing = false;
     }
@@ -268,7 +270,7 @@ public class Building extends GameObject implements UnitProducer {
      */
     protected void updateProduction(float delta) {
         if (producing) {
-            progress += producedUnitLoader.getProductionTime() * delta;
+            progress += delta / producedUnitLoader.getProductionTime();
 
             if (progress >= 1) {
                 spawnUnit();
@@ -355,7 +357,7 @@ public class Building extends GameObject implements UnitProducer {
      * Gets the building's x in blocks
      * @return
      */
-    public byte getXInBlocks() {
+    public short getXInBlocks() {
         return xInBlocks;
     }
 
@@ -364,7 +366,7 @@ public class Building extends GameObject implements UnitProducer {
      *
      * @param xInBlocks new x in blocks
      */
-    public void setXInBlocks(byte xInBlocks) {
+    public void setXInBlocks(short xInBlocks) {
         this.xInBlocks = xInBlocks;
     }
 
@@ -372,7 +374,7 @@ public class Building extends GameObject implements UnitProducer {
      * Gets the building's y in blocks
      * @return
      */
-    public byte getYInBlocks() {
+    public short getYInBlocks() {
         return yInBlocks;
     }
 
@@ -381,7 +383,7 @@ public class Building extends GameObject implements UnitProducer {
      *
      * @param yInBlocks new y in blocks
      */
-    public void setYInBlocks(byte yInBlocks) {
+    public void setYInBlocks(short yInBlocks) {
         this.yInBlocks = yInBlocks;
     }
 

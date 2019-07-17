@@ -128,6 +128,8 @@ public class BuildingPlacer implements Renderable {
 
             building.setCenterX(buildingCenterX);
             building.setY(buildingY);
+            building.setXInBlocks((short) (buildingX / Block.BLOCK_WIDTH));
+            building.setYInBlocks((short) (buildingY / Block.BLOCK_HEIGHT));
             building.initializeAnimations();
 
             player.addBuilding(building);

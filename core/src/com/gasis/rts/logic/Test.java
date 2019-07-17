@@ -62,7 +62,7 @@ public class Test implements Updatable, Renderable {
 
 
     public Test(BlockMap map, Player player) {
-        UnitLoader loader = new UnitLoader();
+        UnitLoader loader = new UnitLoader(map);
         loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "rhino"));
 
         unit1 = (RotatingGunUnit) loader.newInstance();
@@ -114,7 +114,7 @@ public class Test implements Updatable, Renderable {
         unit8.rotateToDirection(Unit.NORTH_EAST);
         unit8.aimAt(8.5f, 8.5f);
 
-        UnitLoader zeusLoader = new UnitLoader();
+        UnitLoader zeusLoader = new UnitLoader(map);
         zeusLoader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "zeus"));
 
         zeus1 = zeusLoader.newInstance();
@@ -167,7 +167,7 @@ public class Test implements Updatable, Renderable {
         zeus8.rotateToDirection(Unit.NORTH_EAST);
         zeus8.aimAt(8.5f, 8.5f);
 
-        BuildingLoader buildingLoader = new BuildingLoader();
+        BuildingLoader buildingLoader = new BuildingLoader(map);
         buildingLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "power_plant_rebels"));
 
         plant = buildingLoader.newInstance();
@@ -175,7 +175,7 @@ public class Test implements Updatable, Renderable {
         plant.setY(0);
         plant.initializeAnimations();
 
-        BuildingLoader launcherLoader = new BuildingLoader();
+        BuildingLoader launcherLoader = new BuildingLoader(map);
         launcherLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "rocket_launcher_conf"));
 
         launcher = (OffensiveBuilding) launcherLoader.newInstance();
@@ -198,7 +198,7 @@ public class Test implements Updatable, Renderable {
         launcher4.setY(5);
         launcher4.aimAt(8.5f, 8.5f);
 
-        BuildingLoader factoryLoader = new BuildingLoader();
+        BuildingLoader factoryLoader = new BuildingLoader(map);
         factoryLoader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "machine_factory_conf"));
 
         factory = factoryLoader.newInstance();
@@ -206,7 +206,7 @@ public class Test implements Updatable, Renderable {
         factory.setY(0);
         factory.initializeAnimations();
 
-        BuildingLoader factoryLoader2 = new BuildingLoader();
+        BuildingLoader factoryLoader2 = new BuildingLoader(map);
         factoryLoader2.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + "machine_factory_rebels"));
 
         factory2 = factoryLoader2.newInstance();
@@ -214,7 +214,7 @@ public class Test implements Updatable, Renderable {
         factory2.setY(0);
         factory2.initializeAnimations();
 
-        UnitLoader porcLoader = new UnitLoader();
+        UnitLoader porcLoader = new UnitLoader(map);
         porcLoader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "porcupine"));
 
         porcupine1 = (RotatingGunUnit) porcLoader.newInstance();
@@ -265,7 +265,7 @@ public class Test implements Updatable, Renderable {
         porcupine8.rotateToDirection(Unit.NORTH_WEST);
         porcupine8.aimAt(25, 4.5f);
 
-        UnitLoader torrentLoader = new UnitLoader();
+        UnitLoader torrentLoader = new UnitLoader(map);
         torrentLoader.load(Gdx.files.internal(Constants.FOLDER_UNITS + "torrent"));
 
         torrent1 = (RotatingGunUnit) torrentLoader.newInstance();

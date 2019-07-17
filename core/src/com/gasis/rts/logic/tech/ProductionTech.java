@@ -9,7 +9,7 @@ import com.gasis.rts.logic.player.Player;
  */
 public class ProductionTech extends Tech {
 
-    // the code of the produced unit
+    // the produced unit
     protected String unit;
 
     /**

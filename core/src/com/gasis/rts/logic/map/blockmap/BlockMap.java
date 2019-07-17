@@ -40,7 +40,7 @@ public class BlockMap implements Map {
      * @param occupier new occupying object
      */
     public void occupyBlock(short x, short y, GameObject occupier) {
-        if (x < 0 || x > width || y < 0 || y > height) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return;
         }
 
@@ -55,7 +55,7 @@ public class BlockMap implements Map {
      * @return
      */
     public boolean isBlockOccupied(short x, short y) {
-        if (x < 0 || x > width || y < 0 || y > height) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return false;
         }
 
@@ -77,7 +77,7 @@ public class BlockMap implements Map {
      * @return
      */
     public boolean isBlockPassable(short x, short y) {
-        if (x < 0 || x > width || y < 0 || y > height) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return false;
         }
 
@@ -98,7 +98,7 @@ public class BlockMap implements Map {
      * @return occupying object, null if there is no such object
      */
     public GameObject getOccupyingObject(short x, short y) {
-        if (x < 0 || x > width || y < 0 || y > height) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return null;
         }
 
