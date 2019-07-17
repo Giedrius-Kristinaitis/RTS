@@ -32,9 +32,11 @@ public class TacticalTech extends Tech {
      * @param player player owning the units
      */
     protected void toggleUnitSiegeMode(Player player) {
-        for (Unit unit: player.getSelectedUnits()) {
-            if (unit.isSiegeModeAvailable()) {
-                unit.setInSiegeMode(!unit.isInSiegeMode());
+        if (player.getSelectedUnits() != null) {
+            for (Unit unit : player.getSelectedUnits()) {
+                if (unit.isSiegeModeAvailable()) {
+                    unit.setInSiegeMode(!unit.isInSiegeMode());
+                }
             }
         }
     }
