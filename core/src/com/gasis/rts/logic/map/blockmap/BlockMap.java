@@ -10,6 +10,7 @@ import java.util.LinkedList;
 /**
  * 2D map made of blocks (or tiles)
  */
+@SuppressWarnings("Duplicates") // the damned IDE gives a hard time for 2 repeated lines
 public class BlockMap implements Map {
 
     // map dimensions in blocks
@@ -61,6 +62,28 @@ public class BlockMap implements Map {
         Block block = layers.getFirst().getBlock(x, y);
 
         if (block != null && block.getOccupyingObject() != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the block at (x, y) is passable or not (the block is passable
+     * event if something is occupying it)
+     *
+     * @param x x of the block
+     * @param y y of the block
+     * @return
+     */
+    public boolean isBlockPassable(short x, short y) {
+        if (x < 0 || x > width || y < 0 || y > height) {
+            return false;
+        }
+
+        Block block = layers.getFirst().getBlock(x, y);
+
+        if (block != null && block.isPassable()) {
             return true;
         }
 

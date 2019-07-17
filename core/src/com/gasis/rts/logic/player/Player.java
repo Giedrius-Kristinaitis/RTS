@@ -3,6 +3,7 @@ package com.gasis.rts.logic.player;
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.unit.Unit;
 
@@ -29,14 +30,55 @@ public class Player {
     // faction the player is controlling
     protected Faction faction;
 
+    // the building that is currently selected
+    protected Building selectedBuilding;
+
+    // the units that are currently selected
+    protected List<Unit> selectedUnits;
+
+    /**
+     * Sets the currently selected building
+     *
+     * @param building selected building
+     */
+    public void setSelectedBuilding(Building building) {
+        this.selectedBuilding = building;
+    }
+
+    /**
+     * Sets the currently selected units
+     *
+     * @param units selected units
+     */
+    public void setSelectedUnits(List<Unit> units) {
+        this.selectedUnits = units;
+    }
+
+    /**
+     * Gets the building that is currently selected
+     * @return
+     */
+    public Building getSelectedBuilding() {
+        return selectedBuilding;
+    }
+
+    /**
+     * Gets the units that are currently selected
+     * @return
+     */
+    public List<Unit> getSelectedUnits() {
+        return selectedUnits;
+    }
+
     /**
      * Initializes the player's data with the given faction
      *
      * @param factionFile the faction file
+     * @param map the game's map
      */
-    public void initialize(FileHandle factionFile) {
+    public void initialize(FileHandle factionFile, BlockMap map) {
         FactionLoader loader = new FactionLoader();
-        loader.load(factionFile);
+        loader.load(factionFile, map);
 
         faction = loader.createInstance();
     }

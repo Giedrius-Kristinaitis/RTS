@@ -154,6 +154,15 @@ public class UnitSelector extends Selector {
     }
 
     /**
+     * Notifies unit deselection listeners that units were deselected
+     */
+    protected void notifyDeselectionListeners() {
+        for (UnitSelectionListener listener: listeners) {
+            listener.unitsDeselected();
+        }
+    }
+
+    /**
      * Deselects all currently selected units
      */
     public void deselectUnits() {
@@ -163,6 +172,7 @@ public class UnitSelector extends Selector {
         }
 
         selectedUnits.clear();
+        notifyDeselectionListeners();
     }
 
     /**

@@ -1,0 +1,9 @@
+tech: prod zeus
+prod zeus type: production
+prod zeus file: production_zeus
+prod zeus key binding: Z
+
+tech: prod torrent
+prod torrent type: production
+prod torrent file: production_torrent
+prod torrent key binding: T

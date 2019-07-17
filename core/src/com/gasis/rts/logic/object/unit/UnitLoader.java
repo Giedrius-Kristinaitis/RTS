@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
 import com.gasis.rts.logic.object.combat.*;
@@ -56,6 +57,14 @@ public class UnitLoader extends GameObjectLoader {
 
     // how much time does it take to produce the unit (in seconds)
     protected float productionTime;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public UnitLoader(BlockMap map) {
+        super(map);
+    }
 
     /**
      * Reads the combat related data of a unit
@@ -207,7 +216,7 @@ public class UnitLoader extends GameObjectLoader {
             throw new IllegalStateException("Unit not loaded");
         }
 
-        Unit unit = rotatingGuns.size() > 0 ? new RotatingGunUnit() : new Unit();
+        Unit unit = rotatingGuns.size() > 0 ? new RotatingGunUnit(map) : new Unit(map);
 
         unit.setAtlas(atlas);
         unit.setCode(code);

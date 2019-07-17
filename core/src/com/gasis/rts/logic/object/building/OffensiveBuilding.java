@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.building;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -24,6 +25,14 @@ public class OffensiveBuilding extends Building implements Aimable {
 
     // offensive specs of the building
     protected OffensiveSpecs offensiveSpecs;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public OffensiveBuilding(BlockMap map) {
+        super(map);
+    }
 
     /**
      * Sets the offensive specs for the building

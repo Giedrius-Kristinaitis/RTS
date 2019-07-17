@@ -73,6 +73,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     @Override
     public void buildingSelected(Building building) {
         changeControlContext(building.getControlContextName());
+        controlledPlayer.setSelectedBuilding(building);
     }
 
     /**
@@ -84,6 +85,23 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     public void unitsSelected(List<Unit> selectedUnits) {
         ControlContextMultiplexer multiplexer = constructControlContextMultiplexer(selectedUnits);
         changeControlContext(multiplexer);
+        controlledPlayer.setSelectedUnits(selectedUnits);
+    }
+
+    /**
+     * Called when the selected building gets deselected
+     */
+    @Override
+    public void buildingDeselected() {
+        controlledPlayer.setSelectedBuilding(null);
+    }
+
+    /**
+     * Called when selected unit(-s) get deselected
+     */
+    @Override
+    public void unitsDeselected() {
+        controlledPlayer.setSelectedUnits(null);
     }
 
     /**

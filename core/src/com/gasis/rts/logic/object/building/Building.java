@@ -5,7 +5,13 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.complexanimation.RisingSmokeAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.production.UnitProducer;
+import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -17,7 +23,7 @@ import java.util.Map;
 /**
  * A building on the map
  */
-public class Building extends GameObject {
+public class Building extends GameObject implements UnitProducer {
 
     // the name of the building's texture
     protected String texture;
@@ -38,6 +44,120 @@ public class Building extends GameObject {
     // building's coordinates in blocks
     protected byte xInBlocks;
     protected byte yInBlocks;
+
+    // the point at which units spawn
+    protected Point spawnPoint;
+
+    // the loader of the unit that is currently being produced
+    protected UnitLoader producedUnitLoader;
+
+    // is the building producing units or researching something right now
+    protected boolean producing = false;
+
+    // production/research progress
+    protected float progress = 0f;
+
+    // the player that owns the building
+    protected Player owner;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public Building(BlockMap map) {
+        super(map);
+    }
+
+    /**
+     * Queues up a unit to be produced
+     *
+     * @param unit loader of the unit
+     */
+    @Override
+    public void queueUp(UnitLoader unit) {
+        if (!producing) {
+            producedUnitLoader = unit;
+            progress = 0;
+            producing = true;
+        }
+    }
+
+    /**
+     * Gets the closest point to the spawn point that is empty
+     * @return
+     */
+    protected Point getClosestPointToSpawnPoint() {
+        Point spawnPoint = getSpawnPoint();
+        Point closest = new Point(spawnPoint.x, spawnPoint.y);
+
+        if (!map.isBlockPassable((short) closest.x, (short) closest.y) || map.isBlockOccupied((short) closest.x, (short) closest.y)) {
+            short size = 3;
+
+            /*
+             * I know this piece of code is ugly, but I'm really lazy at the time of writing this
+             * so I'm gonna leave it as it is...
+             *
+             * At least it does it's job
+             */
+            while (true) {
+                // loop through the bottom side of the square
+                for (short x = (short) (closest.x - (short) (size / 2)); x < closest.x + (short) (size / 2); x++) {
+                    if (map.isBlockPassable(x, (short) (closest.y - (short) (size / 2))) && !map.isBlockOccupied(x, (short) (closest.y - (short) (size / 2)))) {
+                        closest.x = x;
+                        closest.y = (short) (closest.y - (short) (size / 2));
+                        return closest;
+                    }
+                }
+
+                // loop through the top side of the square
+                for (short x = (short) (closest.x - (short) (size / 2)); x < closest.x + (short) (size / 2); x++) {
+                    if (map.isBlockPassable(x, (short) (closest.y + (short) (size / 2))) && !map.isBlockOccupied(x, (short) (closest.y + (short) (size / 2)))) {
+                        closest.x = x;
+                        closest.y = (short) (closest.y + (short) (size / 2));
+                        return closest;
+                    }
+                }
+
+                // loop through the left side of the square
+                for (short y = (short) (closest.y - (short) (size / 2)); y < closest.y + (short) (size / 2); y++) {
+                    if (map.isBlockPassable((short) (closest.x - (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x - (short) (size / 2)), y)) {
+                        closest.y = y;
+                        closest.x = (short) (closest.x - (short) (size / 2));
+                        return closest;
+                    }
+                }
+
+                // loop through the right side of the square
+                for (short y = (short) (closest.y - (short) (size / 2)); y < closest.y + (short) (size / 2); y++) {
+                    if (map.isBlockPassable((short) (closest.x + (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x + (short) (size / 2)), y)) {
+                        closest.y = y;
+                        closest.x = (short) (closest.x + (short) (size / 2));
+                        return closest;
+                    }
+                }
+
+                size += 2;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Spawns the unit that was just produced
+     */
+    protected void spawnUnit() {
+        Point spawn = getClosestPointToSpawnPoint();
+
+        Unit unit = producedUnitLoader.newInstance();
+
+        unit.setX(spawn.x * Block.BLOCK_WIDTH);
+        unit.setY(spawn.y * Block.BLOCK_HEIGHT);
+
+        owner.addUnit(unit);
+
+        producing = false;
+    }
 
     /**
      * Initializes the building's animations. Must be called after the building's position
@@ -137,6 +257,23 @@ public class Building extends GameObject {
         for (Animation animation: animations) {
             animation.update(delta);
         }
+
+        updateProduction(delta);
+    }
+
+    /**
+     * Updates unit production
+     *
+     * @param delta time elapsed since the last update
+     */
+    protected void updateProduction(float delta) {
+        if (producing) {
+            progress += producedUnitLoader.getProductionTime() * delta;
+
+            if (progress >= 1) {
+                spawnUnit();
+            }
+        }
     }
 
     /**
@@ -160,6 +297,24 @@ public class Building extends GameObject {
         }
 
         renderHp(batch, resources);
+
+        if (producing) {
+            renderProgress(batch, resources);
+        }
+    }
+
+    /**
+     * Renders the current production/research progress
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected void renderProgress(SpriteBatch batch, Resources resources) {
+        batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_BACKGROUND_TEXTURE),
+                getCenterX() - hpBarWidth / 2f, y + height + hpBarYOffset - 0.15f, hpBarWidth, 0.1f);
+
+        batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.PRODUCTION_PROGRESS_TEXTURE),
+                getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset - 0.15f, hpBarWidth * progress - 0.05f, 0.05f);
     }
 
     /**
@@ -228,5 +383,26 @@ public class Building extends GameObject {
      */
     public void setYInBlocks(byte yInBlocks) {
         this.yInBlocks = yInBlocks;
+    }
+
+    /**
+     * Gets the spawn point
+     */
+    public Point getSpawnPoint() {
+        if (spawnPoint == null) {
+            spawnPoint = new Point(xInBlocks + widthInBlocks - 1,
+                    yInBlocks - 1);
+        }
+
+        return spawnPoint;
+    }
+
+    /**
+     * Sets the owner of the building
+     *
+     * @param owner new owner
+     */
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 }

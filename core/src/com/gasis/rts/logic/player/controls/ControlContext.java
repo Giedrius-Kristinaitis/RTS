@@ -3,9 +3,7 @@ package com.gasis.rts.logic.player.controls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.tech.PlacementTech;
-import com.gasis.rts.logic.tech.Tech;
-import com.gasis.rts.logic.tech.UpgradeTech;
+import com.gasis.rts.logic.tech.*;
 import com.gasis.rts.utils.Constants;
 
 import java.util.HashMap;
@@ -75,6 +73,10 @@ public class ControlContext {
             tech = new UpgradeTech();
         } else if (techType.equalsIgnoreCase("placement")) {
             tech = new PlacementTech(placer);
+        } else if (techType.equalsIgnoreCase("production")) {
+            tech = new ProductionTech();
+        } else if (techType.equalsIgnoreCase("tactical")) {
+            tech = new TacticalTech();
         } else {
             return;
         }

@@ -5,6 +5,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.Aimable;
@@ -117,6 +118,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     // should the unit's selection circle be rendered or not
     protected boolean renderSelectionCircle;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public Unit(BlockMap map) {
+        super(map);
+    }
 
     /**
      * Aims at the specified target coordinates

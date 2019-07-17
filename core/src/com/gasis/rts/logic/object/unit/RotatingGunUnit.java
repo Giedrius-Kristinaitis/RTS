@@ -2,6 +2,7 @@ package com.gasis.rts.logic.object.unit;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.resources.Resources;
 
@@ -15,6 +16,14 @@ public class RotatingGunUnit extends Unit {
 
     // rotating guns of the unit
     protected Map<String, RotatingGun> guns = new HashMap<String, RotatingGun>();
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public RotatingGunUnit(BlockMap map) {
+        super(map);
+    }
 
     /**
      * Adds a rotating gun to the unit

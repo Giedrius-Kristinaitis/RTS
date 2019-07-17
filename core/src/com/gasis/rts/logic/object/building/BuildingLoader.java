@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.building;
 
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
 import com.gasis.rts.logic.object.combat.*;
@@ -48,6 +49,14 @@ public class BuildingLoader extends GameObjectLoader {
     // the building's dimensions in block map's blocks
     protected byte widthInBlocks;
     protected byte heightInBlocks;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public BuildingLoader(BlockMap map) {
+        super(map);
+    }
 
     /**
      * Reads combat data of the building
@@ -144,7 +153,7 @@ public class BuildingLoader extends GameObjectLoader {
             throw new IllegalStateException("Building not loaded");
         }
 
-        Building building = !offensive ? new Building() : new OffensiveBuilding();
+        Building building = !offensive ? new Building(map) : new OffensiveBuilding(map);
 
         building.setAtlas(atlas);
         building.setWidth(width);

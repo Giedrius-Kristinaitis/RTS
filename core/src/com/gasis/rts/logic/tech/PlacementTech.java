@@ -1,7 +1,6 @@
 package com.gasis.rts.logic.tech;
 
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.BuildingPlacer;
@@ -52,11 +51,7 @@ public class PlacementTech extends Tech {
     @Override
     protected boolean loadData(FileLineReader reader) {
         try {
-            String type = reader.readLine("type");
-
-            if (type.equalsIgnoreCase("building")) {
-                building = reader.readLine("building");
-            }
+            building = reader.readLine("building");
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;

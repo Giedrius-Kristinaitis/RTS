@@ -2,6 +2,7 @@ package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 
 /**
  * Loads a game object from a file
@@ -29,6 +30,17 @@ public abstract class GameObjectLoader {
 
     // the object's control context's name
     protected String controlContextName;
+
+    // the game's map
+    protected BlockMap map;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public GameObjectLoader(BlockMap map) {
+        this.map = map;
+    }
 
     /**
      * Loads a game object from the given file

@@ -13,4 +13,9 @@ public interface BuildingSelectionListener {
      * @param building the selected building
      */
     void buildingSelected(Building building);
+
+    /**
+     * Called when the selected building gets deselected
+     */
+    void buildingDeselected();
 }

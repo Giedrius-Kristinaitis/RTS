@@ -90,12 +90,23 @@ public class BuildingSelector extends Selector {
     }
 
     /**
+     * Notifies all building deselection listeners that a building was deselected
+     */
+    protected void notifyDeselectionListeners() {
+        for (BuildingSelectionListener listener: listeners) {
+            listener.buildingDeselected();
+        }
+    }
+
+
+    /**
      * Deselects currently selected building
      */
     public void deselectBuilding() {
         if (selectedBuilding != null) {
             selectedBuilding.setRenderHp(false);
             selectedBuilding = null;
+            notifyDeselectionListeners();
         }
     }
 

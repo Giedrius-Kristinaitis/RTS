@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -51,6 +52,17 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
 
     // the name of the object's control context
     protected String controlContextName;
+
+    // the game's map
+    protected BlockMap map;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public GameObject(BlockMap map) {
+        this.map = map;
+    }
 
     /**
      * Sets the hp bar's height offset

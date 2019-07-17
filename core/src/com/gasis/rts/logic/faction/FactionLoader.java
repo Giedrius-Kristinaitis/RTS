@@ -3,6 +3,7 @@ package com.gasis.rts.logic.faction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.utils.Constants;
@@ -35,17 +36,18 @@ public class FactionLoader {
      * Loads a faction
      *
      * @param file the faction file
+     * @param map the game's map
      *
      * @return
      */
-    public boolean load(FileHandle file) {
+    public boolean load(FileHandle file, BlockMap map) {
         try {
             FileLineReader reader = new FileLineReader(file.read(), ":");
 
             readMetaData(reader);
 
-            initializeUnitLoaders(reader);
-            initializeBuildingLoaders(reader);
+            initializeUnitLoaders(reader, map);
+            initializeBuildingLoaders(reader, map);
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -68,14 +70,15 @@ public class FactionLoader {
      * Initializes the faction's unit loaders
      *
      * @param reader file line reader to read data from
+     * @param map the game's map
      */
-    protected void initializeUnitLoaders(FileLineReader reader) {
+    protected void initializeUnitLoaders(FileLineReader reader, BlockMap map) {
         List<String> units = reader.readLines("unit");
 
         if (units != null) {
             for (String unit : units) {
                 // create an instance of a unit loader
-                UnitLoader loader = new UnitLoader();
+                UnitLoader loader = new UnitLoader(map);
                 loader.load(Gdx.files.internal(Constants.FOLDER_UNITS + unit));
                 unitLoaders.put(unit, loader);
             }
@@ -86,14 +89,15 @@ public class FactionLoader {
      * Initializes the faction's building loaders
      *
      * @param reader file line reader to read data from
+     * @param map the game's map
      */
-    protected void initializeBuildingLoaders(FileLineReader reader) {
+    protected void initializeBuildingLoaders(FileLineReader reader, BlockMap map) {
         List<String> buildings = reader.readLines("building");
 
         if (buildings != null) {
             for (String building : buildings) {
                 // create an instance of a building loader
-                BuildingLoader loader = new BuildingLoader();
+                BuildingLoader loader = new BuildingLoader(map);
                 loader.load(Gdx.files.internal(Constants.FOLDER_BUILDINGS + building));
                 buildingLoaders.put(building, loader);
             }
