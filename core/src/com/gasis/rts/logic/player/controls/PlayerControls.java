@@ -9,6 +9,7 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
@@ -47,6 +48,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
     // building selection logic
     protected BuildingSelector buildingSelector;
+
+    // the code of the currently pressed key
+    protected int pressedKey;
 
     /**
      * Default class constructor
@@ -196,6 +200,11 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param button  the button
      */
     public void touchDown(float x, float y, int pointer, int button) {
+        if (button == Input.Buttons.RIGHT) {
+            handleUnitCombatControls(x, y);
+            handleBuildingCombatControls(x, y);
+        }
+
         buildingSelector.touchDown(x, y, pointer, button);
         unitSelector.touchDown(x, y, pointer, button);
         handleBuildingPlacement(button);
@@ -237,6 +246,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     public void keyDown(int keycode) {
         handleControlContextHotkeys(keycode);
+
+        pressedKey = keycode;
     }
 
     /**
@@ -245,7 +256,55 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param keycode code of the pressed key
      */
     public void keyUp(int keycode) {
+        pressedKey = -1;
+    }
 
+    /**
+     * Handles unit combat controls that are not tactical techs
+     *
+     * @param x mouse x in world coordinates
+     * @param y mouse y in world coordinates
+     */
+    protected void handleUnitCombatControls(float x, float y) {
+        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+            aimSelectedUnits(x, y);
+        }
+    }
+
+    /**
+     * Handles building combat controls
+     *
+     * @param x mouse x in world coords
+     * @param y mouse y in world coords
+     */
+    protected void handleBuildingCombatControls(float x, float y) {
+        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+            aimSelectedBuilding(x, y);
+        }
+    }
+
+    /**
+     * Aims all currently selected units at the given point
+     *
+     * @param x x of the target
+     * @param y y of the target
+     */
+    protected void aimSelectedUnits(float x, float y) {
+        for (Unit unit: unitSelector.getSelectedUnits()) {
+            unit.aimAt(x, y);
+        }
+    }
+
+    /**
+     * Aims selected building at the given point
+     *
+     * @param x x of the target
+     * @param y y of the target
+     */
+    protected void aimSelectedBuilding(float x, float y) {
+        if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
+            ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
+        }
     }
 
     /**
