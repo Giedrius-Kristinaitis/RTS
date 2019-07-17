@@ -13,6 +13,7 @@ defence: 5
 sight range: 5
 offensive: false
 animation: fan1
+animation availability: when active
 fan1 animation name: machine_factory_conf_fan_left
 fan1 relative x: -1.075
 fan1 relative y: 0.6

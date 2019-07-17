@@ -12,6 +12,7 @@ defence: 5
 sight range: 5
 offensive: false
 complex animation: smoke1
+animation availability: always
 smoke1 animation name: rising smoke
 smoke1 relative x: -0.225
 smoke1 relative y: 1.1

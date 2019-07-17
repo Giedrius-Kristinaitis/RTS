@@ -45,6 +45,10 @@ public class Building extends GameObject implements UnitProducer {
     protected short xInBlocks;
     protected short yInBlocks;
 
+    // animation availability
+    protected boolean animationsWhenIdle = false;
+    protected boolean animationsWhenActive = false;
+
     // the point at which units spawn
     protected Point spawnPoint;
 
@@ -66,6 +70,24 @@ public class Building extends GameObject implements UnitProducer {
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets animation availability when the building is idle
+     *
+     * @param animationsWhenIdle are the animations available when the building is idle
+     */
+    public void setAnimationsWhenIdle(boolean animationsWhenIdle) {
+        this.animationsWhenIdle = animationsWhenIdle;
+    }
+
+    /**
+     * Sets animation availability when the building is active
+     *
+     * @param animationsWhenActive are the animations available when the building is active
+     */
+    public void setAnimationsWhenActive(boolean animationsWhenActive) {
+        this.animationsWhenActive = animationsWhenActive;
     }
 
     /**
@@ -298,8 +320,10 @@ public class Building extends GameObject implements UnitProducer {
                 height
         );
 
-        for (Animation animation: animations) {
-            animation.render(batch, resources);
+        if ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) {
+            for (Animation animation : animations) {
+                animation.render(batch, resources);
+            }
         }
 
         renderHp(batch, resources);

@@ -50,6 +50,10 @@ public class BuildingLoader extends GameObjectLoader {
     protected byte widthInBlocks;
     protected byte heightInBlocks;
 
+    // animation availability
+    protected boolean animationsWhenIdle = false;
+    protected boolean animationsWhenActive = false;
+
     /**
      * Default class constructor
      * @param map
@@ -126,6 +130,22 @@ public class BuildingLoader extends GameObjectLoader {
                 complexAnimations.put(new Point(x, y), name);
             }
         }
+
+        // read animation availability
+        String animationAvailability = reader.readLine("animation availability");
+
+        if (animationAvailability != null) {
+            if (animationAvailability.equalsIgnoreCase("always")) {
+                animationsWhenActive = true;
+                animationsWhenIdle = true;
+            } else if (animationAvailability.equalsIgnoreCase("when active")) {
+                animationsWhenActive = true;
+                animationsWhenIdle = false;
+            } else {
+                animationsWhenActive = false;
+                animationsWhenIdle = false;
+            }
+        }
     }
 
     /**
@@ -167,6 +187,8 @@ public class BuildingLoader extends GameObjectLoader {
         building.setHpBarWidth(hpBarWidth);
         building.setControlContextName(controlContextName);
         building.setHpBarYOffset(hpBarYOffset);
+        building.setAnimationsWhenActive(animationsWhenActive);
+        building.setAnimationsWhenIdle(animationsWhenIdle);
 
         // add firing things to the building if it has any
         if (offensive) {
