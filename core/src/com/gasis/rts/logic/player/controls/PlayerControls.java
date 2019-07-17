@@ -196,9 +196,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param button  the button
      */
     public void touchDown(float x, float y, int pointer, int button) {
-        handleBuildingPlacement(button);
         buildingSelector.touchDown(x, y, pointer, button);
         unitSelector.touchDown(x, y, pointer, button);
+        handleBuildingPlacement(button);
     }
 
     /**
