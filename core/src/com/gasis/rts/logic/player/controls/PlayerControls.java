@@ -240,7 +240,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         Tech tech = currentContext.getTech(pressedKey);
 
         if (tech != null) {
-            tech.apply(controlledPlayer, controlledPlayer.getFaction());
+            tech.apply(controlledPlayer);
         }
     }
 

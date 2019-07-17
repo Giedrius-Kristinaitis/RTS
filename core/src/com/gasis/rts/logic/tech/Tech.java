@@ -14,9 +14,8 @@ public abstract class Tech {
      * Applies the tech to the specified player
      *
      * @param player player to apply the tech to
-     * @param faction the faction the tech belongs to
      */
-    public abstract void apply(Player player, Faction faction);
+    public abstract void apply(Player player);
 
     /**
      * Loads the tech from it's description file

@@ -16,10 +16,9 @@ public class UpgradeTech extends Tech {
      * Applies the tech to the specified player
      *
      * @param player player to apply the tech to
-     * @param faction the faction the tech belongs to
      */
     @Override
-    public void apply(Player player, Faction faction) {
+    public void apply(Player player) {
 
     }
 
