@@ -137,6 +137,10 @@ public class Building extends GameObject implements UnitProducer {
                 }
 
                 size += 2;
+
+                if (size > Math.max(map.getWidth(), map.getHeight())) {
+                    break;
+                }
             }
         }
 
