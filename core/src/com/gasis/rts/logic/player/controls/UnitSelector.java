@@ -90,6 +90,7 @@ public class UnitSelector extends Selector {
                 unit.setRenderHp(true);
                 unit.setRenderSelectionCircle(true);
                 selectedUnits.add(unit);
+                notifySelectionListeners();
             }
         }
     }
