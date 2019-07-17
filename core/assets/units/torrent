@@ -1,6 +1,6 @@
 atlas: torrent.atlas
 code: torrent mrls
-control context: default_context_conf
+control context: context_torrent
 production time: 10
 width: 1.307
 height: 1
