@@ -101,7 +101,7 @@ public class Building extends GameObject implements UnitProducer {
              */
             while (true) {
                 // loop through the left side of the square
-                for (short y = (short) (closest.y + (short) (size / 2)); y > closest.y - (short) (size / 2); y-) {
+                for (short y = (short) (closest.y + (short) (size / 2)); y > closest.y - (short) (size / 2); y--) {
                     if (map.isBlockPassable((short) (closest.x - (short) (size / 2)), y) && !map.isBlockOccupied((short) (closest.x - (short) (size / 2)), y)) {
                         closest.y = y;
                         closest.x = (short) (closest.x - (short) (size / 2));
