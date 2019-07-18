@@ -214,8 +214,8 @@ public class Building extends GameObject implements UnitProducer {
 
         Unit unit = producedUnitLoader.newInstance();
 
-        unit.setX(spawn.x * Block.BLOCK_WIDTH);
-        unit.setY(spawn.y * Block.BLOCK_HEIGHT);
+        unit.setCenterX(spawn.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f);
+        unit.setCenterY(spawn.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
 
         owner.addUnit(unit);
 
