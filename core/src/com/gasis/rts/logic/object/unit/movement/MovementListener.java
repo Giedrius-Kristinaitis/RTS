@@ -1,4 +1,6 @@
-package com.gasis.rts.logic.object.unit;
+package com.gasis.rts.logic.object.unit.movement;
+
+import com.gasis.rts.logic.object.unit.Unit;
 
 /**
  * Listens for unit's movement events

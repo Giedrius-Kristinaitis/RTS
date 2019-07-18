@@ -12,6 +12,7 @@ import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.combat.FireSource;
 import com.gasis.rts.logic.object.combat.FiringLogic;
+import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
