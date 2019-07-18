@@ -203,10 +203,11 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (button == Input.Buttons.RIGHT) {
             handleUnitCombatControls(x, y);
             handleBuildingCombatControls(x, y);
+        } else if (button == Input.Buttons.LEFT) {
+            buildingSelector.touchDown(x, y, pointer, button);
+            unitSelector.touchDown(x, y, pointer, button);
         }
-
-        buildingSelector.touchDown(x, y, pointer, button);
-        unitSelector.touchDown(x, y, pointer, button);
+        
         handleBuildingPlacement(button);
     }
 
