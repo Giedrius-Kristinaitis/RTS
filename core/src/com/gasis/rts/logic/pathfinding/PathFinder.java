@@ -36,8 +36,6 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void findPathsToObjects(List<Unit> objects, short x, short y) {
-        foundPaths.clear();
-
         for (Unit unit: objects) {
             depthFirst(unit, x, y);
         }
@@ -176,6 +174,15 @@ public class PathFinder implements PathFinderInterface {
                 (short) (object.getCenterX() / Block.BLOCK_WIDTH),
                 (short) (object.getCenterY() / Block.BLOCK_HEIGHT)
         );
+    }
+
+    /**
+     * Removes the path associated with the given unit
+     *
+     * @param unit unit associated with a path
+     */
+    public void removePathForObject(Unit unit) {
+        foundPaths.remove(unit);
     }
 
     /**
