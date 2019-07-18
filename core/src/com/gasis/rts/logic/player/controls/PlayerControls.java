@@ -298,7 +298,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     protected void orderUnitsToMove(short x, short y) {
         if (controlledPlayer.getSelectedUnits() != null) {
             for (Unit unit: controlledPlayer.getSelectedUnits()) {
-
+                unit.move(Unit.WEST);
             }
         }
     }

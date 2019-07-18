@@ -5,6 +5,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
@@ -12,6 +13,7 @@ import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.combat.FireSource;
 import com.gasis.rts.logic.object.combat.FiringLogic;
+import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
@@ -24,7 +26,7 @@ import java.util.List;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable {
+public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable, Movable {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -47,6 +49,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     // is the unit moving or not
     protected boolean moving;
+
+    // should the unit move one block in the facing direction when finished rotating
+    protected boolean moveWhenFinishedRotating;
 
     // the animation that is played when the unit moves
     protected FrameAnimation movementAnimation;
@@ -124,12 +129,170 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // unit's movement listeners
     protected List<MovementListener> movementListeners = new ArrayList<MovementListener>();
 
+    // unit's coordinates before moving
+    protected float startingCenterX;
+    protected float startingCenterY;
+
+    // unit's coordinates after moving
+    protected float finalCenterX;
+    protected float finalCenterY;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Orders the object one block in the given direction
+     *
+     * @param direction movement direction
+     */
+    @Override
+    public void move(byte direction) {
+        if (moving) {
+            return;
+        }
+
+        if (direction != facingDirection) {
+            rotateToDirection(direction);
+            moveWhenFinishedRotating = true;
+        } else {
+            moveOneBlockForward();
+        }
+    }
+
+    /**
+     * Checks if the block in front of the unit is available
+     * @return
+     */
+    protected boolean destinationAvailable() {
+        Point destination = getDestinationBlock();
+
+        if (map.isBlockOccupied((short) destination.x, (short) destination.y)
+            || !map.isBlockPassable((short) destination.x, (short) destination.y)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if the block in front of the unit is out of the map's bounds
+     * @return
+     */
+    protected boolean forwardBlockOutOfMapBounds() {
+        Point destination = getDestinationBlock();
+
+        if (destination.x < 0 || destination.x >= map.getHeight() || destination.y < 0 || destination.y >= map.getHeight()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Moves the unit one block forward
+     */
+    protected void moveOneBlockForward() {
+        if (forwardBlockOutOfMapBounds() || !destinationAvailable()) {
+            return;
+        }
+
+        initializeMovementCoordinates();
+        changeOccupiedBlock();
+        moving = true;
+    }
+
+    /**
+     * Changes the block the unit occupies
+     */
+    protected void changeOccupiedBlock() {
+        map.occupyBlock((short) (startingCenterX / Block.BLOCK_WIDTH), (short) (startingCenterY / Block.BLOCK_HEIGHT), null);
+
+        Point destination = getDestinationBlock();
+
+        map.occupyBlock((short) destination.x, (short) destination.y, this);
+    }
+
+    /**
+     * Initializes the unit's movement coordinates: the starting and end point
+     */
+    protected void initializeMovementCoordinates() {
+        startingCenterX = getCenterX();
+        startingCenterY = getCenterY();
+
+        Point destination = getDestinationBlock();
+
+        finalCenterX = destination.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f;
+        finalCenterY = destination.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f;
+    }
+
+    /**
+     * Gets the unit's destination block
+     * @return
+     */
+    protected Point getDestinationBlock() {
+        Point destination = new Point();
+
+        short blockX = (short) (getCenterX() / Block.BLOCK_WIDTH);
+        short blockY = (short) (getCenterY() / Block.BLOCK_HEIGHT);
+
+        switch (facingDirection) {
+            case NORTH:
+                destination.x = blockX;
+                destination.y = blockY + 1;
+                break;
+            case NORTH_EAST:
+                destination.x = blockX + 1;
+                destination.y = blockY + 1;
+                break;
+            case EAST:
+                destination.x = blockX + 1;
+                destination.y = blockY;
+                break;
+            case SOUTH_EAST:
+                destination.x = blockX + 1;
+                destination.y = blockY - 1;
+                break;
+            case SOUTH:
+                destination.x = blockX;
+                destination.y = blockY - 1;
+                break;
+            case SOUTH_WEST:
+                destination.x = blockX - 1;
+                destination.y = blockY - 1;
+                break;
+            case WEST:
+                destination.x = blockX - 1;
+                destination.y = blockY;
+                break;
+            case NORTH_WEST:
+                destination.x = blockX - 1;
+                destination.y = blockY + 1;
+                break;
+        }
+
+        return destination;
+    }
+
+    /**
+     * Updates the unit's movement
+     *
+     * @param delta time elapsed since the last update
+     */
+    protected void updateMovement(float delta) {
+        if (moving) {
+            setCenterX(getCenterX() + (finalCenterX - startingCenterX) / 4 * offensiveSpecs.getSpeed() * delta);
+            setCenterY(getCenterY() + (finalCenterY - startingCenterY) / 4 * offensiveSpecs.getSpeed() * delta);
+
+            if (Math.abs(getCenterX() - finalCenterX) < 0.01f && Math.abs(getCenterY() - finalCenterY) < 0.01f) {
+                moving = false;
+                notifyDestinationListeners();
+            }
+        }
     }
 
     /**
@@ -567,6 +730,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
         updateBodyFacingDirection(delta);
         updateTarget();
+        updateMovement(delta);
 
         // update fire texture's time
         firingTextureTime += delta;
@@ -632,6 +796,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 if (enterSiegeModeWhenFinishedRotating) {
                     enterSiegeModeWhenFinishedRotating = false;
                     toggleSiegeMode();
+                }
+
+                // move if required
+                else if (moveWhenFinishedRotating) {
+                    moveWhenFinishedRotating = false;
+                    moveOneBlockForward();
                 }
             }
         } else {
