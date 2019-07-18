@@ -41,4 +41,28 @@ public class Point implements Comparable<Point> {
 
         return 0;
     }
+
+    /**
+     * Checks if the point is equal to another object
+     *
+     * @param obj object to compare to
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Point)) {
+            return false;
+        }
+
+        return compareTo((Point) obj) == 0;
+    }
+
+    /**
+     * Gets the hash code of the point
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return (int) (x * y);
+    }
 }
