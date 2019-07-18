@@ -2,7 +2,7 @@ package com.gasis.rts.logic.pathfinding;
 
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
-import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.MathUtils;
 
 import java.util.*;
@@ -16,7 +16,7 @@ public class PathFinder implements PathFinderInterface {
     protected BlockMap map;
 
     // paths for the searched objects
-    protected Map<GameObject, Deque<Point>> foundPaths = new HashMap<GameObject, Deque<Point>>();
+    protected Map<Unit, Deque<Point>> foundPaths = new HashMap<Unit, Deque<Point>>();
 
     /**
      * Default class constructor
@@ -35,7 +35,7 @@ public class PathFinder implements PathFinderInterface {
      * @param y       destination y (in block map coordinates)
      */
     @Override
-    public void findPathsToObjects(List<GameObject> objects, short x, short y) {
+    public void findPathsToObjects(List<Unit> objects, short x, short y) {
         foundPaths.clear();
     }
 
@@ -47,7 +47,7 @@ public class PathFinder implements PathFinderInterface {
      * @param x destination x
      * @param y destination y
      */
-    protected void depthFirst(GameObject object, short x, short y) {
+    protected void depthFirst(Unit object, short x, short y) {
         Point startPoint = getObjectCoordinates(object);
         Point destination = new Point(x, y);
         Point processedPoint = startPoint;
@@ -167,7 +167,7 @@ public class PathFinder implements PathFinderInterface {
      * @param object
      * @return
      */
-    protected Point getObjectCoordinates(GameObject object) {
+    protected Point getObjectCoordinates(Unit object) {
         return new Point(
                 (short) (object.getCenterX() / Block.BLOCK_WIDTH),
                 (short) (object.getCenterY() / Block.BLOCK_HEIGHT)
@@ -181,7 +181,7 @@ public class PathFinder implements PathFinderInterface {
      * @return
      */
     @Override
-    public Point getNextPathPointForObject(GameObject object) {
+    public Point getNextPathPointForObject(Unit object) {
         try {
             return foundPaths.get(object).pop();
         } catch (Exception ex) {
