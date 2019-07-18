@@ -172,7 +172,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     }
 
     /**
-     * Rotates the projectile animation to match the moving direction
+     * Rotates the projectile animation to match the firing direction
      *
      * @param x starting x coordinate
      * @param y starting y coordinate
@@ -196,20 +196,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
         float angle = MathUtils.angle(x, y, targetX, targetY);
 
-        // rotate the projectile
-        if (yDiff > 0) {
-            if (xDiff < 0) {
-                projectile.setRotation(-angle);
-            } else {
-                projectile.setRotation(-180 + angle);
-            }
-        } else {
-            if (xDiff < 0) {
-                projectile.setRotation(angle);
-            } else {
-                projectile.setRotation(180 - angle);
-            }
-        }
+        projectile.setRotation(angle);
     }
 
     /**
