@@ -29,7 +29,7 @@ public class MathUtils {
         angle = (float) (angle * (180 / Math.PI));
 
         if (xDiff > 0) {
-            return angle;
+            return (360 + angle) % 360;
         } else {
             return 180 + angle;
         }
