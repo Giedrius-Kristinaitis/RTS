@@ -37,6 +37,10 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public void findPathsToObjects(List<Unit> objects, short x, short y) {
         foundPaths.clear();
+
+        for (Unit unit: objects) {
+            depthFirst(unit, x, y);
+        }
     }
 
     /**
@@ -97,9 +101,9 @@ public class PathFinder implements PathFinderInterface {
         Deque<Point> path = null;
 
         if (processedPoint.equals(destination)) {
-            path = formPath(startPoint, processedPoint);
+            path = formPath(processedPoint);
         } else {
-            path = formPath(startPoint, firstDeadEnd);
+            path = formPath(firstDeadEnd);
         }
 
         foundPaths.put(object, path);
@@ -108,15 +112,14 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Forms a path between two points
      *
-     * @param start starting point
      * @param destination end point
      */
-    protected Deque<Point> formPath(Point start, Point destination) {
+    protected Deque<Point> formPath(Point destination) {
         Deque<Point> path = new LinkedList<Point>();
 
         Point current = destination;
 
-        while (current != null) {
+        while (current.lastPoint != null) {
             path.push(current);
             current = current.lastPoint;
         }
@@ -148,7 +151,8 @@ public class PathFinder implements PathFinderInterface {
         float minDistance = Float.MAX_VALUE;
 
         for (Point neighbor: neighbours) {
-            if (map.isBlockPassable((short) neighbor.x, (short) neighbor.y) && !visitedPoints.contains(neighbor)) {
+            boolean nn = visitedPoints.contains(neighbor);
+            if (map.isBlockPassable((short) neighbor.x, (short) neighbor.y) && !map.isBlockOccupied((short) neighbor.x, (short) neighbor.y) && !visitedPoints.contains(neighbor)) {
                 float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
 
                 if (distance < minDistance) {
