@@ -12,6 +12,8 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.object.unit.movement.UnitMover;
+import com.gasis.rts.logic.pathfinding.PathFinder;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
@@ -53,6 +55,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     // the code of the currently pressed key
     protected int pressedKey;
 
+    // moves units
+    protected UnitMover unitMover;
+
     /**
      * Default class constructor
      */
@@ -66,6 +71,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
         unitSelector.addUnitSelectionListener(this);
         buildingSelector.addBuildingSelectionListener(this);
+
+        unitMover = new UnitMover(new PathFinder(map));
 
         loadControlContexts();
     }
@@ -297,9 +304,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void orderUnitsToMove(short x, short y) {
         if (controlledPlayer.getSelectedUnits() != null) {
-            for (Unit unit: controlledPlayer.getSelectedUnits()) {
-                unit.move(Unit.WEST);
-            }
+            unitMover.moveUnits(controlledPlayer.getSelectedUnits(), x, y);
         }
     }
 
@@ -378,7 +383,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     @Override
     public void update(float delta) {
-
+        unitMover.update(delta);
     }
 
     /**
