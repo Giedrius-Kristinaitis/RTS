@@ -162,6 +162,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         } else {
             moveOneBlockForward();
         }
+
+        notifyMovementStartListeners();
     }
 
     /**
