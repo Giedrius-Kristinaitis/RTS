@@ -16,11 +16,11 @@ public class MathUtils {
      * @return angle in degrees
      */
     public static float angle(float x1, float y1, float x2, float y2) {
-        float xDiff = x1 - x2;
-        float yDiff = y1 - y2;
+        float xDiff = x2 - x1;
+        float yDiff = y2 - y1;
 
         // calculate the tangent of the angle
-        float tan = Math.abs(yDiff / xDiff);
+        float tan = yDiff / xDiff;
 
         // get the angle from the tangent value
         float angle = (float) Math.atan(tan);
