@@ -17,6 +17,7 @@ import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,12 +120,51 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // should the unit's selection circle be rendered or not
     protected boolean renderSelectionCircle;
 
+    // unit's movement listeners
+    protected List<MovementListener> movementListeners = new ArrayList<MovementListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Adds a movement listener
+     *
+     * @param listener listener to add
+     */
+    public void addMovementListener(MovementListener listener) {
+        movementListeners.add(listener);
+    }
+
+    /**
+     * Removes a movement listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeMovementListener(MovementListener listener) {
+        movementListeners.remove(listener);
+    }
+
+    /**
+     * Notifies unit's movement listeners that the unit has started moving
+     */
+    protected void notifyMovementStartListeners() {
+        for (MovementListener listener: movementListeners) {
+            listener.startedMoving(this);
+        }
+    }
+
+    /**
+     * Notifies unit's movement listeners that the unit has reached it's destination
+     */
+    protected void notifyDestinationListeners() {
+        for (MovementListener listener: movementListeners) {
+            listener.destinationReached(this);
+        }
     }
 
     /**

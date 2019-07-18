@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.Aimable;
@@ -201,13 +202,16 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     public void touchDown(float x, float y, int pointer, int button) {
         if (button == Input.Buttons.RIGHT) {
-            handleUnitCombatControls(x, y);
+            if (!handleUnitCombatControls(x, y)) {
+                handleUnitMovementControls(x, y);
+            }
+
             handleBuildingCombatControls(x, y);
         } else if (button == Input.Buttons.LEFT) {
             buildingSelector.touchDown(x, y, pointer, button);
             unitSelector.touchDown(x, y, pointer, button);
         }
-        
+
         handleBuildingPlacement(button);
     }
 
@@ -266,9 +270,36 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param x mouse x in world coordinates
      * @param y mouse y in world coordinates
      */
-    protected void handleUnitCombatControls(float x, float y) {
+    protected boolean handleUnitCombatControls(float x, float y) {
         if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
             aimSelectedUnits(x, y);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Handles unit movement controls that are not tactical techs
+     *
+     * @param x mouse x in world coordinates
+     * @param y mouse y in world coordinates
+     */
+    protected void handleUnitMovementControls(float x, float y) {
+        orderUnitsToMove((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+    }
+
+    /**
+     * Orders selected units to move to the specified block on the map
+     *
+     * @param x destination x in block map coordinates
+     * @param y destination y in block map coordinates
+     */
+    protected void orderUnitsToMove(short x, short y) {
+        if (controlledPlayer.getSelectedUnits() != null) {
+            for (Unit unit: controlledPlayer.getSelectedUnits()) {
+
+            }
         }
     }
 
@@ -278,10 +309,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param x mouse x in world coords
      * @param y mouse y in world coords
      */
-    protected void handleBuildingCombatControls(float x, float y) {
+    protected boolean handleBuildingCombatControls(float x, float y) {
         if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
             aimSelectedBuilding(x, y);
+            return true;
         }
+
+        return false;
     }
 
     /**
