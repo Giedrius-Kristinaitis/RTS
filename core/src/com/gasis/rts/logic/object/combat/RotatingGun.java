@@ -533,12 +533,12 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
         if (target != null) {
-            rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+            rotateToDirection(CombatUtils.getFacingDirection(x + width / 2f, y + height / 2f, target.x, target.y));
 
-            if (inSiegeMode && MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+            if (inSiegeMode && MathUtils.distance(x + width / 2f, target.x, y + height / 2f, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
-            } else if (!inSiegeMode && MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getAttackRange()) {
+            } else if (!inSiegeMode && MathUtils.distance(x + width / 2f, target.x, y + height / 2f, target.y) <= offensiveSpecs.getAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
             }

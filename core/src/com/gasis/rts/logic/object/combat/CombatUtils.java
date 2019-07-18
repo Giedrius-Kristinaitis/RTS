@@ -22,36 +22,24 @@ public class CombatUtils {
      * @return facing direction
      */
     public static byte getFacingDirection(float x, float y, float x2, float y2) {
-        float xDiff = x - x2;
-        float yDiff = y - y2;
-        float distance = MathUtils.distance(x, x2, y, y2);
+        float angle = MathUtils.angle(x, y, x2, y2);
 
-        if (Math.abs(yDiff) < distance / 3f) {
-            if (xDiff > 0) {
-                return Unit.WEST;
-            } else {
-                return Unit.EAST;
-            }
-        } else if (Math.abs(xDiff) < distance / 3f) {
-            if (yDiff > 0) {
-                return Unit.SOUTH;
-            } else {
-                return Unit.NORTH;
-            }
-        }
-
-        if (yDiff > 0) {
-            if (xDiff < 0) {
-                return Unit.SOUTH_EAST;
-            } else {
-                return Unit.SOUTH_WEST;
-            }
+        if (angle <= 22.5f || angle >= 337.5f) {
+            return Unit.EAST;
+        } else if (angle > 22.5f && angle <= 67.5f) {
+            return Unit.NORTH_EAST;
+        } else if (angle > 67.5f && angle <= 112.5f) {
+            return Unit.NORTH;
+        } else if (angle > 112.5f && angle <= 157.5f) {
+            return Unit.NORTH_WEST;
+        } else if (angle > 157.5f && angle <= 202.5f) {
+            return Unit.WEST;
+        } else if (angle > 202.5f && angle <= 247.5f) {
+            return Unit.SOUTH_WEST;
+        } else if (angle > 247.5f && angle <= 292.5f) {
+            return Unit.SOUTH;
         } else {
-            if (xDiff < 0) {
-                return Unit.NORTH_EAST;
-            } else {
-                return Unit.NORTH_WEST;
-            }
+            return Unit.SOUTH_EAST;
         }
     }
 
