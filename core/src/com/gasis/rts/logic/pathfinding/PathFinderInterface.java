@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.pathfinding;
 
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.math.Point;
 
 import java.util.List;
 
@@ -17,4 +18,12 @@ public interface PathFinderInterface {
      * @param y destination y (in block map coordinates)
      */
     void findPathsToObjects(List<GameObject> objects, short x, short y);
+
+    /**
+     * Gets the next point from the given object's path
+     *
+     * @param object object to get the next point for
+     * @return
+     */
+    Point getNextPathPointForObject(GameObject object);
 }

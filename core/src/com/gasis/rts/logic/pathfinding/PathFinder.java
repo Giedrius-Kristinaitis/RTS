@@ -1,8 +1,9 @@
 package com.gasis.rts.logic.pathfinding;
 
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.math.Point;
+import com.gasis.rts.math.MathUtils;
 
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class PathFinder implements PathFinderInterface {
     protected BlockMap map;
 
     // paths for the searched objects
-    protected Map<GameObject, Stack<Point>> foundPaths = new HashMap<GameObject, Stack<Point>>();
+    protected Map<GameObject, Deque<Point>> foundPaths = new HashMap<GameObject, Deque<Point>>();
 
     /**
      * Default class constructor
@@ -35,7 +36,7 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void findPathsToObjects(List<GameObject> objects, short x, short y) {
-
+        foundPaths.clear();
     }
 
     /**
@@ -47,10 +48,156 @@ public class PathFinder implements PathFinderInterface {
      * @param y destination y
      */
     protected void depthFirst(GameObject object, short x, short y) {
-        Point startPoint = null;
-        Point processedPoint = null;
+        Point startPoint = getObjectCoordinates(object);
+        Point destination = new Point(x, y);
+        Point processedPoint = startPoint;
+        Point firstDeadEnd = null;
         Set<Point> visitedPoints = new TreeSet<Point>();
+        List<Point> neighbours = new ArrayList<Point>();
 
-        
+        while (true) {
+            visitedPoints.add(processedPoint);
+
+            if (processedPoint.equals(destination)) {
+                break;
+            }
+
+            // get the point that has not been visited and is the closest to the destination
+            Point next = getBestNotVisitedNeighbour(visitedPoints, neighbours, processedPoint, destination);
+
+            // make the next point be processed in the next iteration
+            if (next != null) {
+                next.lastPoint = processedPoint;
+                processedPoint = next;
+            } else {
+                if (firstDeadEnd == null) {
+                    firstDeadEnd = processedPoint;
+                }
+
+                // backtrack the visited points and pick the one that has unvisited neighbours
+                while (processedPoint.lastPoint != null) {
+                    next = getBestNotVisitedNeighbour(visitedPoints, neighbours, processedPoint.lastPoint, destination);
+
+                    if (next == null) {
+                        processedPoint = processedPoint.lastPoint;
+                    } else {
+                        break;
+                    }
+                }
+
+                if (next == null) {
+                    break;
+                } else {
+                    processedPoint = next;
+                }
+            }
+        }
+
+        // form the path
+        Deque<Point> path = null;
+
+        if (processedPoint.equals(destination)) {
+            path = formPath(startPoint, processedPoint);
+        } else {
+            path = formPath(startPoint, firstDeadEnd);
+        }
+
+        foundPaths.put(object, path);
+    }
+
+    /**
+     * Forms a path between two points
+     *
+     * @param start starting point
+     * @param destination end point
+     */
+    protected Deque<Point> formPath(Point start, Point destination) {
+        Deque<Point> path = new LinkedList<Point>();
+
+        Point current = destination;
+
+        while (current != null) {
+            path.push(current);
+            current = current.lastPoint;
+        }
+
+        return path;
+    }
+
+    /**
+     * Gets point's neighbour that is not visited and is the closest to the destination
+     *
+     * @param visitedPoints points that have been visited so far
+     * @param neighbours instance of a list that will be used to store neighbours (just to avoid memory leaking)
+     * @param point current point in the algorithm
+     * @param destination algorithm's destination point
+     * @return
+     */
+    protected Point getBestNotVisitedNeighbour(Set<Point> visitedPoints, List<Point> neighbours, Point point, Point destination) {
+        neighbours.clear();
+        neighbours.add(new Point(point.x, point.y + 1));
+        neighbours.add(new Point(point.x + 1, point.y + 1));
+        neighbours.add(new Point(point.x + 1, point.y));
+        neighbours.add(new Point(point.x + 1, point.y - 1));
+        neighbours.add(new Point(point.x, point.y - 1));
+        neighbours.add(new Point(point.x - 1, point.y - 1));
+        neighbours.add(new Point(point.x - 1, point.y));
+        neighbours.add(new Point(point.x - 1, point.y + 1));
+
+        Point next = null;
+        float minDistance = Float.MAX_VALUE;
+
+        for (Point neighbor: neighbours) {
+            if (map.isBlockPassable((short) neighbor.x, (short) neighbor.y) && !visitedPoints.contains(neighbor)) {
+                float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    next = neighbor;
+                }
+            }
+        }
+
+        return next;
+    }
+
+    /**
+     * Gets the object's coordinates in block map's system
+     *
+     * @param object
+     * @return
+     */
+    protected Point getObjectCoordinates(GameObject object) {
+        return new Point(
+                (short) (object.getCenterX() / Block.BLOCK_WIDTH),
+                (short) (object.getCenterY() / Block.BLOCK_HEIGHT)
+        );
+    }
+
+    /**
+     * Gets the next point from the given object's path
+     *
+     * @param object object to get the next point for
+     * @return
+     */
+    @Override
+    public Point getNextPathPointForObject(GameObject object) {
+        try {
+            return foundPaths.get(object).pop();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * A point extension that has the last visited point attached to it
+     */
+    protected class Point extends com.gasis.rts.math.Point {
+
+        protected Point lastPoint;
+
+        protected Point(float x, float y) {
+            super(x, y);
+        }
     }
 }
