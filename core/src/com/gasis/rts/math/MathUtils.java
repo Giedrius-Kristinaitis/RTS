@@ -28,7 +28,11 @@ public class MathUtils {
         // convert the angle from radians to degrees
         angle = (float) (angle * (180 / Math.PI));
 
-        return angle;
+        if (xDiff > 0) {
+            return angle;
+        } else {
+            return 180 + angle;
+        }
     }
 
     /**
