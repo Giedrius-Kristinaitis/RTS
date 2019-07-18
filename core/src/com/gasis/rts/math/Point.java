@@ -33,13 +33,13 @@ public class Point implements Comparable<Point> {
      */
     @Override
     public int compareTo(Point p) {
-        if (x + y < p.x + p.y) {
+        if (x == p.x && y == p.y) {
+            return 0;
+        } else if (x < p.x) {
             return -1;
-        } else if (x + y > p.x + p.y) {
+        } else {
             return 1;
         }
-
-        return 0;
     }
 
     /**
