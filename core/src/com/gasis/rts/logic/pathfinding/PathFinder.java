@@ -2,6 +2,7 @@ package com.gasis.rts.logic.pathfinding;
 
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.MathUtils;
 
@@ -149,7 +150,7 @@ public class PathFinder implements PathFinderInterface {
         float minDistance = Float.MAX_VALUE;
 
         for (Point neighbor: neighbours) {
-            if (map.isBlockPassable((short) neighbor.x, (short) neighbor.y) && !map.isBlockOccupied((short) neighbor.x, (short) neighbor.y) && !visitedPoints.contains(neighbor)) {
+            if (blockAvailable(visitedPoints, neighbor)) {
                 float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
 
                 if (distance < minDistance) {
@@ -160,6 +161,27 @@ public class PathFinder implements PathFinderInterface {
         }
 
         return next;
+    }
+
+    /**
+     * Checks if a point is available for a path
+     *
+     * @param visitedPoints points visited so far by the algorithm
+     * @param point point to check
+     * @return
+     */
+    protected boolean blockAvailable(Set<Point> visitedPoints, Point point) {
+        if (point.x < 0 || point.y < 0 || point.x >= map.getWidth() || point.y >= map.getHeight()) {
+            return false;
+        }
+
+        GameObject occupyingObject = map.getOccupyingObject((short) point.x, (short) point.y);
+        Unit occupyingUnit = occupyingObject instanceof Unit ? (Unit) occupyingObject : null;
+
+        return
+                map.isBlockPassable((short) point.x, (short) point.y)
+                        && (!map.isBlockOccupied((short) point.x, (short) point.y) || (occupyingUnit != null && (occupyingUnit.isMoving() || foundPaths.containsKey(occupyingUnit))))
+                        && !visitedPoints.contains(point);
     }
 
     /**
