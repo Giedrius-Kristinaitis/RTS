@@ -7,8 +7,8 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Building selecting logic
@@ -19,7 +19,7 @@ public class BuildingSelector extends Selector {
     protected Building selectedBuilding;
 
     // all listeners that listen for building selection
-    protected List<BuildingSelectionListener> listeners = new ArrayList<BuildingSelectionListener>();
+    protected Set<BuildingSelectionListener> listeners = new HashSet<BuildingSelectionListener>();
 
     /**
      * Default class constructor

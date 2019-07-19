@@ -10,9 +10,7 @@ import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.gasis.rts.logic.object.unit.Unit.*;
 
@@ -52,7 +50,7 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     protected List<ProjectileAnimation> animations = new ArrayList<ProjectileAnimation>();
 
     // listeners for the reach of the target
-    protected List<TargetReachListener> targetReachListeners = new ArrayList<TargetReachListener>();
+    protected Set<TargetReachListener> targetReachListeners = new HashSet<TargetReachListener>();
 
     // how many guns are firing (only has effect on things that fire shells)
     protected byte gunCount = 1;

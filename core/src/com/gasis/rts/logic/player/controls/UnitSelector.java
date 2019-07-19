@@ -9,7 +9,9 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Unit selecting logic
@@ -29,7 +31,7 @@ public class UnitSelector extends Selector {
     protected List<Unit> selectedUnits = new ArrayList<Unit>();
 
     // unit selection listeners
-    protected List<UnitSelectionListener> listeners = new ArrayList<UnitSelectionListener>();
+    protected Set<UnitSelectionListener> listeners = new HashSet<UnitSelectionListener>();
 
     /**
      * Default class constructor

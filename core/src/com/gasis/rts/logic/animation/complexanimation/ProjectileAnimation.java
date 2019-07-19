@@ -8,8 +8,8 @@ import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.resources.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An animation of a flying projectile. Do not dispose of this animation until the
@@ -37,7 +37,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     protected boolean endAnimationFinished = false;
 
     // target reach listeners
-    protected List<TargetReachListener> targetReachListeners = new ArrayList<TargetReachListener>();
+    protected Set<TargetReachListener> targetReachListeners = new HashSet<TargetReachListener>();
 
     /**
      * Class constructor

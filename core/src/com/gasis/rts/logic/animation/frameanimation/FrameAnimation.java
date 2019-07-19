@@ -6,8 +6,9 @@ import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An animation that changes frames
@@ -62,7 +63,7 @@ public class FrameAnimation implements Animation {
     protected float finalScale = 1f;
 
     // the animation observers who wait for the animation to finish
-    protected List<AnimationFinishListener> finishListeners = new ArrayList<AnimationFinishListener>();
+    protected Set<AnimationFinishListener> finishListeners = new HashSet<AnimationFinishListener>();
 
     // have the listeners been notified or not
     protected boolean listenersNotified = false;
