@@ -16,8 +16,8 @@ public class MathUtils {
      * @return angle in degrees
      */
     public static float angle(float x1, float y1, float x2, float y2) {
-        float xDiff = x2 - x1;
-        float yDiff = y2 - y1;
+        float xDiff = x2 + 0.0001f - x1;
+        float yDiff = y2 + 0.0001f - y1;
 
         // calculate the tangent of the angle
         float tan = yDiff / xDiff;
