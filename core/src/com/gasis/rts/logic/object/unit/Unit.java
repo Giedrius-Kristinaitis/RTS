@@ -20,8 +20,9 @@ import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a single unit on a map
@@ -127,7 +128,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected boolean renderSelectionCircle;
 
     // unit's movement listeners
-    protected List<MovementListener> movementListeners = new ArrayList<MovementListener>();
+    protected Set<MovementListener> movementListeners = new HashSet<MovementListener>();
 
     // unit's coordinates before moving
     protected float startingCenterX;
