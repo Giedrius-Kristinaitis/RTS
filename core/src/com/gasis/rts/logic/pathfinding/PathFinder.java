@@ -149,7 +149,6 @@ public class PathFinder implements PathFinderInterface {
         float minDistance = Float.MAX_VALUE;
 
         for (Point neighbor: neighbours) {
-            boolean nn = visitedPoints.contains(neighbor);
             if (map.isBlockPassable((short) neighbor.x, (short) neighbor.y) && !map.isBlockOccupied((short) neighbor.x, (short) neighbor.y) && !visitedPoints.contains(neighbor)) {
                 float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
 

@@ -24,10 +24,6 @@ public class UnitMover implements Updatable, MovementListener {
     // list above (done to avoid concurrent modification exception)
     protected List<Unit> unitsToRemove = new ArrayList<Unit>();
 
-    // the destination of the moved units
-    protected short destinationX;
-    protected short destinationY;
-
     // used to find paths for units
     protected PathFinderInterface pathFinder;
 
@@ -52,9 +48,6 @@ public class UnitMover implements Updatable, MovementListener {
      */
     public void moveUnits(List<Unit> units, short x, short y) {
         this.units.addAll(units);
-
-        destinationX = x;
-        destinationY = y;
 
         pathFinder.findPathsToObjects(units, x, y);
 
