@@ -15,9 +15,9 @@ public interface MovementListener {
     void startedMoving(Unit unit);
 
     /**
-     * Called when a unit reaches it's destination
+     * Called when a unit reaches it's destination or stops moving for other reasons
      *
      * @param unit the unit that just arrived at it's destination
      */
-    void destinationReached(Unit unit);
+    void stoppedMoving(Unit unit);
 }

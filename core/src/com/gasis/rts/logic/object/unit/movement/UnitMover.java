@@ -95,7 +95,7 @@ public class UnitMover implements Updatable, MovementListener {
      * @param unit the unit that just arrived at it's destination
      */
     @Override
-    public void destinationReached(Unit unit) {
+    public void stoppedMoving(Unit unit) {
         movementStates.put(unit, false);
     }
 
@@ -115,7 +115,7 @@ public class UnitMover implements Updatable, MovementListener {
                         if (nextPathPoint != null && !map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y)) {
                             unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
                             pathFinder.removeNextPathPoint(unit);
-                        } else {
+                        } else if (nextPathPoint == null) {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);
                         }
@@ -128,6 +128,7 @@ public class UnitMover implements Updatable, MovementListener {
                     units.remove(unit);
                     unit.removeMovementListener(this);
                     movementStates.remove(unit);
+                    pathFinder.removePathForObject(unit);
                 }
 
                 unitsToRemove.clear();

@@ -161,7 +161,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             rotateToDirection(direction);
             moveWhenFinishedRotating = true;
         } else {
-            moveOneBlockForward();
+            if (!moveOneBlockForward()) {
+                return;
+            }
         }
 
         notifyMovementStartListeners();
@@ -198,15 +200,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Moves the unit one block forward
+     *
+     * @return true if the unit has started moving
      */
-    protected void moveOneBlockForward() {
+    protected boolean moveOneBlockForward() {
         if (forwardBlockOutOfMapBounds() || !destinationAvailable()) {
-            return;
+            notifyDestinationListeners();
+            return false;
         }
 
         initializeMovementCoordinates();
         changeOccupiedBlock();
         moving = true;
+
+        return true;
     }
 
     /**
@@ -291,7 +298,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             setCenterX(getCenterX() + (finalCenterX - startingCenterX) / 4 * offensiveSpecs.getSpeed() * delta);
             setCenterY(getCenterY() + (finalCenterY - startingCenterY) / 4 * offensiveSpecs.getSpeed() * delta);
 
-            if (Math.abs(getCenterX() - finalCenterX) < 0.01f && Math.abs(getCenterY() - finalCenterY) < 0.01f) {
+            if (Math.abs(getCenterX() - finalCenterX) < 0.05f && Math.abs(getCenterY() - finalCenterY) < 0.05f) {
                 moving = false;
                 notifyDestinationListeners();
             }
@@ -330,7 +337,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     protected void notifyDestinationListeners() {
         for (MovementListener listener: movementListeners) {
-            listener.destinationReached(this);
+            listener.stoppedMoving(this);
         }
     }
 

@@ -33,4 +33,11 @@ public interface PathFinderInterface {
      * @param object unit for which to shorten the path
      */
     void removeNextPathPoint(Unit object);
+
+    /**
+     * Removes the path associated with the given unit
+     *
+     * @param unit unit associated with a path
+     */
+    void removePathForObject(Unit unit);
 }
