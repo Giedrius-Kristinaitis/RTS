@@ -7,10 +7,7 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.pathfinding.PathFinderInterface;
 import com.gasis.rts.math.Point;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Handles unit path finding and movement
@@ -18,7 +15,7 @@ import java.util.Map;
 public class UnitMover implements Updatable, MovementListener {
 
     // the units that are being moved
-    protected List<Unit> units = new ArrayList<Unit>();
+    protected Set<Unit> units = new HashSet<Unit>();
 
     // the units that have arrived at their destination and need to be removed from the unit
     // list above (done to avoid concurrent modification exception)
@@ -62,7 +59,9 @@ public class UnitMover implements Updatable, MovementListener {
      */
     protected void initializeMovementStates(List<Unit> units) {
         for (Unit unit: units) {
-            movementStates.put(unit, false);
+            if (!movementStates.containsKey(unit)) {
+                movementStates.put(unit, false);
+            }
         }
     }
 
@@ -75,14 +74,6 @@ public class UnitMover implements Updatable, MovementListener {
         for (Unit unit: units) {
             unit.addMovementListener(this);
         }
-    }
-
-    /**
-     * Stops moving units
-     */
-    public void stopMovingUnits() {
-        units = null;
-        movementStates.clear();
     }
 
     /**
