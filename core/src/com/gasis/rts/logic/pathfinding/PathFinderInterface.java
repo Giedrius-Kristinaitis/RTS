@@ -40,4 +40,9 @@ public interface PathFinderInterface {
      * @param unit unit associated with a path
      */
     void removePathForObject(Unit unit);
+
+    /**
+     * Clears found path list
+     */
+    void clearAllPaths();
 }

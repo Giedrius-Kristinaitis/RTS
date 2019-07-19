@@ -234,6 +234,14 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
+     * Clears found path list
+     */
+    @Override
+    public void clearAllPaths() {
+        foundPaths.clear();
+    }
+
+    /**
      * A point extension that has the last visited point attached to it
      */
     protected class Point extends com.gasis.rts.math.Point {
