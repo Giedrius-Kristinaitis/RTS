@@ -193,10 +193,22 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public Point getNextPathPointForObject(Unit object) {
         try {
-            return foundPaths.get(object).pop();
+            return foundPaths.get(object).peek();
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    /**
+     * Removes the next path point from the path of the given unit
+     *
+     * @param object unit for which to shorten the path
+     */
+    @Override
+    public void removeNextPathPoint(Unit object) {
+        try {
+            foundPaths.get(object).pop();
+        } catch (Exception ex) { }
     }
 
     /**

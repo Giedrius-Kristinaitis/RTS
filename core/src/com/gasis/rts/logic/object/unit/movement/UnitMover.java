@@ -2,6 +2,7 @@ package com.gasis.rts.logic.object.unit.movement;
 
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.pathfinding.PathFinderInterface;
@@ -27,12 +28,14 @@ public class UnitMover implements Updatable, MovementListener {
     // units' movement states, if the value is true that means the unit is moving
     protected Map<Unit, Boolean> movementStates = new HashMap<Unit, Boolean>();
 
+    // the game's map
+    protected BlockMap map;
+
     /**
      * Default class constructor
-     *
-     * @param pathFinder
      */
-    public UnitMover(PathFinderInterface pathFinder) {
+    public UnitMover(BlockMap map, PathFinderInterface pathFinder) {
+        this.map = map;
         this.pathFinder = pathFinder;
     }
 
@@ -109,8 +112,9 @@ public class UnitMover implements Updatable, MovementListener {
                     if (!movementStates.get(unit)) {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
 
-                        if (nextPathPoint != null) {
+                        if (nextPathPoint != null && !map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y)) {
                             unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
+                            pathFinder.removeNextPathPoint(unit);
                         } else {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);

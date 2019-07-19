@@ -26,4 +26,11 @@ public interface PathFinderInterface {
      * @return
      */
     Point getNextPathPointForObject(Unit object);
+
+    /**
+     * Removes the next path point from the path of the given unit
+     *
+     * @param object unit for which to shorten the path
+     */
+    void removeNextPathPoint(Unit object);
 }

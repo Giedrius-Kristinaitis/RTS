@@ -72,7 +72,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         unitSelector.addUnitSelectionListener(this);
         buildingSelector.addBuildingSelectionListener(this);
 
-        unitMover = new UnitMover(new PathFinder(map));
+        unitMover = new UnitMover(map, new PathFinder(map));
 
         loadControlContexts();
     }
