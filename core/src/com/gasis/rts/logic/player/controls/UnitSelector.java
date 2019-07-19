@@ -33,6 +33,12 @@ public class UnitSelector extends Selector {
     // unit selection listeners
     protected Set<UnitSelectionListener> listeners = new HashSet<UnitSelectionListener>();
 
+    // the id of the mouse/touch pointer that initiated unit selection
+    protected int selectionPointer;
+
+    // has the touch down event occurred or not
+    protected boolean touchDownHappened;
+
     /**
      * Default class constructor
      * @param player
@@ -74,6 +80,8 @@ public class UnitSelector extends Selector {
         selectionEndX = x;
         selectionEndY = y;
         deselectUnits();
+        selectionPointer = pointer;
+        touchDownHappened = true;
     }
 
     /**
@@ -107,11 +115,14 @@ public class UnitSelector extends Selector {
      */
     @Override
     public void touchUp(float x, float y, int pointer, int button) {
-        renderSelectionRectangle = false;
-        selectUnitsInSelectionRectangle();
+        if (pointer == selectionPointer) {
+            touchDownHappened = false;
+            renderSelectionRectangle = false;
+            selectUnitsInSelectionRectangle();
 
-        if (selectedUnits.size() == 0) {
-            selectSingleUnit(x, y);
+            if (selectedUnits.size() == 0) {
+                selectSingleUnit(x, y);
+            }
         }
     }
 
@@ -124,10 +135,12 @@ public class UnitSelector extends Selector {
      */
     @Override
     public void touchDragged(float x, float y, int pointer) {
-        renderSelectionRectangle = true;
+        if (pointer == selectionPointer && touchDownHappened) {
+            renderSelectionRectangle = true;
 
-        selectionEndX = x;
-        selectionEndY = y;
+            selectionEndX = x;
+            selectionEndY = y;
+        }
     }
 
     /**

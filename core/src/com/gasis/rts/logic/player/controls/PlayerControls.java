@@ -231,8 +231,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param button  the button
      */
     public void touchUp(float x, float y, int pointer, int button) {
-        buildingSelector.touchUp(x, y, pointer, button);
-        unitSelector.touchUp(x, y, pointer, button);
+        if (button == Input.Buttons.LEFT) {
+            buildingSelector.touchUp(x, y, pointer, button);
+            unitSelector.touchUp(x, y, pointer, button);
+        }
 
         if (buildingSelector.getSelectedBuilding() == null && unitSelector.getSelectedUnits().size() == 0 && currentContext != controlContexts.get(controlledPlayer.getFaction().getDefaultControlContextName())) {
             changeControlContext(controlledPlayer.getFaction().getDefaultControlContextName());
@@ -247,7 +249,6 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param pointer the pointer for the event
      */
     public void touchDragged(float x, float y, int pointer) {
-        buildingSelector.touchDragged(x, y, pointer);
         unitSelector.touchDragged(x, y, pointer);
     }
 
