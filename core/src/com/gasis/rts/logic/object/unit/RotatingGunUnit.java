@@ -63,9 +63,9 @@ public class RotatingGunUnit extends Unit {
             gun.setInSiegeMode(inSiegeMode);
 
             // update gun's presence
-            if (inSiegeMode && !gun.isPresentInSiegeMode()) {
+            if (inSiegeMode && !gun.isPresentInSiegeMode() && gun.isCurrentlyPresent()) {
                 gun.setCurrentlyPresent(false);
-            } else if (inSiegeMode) {
+            } else if (inSiegeMode && !gun.isCurrentlyPresent()) {
                 gun.setCurrentlyPresent(true);
             }
         }
@@ -81,9 +81,9 @@ public class RotatingGunUnit extends Unit {
         if (animation == super.siegeModeTransitionAnimation && !inSiegeMode) {
             // update guns' presence
             for (RotatingGun gun : guns.values()) {
-                if (!gun.isPresentOutOfSiegeMode()) {
+                if (!gun.isPresentOutOfSiegeMode() && gun.isCurrentlyPresent()) {
                     gun.setCurrentlyPresent(false);
-                } else {
+                } else if (!gun.isCurrentlyPresent()) {
                     gun.setCurrentlyPresent(true);
                 }
             }
