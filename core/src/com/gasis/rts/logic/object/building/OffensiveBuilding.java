@@ -101,6 +101,10 @@ public class OffensiveBuilding extends Building implements Aimable {
     @Override
     public void removeTarget() {
         target = null;
+
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
     }
 
     /**

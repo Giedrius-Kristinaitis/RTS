@@ -167,6 +167,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         notifyMovementStartListeners();
+
+        removeTarget();
     }
 
     /**
@@ -368,6 +370,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void removeTarget() {
         target = null;
+
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
     }
 
     /**

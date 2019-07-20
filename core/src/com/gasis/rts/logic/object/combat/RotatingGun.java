@@ -199,6 +199,10 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     @Override
     public void removeTarget() {
         target = null;
+
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
     }
 
     /**

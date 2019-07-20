@@ -129,6 +129,18 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Removes the current target
+     */
+    @Override
+    public void removeTarget() {
+        super.removeTarget();
+
+        for (RotatingGun gun: guns.values()) {
+            gun.removeTarget();
+        }
+    }
+
+    /**
      * Renders the object to the screen
      *
      * @param batch     sprite batch to draw to
