@@ -234,8 +234,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     public void touchUp(float x, float y, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            buildingSelector.touchUp(x, y, pointer, button);
-            unitSelector.touchUp(x, y, pointer, button);
+            if (!buildingPlacer.isPlacing()) {
+                buildingSelector.touchUp(x, y, pointer, button);
+                unitSelector.touchUp(x, y, pointer, button);
+            }
         }
 
         if (buildingSelector.getSelectedBuilding() == null && unitSelector.getSelectedUnits().size() == 0 && currentContext != controlContexts.get(controlledPlayer.getFaction().getDefaultControlContextName())) {
