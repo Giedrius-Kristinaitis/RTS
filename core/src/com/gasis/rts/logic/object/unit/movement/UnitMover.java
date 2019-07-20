@@ -182,7 +182,7 @@ public class UnitMover implements Updatable, MovementListener {
                     if (!movementStates.get(unit)) {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
 
-                        if (nextPathPoint != null && !map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y)) {
+                        if (nextPathPoint != null && (!map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y) || map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y) == unit)) {
                             unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
                             pathFinder.removeNextPathPoint(unit);
                             anyGroupUnitMoved = true;
@@ -217,6 +217,7 @@ public class UnitMover implements Updatable, MovementListener {
                 for (Unit unit: group.units) {
                     pathFinder.removePathForObject(unit);
                     movementStates.remove(unit);
+                    unit.removeMovementListener(this);
                 }
 
                 group.units.clear();
