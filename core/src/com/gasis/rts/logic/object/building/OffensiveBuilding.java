@@ -96,6 +96,14 @@ public class OffensiveBuilding extends Building implements Aimable {
     }
 
     /**
+     * Removes the current target
+     */
+    @Override
+    public void removeTarget() {
+        target = null;
+    }
+
+    /**
      * Sets the x coordinate of the object
      *
      * @param x new x coordinate

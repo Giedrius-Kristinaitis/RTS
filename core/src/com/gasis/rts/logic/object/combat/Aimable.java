@@ -18,4 +18,9 @@ public interface Aimable {
      * @return
      */
     boolean hasTarget();
+
+    /**
+     * Removes the current target
+     */
+    void removeTarget();
 }

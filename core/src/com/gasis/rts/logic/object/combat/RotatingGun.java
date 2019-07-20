@@ -194,6 +194,14 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
     }
 
     /**
+     * Removes the current target
+     */
+    @Override
+    public void removeTarget() {
+        target = null;
+    }
+
+    /**
      * Gets the relative x coordinates of the gun
      * @return
      */

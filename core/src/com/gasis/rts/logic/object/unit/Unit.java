@@ -363,6 +363,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Removes the current target
+     */
+    @Override
+    public void removeTarget() {
+        target = null;
+    }
+
+    /**
      * Sets the textures used by the unit when it's in siege mode
      *
      * @param siegeModeTextures names of siege mode textures
