@@ -741,7 +741,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void update(float delta) {
-        if (firingLogic != null && rotatingToDirection == NONE && firingLogic.update(siegeModeTransitionAnimation != null, inSiegeMode, facingDirection, delta, getCenterX(), getCenterY())) {
+        if (firingLogic != null && firingLogic.update(siegeModeTransitionAnimation != null, inSiegeMode, facingDirection, delta, getCenterX(), getCenterY()) && rotatingToDirection == NONE) {
             // reset the firing texture's usage time
             firingTextureTime = 0;
         }
