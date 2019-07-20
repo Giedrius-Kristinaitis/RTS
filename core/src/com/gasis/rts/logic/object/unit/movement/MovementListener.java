@@ -20,4 +20,12 @@ public interface MovementListener {
      * @param unit the unit that just arrived at it's destination
      */
     void stoppedMoving(Unit unit);
+
+    /**
+     * Called when a unit is unable to move anymore in it's current state (for example,
+     * the unit has entered siege mode before reaching it's destination)
+     *
+     * @param unit unit that is unable to move
+     */
+    void unableToMoveInCurrentState(Unit unit);
 }

@@ -54,12 +54,28 @@ public class UnitMover implements Updatable, MovementListener {
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(List<Unit> units, short x, short y) {
+        removeSiegeModeUnits(units);
+
         this.groups.add(createUnitGroup(units));
 
         pathFinder.findPathsToObjects(units, x, y);
 
         addMovementListeners(units);
         initializeMovementStates(units);
+    }
+
+    /**
+     * Removes units that are in siege mode from the list
+     *
+     * @param units units to check
+     */
+    protected void removeSiegeModeUnits(List<Unit> units) {
+        for (int i = 0; i < units.size(); i++) {
+            if (units.get(i).isInSiegeMode()) {
+                units.remove(i);
+                i--;
+            }
+        }
     }
 
     /**
@@ -125,6 +141,23 @@ public class UnitMover implements Updatable, MovementListener {
     }
 
     /**
+     * Called when a unit is unable to move anymore in it's current state (for example,
+     * the unit has entered siege mode before reaching it's destination)
+     *
+     * @param unit unit that is unable to move
+     */
+    @Override
+    public void unableToMoveInCurrentState(Unit unit) {
+        for (UnitGroup group: groups) {
+            if (group.units.contains(unit)) {
+                pathFinder.removePathForObject(unit);
+                group.units.remove(unit);
+                movementStates.remove(unit);
+            }
+        }
+    }
+
+    /**
      * Called when a unit reaches it's destination
      *
      * @param unit the unit that just arrived at it's destination
@@ -183,6 +216,7 @@ public class UnitMover implements Updatable, MovementListener {
             for (UnitGroup group: groupsToRemove) {
                 for (Unit unit: group.units) {
                     pathFinder.removePathForObject(unit);
+                    movementStates.remove(unit);
                 }
 
                 group.units.clear();

@@ -92,8 +92,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // facing direction
     protected boolean enterSiegeModeWhenFinishedRotating = false;
 
+    // should the unit switch to siege mode when it stops moving
+    protected boolean enterSiegeModeWhenFinishedMoving = false;
+
     // will the unit be in siege mode after toggling or not
     protected boolean siegeModeToggleValue;
+
+    // the new siege mode value after calling setInSiegeMode
+    protected boolean newSiegeModeValue = false;
 
     // textures used when the unit fires
     // indexes of the textures must match the values of facing directions
@@ -153,7 +159,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void move(byte direction) {
-        if (moving) {
+        if (moving || inSiegeMode) {
             return;
         }
 
@@ -303,6 +309,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             if (Math.abs(getCenterX() - finalCenterX) < 0.05f && Math.abs(getCenterY() - finalCenterY) < 0.05f) {
                 moving = false;
                 notifyDestinationListeners();
+
+                if (enterSiegeModeWhenFinishedMoving) {
+                    handleSiegeModeTransition();
+                    notifyUnableToMoveListeners();
+                    enterSiegeModeWhenFinishedMoving = false;
+                }
             }
         }
     }
@@ -331,6 +343,15 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected void notifyMovementStartListeners() {
         for (MovementListener listener: movementListeners) {
             listener.startedMoving(this);
+        }
+    }
+
+    /**
+     * Notifies movement listeners that the unit is unable to move in it's current state
+     */
+    protected void notifyUnableToMoveListeners() {
+        for (MovementListener listener: movementListeners) {
+            listener.unableToMoveInCurrentState(this);
         }
     }
 
@@ -518,25 +539,37 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         if (this.inSiegeMode != inSiegeMode) {
-            // enter or leave siege mode
-            if (siegeModeTransitionAnimationNames.size() != 8) {
-                if (facingDirection == siegeModeFacingDirection) {
-                    rotatingToDirection = NONE;
-                    enterSiegeModeWhenFinishedRotating = false;
-                    siegeModeToggleValue = inSiegeMode;
-                    toggleSiegeMode();
-                } else if (inSiegeMode) {
-                    rotateToDirection(siegeModeFacingDirection);
-                    enterSiegeModeWhenFinishedRotating = true;
-                    siegeModeToggleValue = true;
-                }
-            } else {
-                toggleSiegeMode();
-            }
+            newSiegeModeValue = inSiegeMode;
 
-            if (firingLogic != null && firingLogic.hasEnqueuedShots()) {
-                firingLogic.removeEnqueuedShots();
+            if (moving) {
+                enterSiegeModeWhenFinishedMoving = true;
+            } else {
+                handleSiegeModeTransition();
             }
+        }
+    }
+
+    /**
+     * Handles the logic of transitioning to siege mode
+     */
+    protected void handleSiegeModeTransition() {
+        if (siegeModeTransitionAnimationNames.size() != 8) {
+            if (facingDirection == siegeModeFacingDirection) {
+                rotatingToDirection = NONE;
+                enterSiegeModeWhenFinishedRotating = false;
+                siegeModeToggleValue = newSiegeModeValue;
+                toggleSiegeMode();
+            } else if (newSiegeModeValue) {
+                rotateToDirection(siegeModeFacingDirection);
+                enterSiegeModeWhenFinishedRotating = true;
+                siegeModeToggleValue = true;
+            }
+        } else {
+            toggleSiegeMode();
+        }
+
+        if (firingLogic != null && firingLogic.hasEnqueuedShots()) {
+            firingLogic.removeEnqueuedShots();
         }
     }
 
