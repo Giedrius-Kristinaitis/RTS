@@ -809,10 +809,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (firingLogic != null && target != null) {
             rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
 
-            if (inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+            if (rotatingToDirection == NONE && inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
-            } else if (!inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
+            } else if (rotatingToDirection == NONE && !inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
                 firingLogic.target = target;
                 firingLogic.enqueueShots(inSiegeMode);
             }
