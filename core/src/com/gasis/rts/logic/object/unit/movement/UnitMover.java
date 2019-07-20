@@ -15,12 +15,16 @@ import java.util.*;
  */
 public class UnitMover implements Updatable, MovementListener {
 
-    // the units that are being moved
-    protected Set<Unit> units = new HashSet<Unit>();
+    // the unit groups that are being moved
+    protected Set<UnitGroup> groups = new HashSet<UnitGroup>();
 
     // the units that have arrived at their destination and need to be removed from the unit
-    // list above (done to avoid concurrent modification exception)
+    // list (done to avoid concurrent modification exception)
     protected List<Unit> unitsToRemove = new ArrayList<Unit>();
+
+    // the unit groups in which all units have stopped moving and the group needs
+    // to be removed (done to avoid concurrent modification exception)
+    protected List<UnitGroup> groupsToRemove = new ArrayList<UnitGroup>();
 
     // used to find paths for units
     protected PathFinderInterface pathFinder;
@@ -30,6 +34,9 @@ public class UnitMover implements Updatable, MovementListener {
 
     // the game's map
     protected BlockMap map;
+
+    // has any unit in a group of units moved
+    protected boolean anyGroupUnitMoved;
 
     /**
      * Default class constructor
@@ -47,12 +54,40 @@ public class UnitMover implements Updatable, MovementListener {
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(List<Unit> units, short x, short y) {
-        this.units.addAll(units);
+        this.groups.add(createUnitGroup(units));
 
         pathFinder.findPathsToObjects(units, x, y);
 
         addMovementListeners(units);
         initializeMovementStates(units);
+    }
+
+    /**
+     * Creates a unit group from the given units
+     *
+     * @param units units to form the group from
+     * @return
+     */
+    protected UnitGroup createUnitGroup(List<Unit> units) {
+        UnitGroup group = new UnitGroup();
+
+        for (Unit unit: units) {
+            removeUnitFromAllGroups(unit);
+            group.units.add(unit);
+        }
+
+        return group;
+    }
+
+    /**
+     * Removes the given unit from all unit groups that it may be a part of
+     *
+     * @param unit unit to remove
+     */
+    protected void removeUnitFromAllGroups(Unit unit) {
+        for (UnitGroup group: groups) {
+            group.units.remove(unit);
+        }
     }
 
     /**
@@ -106,8 +141,10 @@ public class UnitMover implements Updatable, MovementListener {
      */
     @Override
     public void update(float delta) {
-        if (units != null) {
-            for (Unit unit: units) {
+        for (UnitGroup group: groups) {
+            anyGroupUnitMoved = false;
+
+            for (Unit unit : group.units) {
                 if (movementStates.containsKey(unit)) {
                     if (!movementStates.get(unit)) {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
@@ -115,17 +152,20 @@ public class UnitMover implements Updatable, MovementListener {
                         if (nextPathPoint != null && !map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y)) {
                             unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
                             pathFinder.removeNextPathPoint(unit);
+                            anyGroupUnitMoved = true;
                         } else if (nextPathPoint == null) {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);
                         }
+                    } else {
+                        anyGroupUnitMoved = true;
                     }
                 }
             }
 
             if (unitsToRemove.size() > 0) {
                 for (Unit unit : unitsToRemove) {
-                    units.remove(unit);
+                    group.units.remove(unit);
                     unit.removeMovementListener(this);
                     movementStates.remove(unit);
                     pathFinder.removePathForObject(unit);
@@ -133,6 +173,31 @@ public class UnitMover implements Updatable, MovementListener {
 
                 unitsToRemove.clear();
             }
+
+            if (!anyGroupUnitMoved) {
+                groupsToRemove.add(group);
+            }
         }
+
+        if (groupsToRemove.size() > 0) {
+            for (UnitGroup group: groupsToRemove) {
+                for (Unit unit: group.units) {
+                    pathFinder.removePathForObject(unit);
+                }
+
+                group.units.clear();
+                groups.remove(group);
+            }
+
+            groupsToRemove.clear();
+        }
+    }
+
+    /**
+     * A group of moving units
+     */
+    protected class UnitGroup {
+
+        protected Set<Unit> units = new HashSet<Unit>();
     }
 }
