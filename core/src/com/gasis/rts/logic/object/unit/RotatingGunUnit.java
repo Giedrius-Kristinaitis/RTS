@@ -108,7 +108,11 @@ public class RotatingGunUnit extends Unit {
             gun.update(siegeModeTransitionAnimation != null, delta);
 
             if (!gun.hasTarget()) {
-                gun.rotateToDirection(facingDirection);
+                if (Math.abs(facingDirection - gun.getFacingDirection()) > 1) {
+                    gun.rotateToDirection(facingDirection);
+                } else {
+                    gun.setFacingDirection(facingDirection);
+                }
             }
         }
     }
