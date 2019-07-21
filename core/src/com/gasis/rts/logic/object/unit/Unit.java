@@ -768,6 +768,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the unit is currently rotating
+     * @return
+     */
+    public boolean isRotating() {
+        return rotatingToDirection != NONE;
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render
