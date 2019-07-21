@@ -806,7 +806,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
-        if (firingLogic != null && target != null) {
+        if (firingLogic != null && target != null && !moving) {
             rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
 
             if (rotatingToDirection == NONE && inSiegeMode && MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
