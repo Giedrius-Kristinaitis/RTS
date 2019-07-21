@@ -28,6 +28,13 @@ public interface PathFinderInterface {
     void findPathToObject(Unit object, short x, short y);
 
     /**
+     * Re-finds the given object's path to it's destination
+     *
+     * @param object object to find the path for
+     */
+    void refindPathToObject(Unit object);
+
+    /**
      * Gets the next point from the given object's path
      *
      * @param object object to get the next point for

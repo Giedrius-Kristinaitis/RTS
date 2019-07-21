@@ -53,6 +53,18 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
+     * Re-finds the given object's path to it's destination
+     *
+     * @param object object to find the path for
+     */
+    @Override
+    public void refindPathToObject(Unit object) {
+        if (foundPaths.containsKey(object)) {
+            depthFirst(object, (short) foundPaths.get(object).getLast().x, (short) foundPaths.get(object).getLast().y);
+        }
+    }
+
+    /**
      * Performs a greedy depth-first search algorithm between the given points
      * and saves the found path
      *
