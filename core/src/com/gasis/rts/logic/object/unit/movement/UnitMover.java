@@ -76,6 +76,10 @@ public class UnitMover implements Updatable, MovementListener {
      * @param destY destination y
      */
     protected void calculateDestinationsAndMoveUnits(UnitGroup group, short destX, short destY) {
+        if (group.units.isEmpty()) {
+            return;
+        }
+
         calculateUnitDistances(group.units, destX, destY);
 
         short currentIterationSize = 3;
