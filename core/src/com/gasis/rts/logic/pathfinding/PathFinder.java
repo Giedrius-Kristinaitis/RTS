@@ -43,6 +43,16 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
+     * @param object object to find the path for
+     * @param x      destination x (in block map coordinates)
+     * @param y      destination y (in block map coordinates)
+     */
+    @Override
+    public void findPathToObject(Unit object, short x, short y) {
+        depthFirst(object, x, y);
+    }
+
+    /**
      * Performs a greedy depth-first search algorithm between the given points
      * and saves the found path
      *
