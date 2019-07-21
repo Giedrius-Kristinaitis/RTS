@@ -265,6 +265,9 @@ public class UnitMover implements Updatable, MovementListener {
                         if (nextPathPoint != null && !unit.isRotating()) {
                             if (!map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y) || map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y) == unit) {
                                 unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
+                            } else {
+                                pathFinder.refindPathToObject(unit);
+                                anyGroupUnitMoved = true;
                             }
                         } else if (nextPathPoint == null) {
                             // the unit has arrived at it's destination and needs to be removed
