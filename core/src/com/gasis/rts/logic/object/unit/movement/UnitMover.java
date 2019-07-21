@@ -148,6 +148,15 @@ public class UnitMover implements Updatable, MovementListener {
      */
     @Override
     public void unableToMoveInCurrentState(Unit unit) {
+        stopUnit(unit);
+    }
+
+    /**
+     * Stops a unit's movement
+     *
+     * @param unit unit to stop
+     */
+    public void stopUnit(Unit unit) {
         for (UnitGroup group: groups) {
             if (group.units.contains(unit)) {
                 pathFinder.removePathForObject(unit);

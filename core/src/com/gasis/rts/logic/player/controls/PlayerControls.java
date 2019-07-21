@@ -284,11 +284,23 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected boolean handleUnitCombatControls(float x, float y) {
         if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+            stopSelectedUnits();
             aimSelectedUnits(x, y);
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Stops selected units if they're moving
+     */
+    protected void stopSelectedUnits() {
+        if (unitSelector.getSelectedUnits() != null) {
+            for (Unit unit: unitSelector.getSelectedUnits()) {
+                unitMover.stopUnit(unit);
+            }
+        }
     }
 
     /**
