@@ -1,0 +1,81 @@
+atlas: hammer.atlas
+code: t21-hammer
+control context: default_context_conf
+production time: 7.5
+width: 1.15
+height: 0.84
+hp: 40
+defence: 5
+sight range: 6
+attack: 25
+speed: 5
+attack range: 6
+shot count: 1
+shot interval: 2
+reload speed: 2
+movement animations available: false
+firing textures available: false
+siege mode available: false
+rotating gun: g
+g present: always
+g atlas: hammer.atlas
+g width: 1
+g height: 1
+g texture north: hammer_gun_north
+g texture north east: hammer_gun_north_east
+g texture east: hammer_gun_east
+g texture south east: hammer_gun_south_east
+g texture south: hammer_gun_south
+g texture south west: hammer_gun_south_west
+g texture west: hammer_gun_west
+g texture north west: hammer_gun_north_west
+g recoil: 1
+g recoil resistance: 0.75
+g rotation speed: 4
+g relative x north: 0
+g relative y north: 0
+g relative x north east: -0.1
+g relative y north east: 0.075
+g relative x east: -0.1
+g relative y east: 0.125
+g relative x south east: -0.075
+g relative y south east: 0.16
+g relative x south: 0
+g relative y south: 0.22
+g relative x south west: 0.075
+g relative y south west: 0.16
+g relative x west: 0.1
+g relative y west: 0.125
+g relative x north west: 0.075
+g relative y north west: 0.1
+g fire source: f
+f projectile deviation: 0
+f present: always
+f fire type: shell
+f projectile scale: heavy
+f projectile speed: 30
+f gun count: 1
+f fire point north x: 0
+f fire point north y: 0.7
+f fire point north east x: 0.5
+f fire point north east y: 0.35
+f fire point east x: 0.7
+f fire point east y: 0
+f fire point south east x: 0.5
+f fire point south east y: -0.35
+f fire point south x: 0
+f fire point south y: -0.7
+f fire point south west x: -0.5
+f fire point south west y: -0.35
+f fire point west x: -0.7
+f fire point west y: 0
+f fire point north west x: -0.5
+f fire point north west y: 0.35
+still texture north: hammer_north
+still texture north east: hammer_north_east
+still texture east: hammer_east
+still texture south east: hammer_south_east
+still texture south: hammer_south
+still texture south west: hammer_south_west
+still texture west: hammer_west
+still texture north west: hammer_north_west

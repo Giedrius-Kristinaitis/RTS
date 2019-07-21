@@ -7,3 +7,8 @@ tech: prod torrent
 prod torrent type: production
 prod torrent file: production_torrent
 prod torrent key binding: T
+
+tech: prod hammer
+prod hammer type: production
+prod hammer file: production_hammer
+prod hammer key binding: H
