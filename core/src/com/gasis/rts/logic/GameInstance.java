@@ -55,6 +55,8 @@ public class GameInstance implements Updatable {
     // the object that handles controlling of a player's point of view
     private PlayerControls playerControls;
 
+    private PlayerControls playerControls2;
+
     // map scrolling logic
     private BlockMapScroller mapScroller;
 
@@ -95,13 +97,14 @@ public class GameInstance implements Updatable {
         one.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "rebels"), map);
         two.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "confederation"), map);
 
-        players.add(one);
         players.add(two);
+        players.add(one);
 
         // initialize player controls
         playerControls = new PlayerControls(map, two);
+        playerControls2 = new PlayerControls(map, one);
 
-        test = new Test(map, two);
+        //test = new Test(map, two);
     }
 
     /**
@@ -122,8 +125,9 @@ public class GameInstance implements Updatable {
             }
         }
 
-        test.render(batch, resources);
+        //test.render(batch, resources);
         playerControls.render(batch, resources);
+        playerControls2.render(batch, resources);
     }
 
     /**
@@ -133,6 +137,7 @@ public class GameInstance implements Updatable {
      */
     public void draw(ShapeRenderer shapeRenderer) {
         playerControls.render(shapeRenderer);
+        playerControls2.render(shapeRenderer);
     }
 
     /**
@@ -143,6 +148,7 @@ public class GameInstance implements Updatable {
     @Override
     public void update(float delta) {
         playerControls.update(delta);
+        playerControls2.update(delta);
 
         mapZoomer.updateMapZoom(cam, delta);
         mapScroller.updateMapScroll(cam, delta);
@@ -157,7 +163,7 @@ public class GameInstance implements Updatable {
             }
         }
 
-        test.update(delta);
+        //test.update(delta);
     }
 
 
@@ -168,7 +174,9 @@ public class GameInstance implements Updatable {
      */
     public void keyDown(int keycode) {
         mapScroller.startScrolling(keycode);
+
         playerControls.keyDown(keycode);
+        playerControls2.keyDown(keycode);
 
         switch (keycode) {
             case Input.Keys.F11:
@@ -185,6 +193,7 @@ public class GameInstance implements Updatable {
     public void keyUp(int keycode) {
         mapScroller.stopScrolling(keycode);
         playerControls.keyUp(keycode);
+        playerControls2.keyUp(keycode);
     }
 
     /**
@@ -199,6 +208,7 @@ public class GameInstance implements Updatable {
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.touchDown(screenCoords.x, screenCoords.y, pointer, button);
+        playerControls2.touchDown(screenCoords.x, screenCoords.y, pointer, button);
     }
 
     /**
@@ -213,6 +223,7 @@ public class GameInstance implements Updatable {
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.touchUp(screenCoords.x, screenCoords.y, pointer, button);
+        playerControls2.touchUp(screenCoords.x, screenCoords.y, pointer, button);
     }
 
     /**
@@ -228,6 +239,7 @@ public class GameInstance implements Updatable {
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.touchDragged(screenCoords.x, screenCoords.y, pointer);
+        playerControls2.touchDragged(screenCoords.x, screenCoords.y, pointer);
     }
 
     /**
@@ -242,6 +254,7 @@ public class GameInstance implements Updatable {
         convertScreenCoordsToWorldCoords(screenX, screenY);
 
         playerControls.mouseMoved(screenCoords.x, screenCoords.y);
+        playerControls2.mouseMoved(screenCoords.x, screenCoords.y);
     }
 
     /**

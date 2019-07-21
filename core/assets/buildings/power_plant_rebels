@@ -4,6 +4,7 @@ control context: default_context_rebels
 texture: plant
 placement texture: plant
 construction time: 50
+hp bar width: 3.5
 width: 3.9
 height: 3
 width in blocks: 3

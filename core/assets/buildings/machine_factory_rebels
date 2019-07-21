@@ -1,9 +1,10 @@
 atlas: building4.atlas
 code: machine factory rebels
-control context: default_context_rebels
+control context: context_machine_factory_rebels
 texture: machine_factory_rebels
 placement texture: machine_factory_rebels
 construction time: 50
+hp bar width: 3.5
 width: 3.9
 height: 3.25
 width in blocks: 3

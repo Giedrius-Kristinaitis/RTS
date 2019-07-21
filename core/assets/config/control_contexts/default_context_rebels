@@ -1,0 +1,9 @@
+tech: machine factory rebels
+machine factory rebels type: placement
+machine factory rebels file: placement_machine_factory_rebels
+machine factory rebels key binding: F
+
+tech: power plant rebels
+power plant rebels type: placement
+power plant rebels file: placement_power_plant_rebels
+power plant rebels key binding: P

@@ -1,0 +1,9 @@
+tech: prod rhino
+prod rhino type: production
+prod rhino file: production_rhino
+prod rhino key binding: E
+
+tech: prod porcupine
+prod porcupine type: production
+prod porcupine file: production_porcupine
+prod porcupine key binding: P
