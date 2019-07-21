@@ -172,8 +172,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             }
         }
 
-        notifyMovementStartListeners();
-
         removeTarget();
     }
 
@@ -220,6 +218,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         initializeMovementCoordinates();
         changeOccupiedBlock();
         moving = true;
+        notifyMovementStartListeners();
 
         return true;
     }

@@ -6,6 +6,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.pathfinding.PathFinderInterface;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 
 import java.util.*;
@@ -38,6 +39,9 @@ public class UnitMover implements Updatable, MovementListener {
     // has any unit in a group of units moved
     protected boolean anyGroupUnitMoved;
 
+    // used to temporarily store units' distances to the destination point
+    protected TreeSet<UnitDistance> unitDistances = new TreeSet<UnitDistance>();
+
     /**
      * Default class constructor
      */
@@ -58,10 +62,87 @@ public class UnitMover implements Updatable, MovementListener {
 
         this.groups.add(group);
 
-        pathFinder.findPathsToObjects(group.units, x, y);
+        calculateDestinationsAndMoveUnits(group, x, y);
 
         addMovementListeners(units);
         initializeMovementStates(units);
+    }
+
+    /**
+     * Calculates each group unit's individual destination point and moves all units
+     *
+     * @param group unit group to move
+     * @param destX destination x
+     * @param destY destination y
+     */
+    protected void calculateDestinationsAndMoveUnits(UnitGroup group, short destX, short destY) {
+        calculateUnitDistances(group.units, destX, destY);
+
+        short currentIterationSize = 3;
+
+        /*
+         * The following code might appear ugly to some people,
+         *
+         * READER DISCRETION IS ADVISED
+         */
+
+        pathFinder.findPathToObject(unitDistances.pollFirst().unit, destX, destY);
+
+        while (!unitDistances.isEmpty()) {
+            // loop through the top side
+            for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
+                if (!unitDistances.isEmpty()) {
+                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY + (short) (currentIterationSize / 2)));
+                } else {
+                    break;
+                }
+            }
+
+            // loop through the bottom side
+            for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
+                if (!unitDistances.isEmpty()) {
+                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY - (short) (currentIterationSize / 2)));
+                } else {
+                    break;
+                }
+            }
+
+            // loop through the left side
+            for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
+                if (!unitDistances.isEmpty()) {
+                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX - (short) (currentIterationSize / 2)), (short) y);
+                } else {
+                    break;
+                }
+            }
+
+            // loop through the right side
+            for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
+                if (!unitDistances.isEmpty()) {
+                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX + (short) (currentIterationSize / 2)), (short) y);
+                } else {
+                    break;
+                }
+            }
+
+            currentIterationSize += 2;
+        }
+    }
+
+    /**
+     * Calculates each unit's distance to the destination point
+     *
+     * @param units units to calculate distance for
+     * @param x destination x
+     * @param y destination y
+     */
+    protected void calculateUnitDistances(Set<Unit> units, short x, short y) {
+        for (Unit unit: units) {
+            UnitDistance distance = new UnitDistance();
+            distance.unit = unit;
+            distance.distance = MathUtils.distance((short) (unit.getCenterX() / Block.BLOCK_WIDTH), x, (short) (unit.getCenterY() / Block.BLOCK_HEIGHT), y);
+            unitDistances.add(distance);
+        }
     }
 
     /**
@@ -127,6 +208,7 @@ public class UnitMover implements Updatable, MovementListener {
     @Override
     public void startedMoving(Unit unit) {
         movementStates.put(unit, true);
+        pathFinder.removeNextPathPoint(unit);
     }
 
     /**
@@ -180,13 +262,17 @@ public class UnitMover implements Updatable, MovementListener {
                     if (!movementStates.get(unit)) {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
 
-                        if (nextPathPoint != null && (!map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y) || map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y) == unit)) {
-                            unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
-                            pathFinder.removeNextPathPoint(unit);
-                            anyGroupUnitMoved = true;
+                        if (nextPathPoint != null && !unit.isRotating()) {
+                            if (!map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y) || map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y) == unit) {
+                                unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
+                            }
                         } else if (nextPathPoint == null) {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);
+                        }
+
+                        if (unit.isRotating() || unit.isMoving()) {
+                            anyGroupUnitMoved = true;
                         }
                     } else {
                         anyGroupUnitMoved = true;
@@ -232,5 +318,27 @@ public class UnitMover implements Updatable, MovementListener {
     protected class UnitGroup {
 
         protected Set<Unit> units = new HashSet<Unit>();
+    }
+
+    /**
+     * Holds units and their distance to the destination point
+     */
+    protected class UnitDistance implements Comparable<UnitDistance> {
+
+        protected Unit unit;
+        protected float distance;
+
+        @Override
+        public int compareTo(UnitDistance other) {
+            if (unit == other.unit) {
+                return 0;
+            } else {
+                if (distance < other.distance) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        }
     }
 }
