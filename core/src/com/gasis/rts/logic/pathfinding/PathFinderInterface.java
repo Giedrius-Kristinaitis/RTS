@@ -17,7 +17,7 @@ public interface PathFinderInterface {
      * @param x destination x (in block map coordinates)
      * @param y destination y (in block map coordinates)
      */
-    void findPathsToObjects(List<Unit> objects, short x, short y);
+    void findPathsToObjects(Iterable<Unit> objects, short x, short y);
 
     /**
      * Gets the next point from the given object's path

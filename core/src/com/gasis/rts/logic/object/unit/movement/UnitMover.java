@@ -54,28 +54,14 @@ public class UnitMover implements Updatable, MovementListener {
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(List<Unit> units, short x, short y) {
-        removeSiegeModeUnits(units);
+        UnitGroup group = createUnitGroup(units);
 
-        this.groups.add(createUnitGroup(units));
+        this.groups.add(group);
 
-        pathFinder.findPathsToObjects(units, x, y);
+        pathFinder.findPathsToObjects(group.units, x, y);
 
         addMovementListeners(units);
         initializeMovementStates(units);
-    }
-
-    /**
-     * Removes units that are in siege mode from the list
-     *
-     * @param units units to check
-     */
-    protected void removeSiegeModeUnits(List<Unit> units) {
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).isInSiegeMode()) {
-                units.remove(i);
-                i--;
-            }
-        }
     }
 
     /**
@@ -89,7 +75,10 @@ public class UnitMover implements Updatable, MovementListener {
 
         for (Unit unit: units) {
             removeUnitFromAllGroups(unit);
-            group.units.add(unit);
+
+            if (!unit.isInSiegeMode()) {
+                group.units.add(unit);
+            }
         }
 
         return group;

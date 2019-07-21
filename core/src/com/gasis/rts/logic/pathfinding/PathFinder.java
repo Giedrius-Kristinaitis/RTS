@@ -36,7 +36,7 @@ public class PathFinder implements PathFinderInterface {
      * @param y       destination y (in block map coordinates)
      */
     @Override
-    public void findPathsToObjects(List<Unit> objects, short x, short y) {
+    public void findPathsToObjects(Iterable<Unit> objects, short x, short y) {
         for (Unit unit: objects) {
             depthFirst(unit, x, y);
         }
