@@ -129,11 +129,13 @@ public class PathFinder implements PathFinderInterface {
         Point destination = new Point(x, y);
         Point processedPoint = startPoint;
         Point firstDeadEnd = null;
-        Set<Point> visitedPoints = new TreeSet<Point>();
+        Set<Point> visitedPoints = new HashSet<Point>();
+        List<Point> visitedPointsInOrder = new ArrayList<Point>();
         List<Point> neighbours = new ArrayList<Point>();
 
         while (true) {
             visitedPoints.add(processedPoint);
+            visitedPointsInOrder.add(processedPoint);
 
             if (processedPoint.equals(destination)) {
                 break;
@@ -174,12 +176,53 @@ public class PathFinder implements PathFinderInterface {
         Deque<Point> path = null;
 
         if (processedPoint.equals(destination)) {
-            path = formPath(processedPoint);
+            path = formPath(visitedPointsInOrder, visitedPoints);
         } else {
             path = formPath(firstDeadEnd);
         }
 
         newestGroup.foundPaths.put(object, path);
+    }
+
+    /**
+     * Forms a path for a unit
+     *
+     * @param visitedPointsInOrder all points visited by the path finding algorithm in order from first to last
+     * @param allVisitedPoints all points visited by the algorithm in random order (used for quicker searching)
+     * @return
+     */
+    protected Deque<Point> formPath(List<Point> visitedPointsInOrder, Set<Point> allVisitedPoints) {
+        Deque<Point> path = new LinkedList<Point>();
+
+        Point current = visitedPointsInOrder.get(visitedPointsInOrder.size() - 1);
+
+        path.push(current);
+
+        List<Point> neighbours = new ArrayList<Point>();
+
+        for (int i = visitedPointsInOrder.size() - 2; i >= 0; i--) {
+            Point next = visitedPointsInOrder.get(i);
+
+            addNeighboursToList(neighbours, current);
+
+            for (Point neighbour: neighbours) {
+                if (allVisitedPoints.contains(neighbour)) {
+                    if (visitedPointsInOrder.indexOf(neighbour) < i) {
+                        next = neighbour;
+                        i = visitedPointsInOrder.indexOf(neighbour);
+                    }
+                }
+            }
+
+            path.push(next);
+            current = next;
+            neighbours.clear();
+        }
+
+        // remove first visited point because the unit is already in that point
+        path.pop();
+
+        return path;
     }
 
     /**
@@ -201,6 +244,23 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
+     * Adds all neighbour points of the given point to the given list
+     *
+     * @param list list to add neighbours to
+     * @param point point to get neighbours from
+     */
+    protected void addNeighboursToList(List<Point> list, Point point) {
+        list.add(new Point(point.x, point.y + 1));
+        list.add(new Point(point.x + 1, point.y + 1));
+        list.add(new Point(point.x + 1, point.y));
+        list.add(new Point(point.x + 1, point.y - 1));
+        list.add(new Point(point.x, point.y - 1));
+        list.add(new Point(point.x - 1, point.y - 1));
+        list.add(new Point(point.x - 1, point.y));
+        list.add(new Point(point.x - 1, point.y + 1));
+    }
+
+    /**
      * Gets point's neighbour that is not visited and is the closest to the destination
      *
      * @param unit the unit the algorithm is finding path for
@@ -212,14 +272,8 @@ public class PathFinder implements PathFinderInterface {
      */
     protected Point getBestNotVisitedNeighbour(Unit unit, Set<Point> visitedPoints, List<Point> neighbours, Point point, Point destination) {
         neighbours.clear();
-        neighbours.add(new Point(point.x, point.y + 1));
-        neighbours.add(new Point(point.x + 1, point.y + 1));
-        neighbours.add(new Point(point.x + 1, point.y));
-        neighbours.add(new Point(point.x + 1, point.y - 1));
-        neighbours.add(new Point(point.x, point.y - 1));
-        neighbours.add(new Point(point.x - 1, point.y - 1));
-        neighbours.add(new Point(point.x - 1, point.y));
-        neighbours.add(new Point(point.x - 1, point.y + 1));
+
+        addNeighboursToList(neighbours, point);
 
         Point next = null;
         float minDistance = Float.MAX_VALUE;
