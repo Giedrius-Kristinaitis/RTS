@@ -171,8 +171,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 return;
             }
         }
-
-        removeTarget();
     }
 
     /**

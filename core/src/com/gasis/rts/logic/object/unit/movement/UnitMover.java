@@ -167,6 +167,7 @@ public class UnitMover implements Updatable, MovementListener {
 
             if (!unit.isInSiegeMode()) {
                 group.units.add(unit);
+                unit.removeTarget();
             }
         }
 
