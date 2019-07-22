@@ -16,8 +16,14 @@ public class PathFinder implements PathFinderInterface {
     // the game's map
     protected BlockMap map;
 
-    // paths for the searched objects
-    protected Map<Unit, Deque<Point>> foundPaths = new HashMap<Unit, Deque<Point>>();
+    // all existing path groups
+    protected Set<PathGroup> groups = new HashSet<PathGroup>();
+
+    // the newest created path group to which new paths will be put
+    protected PathGroup newestGroup;
+
+    // path groups to be removed from the group set
+    protected List<PathGroup> groupsToRemove = new ArrayList<PathGroup>();
 
     /**
      * Default class constructor
@@ -59,9 +65,51 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void refindPathToObject(Unit object) {
-        if (foundPaths.containsKey(object)) {
-            depthFirst(object, (short) foundPaths.get(object).getLast().x, (short) foundPaths.get(object).getLast().y);
+        for (PathGroup group: groups) {
+            if (group.foundPaths.containsKey(object)) {
+                depthFirst(object, (short) group.foundPaths.get(object).getLast().x, (short) group.foundPaths.get(object).getLast().y);
+                break;
+            }
         }
+    }
+
+    /**
+     * Creates a new path group
+     *
+     * @param units units that will be a part of the group
+     */
+    @Override
+    public void newGroup(Iterable<Unit> units) {
+        PathGroup group = new PathGroup();
+
+        for (Unit unit: units) {
+            for (PathGroup group1: groups) {
+                group1.foundPaths.remove(unit);
+            }
+
+            group.foundPaths.put(unit, null);
+        }
+
+        newestGroup = group;
+        groups.add(group);
+        removeEmptyGroups();
+    }
+
+    /**
+     * Removes empty path groups to avoid memory leaking
+     */
+    protected void removeEmptyGroups() {
+        for (PathGroup group: groups) {
+            if (group.foundPaths.isEmpty()) {
+                groupsToRemove.add(group);
+            }
+        }
+
+        for (PathGroup group: groupsToRemove) {
+            groups.remove(group);
+        }
+
+        groupsToRemove.clear();
     }
 
     /**
@@ -73,6 +121,10 @@ public class PathFinder implements PathFinderInterface {
      * @param y destination y
      */
     protected void depthFirst(Unit object, short x, short y) {
+        if (newestGroup == null) {
+            throw new IllegalStateException("No path groups created");
+        }
+
         Point startPoint = getObjectCoordinates(object);
         Point destination = new Point(x, y);
         Point processedPoint = startPoint;
@@ -88,7 +140,7 @@ public class PathFinder implements PathFinderInterface {
             }
 
             // get the point that has not been visited and is the closest to the destination
-            Point next = getBestNotVisitedNeighbour(visitedPoints, neighbours, processedPoint, destination);
+            Point next = getBestNotVisitedNeighbour(object, visitedPoints, neighbours, processedPoint, destination);
 
             // make the next point be processed in the next iteration
             if (next != null) {
@@ -101,7 +153,7 @@ public class PathFinder implements PathFinderInterface {
 
                 // backtrack the visited points and pick the one that has unvisited neighbours
                 while (processedPoint.lastPoint != null) {
-                    next = getBestNotVisitedNeighbour(visitedPoints, neighbours, processedPoint.lastPoint, destination);
+                    next = getBestNotVisitedNeighbour(object, visitedPoints, neighbours, processedPoint.lastPoint, destination);
 
                     if (next == null) {
                         processedPoint = processedPoint.lastPoint;
@@ -127,7 +179,7 @@ public class PathFinder implements PathFinderInterface {
             path = formPath(firstDeadEnd);
         }
 
-        foundPaths.put(object, path);
+        newestGroup.foundPaths.put(object, path);
     }
 
     /**
@@ -151,13 +203,14 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Gets point's neighbour that is not visited and is the closest to the destination
      *
+     * @param unit the unit the algorithm is finding path for
      * @param visitedPoints points that have been visited so far
      * @param neighbours instance of a list that will be used to store neighbours (just to avoid memory leaking)
      * @param point current point in the algorithm
      * @param destination algorithm's destination point
      * @return
      */
-    protected Point getBestNotVisitedNeighbour(Set<Point> visitedPoints, List<Point> neighbours, Point point, Point destination) {
+    protected Point getBestNotVisitedNeighbour(Unit unit, Set<Point> visitedPoints, List<Point> neighbours, Point point, Point destination) {
         neighbours.clear();
         neighbours.add(new Point(point.x, point.y + 1));
         neighbours.add(new Point(point.x + 1, point.y + 1));
@@ -172,7 +225,7 @@ public class PathFinder implements PathFinderInterface {
         float minDistance = Float.MAX_VALUE;
 
         for (Point neighbor: neighbours) {
-            if (blockAvailable(visitedPoints, neighbor)) {
+            if (blockAvailable(unit, visitedPoints, neighbor)) {
                 float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
 
                 if (distance < minDistance) {
@@ -188,11 +241,12 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Checks if a point is available for a path
      *
+     * @param unit the unit the algorithm is finding path for
      * @param visitedPoints points visited so far by the algorithm
      * @param point point to check
      * @return
      */
-    protected boolean blockAvailable(Set<Point> visitedPoints, Point point) {
+    protected boolean blockAvailable(Unit unit, Set<Point> visitedPoints, Point point) {
         if (point.x < 0 || point.y < 0 || point.x >= map.getWidth() || point.y >= map.getHeight()) {
             return false;
         }
@@ -202,8 +256,24 @@ public class PathFinder implements PathFinderInterface {
 
         return
                 map.isBlockPassable((short) point.x, (short) point.y)
-                        && (!map.isBlockOccupied((short) point.x, (short) point.y) || (occupyingUnit != null && (occupyingUnit.isMoving() || foundPaths.containsKey(occupyingUnit))))
+                        && (!map.isBlockOccupied((short) point.x, (short) point.y) || (occupyingUnit != null && (occupyingUnit.isMoving() || getGroup(unit).foundPaths.containsKey(occupyingUnit))))
                         && !visitedPoints.contains(point);
+    }
+
+    /**
+     * Gets the specified unit's path group
+     *
+     * @param unit unit to get the group for
+     * @return
+     */
+    protected PathGroup getGroup(Unit unit) {
+        for (PathGroup group: groups) {
+            if (group.foundPaths.containsKey(unit)) {
+                return group;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -225,7 +295,9 @@ public class PathFinder implements PathFinderInterface {
      * @param unit unit associated with a path
      */
     public void removePathForObject(Unit unit) {
-        foundPaths.remove(unit);
+        for (PathGroup group: groups) {
+            group.foundPaths.remove(unit);
+        }
     }
 
     /**
@@ -237,10 +309,16 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public Point getNextPathPointForObject(Unit object) {
         try {
-            return foundPaths.get(object).peek();
+            for (PathGroup group: groups) {
+                if (group.foundPaths.containsKey(object)) {
+                    return group.foundPaths.get(object).peek();
+                }
+            }
         } catch (Exception ex) {
             return null;
         }
+
+        return null;
     }
 
     /**
@@ -251,7 +329,11 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public void removeNextPathPoint(Unit object) {
         try {
-            foundPaths.get(object).pop();
+            for (PathGroup group: groups) {
+                if (group.foundPaths.containsKey(object)) {
+                    group.foundPaths.get(object).pop();
+                }
+            }
         } catch (Exception ex) { }
     }
 
@@ -260,7 +342,12 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void clearAllPaths() {
-        foundPaths.clear();
+        for (PathGroup group: groups) {
+            group.foundPaths.clear();
+        }
+
+        groups.clear();
+        newestGroup = null;
     }
 
     /**
@@ -273,5 +360,13 @@ public class PathFinder implements PathFinderInterface {
         protected Point(float x, float y) {
             super(x, y);
         }
+    }
+
+    /**
+     * A group of paths
+     */
+    protected class PathGroup {
+
+        protected Map<Unit, Deque<Point>> foundPaths = new HashMap<Unit, Deque<Point>>();
     }
 }

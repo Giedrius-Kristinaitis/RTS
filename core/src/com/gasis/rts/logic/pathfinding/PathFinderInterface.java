@@ -35,6 +35,13 @@ public interface PathFinderInterface {
     void refindPathToObject(Unit object);
 
     /**
+     * Creates a new path group
+     *
+     * @param units units that will be a part of the group
+     */
+    void newGroup(Iterable<Unit> units);
+
+    /**
      * Gets the next point from the given object's path
      *
      * @param object object to get the next point for

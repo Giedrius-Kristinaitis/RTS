@@ -62,6 +62,10 @@ public class UnitMover implements Updatable, MovementListener {
 
         this.groups.add(group);
 
+        if (!group.units.isEmpty()) {
+            pathFinder.newGroup(group.units);
+        }
+
         calculateDestinationsAndMoveUnits(group, x, y);
 
         addMovementListeners(units);
