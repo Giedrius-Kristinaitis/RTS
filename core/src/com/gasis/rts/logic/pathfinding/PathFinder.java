@@ -332,6 +332,7 @@ public class PathFinder implements PathFinderInterface {
             for (PathGroup group: groups) {
                 if (group.foundPaths.containsKey(object)) {
                     group.foundPaths.get(object).pop();
+                    break;
                 }
             }
         } catch (Exception ex) { }
