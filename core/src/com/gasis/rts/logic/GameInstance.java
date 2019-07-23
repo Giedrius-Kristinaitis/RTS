@@ -12,6 +12,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
@@ -63,6 +64,9 @@ public class GameInstance implements Updatable {
     // map zooming logic
     private BlockMapZoomer mapZoomer;
 
+    // handle destruction
+    private DestructionHandler destructionHandler;
+
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
@@ -87,6 +91,9 @@ public class GameInstance implements Updatable {
         // initialize map scroller and zoomer
         mapScroller = new BlockMapScroller(map, mapRenderer);
         mapZoomer = new BlockMapZoomer();
+
+        // initialize destruction handler
+        destructionHandler = new DestructionHandler();
 
         // create some test players
         Player one = new Player();
@@ -121,6 +128,8 @@ public class GameInstance implements Updatable {
             }
         }
 
+        destructionHandler.render(batch, resources);
+
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
     }
@@ -147,6 +156,8 @@ public class GameInstance implements Updatable {
 
         mapZoomer.updateMapZoom(cam, delta);
         mapScroller.updateMapScroll(cam, delta);
+
+        destructionHandler.update(delta);
 
         for (Player player: players) {
             for (Unit unit: player.getUnits()) {
