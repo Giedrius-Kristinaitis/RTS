@@ -66,7 +66,8 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
             // notify listeners
             for (TargetReachListener listener: targetReachListeners) {
-                listener.targetReached(projectile.getFinalCenterX(), projectile.getFinalCenterY());
+                // explosive value doesn't matter here as it is set by the fire source
+                listener.targetReached(projectile.getFinalCenterX(), projectile.getFinalCenterY(), false);
             }
         } else if (animation == endAnimation) {
             endAnimationFinished = true;

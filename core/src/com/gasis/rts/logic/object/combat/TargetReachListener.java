@@ -10,6 +10,7 @@ public interface TargetReachListener {
      *
      * @param targetX x coordinate of the target
      * @param targetY y coordinate of the target
+     * @param explosive is the projectile that reached the target explosive or not
      */
-    void targetReached(float targetX, float targetY);
+    void targetReached(float targetX, float targetY, boolean explosive);
 }

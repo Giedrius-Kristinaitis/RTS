@@ -182,6 +182,15 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     }
 
     /**
+     * Removes a target reach listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetReachListener(TargetReachListener listener) {
+        targetReachListeners.remove(listener);
+    }
+
+    /**
      * Sets the x coordinate of the fire source
      *
      * @param x new x coordinate
@@ -254,11 +263,25 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
      *
      * @param targetX x coordinate of the target
      * @param targetY y coordinate of the target
+     * @param explosive is the projectile explosive or not
      */
     @Override
-    public void targetReached(float targetX, float targetY) {
+    public void targetReached(float targetX, float targetY, boolean explosive) {
+        /*
+            Explosive boolean passed as an argument to this method here is invalid,
+            because it is called from projectile animation which doesn't know if the
+            projectile is explosive, explosive value can only be set here because this
+            class stores projectile's information
+         */
+
         for (TargetReachListener listener: targetReachListeners) {
-            listener.targetReached(targetX, targetY);
+            boolean projectileExplosive = false;
+
+            if (fireType == FIRE_TYPE_SHELL || fireType == FIRE_TYPE_MISSILE) {
+                projectileExplosive = true;
+            }
+
+            listener.targetReached(targetX, targetY, projectileExplosive);
         }
     }
 

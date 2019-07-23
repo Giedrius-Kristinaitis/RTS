@@ -55,6 +55,28 @@ public class FiringLogic implements Renderable {
     private List<String> fireSourceNames = new ArrayList<String>();
 
     /**
+     * Adds a target reach listener to the fire sources
+     *
+     * @param listener listener to add
+     */
+    public void addTargetReachedListener(TargetReachListener listener) {
+        for (FireSource source: fireSources.values()) {
+            source.addTargetReachListener(listener);
+        }
+    }
+
+    /**
+     * Removes a target reach listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetReachListener(TargetReachListener listener) {
+        for (FireSource source: fireSources.values()) {
+            source.removeTargetReachListener(listener);
+        }
+    }
+
+    /**
      * Gets the normal shot count
      * @return
      */
