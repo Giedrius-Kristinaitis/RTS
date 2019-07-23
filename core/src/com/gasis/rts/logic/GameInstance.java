@@ -66,8 +66,6 @@ public class GameInstance implements Updatable {
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
-    private Test test;
-
     /**
      * Default class constructor
      *
@@ -103,8 +101,6 @@ public class GameInstance implements Updatable {
         // initialize player controls
         playerControls = new PlayerControls(map, two);
         playerControls2 = new PlayerControls(map, one);
-
-        //test = new Test(map, two);
     }
 
     /**
@@ -125,7 +121,6 @@ public class GameInstance implements Updatable {
             }
         }
 
-        //test.render(batch, resources);
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
     }
@@ -162,8 +157,6 @@ public class GameInstance implements Updatable {
                 building.update(delta);
             }
         }
-
-        //test.update(delta);
     }
 
 
