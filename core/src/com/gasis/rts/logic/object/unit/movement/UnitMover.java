@@ -279,8 +279,10 @@ public class UnitMover implements Updatable, MovementListener {
                             if (occupyingObject == null || occupyingUnit == unit) {
                                 unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
                             } else if (occupyingUnit == null || !occupyingUnit.isMoving()) {
-
                                 pathFinder.refindPathToObject(unit);
+
+                                System.out.println("Refinding path");
+
                                 anyGroupUnitMoved = true;
                             }
                         } else if (nextPathPoint == null) {

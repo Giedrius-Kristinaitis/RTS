@@ -31,9 +31,8 @@ public interface PathFinderInterface {
      * Re-finds the given object's path to it's destination
      *
      * @param object object to find the path for
-     * @param maxObstacleDistance the maximum distance the algorithm can cover when avoiding an obstacle
      */
-    void refindPathToObject(Unit object, float maxObstacleDistance);
+    void refindPathToObject(Unit object);
 
     /**
      * Creates a new path group
@@ -41,14 +40,6 @@ public interface PathFinderInterface {
      * @param units units that will be a part of the group
      */
     void newGroup(Iterable<Unit> units);
-
-    /**
-     * Gets the specified unit's destination point
-     *
-     * @param unit unit to get destination for
-     * @return
-     */
-    Point getDestination(Unit unit);
 
     /**
      * Gets the next point from the given object's path
