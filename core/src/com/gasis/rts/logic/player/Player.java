@@ -5,6 +5,8 @@ import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.OffensiveBuilding;
+import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.unit.Unit;
 
 import java.util.ArrayList;
@@ -35,6 +37,16 @@ public class Player {
 
     // the units that are currently selected
     protected List<Unit> selectedUnits;
+
+    // handles game object destruction
+    protected DestructionHandler destructionHandler;
+
+    /**
+     * Default class constructor
+     */
+    public Player(DestructionHandler destructionHandler) {
+        this.destructionHandler = destructionHandler;
+    }
 
     /**
      * Sets the currently selected building
@@ -89,6 +101,8 @@ public class Player {
      * @param unit the unit to add
      */
     public void addUnit(Unit unit) {
+        unit.addTargetReachedListener(destructionHandler);
+
         units.add(unit);
     }
 
@@ -98,6 +112,10 @@ public class Player {
      * @param building the building to add
      */
     public void addBuilding(Building building) {
+        if (building instanceof OffensiveBuilding) {
+            ((OffensiveBuilding) building).addTargetReachedListener(destructionHandler);
+        }
+
         buildings.add(building);
     }
 

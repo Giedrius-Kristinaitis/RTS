@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.RotatingGun;
+import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
@@ -90,6 +91,34 @@ public class RotatingGunUnit extends Unit {
         }
 
         super.finished(animation);
+    }
+
+    /**
+     * Adds a target reach listener
+     *
+     * @param listener listener to add
+     */
+    @Override
+    public void addTargetReachedListener(TargetReachListener listener) {
+        super.addTargetReachedListener(listener);
+
+        for (RotatingGun gun: guns.values()) {
+            gun.addTargetReachedListener(listener);
+        }
+    }
+
+    /**
+     * Removes a target reach listener
+     *
+     * @param listener listener to remove
+     */
+    @Override
+    public void removeTargetReachListener(TargetReachListener listener) {
+        super.removeTargetReachListener(listener);
+
+        for (RotatingGun gun: guns.values()) {
+            gun.removeTargetReachListener(listener);
+        }
     }
 
     /**
