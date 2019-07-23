@@ -16,7 +16,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * Represents any gun that rotates around a fixed point (tank gun, rocket launcher...)
  */
-public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
+public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, DamageValueProvider {
 
     // texture atlas that holds the textures of the gun
     protected String atlas;
@@ -84,6 +84,16 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
 
     // is the gun currently present or not
     protected boolean currentlyPresent;
+
+    /**
+     * Gets damage value
+     *
+     * @return
+     */
+    @Override
+    public float getDamage() {
+        return inSiegeMode ? offensiveSpecs.getSiegeModeAttack() : offensiveSpecs.getAttack();
+    }
 
     /**
      * Sets the current gun's presence
@@ -285,6 +295,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable {
      * @param firingLogic new firing logic
      */
     public void setFiringLogic(FiringLogic firingLogic) {
+        firingLogic.setDamageProvider(this);
         this.firingLogic = firingLogic;
     }
 

@@ -9,10 +9,7 @@ import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
-import com.gasis.rts.logic.object.combat.Aimable;
-import com.gasis.rts.logic.object.combat.CombatUtils;
-import com.gasis.rts.logic.object.combat.FireSource;
-import com.gasis.rts.logic.object.combat.FiringLogic;
+import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.math.MathUtils;
@@ -27,7 +24,7 @@ import java.util.Set;
 /**
  * Represents a single unit on a map
  */
-public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable, Movable {
+public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable, Movable, DamageValueProvider {
 
     // unit facing directions
     public static final byte NONE = -1;
@@ -150,6 +147,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Gets damage value
+     *
+     * @return
+     */
+    @Override
+    public float getDamage() {
+        return inSiegeMode ? offensiveSpecs.getSiegeModeAttack() : offensiveSpecs.getAttack();
     }
 
     /**
@@ -417,6 +424,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param firingLogic new firing logic
      */
     public void setFiringLogic(FiringLogic firingLogic) {
+        firingLogic.setDamageProvider(this);
         this.firingLogic = firingLogic;
     }
 

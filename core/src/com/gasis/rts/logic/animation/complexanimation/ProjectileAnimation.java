@@ -4,12 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
-import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.resources.Resources;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * An animation of a flying projectile. Do not dispose of this animation until the
@@ -36,9 +32,6 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     // has the end animation finished or not
     protected boolean endAnimationFinished = false;
 
-    // target reach listeners
-    protected Set<TargetReachListener> targetReachListeners = new HashSet<TargetReachListener>();
-
     /**
      * Class constructor
      */
@@ -53,6 +46,15 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     }
 
     /**
+     * Adds a listener that listens for projectile animation's finish
+     *
+     * @param listener listener to add
+     */
+    public void addProjectileAnimationFinishListener(AnimationFinishListener listener) {
+        projectile.addFinishListener(listener);
+    }
+
+    /**
      * Notifies the observer that the animation has finished
      *
      * @param animation the animation that just finished
@@ -63,12 +65,6 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
             fireAnimationFinished = true;
         } else if (animation == projectile) {
             targetReached = true;
-
-            // notify listeners
-            for (TargetReachListener listener: targetReachListeners) {
-                // explosive value doesn't matter here as it is set by the fire source
-                listener.targetReached(projectile.getFinalCenterX(), projectile.getFinalCenterY(), false);
-            }
         } else if (animation == endAnimation) {
             endAnimationFinished = true;
         }
@@ -80,15 +76,6 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      */
     public boolean hasEndAnimationFinished() {
         return endAnimation.hasFinished();
-    }
-
-    /**
-     * Adds a listener that listens for the event when the projectile reaches it's target
-     *
-     * @param listener target listener
-     */
-    public void addTargetReachedListener(TargetReachListener listener) {
-        targetReachListeners.add(listener);
     }
 
     /**

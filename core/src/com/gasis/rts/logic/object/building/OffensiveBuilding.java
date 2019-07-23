@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * A building that attacks the enemy
  */
-public class OffensiveBuilding extends Building implements Aimable {
+public class OffensiveBuilding extends Building implements Aimable, DamageValueProvider {
 
     // the firing logic of the building
     protected FiringLogic firingLogic;
@@ -32,6 +32,16 @@ public class OffensiveBuilding extends Building implements Aimable {
      */
     public OffensiveBuilding(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Gets damage value
+     *
+     * @return
+     */
+    @Override
+    public float getDamage() {
+        return offensiveSpecs.getAttack();
     }
 
     /**
@@ -67,6 +77,7 @@ public class OffensiveBuilding extends Building implements Aimable {
      * @param firingLogic logic used by the building
      */
     public void setFiringLogic(FiringLogic firingLogic) {
+        firingLogic.setDamageProvider(this);
         this.firingLogic = firingLogic;
     }
 

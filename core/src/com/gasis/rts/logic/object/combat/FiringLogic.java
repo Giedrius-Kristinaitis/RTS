@@ -77,6 +77,17 @@ public class FiringLogic implements Renderable {
     }
 
     /**
+     * Sets the damage provider for fire sources
+     *
+     * @param provider provider to use
+     */
+    public void setDamageProvider(DamageValueProvider provider) {
+        for (FireSource source: fireSources.values()) {
+            source.setDamageProvider(provider);
+        }
+    }
+
+    /**
      * Gets the normal shot count
      * @return
      */

@@ -3,8 +3,11 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.animation.Animation;
+import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.complexanimation.MissileAnimation;
 import com.gasis.rts.logic.animation.complexanimation.ProjectileAnimation;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
@@ -17,7 +20,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * A point from which shots are fired
  */
-public class FireSource implements Updatable, Renderable, TargetReachListener {
+public class FireSource implements Updatable, Renderable, AnimationFinishListener {
 
     // used to deviate the projectile
     private static final Random random = new Random();
@@ -65,6 +68,18 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
 
     // how much can the projectile deviate from it's target
     protected float projectileDeviation;
+
+    // provides firing thing's damage
+    protected DamageValueProvider specProvider;
+
+    /**
+     * Sets the damage provider
+     *
+     * @param provider provider to use
+     */
+    public void setDamageProvider(DamageValueProvider provider) {
+        this.specProvider = provider;
+    }
 
     /**
      * Sets the maximum possible deviation from the target
@@ -259,21 +274,12 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
     }
 
     /**
-     * Gets called when a projectile reaches it's target
+     * Called when a projectile animation finishes
      *
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
-     * @param explosive is the projectile explosive or not
+     * @param animation the animation that just finished
      */
     @Override
-    public void targetReached(float targetX, float targetY, boolean explosive) {
-        /*
-            Explosive boolean passed as an argument to this method here is invalid,
-            because it is called from projectile animation which doesn't know if the
-            projectile is explosive, explosive value can only be set here because this
-            class stores projectile's information
-         */
-
+    public void finished(Animation animation) {
         for (TargetReachListener listener: targetReachListeners) {
             boolean projectileExplosive = false;
 
@@ -281,7 +287,7 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
                 projectileExplosive = true;
             }
 
-            listener.targetReached(targetX, targetY, projectileExplosive);
+            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage(), projectileExplosive);
         }
     }
 
@@ -297,7 +303,7 @@ public class FireSource implements Updatable, Renderable, TargetReachListener {
         float deviatedTargetY = targetY + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
 
         ProjectileAnimation animation = createProjectileAnimation(facingDirection, deviatedTargetX, deviatedTargetY);
-        animation.addTargetReachedListener(this);
+        animation.addProjectileAnimationFinishListener(this);
         animation.setFlightTime(MathUtils.distance(x, deviatedTargetX, y, deviatedTargetY) / projectileSpeed);
 
         animations.add(animation);
