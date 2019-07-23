@@ -67,15 +67,21 @@ public class PathFinder implements PathFinderInterface {
      * Re-finds the given object's path to it's destination
      *
      * @param object object to find the path for
+     * @param maxObstacleDistance the maximum distance the algorithm can cover to avoid an obstacle
      */
     @Override
-    public void refindPathToObject(Unit object) {
+    public void refindPathToObject(Unit object, float maxObstacleDistance) {
+        float globalMaxDistance = this.maxObstacleDistance;
+        this.maxObstacleDistance = maxObstacleDistance;
+
         for (PathGroup group: groups) {
             if (group.foundPaths.containsKey(object)) {
                 depthFirst(object, (short) group.foundPaths.get(object).getLast().x, (short) group.foundPaths.get(object).getLast().y);
                 break;
             }
         }
+
+        this.maxObstacleDistance = globalMaxDistance;
     }
 
     /**

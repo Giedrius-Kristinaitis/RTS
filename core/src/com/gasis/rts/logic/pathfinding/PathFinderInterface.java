@@ -31,8 +31,9 @@ public interface PathFinderInterface {
      * Re-finds the given object's path to it's destination
      *
      * @param object object to find the path for
+     * @param maxObstacleDistance the maximum distance the algorithm can cover when avoiding an obstacle
      */
-    void refindPathToObject(Unit object);
+    void refindPathToObject(Unit object, float maxObstacleDistance);
 
     /**
      * Creates a new path group
