@@ -11,7 +11,6 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.production.UnitProducer;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
-import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
