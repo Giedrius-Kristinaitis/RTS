@@ -407,7 +407,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param listener listener to add
      */
     public void addTargetReachedListener(TargetReachListener listener) {
-        firingLogic.addTargetReachedListener(listener);
+        if (firingLogic != null) {
+            firingLogic.addTargetReachedListener(listener);
+        }
     }
 
     /**
@@ -416,7 +418,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param listener listener to remove
      */
     public void removeTargetReachListener(TargetReachListener listener) {
-        firingLogic.removeTargetReachListener(listener);
+        if (firingLogic != null) {
+            firingLogic.removeTargetReachListener(listener);
+        }
     }
 
     /**

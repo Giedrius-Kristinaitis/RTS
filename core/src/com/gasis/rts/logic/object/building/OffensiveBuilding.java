@@ -40,7 +40,13 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * @param listener listener to add
      */
     public void addTargetReachedListener(TargetReachListener listener) {
-        firingLogic.addTargetReachedListener(listener);
+        if (firingLogic != null) {
+            firingLogic.addTargetReachedListener(listener);
+        }
+
+        for (RotatingGun gun: rotatingGuns.values()) {
+            gun.addTargetReachedListener(listener);
+        }
     }
 
     /**
@@ -49,7 +55,13 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * @param listener listener to remove
      */
     public void removeTargetReachListener(TargetReachListener listener) {
-        firingLogic.removeTargetReachListener(listener);
+        if (firingLogic != null) {
+            firingLogic.removeTargetReachListener(listener);
+        }
+
+        for (RotatingGun gun: rotatingGuns.values()) {
+            gun.removeTargetReachListener(listener);
+        }
     }
 
     /**
