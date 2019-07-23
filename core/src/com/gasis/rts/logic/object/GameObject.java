@@ -5,6 +5,7 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -20,7 +21,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     protected Long id;
 
     // the id of the player who owns this object
-    protected Long ownerId;
+    protected Player owner;
 
     // the name of the texture atlas to which the object's texture(s) belongs
     protected String atlas;
@@ -142,23 +143,6 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * Gets the id of the object's owner
-     * @return
-     */
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    /**
-     * Sets the id of the object's owner
-     *
-     * @param ownerId new owner's id
-     */
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
     }
 
     /**
@@ -381,5 +365,22 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public void setControlContextName(String controlContextName) {
         this.controlContextName = controlContextName;
+    }
+
+    /**
+     * Sets the owner of the object
+     *
+     * @param owner new owner
+     */
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Gets the owner of the object
+     * @return
+     */
+    public Player getOwner() {
+        return owner;
     }
 }

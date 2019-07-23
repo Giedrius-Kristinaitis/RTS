@@ -61,9 +61,6 @@ public class Building extends GameObject implements UnitProducer {
     // production/research progress
     protected float progress = 0f;
 
-    // the player that owns the building
-    protected Player owner;
-
     // is the building currently being constructed
     protected boolean beingConstructed = false;
 
@@ -218,6 +215,7 @@ public class Building extends GameObject implements UnitProducer {
         unit.setCenterY(spawn.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
 
         owner.addUnit(unit);
+        unit.setOwner(owner);
 
         map.occupyBlock((short) spawn.x, (short) spawn.y, unit);
 
@@ -502,14 +500,5 @@ public class Building extends GameObject implements UnitProducer {
         }
 
         return spawnPoint;
-    }
-
-    /**
-     * Sets the owner of the building
-     *
-     * @param owner new owner
-     */
-    public void setOwner(Player owner) {
-        this.owner = owner;
     }
 }

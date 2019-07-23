@@ -62,12 +62,12 @@ public class BuildingSelector extends Selector {
         GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
         if (occupyingObject instanceof Building) {
-            if (!((Building) occupyingObject).isBeingConstructed()) {
+            if (!((Building) occupyingObject).isBeingConstructed() && occupyingObject.getOwner() == player) {
                 selectBuilding((Building) occupyingObject);
             }
         }
     }
-
+    
     /**
      * Selects the specified building if it belongs to the controlled player
      *
