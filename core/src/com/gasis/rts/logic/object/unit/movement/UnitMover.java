@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.unit.movement;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.pathfinding.PathFinderInterface;
@@ -272,9 +273,13 @@ public class UnitMover implements Updatable, MovementListener {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
 
                         if (nextPathPoint != null && !unit.isRotating()) {
-                            if (!map.isBlockOccupied((short) nextPathPoint.x, (short) nextPathPoint.y) || map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y) == unit) {
+                            GameObject occupyingObject = map.getOccupyingObject((short) nextPathPoint.x, (short) nextPathPoint.y);
+                            Unit occupyingUnit = occupyingObject instanceof Unit ? (Unit) occupyingObject : null;
+
+                            if (occupyingObject == null || occupyingUnit == unit) {
                                 unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
-                            } else {
+                            } else if (occupyingUnit == null || !occupyingUnit.isMoving()) {
+
                                 pathFinder.refindPathToObject(unit);
                                 anyGroupUnitMoved = true;
                             }

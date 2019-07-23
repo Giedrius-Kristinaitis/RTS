@@ -43,6 +43,14 @@ public interface PathFinderInterface {
     void newGroup(Iterable<Unit> units);
 
     /**
+     * Gets the specified unit's destination point
+     *
+     * @param unit unit to get destination for
+     * @return
+     */
+    Point getDestination(Unit unit);
+
+    /**
      * Gets the next point from the given object's path
      *
      * @param object object to get the next point for

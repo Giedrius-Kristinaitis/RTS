@@ -5,6 +5,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.MathUtils;
+import com.gasis.rts.math.Point;
 
 import java.util.*;
 
@@ -72,7 +73,7 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public void refindPathToObject(Unit object, float maxObstacleDistance) {
         float globalMaxDistance = this.maxObstacleDistance;
-        this.maxObstacleDistance = maxObstacleDistance;
+        this.maxObstacleDistance = maxObstacleDistance > 0 ? maxObstacleDistance : globalMaxDistance;
 
         for (PathGroup group: groups) {
             if (group.foundPaths.containsKey(object)) {
@@ -82,6 +83,23 @@ public class PathFinder implements PathFinderInterface {
         }
 
         this.maxObstacleDistance = globalMaxDistance;
+    }
+
+    /**
+     * Gets the specified unit's destination point
+     *
+     * @param unit unit to get destination for
+     * @return
+     */
+    @Override
+    public Point getDestination(Unit unit) {
+        for (PathGroup group: groups) {
+            if (group.foundPaths.containsKey(unit)) {
+                return group.foundPaths.get(unit).getLast();
+            }
+        }
+
+        return null;
     }
 
     /**
