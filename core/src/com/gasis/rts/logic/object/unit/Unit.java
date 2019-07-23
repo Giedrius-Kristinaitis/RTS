@@ -832,7 +832,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
-        if (rotatingToDirection != NONE && timeSinceLastRotation >= 2f / offensiveSpecs.getSpeed()) {
+        if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / offensiveSpecs.getSpeed()) {
             byte directionDiff = (byte) Math.abs(facingDirection - rotatingToDirection);
 
             byte directionIncrement = (byte) (facingDirection - rotatingToDirection < 0 ? 1 : -1);
