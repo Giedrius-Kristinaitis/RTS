@@ -67,7 +67,28 @@ public class BuildingSelector extends Selector {
             }
         }
     }
-    
+
+    /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     */
+    @Override
+    public void touchUp(float x, float y, int pointer, int button) {
+        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+        if (occupyingObject instanceof Building) {
+            if (occupyingObject != selectedBuilding) {
+                deselectBuilding();
+            }
+        } else {
+            deselectBuilding();
+        }
+    }
+
     /**
      * Selects the specified building if it belongs to the controlled player
      *
