@@ -25,6 +25,9 @@ public class PathFinder implements PathFinderInterface {
     // path groups to be removed from the group set
     protected List<PathGroup> groupsToRemove = new ArrayList<PathGroup>();
 
+    // the maximum allowed distance the algorithm can cover to avoid an obstacle
+    protected float maxObstacleDistance;
+
     /**
      * Default class constructor
      *
@@ -32,6 +35,8 @@ public class PathFinder implements PathFinderInterface {
      */
     public PathFinder(BlockMap map) {
         this.map = map;
+
+        maxObstacleDistance = Math.max(20, Math.min(map.getWidth(), map.getHeight()) / 10);
     }
 
     /**
@@ -133,9 +138,25 @@ public class PathFinder implements PathFinderInterface {
         List<Point> visitedPointsInOrder = new ArrayList<Point>();
         List<Point> neighbours = new ArrayList<Point>();
 
+        processedPoint.distanceToDestination = MathUtils.distance(processedPoint.x, destination.x, processedPoint.y, destination.y);
+
+        float lastDistanceToDestination = Float.MAX_VALUE;
+        Point closestToDestination = processedPoint;
+
         while (true) {
+            if (processedPoint.distanceToDestination > lastDistanceToDestination && processedPoint.distanceToDestination > maxObstacleDistance) {
+                // stop the algorithm to avoid searching very large amounts of blocks
+                break;
+            }
+
             visitedPoints.add(processedPoint);
             visitedPointsInOrder.add(processedPoint);
+
+            lastDistanceToDestination = processedPoint.distanceToDestination;
+
+            if (processedPoint.distanceToDestination < closestToDestination.distanceToDestination) {
+                closestToDestination = processedPoint;
+            }
 
             if (processedPoint.equals(destination)) {
                 break;
@@ -173,12 +194,12 @@ public class PathFinder implements PathFinderInterface {
         }
 
         // form the path
-        Deque<Point> path = null;
+        Deque<Point> path;
 
-        if (processedPoint.equals(destination)) {
-            path = formPath(visitedPointsInOrder, visitedPoints);
+        if (processedPoint == destination) {
+            path = formPath(visitedPointsInOrder, visitedPoints, visitedPointsInOrder.size() - 1);
         } else {
-            path = formPath(firstDeadEnd);
+            path = formPath(visitedPointsInOrder, visitedPoints, visitedPointsInOrder.indexOf(closestToDestination));
         }
 
         newestGroup.foundPaths.put(object, path);
@@ -189,18 +210,20 @@ public class PathFinder implements PathFinderInterface {
      *
      * @param visitedPointsInOrder all points visited by the path finding algorithm in order from first to last
      * @param allVisitedPoints all points visited by the algorithm in random order (used for quicker searching)
+     * @param visitedPointIndex the index in visited point list up to which to construct the path
+     *
      * @return
      */
-    protected Deque<Point> formPath(List<Point> visitedPointsInOrder, Set<Point> allVisitedPoints) {
+    protected Deque<Point> formPath(List<Point> visitedPointsInOrder, Set<Point> allVisitedPoints, int visitedPointIndex) {
         Deque<Point> path = new LinkedList<Point>();
 
-        Point current = visitedPointsInOrder.get(visitedPointsInOrder.size() - 1);
+        Point current = visitedPointsInOrder.get(visitedPointIndex);
 
         path.push(current);
 
         List<Point> neighbours = new ArrayList<Point>();
 
-        for (int i = visitedPointsInOrder.size() - 2; i >= 0; i--) {
+        for (int i = visitedPointIndex - 1; i >= 0; i--) {
             Point next = visitedPointsInOrder.get(i);
 
             addNeighboursToList(neighbours, current);
@@ -221,24 +244,6 @@ public class PathFinder implements PathFinderInterface {
 
         // remove first visited point because the unit is already in that point
         path.pop();
-
-        return path;
-    }
-
-    /**
-     * Forms a path between two points
-     *
-     * @param destination end point
-     */
-    protected Deque<Point> formPath(Point destination) {
-        Deque<Point> path = new LinkedList<Point>();
-
-        Point current = destination;
-
-        while (current.lastPoint != null) {
-            path.push(current);
-            current = current.lastPoint;
-        }
 
         return path;
     }
@@ -287,6 +292,10 @@ public class PathFinder implements PathFinderInterface {
                     next = neighbor;
                 }
             }
+        }
+
+        if (next != null) {
+            next.distanceToDestination = minDistance;
         }
 
         return next;
@@ -406,11 +415,13 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
-     * A point extension that has the last visited point attached to it
+     * A point extension that has the last visited point
+     * and the distance to the destination point attached to it
      */
     protected class Point extends com.gasis.rts.math.Point {
 
         protected Point lastPoint;
+        protected float distanceToDestination;
 
         protected Point(float x, float y) {
             super(x, y);
