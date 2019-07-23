@@ -35,6 +35,24 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Adds a target reach listener
+     *
+     * @param listener listener to add
+     */
+    public void addTargetReachedListener(TargetReachListener listener) {
+        firingLogic.addTargetReachedListener(listener);
+    }
+
+    /**
+     * Removes a target reach listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetReachListener(TargetReachListener listener) {
+        firingLogic.removeTargetReachListener(listener);
+    }
+
+    /**
      * Gets damage value
      *
      * @return

@@ -290,6 +290,24 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Adds a target reach listener
+     *
+     * @param listener listener to add
+     */
+    public void addTargetReachedListener(TargetReachListener listener) {
+        firingLogic.addTargetReachedListener(listener);
+    }
+
+    /**
+     * Removes a target reach listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetReachListener(TargetReachListener listener) {
+        firingLogic.removeTargetReachListener(listener);
+    }
+
+    /**
      * Sets the firing logic for the gun
      *
      * @param firingLogic new firing logic
