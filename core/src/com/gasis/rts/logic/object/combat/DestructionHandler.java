@@ -59,7 +59,7 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
         float offsetX = targetX - blockX * Block.BLOCK_WIDTH;
         float offsetY = targetY - blockY * Block.BLOCK_HEIGHT;
 
-        float textureScale = 1;
+        float textureScale = 1.2f;
 
         String craterTexture = "";
 
@@ -67,7 +67,7 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
             craterTexture = Constants.LARGE_CRATER_PREFIX + random.nextInt(Constants.LARGE_CRATER_COUNT);
 
             if (scale == FireSource.MEDIUM) {
-                textureScale = Math.min(1 , 0.75f + random.nextFloat());
+                textureScale = Math.min(1.2f , 0.75f + random.nextFloat());
             }
         } else if (scale == FireSource.SMALL) {
             craterTexture = Constants.SMALL_CRATER_PREFIX + random.nextInt(Constants.SMALL_CRATER_COUNT);
