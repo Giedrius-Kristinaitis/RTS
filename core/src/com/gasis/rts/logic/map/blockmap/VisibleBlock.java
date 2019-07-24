@@ -32,6 +32,14 @@ public class VisibleBlock extends Block implements Renderable {
     }
 
     /**
+     * Gets the number of images on this block
+     * @return
+     */
+    public int imageCount() {
+        return images.size();
+    }
+
+    /**
      * Gets the image that is at the bottom
      * @return
      */
