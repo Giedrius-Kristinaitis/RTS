@@ -44,10 +44,9 @@ public class BlockMap implements Map {
      * @param blockY block y
      * @param offsetX crater texture's offset in x axis
      * @param offsetY crater texture's offset in y axis
-     * @param rotation crater texture's rotation in degrees
      * @param scale crater texture's scale
      */
-    public void addCrater(String craterTexture, short blockX, short blockY, float offsetX, float offsetY, float scale, float rotation) {
+    public void addCrater(String craterTexture, short blockX, short blockY, float offsetX, float offsetY, float scale) {
         if (blockX < 0 || blockY < 0 || blockX >= width || blockY >= height) {
             return;
         }
@@ -69,7 +68,10 @@ public class BlockMap implements Map {
         image.offsetY = offsetY;
         image.offsetX = offsetX;
         image.scale = scale;
-        image.rotation = rotation;
+        image.width = Block.BLOCK_WIDTH;
+        image.height = Block.BLOCK_HEIGHT;
+        image.offsetX -= Block.BLOCK_WIDTH / 2f;
+        image.offsetY -= Block.BLOCK_HEIGHT / 2f;
 
         if (visibleBlock.imageCount() >= MAX_CRATERS_ON_ONE_BLOCK) {
             visibleBlock.removeBottomImage();
