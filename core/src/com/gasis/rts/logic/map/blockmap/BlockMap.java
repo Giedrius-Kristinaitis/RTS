@@ -21,6 +21,9 @@ public class BlockMap implements Map {
     // the first (bottom) layer is always the ground layer on which occupying objects are set
     protected Deque<BlockMapLayer> layers = new LinkedList<BlockMapLayer>();
 
+    // how many craters can exist on a single block at any time
+    protected final int MAX_CRATERS_ON_ONE_BLOCK = 2;
+
     /**
      * Initializes an empty map
      *
@@ -30,6 +33,46 @@ public class BlockMap implements Map {
     public BlockMap(short width, short height) {
         this.width = width;
         this.height = height;
+    }
+
+    /**
+     * Adds a crater to the specified block
+     *
+     * @param craterTexture name of the crater's texture
+     * @param blockX block x
+     * @param blockY block y
+     * @param offsetX crater texture's offset in x axis
+     * @param offsetY crater texture's offset in y axis
+     * @param rotation crater texture's rotation in degrees
+     * @param scale crater texture's scale
+     */
+    public void addCrater(String craterTexture, short blockX, short blockY, float offsetX, float offsetY, float scale, float rotation) {
+        if (blockX < 0 || blockY < 0 || blockX >= width || blockY >= height) {
+            return;
+        }
+
+        BlockMapLayer craterLayer = (BlockMapLayer) getLayerByName("craters");
+        Block block = craterLayer.getBlock(blockX, blockY);
+        VisibleBlock visibleBlock;
+
+        if (!(block instanceof VisibleBlock)) {
+            visibleBlock = new VisibleBlock();
+        } else {
+            visibleBlock = (VisibleBlock) block;
+        }
+
+        BlockImage image = new BlockImage();
+        image.texture = craterTexture;
+        image.offsetY = offsetY;
+        image.offsetX = offsetX;
+        image.scale = scale;
+        image.rotation = rotation;
+
+        if (visibleBlock.imageCount() >= MAX_CRATERS_ON_ONE_BLOCK) {
+            visibleBlock.removeBottomImage();
+        }
+
+        visibleBlock.addImage(image, false);
     }
 
     /**
