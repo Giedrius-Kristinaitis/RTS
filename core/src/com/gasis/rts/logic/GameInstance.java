@@ -93,7 +93,7 @@ public class GameInstance implements Updatable {
         mapZoomer = new BlockMapZoomer();
 
         // initialize destruction handler
-        destructionHandler = new DestructionHandler();
+        destructionHandler = new DestructionHandler(map);
 
         // create some test players
         Player one = new Player(destructionHandler);

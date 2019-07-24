@@ -3,12 +3,24 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.resources.Resources;
 
 /**
  * Handles game object destruction
  */
 public class DestructionHandler implements TargetReachListener, Renderable, Updatable {
+
+    // the game's map
+    protected BlockMap map;
+
+    /**
+     * Default class constructor
+     * @param map
+     */
+    public DestructionHandler(BlockMap map) {
+        this.map = map;
+    }
 
     /**
      * Gets called when a projectile reaches it's target
