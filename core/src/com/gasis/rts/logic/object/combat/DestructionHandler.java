@@ -21,7 +21,7 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
      */
     @Override
     public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale) {
-        
+
     }
 
     /**
