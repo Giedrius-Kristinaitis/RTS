@@ -32,6 +32,13 @@ public class VisibleBlock extends Block implements Renderable {
     }
 
     /**
+     * Removes the bottom image from the block
+     */
+    public void removeBottomImage() {
+        images.removeFirst();
+    }
+
+    /**
      * Gets the number of images on this block
      * @return
      */
