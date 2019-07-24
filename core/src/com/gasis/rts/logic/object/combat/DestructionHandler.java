@@ -17,10 +17,11 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
      * @param targetY   y coordinate of the target
      * @param damage    the damage caused by the projectile
      * @param explosive is the projectile that reached the target explosive or not
+     * @param scale     the scale of the projectile
      */
     @Override
-    public void targetReached(float targetX, float targetY, float damage, boolean explosive) {
-
+    public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale) {
+        
     }
 
     /**

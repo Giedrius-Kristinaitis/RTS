@@ -12,6 +12,7 @@ public interface TargetReachListener {
      * @param targetY y coordinate of the target
      * @param damage the damage caused by the projectile
      * @param explosive is the projectile that reached the target explosive or not
+     * @param scale the scale of the projectile
      */
-    void targetReached(float targetX, float targetY, float damage, boolean explosive);
+    void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale);
 }

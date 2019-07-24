@@ -287,7 +287,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
                 projectileExplosive = true;
             }
 
-            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage(), projectileExplosive);
+            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage(), projectileExplosive, projectileScale);
         }
     }
 
