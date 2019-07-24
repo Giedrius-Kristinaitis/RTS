@@ -57,6 +57,7 @@ public class BlockMap implements Map {
 
         if (!(block instanceof VisibleBlock)) {
             visibleBlock = new VisibleBlock();
+            craterLayer.addBlock(visibleBlock, blockX, blockY);
         } else {
             visibleBlock = (VisibleBlock) block;
         }
