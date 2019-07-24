@@ -2,11 +2,8 @@ package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
-import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.resources.Resources;
-
-import java.util.Iterator;
 
 /**
  * Renders a block map to the screen
@@ -37,9 +34,9 @@ public class BlockMapRenderer implements MapRenderer {
         short windowWidth = (short) Math.min(map.getWidth() - windowX, (short) renderWidth + 6);
         short windowHeight = (short) Math.min(map.getHeight() - windowY, (short) renderHeight + 6);
 
-        for (short x = windowX; x < windowX + windowWidth; x++) {
-            for (short y = windowY; y < windowY + windowHeight; y++) {
-                for (BlockMapLayer layer: map.getLayers()) {
+        for (BlockMapLayer layer: map.getLayers()) {
+            for (short x = windowX; x < windowX + windowWidth; x++) {
+                for (short y = windowY; y < windowY + windowHeight; y++) {
                     Block block = layer.getBlock(x, y);
 
                     if (block == null) {
