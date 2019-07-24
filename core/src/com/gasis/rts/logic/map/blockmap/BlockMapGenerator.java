@@ -56,6 +56,7 @@ public class BlockMapGenerator implements MapGenerator {
 
             // create map layers
             map.addMapLayer(new BlockMapLayer("terrain_1", (short) map.getWidth(), (short) map.getHeight()), true);
+            map.addMapLayer(new BlockMapLayer("craters", (short) map.getWidth(), (short) map.getHeight()), false);
 
             // read map commands and generate a map based on them
             // look at the beginning of the file to see the command format
