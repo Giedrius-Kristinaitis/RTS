@@ -22,7 +22,7 @@ public class Constants {
 
     // global textures
     public static final String GENERAL_TEXTURE_ATLAS = "atl/general.atlas";
-    public static final String CRATER_TEXTURE_ATLAS = "atl/craters.atlas";
+    public static final String CRATER_TEXTURE_ATLAS = "craters.atlas";
     public static final String LARGE_CRATER_PREFIX = "large_crater_";
     public static final String SMALL_CRATER_PREFIX = "small_crater_";
     public static final int LARGE_CRATER_COUNT = 4;
