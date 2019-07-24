@@ -3,6 +3,7 @@ package com.gasis.rts.logic.map.blockmap;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.utils.Constants;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -63,6 +64,7 @@ public class BlockMap implements Map {
         }
 
         BlockImage image = new BlockImage();
+        image.atlas = Constants.CRATER_TEXTURE_ATLAS;
         image.texture = craterTexture;
         image.offsetY = offsetY;
         image.offsetX = offsetX;

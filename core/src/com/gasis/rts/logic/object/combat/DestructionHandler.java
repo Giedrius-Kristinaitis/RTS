@@ -3,8 +3,12 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
+
+import java.util.Random;
 
 /**
  * Handles game object destruction
@@ -13,6 +17,9 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
 
     // the game's map
     protected BlockMap map;
+
+    // used to generate random data
+    protected final Random random = new Random();
 
     /**
      * Default class constructor
@@ -33,7 +40,43 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
      */
     @Override
     public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale) {
+        if (explosive) {
+            createCrater(targetX, targetY, scale);
+        }
+    }
 
+    /**
+     * Creates a new crater and adds it to the map
+     *
+     * @param targetX target x
+     * @param targetY target y
+     * @param scale projectile's scale
+     */
+    protected void createCrater(float targetX, float targetY, byte scale) {
+        short blockX = (short) (targetX / Block.BLOCK_WIDTH);
+        short blockY = (short) (targetY / Block.BLOCK_HEIGHT);
+
+        float offsetX = targetX - blockX * Block.BLOCK_WIDTH;
+        float offsetY = targetY - blockY * Block.BLOCK_HEIGHT;
+
+        float rotation = random.nextFloat() * 360;
+        float textureScale = 1;
+
+        String craterTexture = "";
+
+        if (scale == FireSource.HEAVY || scale == FireSource.MEDIUM) {
+            craterTexture = Constants.LARGE_CRATER_PREFIX + random.nextInt(Constants.LARGE_CRATER_COUNT);
+
+            if (scale == FireSource.MEDIUM) {
+                textureScale = Math.min(1 , 0.75f + random.nextFloat());
+            } else {
+                textureScale = Math.min(1.5f, 1 + random.nextFloat());
+            }
+        } else if (scale == FireSource.SMALL) {
+            craterTexture = Constants.SMALL_CRATER_PREFIX + random.nextInt(Constants.SMALL_CRATER_COUNT);
+        }
+
+        map.addCrater(craterTexture, blockX, blockY, offsetX, offsetY, rotation, textureScale);
     }
 
     /**
