@@ -83,7 +83,7 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
             neighbourObjects.add(map.getOccupyingObject((short) (x - 1), y));
             neighbourObjects.add(map.getOccupyingObject((short) (x - 1), (short) (y + 1)));
 
-            for (GameObject object : neighbourObjects) {
+            for (GameObject object: neighbourObjects) {
                 if (object != null && object != occupyingObject) {
                     object.doDamage(damage * 0.25f);
                 }
