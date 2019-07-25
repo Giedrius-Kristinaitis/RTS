@@ -302,7 +302,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         float deviatedTargetX = targetX + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
         float deviatedTargetY = targetY + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
 
-        ProjectileAnimation animation = createProjectileAnimation(facingDirection, deviatedTargetX, deviatedTargetY);
+        boolean explosive = fireType == FIRE_TYPE_MISSILE || fireType == FIRE_TYPE_SHELL;
+
+        ProjectileAnimation animation = createProjectileAnimation(facingDirection, deviatedTargetX, deviatedTargetY, explosive);
         animation.addProjectileAnimationFinishListener(this);
         animation.setFlightTime(MathUtils.distance(x, deviatedTargetX, y, deviatedTargetY) / projectileSpeed);
 
@@ -315,18 +317,19 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * @param facingDirection the direction the firing thing is facing
      * @param targetX x coordinate of the target
      * @param targetY y coordinate of the target
+     * @param explosiveEnd is the end animation an explosion
      * @return
      */
-    protected ProjectileAnimation createProjectileAnimation(byte facingDirection, float targetX, float targetY) {
+    protected ProjectileAnimation createProjectileAnimation(byte facingDirection, float targetX, float targetY, boolean explosiveEnd) {
         ProjectileAnimation animation = null;
         float scale = 0;
 
         switch (projectileScale) {
             case SMALL:
-                scale = 0.5f;
+                scale = 0.75f;
                 break;
             case MEDIUM:
-                scale = 0.75f;
+                scale = 0.875f;
                 break;
             case HEAVY:
                 scale = 1f;
@@ -350,7 +353,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
                 throw new RuntimeException("Invalid fire/projectile type");
         }
 
-        animation.setTrajectory(x, y, targetX, targetY);
+        animation.setTrajectory(x, y, targetX, targetY, explosiveEnd);
 
         return animation;
     }

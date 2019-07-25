@@ -55,10 +55,6 @@ public class MissileAnimation extends ProjectileAnimation {
      * @param explosionScale scale of the explosion
      */
     private void initialize(float missileScale, float explosionScale) {
-        endAnimation.setInitialScale(explosionScale);
-        endAnimation.setFinalScale(explosionScale);
-        endAnimation.setScale(explosionScale);
-
         fireAnimation.setScale(missileScale);
         fireAnimation.setInitialScale(missileScale);
         fireAnimation.setFinalScale(missileScale);

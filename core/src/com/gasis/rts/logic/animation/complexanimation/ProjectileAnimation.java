@@ -127,7 +127,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      * @param targetX target x coordinate
      * @param targetY target y coordinate
      */
-    public void setTrajectory(float x, float y, float targetX, float targetY) {
+    public void setTrajectory(float x, float y, float targetX, float targetY, boolean explosiveEnd) {
         projectile.setInitialCenterX(x);
         projectile.setInitialCenterY(y);
 
@@ -146,14 +146,25 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
         fireAnimation.setInitialCenterX(x);
         fireAnimation.setInitialCenterY(y);
 
-        endAnimation.setCenterX(targetX);
-        endAnimation.setCenterY(targetY);
+        if (explosiveEnd) {
+            endAnimation.setCenterX(targetX);
+            endAnimation.setY(targetY - 0.4f);
 
-        endAnimation.setInitialCenterX(targetX);
-        endAnimation.setInitialCenterY(targetY);
+            endAnimation.setInitialCenterX(targetX);
+            endAnimation.setInitialY(targetY - 0.4f);
 
-        endAnimation.setFinalCenterX(targetX);
-        endAnimation.setFinalCenterY(targetY);
+            endAnimation.setFinalCenterX(targetX);
+            endAnimation.setFinalY(targetY - 0.4f);
+        } else {
+            endAnimation.setCenterX(targetX);
+            endAnimation.setCenterY(targetY);
+
+            endAnimation.setInitialCenterX(targetX);
+            endAnimation.setInitialCenterY(targetY);
+
+            endAnimation.setFinalCenterX(targetX);
+            endAnimation.setFinalCenterY(targetY);
+        }
 
         // rotate projectile to match the moving direction
         rotateProjectile(x, y, targetX, targetY);
