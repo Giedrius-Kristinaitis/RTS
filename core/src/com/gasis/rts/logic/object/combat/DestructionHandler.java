@@ -5,9 +5,12 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -20,6 +23,10 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
 
     // used to generate random data
     protected final Random random = new Random();
+
+    // used to store a game object's neighbour objects if there are any (done to avoid
+    // creating new instance every time)
+    protected List<GameObject> neighbourObjects = new ArrayList<GameObject>();
 
     /**
      * Default class constructor
@@ -42,6 +49,45 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
     public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale) {
         if (explosive) {
             createCrater(targetX, targetY, scale);
+        }
+
+        dealDamage((short) (targetX / Block.BLOCK_WIDTH), (short) (targetY / Block.BLOCK_HEIGHT), damage, explosive);
+    }
+
+    /**
+     * Deals damage to the specified block and if the projectile is explosive, deals
+     * damage to nearby blocks
+     *
+     * @param x target's block x
+     * @param y target's block y
+     * @param damage damage dealt by the projectile
+     * @param explosive is the projectile explosive
+     */
+    protected void dealDamage(short x, short y, float damage, boolean explosive) {
+        GameObject occupyingObject = map.getOccupyingObject(x, y);
+
+        if (occupyingObject != null) {
+            occupyingObject.doDamage(damage);
+        }
+
+        // also do damage to nearby objects
+        if (explosive) {
+            neighbourObjects.clear();
+
+            neighbourObjects.add(map.getOccupyingObject(x, (short) (y + 1)));
+            neighbourObjects.add(map.getOccupyingObject((short) (x + 1), (short) (y + 1)));
+            neighbourObjects.add(map.getOccupyingObject((short) (x + 1), y));
+            neighbourObjects.add(map.getOccupyingObject((short) (x + 1), (short) (y - 1)));
+            neighbourObjects.add(map.getOccupyingObject(x, (short) (y - 1)));
+            neighbourObjects.add(map.getOccupyingObject((short) (x - 1), (short) (y - 1)));
+            neighbourObjects.add(map.getOccupyingObject((short) (x - 1), y));
+            neighbourObjects.add(map.getOccupyingObject((short) (x - 1), (short) (y + 1)));
+
+            for (GameObject object : neighbourObjects) {
+                if (object != null && object != occupyingObject) {
+                    object.doDamage(damage * 0.25f);
+                }
+            }
         }
     }
 

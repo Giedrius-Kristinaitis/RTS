@@ -108,7 +108,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     @Override
     public void doDamage(float attack) {
-        hp -= attack / defensiveSpecs.getDefence();
+        hp = Math.max(0, hp - attack / (defensiveSpecs.getDefence() + 1));
     }
 
     /**
