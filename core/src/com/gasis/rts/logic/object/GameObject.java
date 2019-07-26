@@ -366,6 +366,11 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     public abstract boolean canBeRemoved();
 
     /**
+     * De-occupies the objects occupied block
+     */
+    public abstract void deoccupyBlocks();
+
+    /**
      * Renders the object's hp bar
      *
      * @param batch sprite batch to draw to

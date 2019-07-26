@@ -75,6 +75,8 @@ public class Player implements DestructionListener, Updatable {
                 buildingsToRemove.add((Building) object);
             }
         }
+
+        object.deoccupyBlocks();
     }
 
     /**

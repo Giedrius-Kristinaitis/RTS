@@ -150,6 +150,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * De-occupies the unit's occupied block
+     */
+    @Override
+    public void deoccupyBlocks() {
+
+    }
+
+    /**
      * Checks if the object can be safely removed from object list
      *
      * @return

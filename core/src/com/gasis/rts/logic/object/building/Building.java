@@ -320,6 +320,14 @@ public class Building extends GameObject implements UnitProducer {
     }
 
     /**
+     * De-occupies the building's occupied blocks
+     */
+    @Override
+    public void deoccupyBlocks() {
+        
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render
