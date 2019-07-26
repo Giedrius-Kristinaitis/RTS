@@ -324,6 +324,13 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void deoccupyBlocks() {
+
+    }
+
+    /**
+     * Occupies blocks on the map
+     */
+    public void occupyBlocks() {
         
     }
 

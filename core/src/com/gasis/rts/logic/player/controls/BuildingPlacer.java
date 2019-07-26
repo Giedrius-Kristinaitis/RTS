@@ -120,16 +120,11 @@ public class BuildingPlacer implements Renderable {
         if (placing && canPlaceInCurrentPosition()) {
             Building building = loader.newInstance();
 
-            for (short x = (short) (buildingX / Block.BLOCK_WIDTH); x < buildingX / Block.BLOCK_WIDTH + building.getWidthInBlocks(); x++) {
-                for (short y = (short) (buildingY / Block.BLOCK_HEIGHT); y < buildingY / Block.BLOCK_HEIGHT + building.getHeightInBlocks(); y++) {
-                    map.occupyBlock(x, y, building);
-                }
-            }
-
             building.setCenterX(buildingCenterX);
             building.setY(buildingY);
             building.setXInBlocks((short) (buildingX / Block.BLOCK_WIDTH));
             building.setYInBlocks((short) (buildingY / Block.BLOCK_HEIGHT));
+            building.occupyBlocks();
             building.initializeAnimations();
 
             player.addBuilding(building);
