@@ -154,7 +154,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void deoccupyBlocks() {
+        short blockX = (short) (getCenterX() / Block.BLOCK_WIDTH);
+        short blockY = (short) (getCenterY() / Block.BLOCK_HEIGHT);
 
+        map.occupyBlock(blockX, blockY, null);
     }
 
     /**
