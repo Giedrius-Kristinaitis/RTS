@@ -23,7 +23,7 @@ public class BlockMap implements Map {
     protected Deque<BlockMapLayer> layers = new LinkedList<BlockMapLayer>();
 
     // how many craters can exist on a single block at any time
-    protected final int MAX_CRATERS_ON_ONE_BLOCK = 2;
+    protected final int MAX_CRATERS_ON_ONE_BLOCK = 3;
 
     /**
      * Initializes an empty map
