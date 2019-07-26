@@ -156,6 +156,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public boolean canBeRemoved() {
+        if (firingLogic != null) {
+            return firingLogic.canBeRemoved();
+        }
 
         return true;
     }

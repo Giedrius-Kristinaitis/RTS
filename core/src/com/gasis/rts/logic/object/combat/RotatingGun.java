@@ -96,6 +96,18 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Checks if the gun can be removed
+     * @return
+     */
+    public boolean canBeRemoved() {
+        if (firingLogic != null) {
+            return firingLogic.canBeRemoved();
+        }
+
+        return true;
+    }
+
+    /**
      * Sets the current gun's presence
      *
      * @param currentlyPresent new presence value

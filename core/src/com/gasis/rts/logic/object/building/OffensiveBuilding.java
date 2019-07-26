@@ -35,6 +35,26 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Checks if the object can be safely removed from object list
+     *
+     * @return
+     */
+    @Override
+    public boolean canBeRemoved() {
+        if (!super.canBeRemoved()) {
+            return false;
+        } else {
+            for (RotatingGun gun: rotatingGuns.values()) {
+                if (!gun.canBeRemoved()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Adds a target reach listener
      *
      * @param listener listener to add

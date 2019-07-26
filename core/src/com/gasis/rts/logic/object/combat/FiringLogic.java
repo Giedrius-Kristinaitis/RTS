@@ -55,6 +55,15 @@ public class FiringLogic implements Renderable {
     private List<String> fireSourceNames = new ArrayList<String>();
 
     /**
+     * Checks if the firing logic can be removed (all projectile animations have finished)
+     * @return
+     */
+    public boolean canBeRemoved() {
+
+        return true;
+    }
+
+    /**
      * Adds a target reach listener to the fire sources
      *
      * @param listener listener to add

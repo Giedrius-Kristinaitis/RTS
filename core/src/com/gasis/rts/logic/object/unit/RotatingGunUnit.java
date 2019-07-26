@@ -37,6 +37,26 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Checks if the object can be safely removed from object list
+     *
+     * @return
+     */
+    @Override
+    public boolean canBeRemoved() {
+        if (super.canBeRemoved()) {
+            for (RotatingGun gun: guns.values()) {
+                if (!gun.canBeRemoved()) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Rotates the unit if required in order for it to face the specified direction
      *
      * @param facingDirection new facing direction
