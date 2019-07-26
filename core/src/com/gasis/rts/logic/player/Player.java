@@ -226,6 +226,7 @@ public class Player implements DestructionListener, Updatable {
     protected void removeUnits() {
         for (int i = 0; i < unitsToRemove.size(); i++) {
             if (unitsToRemove.get(i).canBeRemoved()) {
+                unitsToRemove.get(i).removeDestructionListener(this);
                 unitsToRemove.remove(i--);
             }
         }
@@ -237,7 +238,9 @@ public class Player implements DestructionListener, Updatable {
     protected void removeBuildings() {
         for (int i = 0; i < buildingsToRemove.size(); i++) {
             if (buildingsToRemove.get(i).canBeRemoved()) {
-                buildingsToRemove.remove(i--);
+                buildingsToRemove.get(i).removeDestructionListener(this);
+                buildingsToRemove.remove(i);
+                i--;
             }
         }
     }
