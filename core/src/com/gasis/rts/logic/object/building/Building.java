@@ -324,14 +324,28 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void deoccupyBlocks() {
+        int blockCenterX = (int) (getCenterX() / Block.BLOCK_WIDTH);
+        int blockCenterY = (int) (getCenterY() / Block.BLOCK_HEIGHT);
 
+        for (int x = blockCenterX - widthInBlocks / 2; x < blockCenterX + widthInBlocks / 2; x++) {
+            for (int y = blockCenterY - heightInBlocks / 2; y < blockCenterY + heightInBlocks / 2; y++) {
+                map.occupyBlock((short) x, (short) y, null);
+            }
+        }
     }
 
     /**
      * Occupies blocks on the map
      */
     public void occupyBlocks() {
-        
+        int blockCenterX = (int) (getCenterX() / Block.BLOCK_WIDTH);
+        int blockCenterY = (int) (getCenterY() / Block.BLOCK_HEIGHT);
+
+        for (int x = blockCenterX - widthInBlocks / 2; x < blockCenterX + widthInBlocks / 2; x++) {
+            for (int y = blockCenterY - heightInBlocks / 2; y < blockCenterY + heightInBlocks / 2; y++) {
+                map.occupyBlock((short) x, (short) y, this);
+            }
+        }
     }
 
     /**
