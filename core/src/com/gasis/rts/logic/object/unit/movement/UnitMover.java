@@ -58,7 +58,7 @@ public class UnitMover implements Updatable, MovementListener {
      * @param x x of the block in block map coordinates
      * @param y y of the block in block map coordinates
      */
-    public void moveUnits(List<Unit> units, short x, short y) {
+    public void moveUnits(Set<Unit> units, short x, short y) {
         UnitGroup group = createUnitGroup(units);
 
         this.groups.add(group);
@@ -160,7 +160,7 @@ public class UnitMover implements Updatable, MovementListener {
      * @param units units to form the group from
      * @return
      */
-    protected UnitGroup createUnitGroup(List<Unit> units) {
+    protected UnitGroup createUnitGroup(Set<Unit> units) {
         UnitGroup group = new UnitGroup();
 
         for (Unit unit: units) {
@@ -191,7 +191,7 @@ public class UnitMover implements Updatable, MovementListener {
      *
      * @param units units for which the state will be initialized
      */
-    protected void initializeMovementStates(List<Unit> units) {
+    protected void initializeMovementStates(Set<Unit> units) {
         for (Unit unit: units) {
             if (!movementStates.containsKey(unit)) {
                 movementStates.put(unit, false);
@@ -204,7 +204,7 @@ public class UnitMover implements Updatable, MovementListener {
      *
      * @param units units to which the listeners will be added
      */
-    protected void addMovementListeners(List<Unit> units) {
+    protected void addMovementListeners(Set<Unit> units) {
         for (Unit unit: units) {
             unit.addMovementListener(this);
         }

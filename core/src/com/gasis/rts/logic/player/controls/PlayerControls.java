@@ -22,6 +22,7 @@ import com.gasis.rts.utils.Constants;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Handles controlling of a player
@@ -94,7 +95,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param selectedUnits list with all selected units
      */
     @Override
-    public void unitsSelected(List<Unit> selectedUnits) {
+    public void unitsSelected(Set<Unit> selectedUnits) {
         ControlContextMultiplexer multiplexer = constructControlContextMultiplexer(selectedUnits);
         changeControlContext(multiplexer);
         controlledPlayer.setSelectedUnits(selectedUnits);
@@ -122,7 +123,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param units units with different control contexts
      * @return
      */
-    protected ControlContextMultiplexer constructControlContextMultiplexer(List<Unit> units) {
+    protected ControlContextMultiplexer constructControlContextMultiplexer(Set<Unit> units) {
         ControlContextMultiplexer multiplexer = new ControlContextMultiplexer();
 
         for (Unit unit: units) {

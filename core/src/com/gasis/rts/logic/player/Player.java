@@ -9,8 +9,8 @@ import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.unit.Unit;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents any player of the game: human or AI
@@ -24,10 +24,10 @@ public class Player {
     protected PlayerState state = new PlayerState();
 
     // all of the units the player currently owns
-    protected List<Unit> units = new ArrayList<Unit>();
+    protected Set<Unit> units = new HashSet<Unit>();
 
     // all of the buildings the player currently owns
-    protected List<Building> buildings = new ArrayList<Building>();
+    protected Set<Building> buildings = new HashSet<Building>();
 
     // faction the player is controlling
     protected Faction faction;
@@ -36,7 +36,7 @@ public class Player {
     protected Building selectedBuilding;
 
     // the units that are currently selected
-    protected List<Unit> selectedUnits;
+    protected Set<Unit> selectedUnits;
 
     // handles game object destruction
     protected DestructionHandler destructionHandler;
@@ -62,7 +62,7 @@ public class Player {
      *
      * @param units selected units
      */
-    public void setSelectedUnits(List<Unit> units) {
+    public void setSelectedUnits(Set<Unit> units) {
         this.selectedUnits = units;
     }
 
@@ -78,7 +78,7 @@ public class Player {
      * Gets the units that are currently selected
      * @return
      */
-    public List<Unit> getSelectedUnits() {
+    public Set<Unit> getSelectedUnits() {
         return selectedUnits;
     }
 
@@ -123,7 +123,7 @@ public class Player {
      * Gets the units that the player owns
      * @return
      */
-    public List<Unit> getUnits() {
+    public Set<Unit> getUnits() {
         return units;
     }
 
@@ -131,7 +131,7 @@ public class Player {
      * Gets the buildings that the player owns
      * @return
      */
-    public List<Building> getBuildings() {
+    public Set<Building> getBuildings() {
         return buildings;
     }
 

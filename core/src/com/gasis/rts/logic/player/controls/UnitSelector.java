@@ -8,9 +8,7 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,7 +26,7 @@ public class UnitSelector extends Selector {
     protected boolean renderSelectionRectangle = false;
 
     // selected units (if any)
-    protected List<Unit> selectedUnits = new ArrayList<Unit>();
+    protected Set<Unit> selectedUnits = new HashSet<Unit>();
 
     // unit selection listeners
     protected Set<UnitSelectionListener> listeners = new HashSet<UnitSelectionListener>();
@@ -212,7 +210,7 @@ public class UnitSelector extends Selector {
      * Gets all currently selected units
      * @return
      */
-    public List<Unit> getSelectedUnits() {
+    public Set<Unit> getSelectedUnits() {
         return selectedUnits;
     }
 
