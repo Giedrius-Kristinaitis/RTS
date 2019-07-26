@@ -67,9 +67,13 @@ public class Player implements DestructionListener, Updatable {
     @Override
     public void objectDestroyed(GameObject object) {
         if (object instanceof Unit) {
-            unitsToRemove.add((Unit) object);
+            if (!unitsToRemove.contains(object)) {
+                unitsToRemove.add((Unit) object);
+            }
         } else if (object instanceof Building) {
-            buildingsToRemove.add((Building) object);
+            if (!buildingsToRemove.contains(object)) {
+                buildingsToRemove.add((Building) object);
+            }
         }
     }
 

@@ -35,6 +35,27 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Does damage to the object
+     *
+     * @param attack attack stat of the attacker,
+     *               damage will be calculated based on the object's defence
+     */
+    @Override
+    public void doDamage(float attack) {
+        super.doDamage(attack);
+
+        if (destroyed) {
+            if (firingLogic != null) {
+                firingLogic.removeEnqueuedShots();
+            }
+
+            for (RotatingGun gun: rotatingGuns.values()) {
+                gun.setDestroyed(true);
+            }
+        }
+    }
+
+    /**
      * Checks if the object can be safely removed from object list
      *
      * @return
@@ -261,22 +282,26 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        if (renderHp) {
-            renderHp = false;
-            super.render(batch, resources);
-            renderHp = true;
-        } else {
-            super.render(batch, resources);
-        }
+        if (!destroyed) {
+            if (renderHp) {
+                renderHp = false;
+                super.render(batch, resources);
+                renderHp = true;
+            } else {
+                super.render(batch, resources);
+            }
 
-        for (RotatingGun gun: rotatingGuns.values()) {
-            gun.render(batch, resources);
+            for (RotatingGun gun : rotatingGuns.values()) {
+                gun.render(batch, resources);
+            }
         }
 
         if (firingLogic != null) {
             firingLogic.render(batch, resources);
         }
 
-        renderHp(batch, resources);
+        if (!destroyed) {
+            renderHp(batch, resources);
+        }
     }
 }

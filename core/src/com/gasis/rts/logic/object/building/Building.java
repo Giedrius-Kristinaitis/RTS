@@ -326,16 +326,18 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void update(float delta) {
-        if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
-            for (Animation animation : animations) {
-                animation.update(delta);
+        if (!destroyed) {
+            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
+                for (Animation animation : animations) {
+                    animation.update(delta);
+                }
             }
-        }
 
-        if (beingConstructed) {
-            updateConstruction(delta);
-        } else {
-            updateProduction(delta);
+            if (beingConstructed) {
+                updateConstruction(delta);
+            } else {
+                updateProduction(delta);
+            }
         }
     }
 
@@ -377,24 +379,26 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        batch.draw(
-                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(texture),
-                x,
-                y,
-                width,
-                height
-        );
+        if (!destroyed) {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(texture),
+                    x,
+                    y,
+                    width,
+                    height
+            );
 
-        if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
-            for (Animation animation : animations) {
-                animation.render(batch, resources);
+            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
+                for (Animation animation : animations) {
+                    animation.render(batch, resources);
+                }
             }
-        }
 
-        renderHp(batch, resources);
+            renderHp(batch, resources);
 
-        if (producing) {
-            renderProgress(batch, resources);
+            if (producing) {
+                renderProgress(batch, resources);
+            }
         }
     }
 

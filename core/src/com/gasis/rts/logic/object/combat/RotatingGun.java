@@ -85,6 +85,20 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     // is the gun currently present or not
     protected boolean currentlyPresent;
 
+    // is the gun destroyed or not
+    protected boolean destroyed = false;
+
+    /**
+     * Sets the gun's destroyed value
+     *
+     * @param destroyed is the gun destroyed
+     */
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+
+        firingLogic.removeEnqueuedShots();
+    }
+
     /**
      * Gets damage value
      *
@@ -577,7 +591,9 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
             return;
         }
 
-        update(delta);
+        if (!destroyed) {
+            update(delta);
+        }
 
         if (firingLogic != null && firingLogic.update(togglingSiegeMode, inSiegeMode, facingDirection, delta, x + xOffset, y + yOffset) && rotatingToDirection == NONE) {
             applyRecoil(recoil);
@@ -678,13 +694,15 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
             return;
         }
 
-        batch.draw(
-                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(textures.get(facingDirection)),
-                x + xOffset - width / 2f,
-                y + yOffset - height / 2f,
-                width,
-                height
-        );
+        if (!destroyed) {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(textures.get(facingDirection)),
+                    x + xOffset - width / 2f,
+                    y + yOffset - height / 2f,
+                    width,
+                    height
+            );
+        }
 
         if (firingLogic != null) {
             firingLogic.render(batch, resources);

@@ -64,6 +64,9 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // all attached destruction listeners
     protected Set<DestructionListener> destructionListeners = new HashSet<DestructionListener>();
 
+    // is the object destroyed or not
+    protected boolean destroyed = false;
+
     /**
      * Default class constructor
      * @param map
@@ -136,6 +139,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
         hp = Math.max(0, hp - attack / (defensiveSpecs.getDefence() + 1));
 
         if (hp <= 0) {
+            destroyed = true;
             notifyDestructionListeners();
         }
     }

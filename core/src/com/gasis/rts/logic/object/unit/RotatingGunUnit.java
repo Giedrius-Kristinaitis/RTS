@@ -37,6 +37,27 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Does damage to the object
+     *
+     * @param attack attack stat of the attacker,
+     *               damage will be calculated based on the object's defence
+     */
+    @Override
+    public void doDamage(float attack) {
+        super.doDamage(attack);
+
+        if (destroyed) {
+            for (RotatingGun gun: guns.values()) {
+                gun.setDestroyed(true);
+            }
+
+            if (firingLogic != null) {
+                firingLogic.removeEnqueuedShots();
+            }
+        }
+    }
+
+    /**
      * Checks if the object can be safely removed from object list
      *
      * @return
@@ -201,12 +222,14 @@ public class RotatingGunUnit extends Unit {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        if (renderHp) {
-            renderHp = false;
-            super.render(batch, resources);
-            renderHp = true;
-        } else {
-            super.render(batch, resources);
+        if (!destroyed) {
+            if (renderHp) {
+                renderHp = false;
+                super.render(batch, resources);
+                renderHp = true;
+            } else {
+                super.render(batch, resources);
+            }
         }
 
         // render the rotating guns
@@ -216,6 +239,8 @@ public class RotatingGunUnit extends Unit {
             }
         }
 
-        renderHp(batch, resources);
+        if (!destroyed) {
+            renderHp(batch, resources);
+        }
     }
 }
