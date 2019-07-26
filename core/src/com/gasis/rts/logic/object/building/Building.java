@@ -81,7 +81,6 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public boolean canBeRemoved() {
-
         return true;
     }
 
