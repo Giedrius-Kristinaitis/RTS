@@ -59,6 +59,11 @@ public class FiringLogic implements Renderable {
      * @return
      */
     public boolean canBeRemoved() {
+        for (FireSource source: fireSources.values()) {
+            if (!source.allAnimationsFinished()) {
+                return false;
+            }
+        }
 
         return true;
     }

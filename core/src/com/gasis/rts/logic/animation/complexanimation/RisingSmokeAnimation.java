@@ -19,6 +19,16 @@ public class RisingSmokeAnimation implements Animation {
     protected final FrameAnimation[] smokeBalls = new FrameAnimation[5];
 
     /**
+     * Checks if the animation has finished
+     *
+     * @return
+     */
+    @Override
+    public boolean hasFinished() {
+        return true;
+    }
+
+    /**
      * Class constructor
      */
     public RisingSmokeAnimation(float x, float y) {

@@ -608,6 +608,7 @@ public class FrameAnimation implements Animation {
      * Checks if the animation has finished yet
      * @return
      */
+    @Override
     public boolean hasFinished() {
         return currentFrame == lastFrameIndex && !loop && timeSinceLastUpdate >= updateInterval;
     }

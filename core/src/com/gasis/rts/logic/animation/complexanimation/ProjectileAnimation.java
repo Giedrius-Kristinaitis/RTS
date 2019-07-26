@@ -55,6 +55,25 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     }
 
     /**
+     * Checks if the animation has finished
+     *
+     * @return
+     */
+    @Override
+    public boolean hasFinished() {
+        // I know this if can be simplified, but whatever
+        if (fireAnimation != null && fireAnimation.hasFinished()) {
+            if (projectile != null && projectile.hasFinished()) {
+                if (endAnimation != null && endAnimation.hasFinished()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Notifies the observer that the animation has finished
      *
      * @param animation the animation that just finished

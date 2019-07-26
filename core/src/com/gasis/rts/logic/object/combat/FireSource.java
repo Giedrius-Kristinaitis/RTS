@@ -73,6 +73,20 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     protected DamageValueProvider specProvider;
 
     /**
+     * Checks if all animations have finished
+     * @return
+     */
+    public boolean allAnimationsFinished() {
+        for (ProjectileAnimation animation: animations) {
+            if (!animation.hasFinished()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Sets the damage provider
      *
      * @param provider provider to use
