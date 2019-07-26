@@ -75,6 +75,17 @@ public class Building extends GameObject implements UnitProducer {
     }
 
     /**
+     * Checks if the object can be safely removed from object list
+     *
+     * @return
+     */
+    @Override
+    public boolean canBeRemoved() {
+
+        return true;
+    }
+
+    /**
      * Sets the building's construction time
      *
      * @param constructionTime new construction time in seconds

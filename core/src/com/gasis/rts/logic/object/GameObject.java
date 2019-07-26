@@ -356,6 +356,12 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     public abstract void render(SpriteBatch batch, Resources resources);
 
     /**
+     * Checks if the object can be safely removed from object list
+     * @return
+     */
+    public abstract boolean canBeRemoved();
+
+    /**
      * Renders the object's hp bar
      *
      * @param batch sprite batch to draw to

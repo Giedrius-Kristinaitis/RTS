@@ -150,6 +150,17 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the object can be safely removed from object list
+     *
+     * @return
+     */
+    @Override
+    public boolean canBeRemoved() {
+
+        return true;
+    }
+
+    /**
      * Gets damage value
      *
      * @return
