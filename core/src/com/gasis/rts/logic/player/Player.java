@@ -12,7 +12,9 @@ import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,10 +47,10 @@ public class Player implements DestructionListener, Updatable {
     protected DestructionHandler destructionHandler;
 
     // all the units that have been destroyed and need to be removed
-    protected Set<Unit> unitsToRemove = new HashSet<Unit>();
+    protected List<Unit> unitsToRemove = new ArrayList<Unit>();
 
     // all the buildings that have been destroyed and need to be removed
-    protected Set<Building> buildingsToRemove = new HashSet<Building>();
+    protected List<Building> buildingsToRemove = new ArrayList<Building>();
 
     /**
      * Default class constructor
@@ -64,7 +66,11 @@ public class Player implements DestructionListener, Updatable {
      */
     @Override
     public void objectDestroyed(GameObject object) {
-
+        if (object instanceof Unit) {
+            unitsToRemove.add((Unit) object);
+        } else if (object instanceof Building) {
+            buildingsToRemove.add((Building) object);
+        }
     }
 
     /**
@@ -205,6 +211,34 @@ public class Player implements DestructionListener, Updatable {
      */
     @Override
     public void update(float delta) {
+        if (unitsToRemove.size() > 0) {
+            removeUnits();
+        }
 
+        if (buildingsToRemove.size() > 0) {
+            removeBuildings();
+        }
+    }
+
+    /**
+     * Removes units that need to be removed
+     */
+    protected void removeUnits() {
+        for (int i = 0; i < unitsToRemove.size(); i++) {
+            if (unitsToRemove.get(i).canBeRemoved()) {
+                unitsToRemove.remove(i--);
+            }
+        }
+    }
+
+    /**
+     * Removes buildings that need to be removed
+     */
+    protected void removeBuildings() {
+        for (int i = 0; i < buildingsToRemove.size(); i++) {
+            if (buildingsToRemove.get(i).canBeRemoved()) {
+                buildingsToRemove.remove(i--);
+            }
+        }
     }
 }
