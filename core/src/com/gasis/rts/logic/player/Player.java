@@ -4,9 +4,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
+import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 
 import java.util.HashSet;
@@ -15,7 +17,7 @@ import java.util.Set;
 /**
  * Represents any player of the game: human or AI
  */
-public class Player {
+public class Player implements DestructionListener {
 
     // unique identifier
     protected Long id;
@@ -46,6 +48,16 @@ public class Player {
      */
     public Player(DestructionHandler destructionHandler) {
         this.destructionHandler = destructionHandler;
+    }
+
+    /**
+     * Called when a game object gets destroyed
+     *
+     * @param object the destroyed object
+     */
+    @Override
+    public void objectDestroyed(GameObject object) {
+        
     }
 
     /**
@@ -102,7 +114,7 @@ public class Player {
      */
     public void addUnit(Unit unit) {
         unit.addTargetReachedListener(destructionHandler);
-
+        unit.addDestructionListener(this);
         units.add(unit);
     }
 
@@ -115,6 +127,8 @@ public class Player {
         if (building instanceof OffensiveBuilding) {
             ((OffensiveBuilding) building).addTargetReachedListener(destructionHandler);
         }
+
+        building.addDestructionListener(this);
 
         buildings.add(building);
     }

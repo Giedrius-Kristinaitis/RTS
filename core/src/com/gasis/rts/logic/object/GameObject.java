@@ -5,9 +5,13 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
+import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents all game objects: units, buildings
@@ -57,12 +61,33 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the game's map
     protected BlockMap map;
 
+    // all attached destruction listeners
+    protected Set<DestructionListener> destructionListeners = new HashSet<DestructionListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public GameObject(BlockMap map) {
         this.map = map;
+    }
+
+    /**
+     * Adds a destruction listener to the object
+     *
+     * @param listener listener to add
+     */
+    public void addDestructionListener(DestructionListener listener) {
+        destructionListeners.add(listener);
+    }
+
+    /**
+     * Removes a destruction listener from the object
+     *
+     * @param listener listener to remove
+     */
+    public void removeDestructionListener(DestructionListener listener) {
+        destructionListeners.remove(listener);
     }
 
     /**
@@ -109,6 +134,19 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     @Override
     public void doDamage(float attack) {
         hp = Math.max(0, hp - attack / (defensiveSpecs.getDefence() + 1));
+
+        if (hp <= 0) {
+            notifyDestructionListeners();
+        }
+    }
+
+    /**
+     * Notifies all destruction listeners that the object has been destroyed
+     */
+    protected void notifyDestructionListeners() {
+        for (DestructionListener listener: destructionListeners) {
+            listener.objectDestroyed(this);
+        }
     }
 
     /**
