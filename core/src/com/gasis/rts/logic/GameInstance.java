@@ -167,6 +167,8 @@ public class GameInstance implements Updatable {
             for (Building building: player.getBuildings()) {
                 building.update(delta);
             }
+
+            player.update(delta);
         }
     }
 

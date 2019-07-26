@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.player;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
@@ -17,7 +18,7 @@ import java.util.Set;
 /**
  * Represents any player of the game: human or AI
  */
-public class Player implements DestructionListener {
+public class Player implements DestructionListener, Updatable {
 
     // unique identifier
     protected Long id;
@@ -43,6 +44,12 @@ public class Player implements DestructionListener {
     // handles game object destruction
     protected DestructionHandler destructionHandler;
 
+    // all the units that have been destroyed and need to be removed
+    protected Set<Unit> unitsToRemove = new HashSet<Unit>();
+
+    // all the buildings that have been destroyed and need to be removed
+    protected Set<Building> buildingsToRemove = new HashSet<Building>();
+
     /**
      * Default class constructor
      */
@@ -57,7 +64,7 @@ public class Player implements DestructionListener {
      */
     @Override
     public void objectDestroyed(GameObject object) {
-        
+
     }
 
     /**
@@ -189,5 +196,15 @@ public class Player implements DestructionListener {
      */
     public Faction getFaction() {
         return faction;
+    }
+
+    /**
+     * Updates the state of the object
+     *
+     * @param delta time elapsed since the last update
+     */
+    @Override
+    public void update(float delta) {
+
     }
 }
