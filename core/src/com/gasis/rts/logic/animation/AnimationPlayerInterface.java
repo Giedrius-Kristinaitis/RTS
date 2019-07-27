@@ -11,11 +11,4 @@ public interface AnimationPlayerInterface {
      * @param animation animation to play
      */
     void play(Animation animation);
-
-    /**
-     * Plays an animation
-     *
-     * @param animation name of the animation to play
-     */
-    void play(String animation);
 }
