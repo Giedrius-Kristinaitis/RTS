@@ -3,7 +3,6 @@ package com.gasis.rts.logic.map.blockmap;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.utils.Constants;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -22,8 +21,8 @@ public class BlockMap implements Map {
     // the first (bottom) layer is always the ground layer on which occupying objects are set
     protected Deque<BlockMapLayer> layers = new LinkedList<BlockMapLayer>();
 
-    // how many craters can exist on a single block at any time
-    protected final int MAX_CRATERS_ON_ONE_BLOCK = 3;
+    // how many pieces of junk can exist on a single block at any time
+    protected final int MAX_PIECES_OF_JUNK = 4;
 
     /**
      * Initializes an empty map
@@ -37,21 +36,22 @@ public class BlockMap implements Map {
     }
 
     /**
-     * Adds a crater to the specified block
+     * Adds a piece junk to the specified block
      *
-     * @param craterTexture name of the crater's texture
+     * @param atlas junk atlas name
+     * @param junkTexture name of the junk texture
      * @param blockX block x
      * @param blockY block y
-     * @param offsetX crater texture's offset in x axis
-     * @param offsetY crater texture's offset in y axis
-     * @param scale crater texture's scale
+     * @param offsetX junk texture's offset in x axis
+     * @param offsetY junk texture's offset in y axis
+     * @param scale junk texture's scale
      */
-    public void addCrater(String craterTexture, short blockX, short blockY, float offsetX, float offsetY, float scale) {
+    public void addJunk(String atlas, String junkTexture, short blockX, short blockY, float offsetX, float offsetY, float scale) {
         if (blockX < 0 || blockY < 0 || blockX >= width || blockY >= height) {
             return;
         }
 
-        BlockMapLayer craterLayer = (BlockMapLayer) getLayerByName("craters");
+        BlockMapLayer craterLayer = (BlockMapLayer) getLayerByName("junk");
         Block block = craterLayer.getBlock(blockX, blockY);
         VisibleBlock visibleBlock;
 
@@ -63,8 +63,8 @@ public class BlockMap implements Map {
         }
 
         BlockImage image = new BlockImage();
-        image.atlas = Constants.CRATER_TEXTURE_ATLAS;
-        image.texture = craterTexture;
+        image.atlas = atlas;
+        image.texture = junkTexture;
         image.offsetY = offsetY;
         image.offsetX = offsetX;
         image.scale = scale;
@@ -73,7 +73,7 @@ public class BlockMap implements Map {
         image.offsetX -= Block.BLOCK_WIDTH / 2f;
         image.offsetY -= Block.BLOCK_HEIGHT / 2f;
 
-        if (visibleBlock.imageCount() >= MAX_CRATERS_ON_ONE_BLOCK) {
+        if (visibleBlock.imageCount() >= MAX_PIECES_OF_JUNK) {
             visibleBlock.removeBottomImage();
         }
 

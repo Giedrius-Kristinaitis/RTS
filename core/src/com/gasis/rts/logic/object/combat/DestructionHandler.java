@@ -147,6 +147,6 @@ public class DestructionHandler implements TargetReachListener {
             craterTexture = Constants.SMALL_CRATER_PREFIX + random.nextInt(Constants.SMALL_CRATER_COUNT);
         }
 
-        map.addCrater(craterTexture, blockX, blockY, offsetX, offsetY, textureScale);
+        map.addJunk(Constants.CRATER_TEXTURE_ATLAS, craterTexture, blockX, blockY, offsetX, offsetY, textureScale);
     }
 }
