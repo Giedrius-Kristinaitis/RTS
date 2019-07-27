@@ -476,4 +476,12 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     public float getDestructionAnimationScale() {
         return destructionAnimationScale;
     }
+
+    /**
+     * Checks if the object is destroyed
+     * @return
+     */
+    public boolean isDestroyed() {
+        return destroyed;
+    }
 }
