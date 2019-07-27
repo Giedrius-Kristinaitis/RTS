@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.BuildingConstructionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.MovementAdapter;
 import com.gasis.rts.logic.player.controls.BuildingPlacementListener;
@@ -8,7 +9,7 @@ import com.gasis.rts.logic.player.controls.BuildingPlacementListener;
 /**
  * Finds and assigns targets to offensive game objects
  */
-public class TargetAssigner extends MovementAdapter implements BuildingPlacementListener {
+public class TargetAssigner extends MovementAdapter implements BuildingPlacementListener, BuildingConstructionListener {
 
     /**
      * Called when a building gets placed
@@ -18,6 +19,16 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
     @Override
     public void buildingPlaced(Building building) {
 
+    }
+
+    /**
+     * Called when a building gets constructed
+     *
+     * @param building the building that just got constructed
+     */
+    @Override
+    public void buildingConstructed(Building building) {
+        
     }
 
     /**
