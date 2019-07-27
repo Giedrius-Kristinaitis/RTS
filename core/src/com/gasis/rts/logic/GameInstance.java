@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gasis.rts.logic.animation.FrameAnimationPlayer;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
@@ -67,6 +68,9 @@ public class GameInstance implements Updatable {
     // handle destruction
     private DestructionHandler destructionHandler;
 
+    // plays animations
+    private FrameAnimationPlayer animationPlayer;
+
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
@@ -92,8 +96,11 @@ public class GameInstance implements Updatable {
         mapScroller = new BlockMapScroller(map, mapRenderer);
         mapZoomer = new BlockMapZoomer();
 
+        // initialize animation player
+        animationPlayer = new FrameAnimationPlayer();
+
         // initialize destruction handler
-        destructionHandler = new DestructionHandler(map);
+        destructionHandler = new DestructionHandler(map, animationPlayer);
 
         // create some test players
         Player one = new Player(destructionHandler);
@@ -128,6 +135,8 @@ public class GameInstance implements Updatable {
             }
         }
 
+        animationPlayer.render(batch, resources);
+
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
     }
@@ -154,6 +163,8 @@ public class GameInstance implements Updatable {
 
         mapZoomer.updateMapZoom(cam, delta);
         mapScroller.updateMapScroll(cam, delta);
+
+        animationPlayer.update(delta);
 
         for (Player player: players) {
             for (Unit unit: player.getUnits()) {

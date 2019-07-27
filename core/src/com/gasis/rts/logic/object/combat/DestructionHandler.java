@@ -1,5 +1,6 @@
 package com.gasis.rts.logic.object.combat;
 
+import com.gasis.rts.logic.animation.AnimationPlayerInterface;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
@@ -24,12 +25,15 @@ public class DestructionHandler implements TargetReachListener {
     // creating new instance every time)
     protected List<GameObject> neighbourObjects = new ArrayList<GameObject>();
 
+    // plays animations
+    protected AnimationPlayerInterface animationPlayer;
+
     /**
      * Default class constructor
-     * @param map
      */
-    public DestructionHandler(BlockMap map) {
+    public DestructionHandler(BlockMap map, AnimationPlayerInterface animationPlayer) {
         this.map = map;
+        this.animationPlayer = animationPlayer;
     }
 
     /**
