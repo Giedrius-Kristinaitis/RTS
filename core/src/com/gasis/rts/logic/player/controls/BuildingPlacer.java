@@ -12,7 +12,9 @@ import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Building placement logic
@@ -51,12 +53,44 @@ public class BuildingPlacer implements Renderable {
     // blocks on which the building's placement currently is
     protected List<Point> blocks = new ArrayList<Point>();
 
+    // building placement listeners
+    protected Set<BuildingPlacementListener> placementListeners = new HashSet<BuildingPlacementListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public BuildingPlacer(BlockMap map) {
         this.map = map;
+    }
+
+    /**
+     * Adds a building placement listener
+     *
+     * @param listener listener to add
+     */
+    public void addPlacementListener(BuildingPlacementListener listener) {
+        placementListeners.add(listener);
+    }
+
+    /**
+     * Removes a building placement listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeBuildingPlacementListener(BuildingPlacementListener listener) {
+        placementListeners.remove(listener);
+    }
+
+    /**
+     * Notifies placement listeners that a building has been placed
+     *
+     * @param building the building that was just placed
+     */
+    protected void notifyPlacementListeners(Building building) {
+        for (BuildingPlacementListener listener: placementListeners) {
+            listener.buildingPlaced(building);
+        }
     }
 
     /**
@@ -166,6 +200,8 @@ public class BuildingPlacer implements Renderable {
             building.setOwner(player);
 
             building.setBeingConstructed(true);
+
+            notifyPlacementListeners(building);
 
             placing = false;
         }
