@@ -1,6 +1,8 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.gasis.rts.logic.animation.AnimationPlayerInterface;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
@@ -68,6 +70,10 @@ public class DestructionHandler implements TargetReachListener {
 
         if (occupyingObject != null) {
             occupyingObject.doDamage(damage);
+
+            if (occupyingObject.isDestroyed()) {
+                playDestructionAnimation(occupyingObject);
+            }
         }
 
         // also do damage to nearby objects
@@ -86,9 +92,31 @@ public class DestructionHandler implements TargetReachListener {
             for (GameObject object: neighbourObjects) {
                 if (object != null && object != occupyingObject) {
                     object.doDamage(damage * 0.25f);
+
+                    if (object.isDestroyed()) {
+                        playDestructionAnimation(object);
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Plays a destruction animation
+     *
+     * @param object the object for which the animation will be played
+     */
+    protected void playDestructionAnimation(GameObject object) {
+        if (object.getDestructionAnimationName() == null) {
+            return;
+        }
+
+        FrameAnimation animation = FrameAnimationFactory.getInstance().create(object.getDestructionAnimationName());
+
+        animation.setCenterX(object.getCenterX());
+        animation.setCenterY(object.getCenterY());
+
+        animationPlayer.play(animation);
     }
 
     /**
