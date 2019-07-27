@@ -117,8 +117,8 @@ public class DestructionHandler implements TargetReachListener {
                 object.getJunkTexture(),
                 (short) (object.getCenterX() / Block.BLOCK_WIDTH),
                 (short) (object.getCenterY() / Block.BLOCK_HEIGHT),
-                0,
-                0,
+                Block.BLOCK_WIDTH / 2f,
+                Block.BLOCK_HEIGHT / 2f,
                 object.getJunkScale());
     }
 
