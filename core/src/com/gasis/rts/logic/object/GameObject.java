@@ -67,6 +67,12 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // is the object destroyed or not
     protected boolean destroyed = false;
 
+    // the name of the object's destruction animation
+    protected String destructionAnimationName;
+
+    // the scale of the object's destruction animation
+    protected float destructionAnimationScale = 1f;
+
     /**
      * Default class constructor
      * @param map
@@ -435,5 +441,39 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public Player getOwner() {
         return owner;
+    }
+
+    /**
+     * Sets the name of the name of the destruction animation
+     *
+     * @param destructionAnimationName new animation name
+     */
+    public void setDestructionAnimationName(String destructionAnimationName) {
+        this.destructionAnimationName = destructionAnimationName;
+    }
+
+    /**
+     * Gets the name of the destruction animation
+     * @return
+     */
+    public String getDestructionAnimationName() {
+        return destructionAnimationName;
+    }
+
+    /**
+     * Sets the scale of the destruction animation
+     *
+     * @param destructionAnimationScale new scale
+     */
+    public void setDestructionAnimationScale(float destructionAnimationScale) {
+        this.destructionAnimationScale = destructionAnimationScale;
+    }
+
+    /**
+     * Gets the scale of the destruction animation
+     * @return
+     */
+    public float getDestructionAnimationScale() {
+        return destructionAnimationScale;
     }
 }
