@@ -16,6 +16,9 @@ reload speed: 2
 destruction animation: projectile_explosion
 destruction animation scale: 1.5
 movement animations available: false
+junk texture atlas: junk.atlas
+junk texture: tank_junk
+junk scale: 1
 firing textures available: false
 siege mode available: true
 siege mode facing directions: 1

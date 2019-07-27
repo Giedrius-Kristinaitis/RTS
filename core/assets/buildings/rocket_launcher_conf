@@ -8,6 +8,9 @@ width: 1.75
 height: 1.5
 destruction animation: projectile_explosion
 destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
 hp bar width: 2.4
 hp bar height offset: 0.65
 width in blocks: 2

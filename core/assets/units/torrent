@@ -9,6 +9,9 @@ defence: 6
 sight range: 7
 attack: 30
 speed: 2
+junk texture atlas: junk.atlas
+junk texture: tank_junk
+junk scale: 1
 attack range: 6
 shot count: 1
 shot interval: 0

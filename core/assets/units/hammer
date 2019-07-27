@@ -13,6 +13,9 @@ attack range: 6
 shot count: 1
 shot interval: 2
 reload speed: 2
+junk texture atlas: junk.atlas
+junk texture: tank_junk
+junk scale: 1
 movement animations available: false
 firing textures available: false
 siege mode available: false

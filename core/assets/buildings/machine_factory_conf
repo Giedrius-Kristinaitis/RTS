@@ -5,6 +5,9 @@ texture: machine_factory_conf
 placement texture: machine_factory_conf
 destruction animation: projectile_explosion
 destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
 construction time: 50
 hp bar width: 5
 width: 5.2
