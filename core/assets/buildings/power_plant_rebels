@@ -3,6 +3,8 @@ code: power plant rebels
 control context: default_context_rebels
 texture: plant
 placement texture: plant
+destruction animation: projectile_explosion
+destruction animation scale: 2
 construction time: 50
 hp bar width: 3.5
 width: 3.9

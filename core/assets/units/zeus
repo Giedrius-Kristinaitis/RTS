@@ -16,6 +16,8 @@ reload speed: 2
 movement animations available: false
 firing textures available: false
 siege mode available: false
+destruction animation: projectile_explosion
+destruction animation scale: 1.5
 rotating gun: g
 g present: always
 g atlas: zeus.atlas

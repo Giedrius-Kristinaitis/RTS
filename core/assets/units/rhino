@@ -13,6 +13,8 @@ attack range: 6
 shot count: 1
 shot interval: 2
 reload speed: 2
+destruction animation: projectile_explosion
+destruction animation scale: 1.5
 movement animations available: false
 firing textures available: false
 siege mode available: true

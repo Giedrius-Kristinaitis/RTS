@@ -3,6 +3,8 @@ code: machine factory conf
 control context: context_machine_factory_conf
 texture: machine_factory_conf
 placement texture: machine_factory_conf
+destruction animation: projectile_explosion
+destruction animation scale: 2
 construction time: 50
 hp bar width: 5
 width: 5.2

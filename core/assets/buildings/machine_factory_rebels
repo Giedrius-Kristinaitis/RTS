@@ -3,6 +3,8 @@ code: machine factory rebels
 control context: context_machine_factory_rebels
 texture: machine_factory_rebels
 placement texture: machine_factory_rebels
+destruction animation: projectile_explosion
+destruction animation scale: 2
 construction time: 50
 hp bar width: 3.5
 width: 3.9
