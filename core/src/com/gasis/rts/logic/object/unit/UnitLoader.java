@@ -239,6 +239,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setDestructionAnimationScale(destructionAnimationScale);
         unit.setJunkScale(junkScale);
         unit.setJunkTexture(junkTexture);
+        unit.setJunkAtlas(junkAtlas);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

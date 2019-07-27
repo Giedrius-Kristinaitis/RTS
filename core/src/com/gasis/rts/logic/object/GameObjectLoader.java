@@ -46,6 +46,9 @@ public abstract class GameObjectLoader {
     // the scale of the object's left over junk
     protected float junkScale = 1f;
 
+    // the name of the texture atlas that holds junk texture
+    protected String junkAtlas;
+
     /**
      * Default class constructor
      * @param map
@@ -95,6 +98,7 @@ public abstract class GameObjectLoader {
         } catch (Exception ex) {}
 
         try {
+            junkAtlas = reader.readLine("junk texture atlas");
             junkTexture = reader.readLine("junk texture");
             junkScale = Float.parseFloat(reader.readLine("junk scale"));
         } catch (Exception ex) {}

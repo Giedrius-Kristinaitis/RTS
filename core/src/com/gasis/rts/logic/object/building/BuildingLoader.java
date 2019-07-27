@@ -199,6 +199,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setDestructionAnimationScale(destructionAnimationScale);
         building.setJunkScale(junkScale);
         building.setJunkTexture(junkTexture);
+        building.setJunkAtlas(junkAtlas);
 
         // add firing things to the building if it has any
         if (offensive) {

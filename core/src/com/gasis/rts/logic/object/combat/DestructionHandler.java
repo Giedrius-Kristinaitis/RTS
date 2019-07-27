@@ -72,6 +72,7 @@ public class DestructionHandler implements TargetReachListener {
             occupyingObject.doDamage(damage);
 
             if (occupyingObject.isDestroyed()) {
+                leaveJunk(occupyingObject);
                 playDestructionAnimation(occupyingObject);
             }
         }
@@ -95,10 +96,30 @@ public class DestructionHandler implements TargetReachListener {
 
                     if (object.isDestroyed()) {
                         playDestructionAnimation(object);
+                        leaveJunk(object);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Leaves object's junk (or corpse) on the map
+     *
+     * @param object object to leave junk for
+     */
+    protected void leaveJunk(GameObject object) {
+        if (object.getJunkTexture() == null || object.getJunkAtlas() == null) {
+            return;
+        }
+
+        map.addJunk(object.getJunkAtlas(),
+                object.getJunkTexture(),
+                (short) (object.getCenterX() / Block.BLOCK_WIDTH),
+                (short) (object.getCenterY() / Block.BLOCK_HEIGHT),
+                0,
+                0,
+                object.getJunkScale());
     }
 
     /**

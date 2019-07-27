@@ -79,6 +79,9 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the scale of the object's left over junk
     protected float junkScale;
 
+    // the name of the texture atlas that holds junk texture
+    protected String junkAtlas;
+
     /**
      * Default class constructor
      * @param map
@@ -523,5 +526,22 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public void setJunkScale(float junkScale) {
         this.junkScale = junkScale;
+    }
+
+    /**
+     * Gets the name of the junk texture atlas
+     * @return
+     */
+    public String getJunkAtlas() {
+        return junkAtlas;
+    }
+
+    /**
+     * Sets the name of the junk atlas
+     *
+     * @param junkAtlas new atlas name
+     */
+    public void setJunkAtlas(String junkAtlas) {
+        this.junkAtlas = junkAtlas;
     }
 }
