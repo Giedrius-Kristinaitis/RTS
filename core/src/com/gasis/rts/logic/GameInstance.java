@@ -128,8 +128,6 @@ public class GameInstance implements Updatable {
             }
         }
 
-        destructionHandler.render(batch, resources);
-
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
     }
@@ -156,8 +154,6 @@ public class GameInstance implements Updatable {
 
         mapZoomer.updateMapZoom(cam, delta);
         mapScroller.updateMapScroll(cam, delta);
-
-        destructionHandler.update(delta);
 
         for (Player player: players) {
             for (Unit unit: player.getUnits()) {

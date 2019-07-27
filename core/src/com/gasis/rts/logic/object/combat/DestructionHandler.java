@@ -1,12 +1,8 @@
 package com.gasis.rts.logic.object.combat;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.Renderable;
-import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
@@ -16,7 +12,7 @@ import java.util.Random;
 /**
  * Handles game object destruction
  */
-public class DestructionHandler implements TargetReachListener, Renderable, Updatable {
+public class DestructionHandler implements TargetReachListener {
 
     // the game's map
     protected BlockMap map;
@@ -120,26 +116,5 @@ public class DestructionHandler implements TargetReachListener, Renderable, Upda
         }
 
         map.addCrater(craterTexture, blockX, blockY, offsetX, offsetY, textureScale);
-    }
-
-    /**
-     * Updates the state of the object
-     *
-     * @param delta time elapsed since the last update
-     */
-    @Override
-    public void update(float delta) {
-
-    }
-
-    /**
-     * Renders the object to the screen
-     *
-     * @param batch     sprite batch to draw to
-     * @param resources game assets
-     */
-    @Override
-    public void render(SpriteBatch batch, Resources resources) {
-
     }
 }
