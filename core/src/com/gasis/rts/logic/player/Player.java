@@ -52,11 +52,44 @@ public class Player implements DestructionListener, Updatable {
     // all the buildings that have been destroyed and need to be removed
     protected List<Building> buildingsToRemove = new ArrayList<Building>();
 
+    // ids of allied players
+    protected List<Player> allies = new ArrayList<Player>();
+
     /**
      * Default class constructor
      */
     public Player(DestructionHandler destructionHandler) {
         this.destructionHandler = destructionHandler;
+    }
+
+    /**
+     * Adds an ally to the player
+     *
+     * @param player new ally
+     */
+    public void addAlly(Player player) {
+        if (!allies.contains(player)) {
+            allies.add(player);
+        }
+    }
+
+    /**
+     * Removes an ally from the player
+     *
+     * @param player ally to remove
+     */
+    public void removeAlly(Player player) {
+        allies.remove(player);
+    }
+
+    /**
+     * Checks if the player is allied to another player
+     *
+     * @param player player to check for alliance
+     * @return
+     */
+    public boolean isAllied(Player player) {
+        return allies.contains(player);
     }
 
     /**
