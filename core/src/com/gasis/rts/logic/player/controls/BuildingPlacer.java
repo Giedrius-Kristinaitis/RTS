@@ -7,8 +7,12 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Building placement logic
@@ -44,6 +48,9 @@ public class BuildingPlacer implements Renderable {
     // the placed building's loader
     protected BuildingLoader loader;
 
+    // blocks on which the building's placement currently is
+    protected List<Point> blocks = new ArrayList<Point>();
+
     /**
      * Default class constructor
      * @param map
@@ -68,6 +75,7 @@ public class BuildingPlacer implements Renderable {
 
         placing = true;
 
+        findBlocks(lastMouseXBeforePlacing, lastMouseYBeforePlacing);
         calculateBuildingCoordinates(lastMouseXBeforePlacing, lastMouseYBeforePlacing);
     }
 
@@ -79,10 +87,37 @@ public class BuildingPlacer implements Renderable {
      */
     public void mouseMoved(float x, float y) {
         if (placing) {
+            findBlocks(x, y);
             calculateBuildingCoordinates(x, y);
         } else {
             lastMouseXBeforePlacing = x;
             lastMouseYBeforePlacing = y;
+        }
+    }
+
+    /**
+     * Finds the blocks on which the building currently is
+     *
+     * @param mouseX mouse x in world coordinates
+     * @param mouseY mouse y in world coordinates
+     */
+    protected void findBlocks(float mouseX, float mouseY) {
+        blocks.clear();
+
+        short centerBlockX = (short) (mouseX / Block.BLOCK_WIDTH);
+        short blockY = (short) (mouseY / Block.BLOCK_HEIGHT - buildingHeight / 2f);
+
+        int startingX = centerBlockX - loader.getWidthInBlocks() / 2;
+        int endX = centerBlockX + loader.getWidthInBlocks() / 2;
+
+        if (loader.getWidthInBlocks() % 2 != 0) {
+            endX++;
+        }
+
+        for (int x = startingX; x < endX; x++) {
+            for (int y = blockY; y < blockY + loader.getHeightInBlocks(); y++) {
+                blocks.add(new Point(x, y));
+            }
         }
     }
 
@@ -93,9 +128,9 @@ public class BuildingPlacer implements Renderable {
      * @param mouseY mouse pointer y
      */
     protected void calculateBuildingCoordinates(float mouseX, float mouseY) {
-        buildingX = (int) (mouseX / Block.BLOCK_WIDTH - buildingWidth / 2f) * Block.BLOCK_WIDTH;
-        buildingY = (int) (mouseY / Block.BLOCK_HEIGHT - buildingHeight / 2f) * Block.BLOCK_HEIGHT;
-        buildingCenterX = buildingX + loader.getWidthInBlocks() * Block.BLOCK_WIDTH / 2f;
+        buildingCenterX = blocks.get(0).x * Block.BLOCK_WIDTH + ((blocks.get(blocks.size() - 1).x + 1) * Block.BLOCK_WIDTH - blocks.get(0).x * Block.BLOCK_WIDTH) / 2f;
+        buildingX = buildingCenterX - buildingWidth / 2f;
+        buildingY = blocks.get(0).y * Block.BLOCK_HEIGHT;
     }
 
     /**
@@ -124,7 +159,7 @@ public class BuildingPlacer implements Renderable {
             building.setY(buildingY);
             building.setXInBlocks((short) (buildingX / Block.BLOCK_WIDTH));
             building.setYInBlocks((short) (buildingY / Block.BLOCK_HEIGHT));
-            building.occupyBlocks();
+            building.occupyBlocks(new ArrayList<Point>(blocks));
             building.initializeAnimations();
 
             player.addBuilding(building);
@@ -142,15 +177,12 @@ public class BuildingPlacer implements Renderable {
      * @return
      */
     protected boolean canPlaceInCurrentPosition() {
-        if (buildingX / Block.BLOCK_WIDTH < 0 || buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks() > map.getWidth() || buildingY / Block.BLOCK_HEIGHT < 0 || buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks() > map.getHeight()) {
-            return false;
-        }
+        for (Point block: blocks) {
+            if (map.isBlockOccupied((short) block.x, (short) block.y)
+                || !map.isBlockPassable((short) block.x, (short) block.y)
+                || block.x < 0 || block.y < 0 || block.x >= map.getWidth() || block.y >= map.getHeight()) {
 
-        for (short x = (short) (buildingX / Block.BLOCK_WIDTH); x < buildingX / Block.BLOCK_WIDTH + loader.getWidthInBlocks(); x++) {
-            for (short y = (short) (buildingY / Block.BLOCK_HEIGHT); y < buildingY / Block.BLOCK_HEIGHT + loader.getHeightInBlocks(); y++) {
-                if (map.isBlockOccupied(x, y)) {
-                    return false;
-                }
+                return false;
             }
         }
 

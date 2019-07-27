@@ -66,6 +66,9 @@ public class Building extends GameObject implements UnitProducer {
     // how long does it take to construct the building (in seconds)
     protected float constructionTime;
 
+    // the blocks the building has occupied
+    protected List<Point> occupiedBlocks;
+
     /**
      * Default class constructor
      * @param map
@@ -324,27 +327,19 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void deoccupyBlocks() {
-        int blockCenterX = (int) (getCenterX() / Block.BLOCK_WIDTH);
-        int blockCenterY = (int) (getCenterY() / Block.BLOCK_HEIGHT);
-
-        for (int x = blockCenterX - widthInBlocks / 2; x < blockCenterX + widthInBlocks / 2; x++) {
-            for (int y = blockCenterY - heightInBlocks / 2; y < blockCenterY + heightInBlocks / 2; y++) {
-                map.occupyBlock((short) x, (short) y, null);
-            }
+        for (Point block: occupiedBlocks) {
+            map.occupyBlock((short) block.x, (short) block.y, null);
         }
     }
 
     /**
      * Occupies blocks on the map
      */
-    public void occupyBlocks() {
-        int blockCenterX = (int) (getCenterX() / Block.BLOCK_WIDTH);
-        int blockCenterY = (int) (getCenterY() / Block.BLOCK_HEIGHT);
+    public void occupyBlocks(List<Point> blocks) {
+        occupiedBlocks = blocks;
 
-        for (int x = blockCenterX - widthInBlocks / 2; x < blockCenterX + widthInBlocks / 2; x++) {
-            for (int y = blockCenterY - heightInBlocks / 2; y < blockCenterY + heightInBlocks / 2; y++) {
-                map.occupyBlock((short) x, (short) y, this);
-            }
+        for (Point block: occupiedBlocks) {
+            map.occupyBlock((short) block.x, (short) block.y, this);
         }
     }
 
