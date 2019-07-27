@@ -34,6 +34,12 @@ public abstract class GameObjectLoader {
     // the game's map
     protected BlockMap map;
 
+    // the name of the object's destruction animation
+    protected String destructionAnimationName;
+
+    // the scale of the object's destruction animation
+    protected float destructionAnimationScale = 1f;
+
     /**
      * Default class constructor
      * @param map
@@ -76,6 +82,11 @@ public abstract class GameObjectLoader {
         height = Float.parseFloat(reader.readLine("height"));
 
         controlContextName = reader.readLine("control context");
+
+        try {
+            destructionAnimationName = reader.readLine("destruction animation");
+            destructionAnimationScale = Float.parseFloat(reader.readLine("destruction animation scale"));
+        } catch (Exception ex) {}
 
         try {
             hpBarWidth = Float.parseFloat(reader.readLine("hp bar width"));
