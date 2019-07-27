@@ -40,6 +40,12 @@ public abstract class GameObjectLoader {
     // the scale of the object's destruction animation
     protected float destructionAnimationScale = 1f;
 
+    // the texture of the object's left over junk
+    protected String junkTexture;
+
+    // the scale of the object's left over junk
+    protected float junkScale = 1f;
+
     /**
      * Default class constructor
      * @param map
@@ -86,6 +92,11 @@ public abstract class GameObjectLoader {
         try {
             destructionAnimationName = reader.readLine("destruction animation");
             destructionAnimationScale = Float.parseFloat(reader.readLine("destruction animation scale"));
+        } catch (Exception ex) {}
+
+        try {
+            junkTexture = reader.readLine("junk texture");
+            junkScale = Float.parseFloat(reader.readLine("junk scale"));
         } catch (Exception ex) {}
 
         try {

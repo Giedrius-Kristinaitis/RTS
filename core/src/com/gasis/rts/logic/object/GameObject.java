@@ -73,6 +73,12 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the scale of the object's destruction animation
     protected float destructionAnimationScale = 1f;
 
+    // the texture of the object's left over junk
+    protected String junkTexture;
+
+    // the scale of the object's left over junk
+    protected float junkScale;
+
     /**
      * Default class constructor
      * @param map
@@ -483,5 +489,39 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    /**
+     * Gets the junk texture
+     * @return
+     */
+    public String getJunkTexture() {
+        return junkTexture;
+    }
+
+    /**
+     * Sets the junk texture
+     *
+     * @param junkTexture new junk texture
+     */
+    public void setJunkTexture(String junkTexture) {
+        this.junkTexture = junkTexture;
+    }
+
+    /**
+     * Gets the junk scale
+     * @return
+     */
+    public float getJunkScale() {
+        return junkScale;
+    }
+
+    /**
+     * Sets the junk scale
+     *
+     * @param junkScale new junk scale
+     */
+    public void setJunkScale(float junkScale) {
+        this.junkScale = junkScale;
     }
 }
