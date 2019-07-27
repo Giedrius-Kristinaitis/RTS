@@ -235,6 +235,8 @@ public class UnitLoader extends GameObjectLoader {
         unit.setHpBarWidth(hpBarWidth);
         unit.setControlContextName(controlContextName);
         unit.setHpBarYOffset(hpBarYOffset);
+        unit.setDestructionAnimationName(destructionAnimationName);
+        unit.setDestructionAnimationScale(destructionAnimationScale);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

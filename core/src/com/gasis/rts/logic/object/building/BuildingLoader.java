@@ -195,6 +195,8 @@ public class BuildingLoader extends GameObjectLoader {
         building.setAnimationsWhenActive(animationsWhenActive);
         building.setAnimationsWhenIdle(animationsWhenIdle);
         building.setConstructionTime(constructionTime);
+        building.setDestructionAnimationName(destructionAnimationName);
+        building.setDestructionAnimationScale(destructionAnimationScale);
 
         // add firing things to the building if it has any
         if (offensive) {
