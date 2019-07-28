@@ -148,6 +148,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // target removal listeners
     protected Set<TargetRemovalListener> targetRemovalListeners = new HashSet<TargetRemovalListener>();
 
+    // the object the unit is currently aiming at
+    protected GameObject targetObject;
+
     /**
      * Default class constructor
      * @param map
@@ -465,7 +468,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void aimAt(GameObject target) {
-
+        targetObject = target;
     }
 
     /**
@@ -934,6 +937,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
+        if (targetObject != null) {
+            if (!targetObject.isDestroyed()) {
+                if (target != null) {
+                    target.x = targetObject.getCenterX();
+                    target.y = targetObject.getCenterY();
+                } else {
+                    target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
+                }
+            } else {
+                target = null;
+                notifyTargetRemovalListeners();
+            }
+        }
+
         if (firingLogic != null && target != null && !moving) {
             rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
 

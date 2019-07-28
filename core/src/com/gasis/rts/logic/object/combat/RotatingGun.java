@@ -89,6 +89,9 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     // is the gun destroyed or not
     protected boolean destroyed = false;
 
+    // the object the gun is aiming at
+    protected GameObject targetObject;
+
     /**
      * Sets the gun's destroyed value
      *
@@ -227,7 +230,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      */
     @Override
     public void aimAt(GameObject target) {
-
+        targetObject = target;
     }
 
     /**
@@ -616,6 +619,19 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      */
     @SuppressWarnings("Duplicates")
     protected void updateTarget() {
+        if (targetObject != null) {
+            if (!targetObject.isDestroyed()) {
+                if (target != null) {
+                    target.x = targetObject.getCenterX();
+                    target.y = targetObject.getCenterY();
+                } else {
+                    target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
+                }
+            } else {
+                target = null;
+            }
+        }
+
         if (target != null) {
             rotateToDirection(CombatUtils.getFacingDirection(x + width / 2f, y + height / 2f, target.x, target.y));
 

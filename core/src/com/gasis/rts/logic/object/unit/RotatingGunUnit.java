@@ -211,6 +211,10 @@ public class RotatingGunUnit extends Unit {
     @Override
     public void aimAt(GameObject target) {
         super.aimAt(target);
+
+        for (RotatingGun gun: guns.values()) {
+            gun.aimAt(target);
+        }
     }
 
     /**

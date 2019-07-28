@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.*;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
@@ -31,6 +32,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
     // target removal listeners
     protected Set<TargetRemovalListener> targetRemovalListeners = new HashSet<TargetRemovalListener>();
+
+    // the object the building is currently aiming at
+    protected GameObject targetObject;
 
     /**
      * Default class constructor
@@ -207,7 +211,11 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      */
     @Override
     public void aimAt(GameObject target) {
+        targetObject = target;
 
+        for (RotatingGun gun: rotatingGuns.values()) {
+            gun.aimAt(target);
+        }
     }
 
     /**
@@ -314,8 +322,39 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                     delta, getCenterX(), getCenterY());
         }
 
+        if (!destroyed) {
+            updateTarget();
+        }
+
         for (RotatingGun gun: rotatingGuns.values()) {
             gun.update(false, delta);
+        }
+    }
+
+    /**
+     * Updates the building's target data
+     */
+    @SuppressWarnings("Duplicates")
+    protected void updateTarget() {
+        if (targetObject != null) {
+            if (!targetObject.isDestroyed()) {
+                if (target != null) {
+                    target.x = targetObject.getCenterX();
+                    target.y = targetObject.getCenterY();
+                } else {
+                    target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
+                }
+            } else {
+                target = null;
+                notifyTargetRemovalListeners();
+            }
+        }
+
+        if (firingLogic != null && target != null) {
+            if (MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
+                firingLogic.target = target;
+                firingLogic.enqueueShots(false);
+            }
         }
     }
 
