@@ -9,6 +9,7 @@ import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
@@ -350,8 +351,16 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param y y of the target
      */
     protected void aimSelectedUnits(float x, float y) {
-        for (Unit unit: unitSelector.getSelectedUnits()) {
-            unit.aimAt(x, y);
+        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+        if (occupyingObject == null) {
+            for (Unit unit : unitSelector.getSelectedUnits()) {
+                unit.aimAt(x, y);
+            }
+        } else {
+            for (Unit unit : unitSelector.getSelectedUnits()) {
+                unit.aimAt(occupyingObject);
+            }
         }
     }
 
@@ -363,7 +372,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void aimSelectedBuilding(float x, float y) {
         if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
-            ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
+            GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+            if (occupyingObject == null) {
+                ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
+            } else {
+                ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(occupyingObject);
+            }
         }
     }
 
