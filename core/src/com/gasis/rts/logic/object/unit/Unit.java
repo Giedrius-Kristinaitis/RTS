@@ -141,6 +141,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected float finalCenterX;
     protected float finalCenterY;
 
+    // the block the unit has occupied
+    protected Point occupiedBlock;
+
     /**
      * Default class constructor
      * @param map
@@ -154,10 +157,29 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void deoccupyBlocks() {
-        short blockX = (short) (getCenterX() / Block.BLOCK_WIDTH);
-        short blockY = (short) (getCenterY() / Block.BLOCK_HEIGHT);
+        if (!moving) {
+            short blockX = (short) (getCenterX() / Block.BLOCK_WIDTH);
+            short blockY = (short) (getCenterY() / Block.BLOCK_HEIGHT);
 
-        map.occupyBlock(blockX, blockY, null);
+            map.occupyBlock(blockX, blockY, null);
+        } else {
+            map.occupyBlock((short) occupiedBlock.x, (short) occupiedBlock.y, null);
+        }
+    }
+
+    /**
+     * Does damage to the object
+     *
+     * @param attack attack stat of the attacker,
+     *               damage will be calculated based on the object's defence
+     */
+    @Override
+    public void doDamage(float attack) {
+        super.doDamage(attack);
+
+        if (destroyed) {
+            notifyUnableToMoveListeners();
+        }
     }
 
     /**
@@ -262,6 +284,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         Point destination = getDestinationBlock();
 
         map.occupyBlock((short) destination.x, (short) destination.y, this);
+        occupiedBlock = destination;
     }
 
     /**

@@ -79,8 +79,6 @@ public class DestructionHandler implements TargetReachListener {
 
         // also do damage to nearby objects
         if (explosive) {
-            neighbourObjects.clear();
-
             neighbourObjects.add(map.getOccupyingObject(x, (short) (y + 1)));
             neighbourObjects.add(map.getOccupyingObject((short) (x + 1), (short) (y + 1)));
             neighbourObjects.add(map.getOccupyingObject((short) (x + 1), y));
@@ -100,6 +98,8 @@ public class DestructionHandler implements TargetReachListener {
                     }
                 }
             }
+
+            neighbourObjects.clear();
         }
     }
 

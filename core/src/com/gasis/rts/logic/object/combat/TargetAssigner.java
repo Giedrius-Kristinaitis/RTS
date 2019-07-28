@@ -28,7 +28,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void buildingConstructed(Building building) {
-        
+
     }
 
     /**
