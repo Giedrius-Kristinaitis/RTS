@@ -347,8 +347,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                 }
             } else {
                 target = null;
+                targetObject = null;
                 notifyTargetRemovalListeners();
-                
+
                 if (firingLogic != null) {
                     firingLogic.removeEnqueuedShots();
                 }
