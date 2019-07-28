@@ -9,6 +9,7 @@ import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.production.UnitProducer;
+import com.gasis.rts.logic.object.production.UnitProductionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.math.Point;
@@ -70,12 +71,44 @@ public class Building extends GameObject implements UnitProducer {
     // construction listeners
     protected Set<BuildingConstructionListener> constructionListeners = new HashSet<BuildingConstructionListener>();
 
+    // unit production listeners
+    protected Set<UnitProductionListener> unitProductionListeners = new HashSet<UnitProductionListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Adds a unit production listener
+     *
+     * @param listener listener to add
+     */
+    public void addUnitProductionListener(UnitProductionListener listener) {
+        unitProductionListeners.add(listener);
+    }
+
+    /**
+     * Removes a unit production listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeUnitProductionListener(UnitProductionListener listener) {
+        unitProductionListeners.remove(listener);
+    }
+
+    /**
+     * Notifies unit production listeners that a unit has been produced
+     *
+     * @param unit the unit that was just produced
+     */
+    protected void notifyUnitProductionListeners(Unit unit) {
+        for (UnitProductionListener listener: unitProductionListeners) {
+            listener.unitProduced(unit);
+        }
     }
 
     /**
@@ -249,6 +282,8 @@ public class Building extends GameObject implements UnitProducer {
         unit.setOwner(owner);
 
         map.occupyBlock((short) spawn.x, (short) spawn.y, unit);
+
+        notifyUnitProductionListeners(unit);
 
         producing = false;
     }
