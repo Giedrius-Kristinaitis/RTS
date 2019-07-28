@@ -145,12 +145,42 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the block the unit has occupied
     protected Point occupiedBlock;
 
+    // target removal listeners
+    protected Set<TargetRemovalListener> targetRemovalListeners = new HashSet<TargetRemovalListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Adds a target removal listener
+     *
+     * @param listener listener to add
+     */
+    public void addTargetRemovalListener(TargetRemovalListener listener) {
+        targetRemovalListeners.add(listener);
+    }
+
+    /**
+     * Removes a target removal listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetRemovalListener(TargetRemovalListener listener) {
+        targetRemovalListeners.remove(listener);
+    }
+
+    /**
+     * Notifies target removal listeners that the object's target has been removed
+     */
+    protected void notifyTargetRemovalListeners() {
+        for (TargetRemovalListener listener: targetRemovalListeners) {
+            listener.targetRemoved(this);
+        }
     }
 
     /**
@@ -458,6 +488,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (firingLogic != null) {
             firingLogic.removeEnqueuedShots();
         }
+
+        notifyTargetRemovalListeners();
     }
 
     /**
