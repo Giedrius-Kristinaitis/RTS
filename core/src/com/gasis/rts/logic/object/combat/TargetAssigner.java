@@ -40,7 +40,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void unitProduced(Unit unit) {
-        
+
     }
 
     /**

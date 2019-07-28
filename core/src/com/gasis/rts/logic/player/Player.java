@@ -190,6 +190,7 @@ public class Player implements DestructionListener, Updatable {
 
         building.addDestructionListener(this);
         building.addConstructionListener(targetAssigner);
+        building.addUnitProductionListener(targetAssigner);
 
         buildings.add(building);
     }
