@@ -14,6 +14,7 @@ import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
+import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
@@ -71,6 +72,9 @@ public class GameInstance implements Updatable {
     // plays animations
     private FrameAnimationPlayer animationPlayer;
 
+    // assigns targets to offensive objects
+    private TargetAssigner targetAssigner;
+
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
@@ -102,9 +106,12 @@ public class GameInstance implements Updatable {
         // initialize destruction handler
         destructionHandler = new DestructionHandler(map, animationPlayer);
 
+        // initialize target assigner
+        targetAssigner = new TargetAssigner();
+
         // create some test players
-        Player one = new Player(destructionHandler);
-        Player two = new Player(destructionHandler);
+        Player one = new Player(destructionHandler, targetAssigner);
+        Player two = new Player(destructionHandler, targetAssigner);
 
         one.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "rebels"), map);
         two.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "confederation"), map);
@@ -113,8 +120,8 @@ public class GameInstance implements Updatable {
         players.add(one);
 
         // initialize player controls
-        playerControls = new PlayerControls(map, two);
-        playerControls2 = new PlayerControls(map, one);
+        playerControls = new PlayerControls(map, two, targetAssigner);
+        playerControls2 = new PlayerControls(map, one, targetAssigner);
     }
 
     /**

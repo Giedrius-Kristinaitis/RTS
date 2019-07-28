@@ -10,6 +10,7 @@ import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.DestructionListener;
+import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 
 import java.util.ArrayList;
@@ -55,11 +56,15 @@ public class Player implements DestructionListener, Updatable {
     // ids of allied players
     protected List<Player> allies = new ArrayList<Player>();
 
+    // assigns targets to offensive objects
+    protected TargetAssigner targetAssigner;
+
     /**
      * Default class constructor
      */
-    public Player(DestructionHandler destructionHandler) {
+    public Player(DestructionHandler destructionHandler, TargetAssigner targetAssigner) {
         this.destructionHandler = destructionHandler;
+        this.targetAssigner = targetAssigner;
     }
 
     /**
@@ -167,6 +172,8 @@ public class Player implements DestructionListener, Updatable {
     public void addUnit(Unit unit) {
         unit.addTargetReachedListener(destructionHandler);
         unit.addDestructionListener(this);
+        unit.addMovementListener(targetAssigner);
+        unit.addTargetRemovalListener(targetAssigner);
         units.add(unit);
     }
 
@@ -178,9 +185,11 @@ public class Player implements DestructionListener, Updatable {
     public void addBuilding(Building building) {
         if (building instanceof OffensiveBuilding) {
             ((OffensiveBuilding) building).addTargetReachedListener(destructionHandler);
+            ((OffensiveBuilding) building).addTargetRemovalListener(targetAssigner);
         }
 
         building.addDestructionListener(this);
+        building.addConstructionListener(targetAssigner);
 
         buildings.add(building);
     }

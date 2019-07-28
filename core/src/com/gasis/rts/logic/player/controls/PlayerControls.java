@@ -11,6 +11,7 @@ import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.Aimable;
+import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.UnitMover;
 import com.gasis.rts.logic.pathfinding.PathFinder;
@@ -61,11 +62,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     /**
      * Default class constructor
      */
-    public PlayerControls(BlockMap map, Player controlledPlayer) {
+    public PlayerControls(BlockMap map, Player controlledPlayer, TargetAssigner targetAssigner) {
         this.map = map;
         this.controlledPlayer = controlledPlayer;
 
         buildingPlacer = new BuildingPlacer(map);
+        buildingPlacer.addPlacementListener(targetAssigner);
+
         unitSelector = new UnitSelector(map, controlledPlayer);
         buildingSelector = new BuildingSelector(map, controlledPlayer);
 
