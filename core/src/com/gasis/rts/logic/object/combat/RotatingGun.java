@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
@@ -217,6 +218,16 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     @Override
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
+    }
+
+    /**
+     * Aims at the specified object
+     *
+     * @param target object to aim at
+     */
+    @Override
+    public void aimAt(GameObject target) {
+
     }
 
     /**

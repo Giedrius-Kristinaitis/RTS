@@ -7,6 +7,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.*;
@@ -425,6 +426,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
+    }
+
+    /**
+     * Aims at the specified object
+     *
+     * @param target object to aim at
+     */
+    @Override
+    public void aimAt(GameObject target) {
+
     }
 
     /**

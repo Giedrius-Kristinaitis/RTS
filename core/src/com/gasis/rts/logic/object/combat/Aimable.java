@@ -1,5 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
+import com.gasis.rts.logic.object.GameObject;
+
 /**
  * Aims at a target
  */
@@ -12,6 +14,13 @@ public interface Aimable {
      * @param targetY y of the target
      */
     void aimAt(float targetX, float targetY);
+
+    /**
+     * Aims at the specified object
+     *
+     * @param target object to aim at
+     */
+    void aimAt(GameObject target);
 
     /**
      * Checks if this object has a target

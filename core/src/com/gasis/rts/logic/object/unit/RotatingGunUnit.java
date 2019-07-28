@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.unit;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.resources.Resources;
@@ -200,6 +201,16 @@ public class RotatingGunUnit extends Unit {
         for (RotatingGun gun: guns.values()) {
             gun.aimAt(targetX, targetY);
         }
+    }
+
+    /**
+     * Aims at the specified object
+     *
+     * @param target object to aim at
+     */
+    @Override
+    public void aimAt(GameObject target) {
+        super.aimAt(target);
     }
 
     /**
