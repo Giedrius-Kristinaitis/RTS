@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.combat;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingConstructionListener;
+import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.MovementAdapter;
@@ -30,7 +31,9 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void buildingConstructed(Building building) {
+        if (building instanceof OffensiveBuilding) {
 
+        }
     }
 
     /**
@@ -50,7 +53,11 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void targetRemoved(GameObject object) {
+        if (object instanceof Unit) {
 
+        } else if (object instanceof OffensiveBuilding) {
+
+        }
     }
 
     /**

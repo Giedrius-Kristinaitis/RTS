@@ -487,6 +487,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void removeTarget() {
         target = null;
+        targetObject = null;
 
         if (firingLogic != null) {
             firingLogic.removeEnqueuedShots();

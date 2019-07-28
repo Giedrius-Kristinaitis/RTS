@@ -234,6 +234,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     @Override
     public void removeTarget() {
         target = null;
+        targetObject = null;
 
         if (firingLogic != null) {
             firingLogic.removeEnqueuedShots();
