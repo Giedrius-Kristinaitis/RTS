@@ -19,7 +19,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void buildingPlaced(Building building) {
-
+        
     }
 
     /**
@@ -49,16 +49,6 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @Override
     public void startedMoving(Unit unit) {
-
-    }
-
-    /**
-     * Called when a unit reaches it's destination or stops moving for other reasons
-     *
-     * @param unit the unit that just arrived at it's destination
-     */
-    @Override
-    public void stoppedMoving(Unit unit) {
 
     }
 }
