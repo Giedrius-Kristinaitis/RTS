@@ -8,7 +8,9 @@ import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A building that attacks the enemy
@@ -26,6 +28,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
     // offensive specs of the building
     protected OffensiveSpecs offensiveSpecs;
+
+    // target removal listeners
+    protected Set<TargetRemovalListener> targetRemovalListeners = new HashSet<TargetRemovalListener>();
 
     /**
      * Default class constructor
@@ -154,6 +159,33 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Adds a target removal listener
+     *
+     * @param listener listener to add
+     */
+    public void addTargetRemovalListener(TargetRemovalListener listener) {
+        targetRemovalListeners.add(listener);
+    }
+
+    /**
+     * Removes a target removal listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeTargetRemovalListener(TargetRemovalListener listener) {
+        targetRemovalListeners.remove(listener);
+    }
+
+    /**
+     * Notifies target removal listeners that the object's target has been removed
+     */
+    protected void notifyTargetRemovalListeners() {
+        for (TargetRemovalListener listener: targetRemovalListeners) {
+            listener.targetRemoved(this);
+        }
+    }
+
+    /**
      * Aims at the specified target coordinates
      *
      * @param targetX x of the target
@@ -198,6 +230,8 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         if (firingLogic != null) {
             firingLogic.removeEnqueuedShots();
         }
+
+        notifyTargetRemovalListeners();
     }
 
     /**
