@@ -949,6 +949,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             } else {
                 target = null;
                 notifyTargetRemovalListeners();
+
+                if (firingLogic != null) {
+                    firingLogic.removeEnqueuedShots();
+                }
             }
         }
 
