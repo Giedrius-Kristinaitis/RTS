@@ -15,9 +15,7 @@ import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A building on the map
@@ -69,12 +67,33 @@ public class Building extends GameObject implements UnitProducer {
     // the blocks the building has occupied
     protected List<Point> occupiedBlocks;
 
+    // construction listeners
+    protected Set<BuildingConstructionListener> constructionListeners = new HashSet<BuildingConstructionListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Adds a construction listener
+     *
+     * @param listener listener to add
+     */
+    public void addConstructionListener(BuildingConstructionListener listener) {
+        constructionListeners.add(listener);
+    }
+
+    /**
+     * Removes a construction listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeConstructionListener(BuildingConstructionListener listener) {
+        constructionListeners.remove(listener);
     }
 
     /**
@@ -377,6 +396,17 @@ public class Building extends GameObject implements UnitProducer {
             hp = defensiveSpecs.getMaxHp();
             beingConstructed = false;
             renderHp = false;
+
+            notifyConstructionListeners();
+        }
+    }
+
+    /**
+     * Notifies construction listeners that the building has been constructed
+     */
+    protected void notifyConstructionListeners() {
+        for (BuildingConstructionListener listener: constructionListeners) {
+            listener.buildingConstructed(this);
         }
     }
 
