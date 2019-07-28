@@ -247,7 +247,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     @Override
     public void move(byte direction) {
-        if (moving || inSiegeMode) {
+        if (moving || inSiegeMode || destroyed) {
             return;
         }
 
@@ -296,7 +296,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @return true if the unit has started moving
      */
     protected boolean moveOneBlockForward() {
-        if (forwardBlockOutOfMapBounds() || !destinationAvailable()) {
+        if (forwardBlockOutOfMapBounds() || !destinationAvailable() || destroyed) {
             notifyDestinationListeners();
             return false;
         }
