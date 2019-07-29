@@ -98,10 +98,14 @@ public abstract class Selector implements Renderable {
     /**
      * Renders selection corners for the specified object
      *
-     * @param object
+     * @param object object to render corners for
      * @param shapeRenderer renderer to draw shapes to
      */
     protected void renderSelectionCorners(ShapeRenderer shapeRenderer, GameObject object) {
+        if (object.isDestroyed()) {
+            return;
+        }
+
         // top left corner
         renderCorner(shapeRenderer, object.getX(), object.getY() + object.getHeight() - 0.2f, object.getX(), object.getY() + object.getHeight(), object.getX() + 0.2f, object.getY() + object.getHeight());
 
