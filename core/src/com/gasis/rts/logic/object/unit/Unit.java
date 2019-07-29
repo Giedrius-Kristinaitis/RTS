@@ -151,12 +151,42 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the object the unit is currently aiming at
     protected GameObject targetObject;
 
+    // siege mode listeners
+    protected Set<SiegeModeListener> siegeModeListeners = new HashSet<SiegeModeListener>();
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Adds a siege mode listener
+     *
+     * @param listener listener to add
+     */
+    public void addSiegeModeListener(SiegeModeListener listener) {
+        siegeModeListeners.add(listener);
+    }
+
+    /**
+     * Removes a siege mode listener
+     *
+     * @param listener listener to remove
+     */
+    public void removeSiegeModeListeners(SiegeModeListener listener) {
+        siegeModeListeners.remove(listener);
+    }
+
+    /**
+     * Notifies siege mode listeners that the unit has just toggled siege mode
+     */
+    public void notifySiegeModeListeners() {
+        for (SiegeModeListener listener: siegeModeListeners) {
+            listener.siegeModeToggled(this);
+        }
     }
 
     /**
@@ -648,6 +678,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     public void finished(Animation animation) {
         if (animation == siegeModeTransitionAnimation) {
             siegeModeTransitionAnimation = null;
+            notifySiegeModeListeners();
         }
     }
 
