@@ -222,10 +222,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
         targetObject = null;
-
-        if (firingLogic != null) {
-            firingLogic.removeEnqueuedShots();
-        }
     }
 
     /**
@@ -236,10 +232,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     @Override
     public void aimAt(GameObject target) {
         targetObject = target;
-
-        if (firingLogic != null) {
-            firingLogic.removeEnqueuedShots();
-        }
     }
 
     /**
@@ -259,10 +251,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     public void removeTarget() {
         target = null;
         targetObject = null;
-
-        if (firingLogic != null) {
-            firingLogic.removeEnqueuedShots();
-        }
     }
 
     /**
@@ -640,10 +628,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
             } else {
                 target = null;
                 targetObject = null;
-
-                if (firingLogic != null) {
-                    firingLogic.removeEnqueuedShots();
-                }
             }
         }
 
