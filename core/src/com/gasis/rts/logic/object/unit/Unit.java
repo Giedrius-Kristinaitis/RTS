@@ -460,6 +460,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
         targetObject = null;
+
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
     }
 
     /**
@@ -470,6 +474,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void aimAt(GameObject target) {
         targetObject = target;
+
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
     }
 
     /**
