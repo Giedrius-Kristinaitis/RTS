@@ -198,6 +198,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     @Override
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
+        targetObject = null;
 
         for (RotatingGun gun: rotatingGuns.values()) {
             gun.aimAt(targetX, targetY);

@@ -221,6 +221,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     @Override
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
+        targetObject = null;
     }
 
     /**

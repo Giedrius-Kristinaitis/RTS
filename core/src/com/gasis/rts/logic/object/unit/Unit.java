@@ -459,6 +459,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void aimAt(float targetX, float targetY) {
         target = new Point(targetX, targetY);
+        targetObject = null;
     }
 
     /**
