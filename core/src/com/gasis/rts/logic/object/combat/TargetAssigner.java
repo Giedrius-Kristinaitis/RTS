@@ -1,5 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
+import com.gasis.rts.logic.map.blockmap.Block;
+import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingConstructionListener;
@@ -21,11 +23,15 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
     // all players in the game
     protected List<Player> players;
 
+    // the game's map
+    protected BlockMap map;
+
     /**
      * Sets the game players
      */
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(List<Player> players, BlockMap map) {
         this.players = players;
+        this.map = map;
     }
 
     /**
@@ -107,13 +113,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     protected void assignTargetToEnemyUnits(Player enemy, GameObject object) {
         for (Unit unit: enemy.getUnits()) {
-            if (!unit.hasTarget() && ((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), object.getCenterX(), unit.getCenterY(), object.getCenterY()) <=
-                unit.getDefensiveSpecs().getSightRange()) ||
-                (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), object.getCenterX(), unit.getCenterY(), object.getCenterY()) <=
-                            unit.getOffensiveSpecs().getSiegeModeAttackRange()))) {
-
-                unit.aimAt(object);
-            }
+            assignTargetToUnit(unit, object);
         }
     }
 
@@ -130,13 +130,37 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
                 continue;
             }
 
-            OffensiveBuilding offensiveBuilding = (OffensiveBuilding) building;
+            assignTargetToBuilding((OffensiveBuilding) building, object);
+        }
+    }
 
-            if (!offensiveBuilding.hasTarget() && MathUtils.distance(offensiveBuilding.getCenterX(), object.getCenterX(), offensiveBuilding.getCenterY(), object.getCenterY()) <=
-                    offensiveBuilding.getOffensiveSpecs().getAttackRange()) {
+    /**
+     * Assigns a target to a unit
+     *
+     * @param unit unit to assign the target to
+     * @param target the target
+     */
+    protected void assignTargetToUnit(Unit unit, GameObject target) {
+        if (!unit.hasTarget() && ((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), target.getCenterX(), unit.getCenterY(), target.getCenterY()) <=
+                unit.getDefensiveSpecs().getSightRange()) ||
+                (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), target.getCenterX(), unit.getCenterY(), target.getCenterY()) <=
+                        unit.getOffensiveSpecs().getSiegeModeAttackRange()))) {
 
-                offensiveBuilding.aimAt(object);
-            }
+            unit.aimAt(target);
+        }
+    }
+
+    /**
+     * Assigns a target to a building
+     *
+     * @param building building to assign the target to
+     * @param target the target
+     */
+    protected void assignTargetToBuilding(OffensiveBuilding building, GameObject target) {
+        if (!building.hasTarget() && MathUtils.distance(building.getCenterX(), target.getCenterX(), building.getCenterY(), target.getCenterY()) <=
+                building.getOffensiveSpecs().getAttackRange()) {
+
+            building.aimAt(target);
         }
     }
 
@@ -145,7 +169,105 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      *
      * @param object object to find target for
      */
+    @SuppressWarnings("Duplicates")
     protected void assignTargetForObject(GameObject object) {
-        
+        if (hasTarget(object)) {
+            return;
+        }
+
+        short centerBlockX = (short) (object.getCenterX() / Block.BLOCK_WIDTH);
+        short centerBlockY = (short) (object.getCenterY() / Block.BLOCK_HEIGHT);
+
+        short sightRangeX = (short) (object.getDefensiveSpecs().getSightRange() / Block.BLOCK_WIDTH);
+        short sightRangeY = (short) (object.getDefensiveSpecs().getSightRange() / Block.BLOCK_HEIGHT);
+
+        if (object instanceof Unit && ((Unit) object).isInSiegeMode()) {
+            sightRangeX = (short) (object.getDefensiveSpecs().getSiegeModeSightRange() / Block.BLOCK_WIDTH);
+            sightRangeY = (short) (object.getDefensiveSpecs().getSiegeModeSightRange() / Block.BLOCK_HEIGHT);
+        }
+
+        /*
+         *   WARNING: the following code might appear unpleasant to some viewers and
+         *   cause brain damage.
+         *
+         *   VIEWER DISCRETION IS ADVISED
+         */
+
+        for (int distance = 1; distance <= Math.max(sightRangeX, sightRangeY); distance++) {
+            if (hasTarget(object)) {
+                break;
+            }
+
+            for (int x = centerBlockX - distance; x <= centerBlockX + distance; x++) {
+                if (hasTarget(object)) {
+                    break;
+                }
+
+                GameObject occupyingObject = map.getOccupyingObject((short) x, (short) (centerBlockY - distance));
+
+                if (occupyingObject != null && occupyingObject != object && occupyingObject.getOwner() != object.getOwner() && !object.getOwner().isAllied(occupyingObject.getOwner())) {
+                    assignTargetToObject(object, occupyingObject);
+                }
+
+                occupyingObject = map.getOccupyingObject((short) x, (short) (centerBlockY + distance));
+
+                if (occupyingObject != null && occupyingObject != object && occupyingObject.getOwner() != object.getOwner() && !object.getOwner().isAllied(occupyingObject.getOwner())) {
+                    assignTargetToObject(object, occupyingObject);
+                }
+            }
+
+            if (hasTarget(object)) {
+                break;
+            }
+
+            for (int y = centerBlockY - distance; y <= centerBlockY + distance; y++) {
+                if (hasTarget(object)) {
+                    break;
+                }
+
+                GameObject occupyingObject = map.getOccupyingObject((short) (centerBlockX - distance), (short) y);
+
+                if (occupyingObject != null && occupyingObject != object && occupyingObject.getOwner() != object.getOwner() && !object.getOwner().isAllied(occupyingObject.getOwner())) {
+                    assignTargetToObject(object, occupyingObject);
+                }
+
+                occupyingObject = map.getOccupyingObject((short) (centerBlockX + distance), (short) y);
+
+                if (occupyingObject != null && occupyingObject != object && occupyingObject.getOwner() != object.getOwner() && !object.getOwner().isAllied(occupyingObject.getOwner())) {
+                    assignTargetToObject(object, occupyingObject);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the specified object has a target
+     *
+     * @param object object to check
+     * @return
+     */
+    protected boolean hasTarget(GameObject object) {
+        if (object instanceof Unit) {
+            return ((Unit) object).hasTarget();
+        } else if (object instanceof OffensiveBuilding) {
+            return ((OffensiveBuilding) object).hasTarget();
+        }
+
+        return false;
+    }
+
+    /**
+     * Tries to assign a target to the specified object
+     *
+     * @param object object to assign the target to
+     * @param target the target
+
+     */
+    protected void assignTargetToObject(GameObject object, GameObject target) {
+        if (object instanceof Unit) {
+            assignTargetToUnit((Unit) object, target);
+        } else if (object instanceof OffensiveBuilding) {
+            assignTargetToBuilding((OffensiveBuilding) object, target);
+        }
     }
 }

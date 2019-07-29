@@ -119,7 +119,7 @@ public class GameInstance implements Updatable {
         players.add(two);
         players.add(one);
 
-        targetAssigner.setPlayers(players);
+        targetAssigner.setPlayers(players, map);
 
         // initialize player controls
         playerControls = new PlayerControls(map, two, targetAssigner);
