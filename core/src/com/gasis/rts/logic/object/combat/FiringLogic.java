@@ -223,6 +223,8 @@ public class FiringLogic implements Renderable {
         if (enqueuedShots == 0) {
             enqueuedShots = siegeMode ? siegeModeShotCount : shotCount;
 
+            timeSinceLastReload = 0;
+
             if (initialEnqueue) {
                 timeSinceLastReload = siegeMode ? siegeModeReloadSpeed : reloadSpeed;
                 timeSinceLastShot = siegeMode ? siegeModeShotInterval : shotInterval;
@@ -311,10 +313,6 @@ public class FiringLogic implements Renderable {
             fired = true;
             enqueuedShots--;
             timeSinceLastShot = 0;
-
-            if (enqueuedShots == 0) {
-                timeSinceLastReload = 0;
-            }
 
             if (nextFiringSourceIndex == fireSourceNames.size() - 1) {
                 nextFiringSourceIndex = 0;
