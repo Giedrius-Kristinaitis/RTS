@@ -223,7 +223,7 @@ public class FiringLogic implements Renderable {
         if (enqueuedShots == 0) {
             enqueuedShots = siegeMode ? siegeModeShotCount : shotCount;
 
-            timeSinceLastReload = 0;
+            timeSinceLastReload = timeSinceLastShot;
 
             if (initialEnqueue) {
                 timeSinceLastReload = siegeMode ? siegeModeReloadSpeed : reloadSpeed;
