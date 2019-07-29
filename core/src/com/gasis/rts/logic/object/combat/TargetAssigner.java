@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Finds and assigns targets to offensive game objects
  */
-public class TargetAssigner extends MovementAdapter implements BuildingPlacementListener, BuildingConstructionListener, TargetRemovalListener, UnitProductionListener {
+public class TargetAssigner extends MovementAdapter implements BuildingPlacementListener, BuildingConstructionListener, TargetRemovalListener, UnitProductionListener, SiegeModeListener {
 
     // all players in the game
     protected List<Player> players;
@@ -54,6 +54,16 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
         if (building instanceof OffensiveBuilding) {
             assignTargetForObject(building);
         }
+    }
+
+    /**
+     * Called when a unit toggles siege mode
+     *
+     * @param unit the unit that just toggled siege mode
+     */
+    @Override
+    public void siegeModeToggled(Unit unit) {
+        assignTargetForObject(unit);
     }
 
     /**

@@ -174,6 +174,8 @@ public class Player implements DestructionListener, Updatable {
         unit.addDestructionListener(this);
         unit.addMovementListener(targetAssigner);
         unit.addTargetRemovalListener(targetAssigner);
+        unit.addSiegeModeListener(targetAssigner);
+
         units.add(unit);
     }
 
