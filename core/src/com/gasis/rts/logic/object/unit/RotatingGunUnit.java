@@ -230,6 +230,18 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Removes all enqueued shots
+     */
+    @Override
+    public void removeEnqueuedShots() {
+        super.removeEnqueuedShots();
+
+        for (RotatingGun gun: guns.values()) {
+            gun.removeEnqueuedShots();
+        }
+    }
+
+    /**
      * Renders the object to the screen
      *
      * @param batch     sprite batch to draw to

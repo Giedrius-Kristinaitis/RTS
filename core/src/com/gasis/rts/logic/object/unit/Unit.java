@@ -524,6 +524,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Removes all enqueued shots
+     */
+    @Override
+    public void removeEnqueuedShots() {
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
+    }
+
+    /**
      * Adds a target reach listener
      *
      * @param listener listener to add

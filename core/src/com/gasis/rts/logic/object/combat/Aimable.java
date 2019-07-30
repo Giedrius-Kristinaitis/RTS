@@ -32,4 +32,9 @@ public interface Aimable {
      * Removes the current target
      */
     void removeTarget();
+
+    /**
+     * Removes all enqueued shots
+     */
+    void removeEnqueuedShots();
 }

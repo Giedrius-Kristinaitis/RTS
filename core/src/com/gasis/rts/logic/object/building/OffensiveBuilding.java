@@ -241,6 +241,20 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Removes all enqueued shots
+     */
+    @Override
+    public void removeEnqueuedShots() {
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
+
+        for (RotatingGun gun: rotatingGuns.values()) {
+            gun.removeEnqueuedShots();
+        }
+    }
+
+    /**
      * Sets the x coordinate of the object
      *
      * @param x new x coordinate

@@ -254,6 +254,16 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Removes all enqueued shots
+     */
+    @Override
+    public void removeEnqueuedShots() {
+        if (firingLogic != null) {
+            firingLogic.removeEnqueuedShots();
+        }
+    }
+
+    /**
      * Gets the relative x coordinates of the gun
      * @return
      */
