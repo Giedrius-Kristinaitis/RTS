@@ -351,7 +351,8 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
         if (firingLogic != null && target != null) {
             if (MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
-                firingLogic.target = target;
+                firingLogic.target.x = target.x;
+                firingLogic.target.y = target.y;
                 firingLogic.enqueueShots(false);
             }
         }

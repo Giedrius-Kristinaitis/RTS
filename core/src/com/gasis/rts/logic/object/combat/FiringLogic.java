@@ -34,7 +34,7 @@ public class FiringLogic implements Renderable {
     private byte enqueuedShots;
 
     // target of the fire
-    public Point target;
+    public Point target = new Point();
 
     // reload speed (in seconds)
     protected float reloadSpeed;
