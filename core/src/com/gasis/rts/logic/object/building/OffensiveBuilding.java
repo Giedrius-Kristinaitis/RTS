@@ -255,6 +255,16 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Checks if the object is aimed at the ground or not
+     *
+     * @return
+     */
+    @Override
+    public boolean aimedAtGround() {
+        return target != null && targetObject == null;
+    }
+
+    /**
      * Sets the x coordinate of the object
      *
      * @param x new x coordinate

@@ -37,4 +37,10 @@ public interface Aimable {
      * Removes all enqueued shots
      */
     void removeEnqueuedShots();
+
+    /**
+     * Checks if the object is aimed at the ground or not
+     * @return
+     */
+    boolean aimedAtGround();
 }

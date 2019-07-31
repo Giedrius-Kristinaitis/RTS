@@ -264,6 +264,16 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Checks if the object is aimed at the ground or not
+     *
+     * @return
+     */
+    @Override
+    public boolean aimedAtGround() {
+        return target != null && targetObject == null;
+    }
+
+    /**
      * Gets the relative x coordinates of the gun
      * @return
      */

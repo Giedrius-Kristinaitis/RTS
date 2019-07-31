@@ -534,6 +534,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the object is aimed at the ground or not
+     *
+     * @return
+     */
+    @Override
+    public boolean aimedAtGround() {
+        return target != null && targetObject == null;
+    }
+
+    /**
      * Adds a target reach listener
      *
      * @param listener listener to add
