@@ -648,20 +648,32 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
             } else {
                 target = null;
                 targetObject = null;
+
+                if (firingLogic != null) {
+                    firingLogic.removeEnqueuedShots();
+                }
             }
         }
 
         if (target != null) {
             rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
 
-            if (rotatingToDirection == NONE && inSiegeMode && MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
-                firingLogic.target.x = target.x;
-                firingLogic.target.y = target.y;
-                firingLogic.enqueueShots(inSiegeMode);
-            } else if (rotatingToDirection == NONE && !inSiegeMode && MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getAttackRange()) {
-                firingLogic.target.x = target.x;
-                firingLogic.target.y = target.y;
-                firingLogic.enqueueShots(inSiegeMode);
+            if (rotatingToDirection == NONE && inSiegeMode) {
+                if (MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                    firingLogic.target.x = target.x;
+                    firingLogic.target.y = target.y;
+                    firingLogic.enqueueShots(inSiegeMode);
+                } else {
+                    firingLogic.removeEnqueuedShots();
+                }
+            } else if (rotatingToDirection == NONE && !inSiegeMode) {
+                if (MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getAttackRange()) {
+                    firingLogic.target.x = target.x;
+                    firingLogic.target.y = target.y;
+                    firingLogic.enqueueShots(inSiegeMode);
+                } else {
+                    removeEnqueuedShots();
+                }
             }
         }
     }

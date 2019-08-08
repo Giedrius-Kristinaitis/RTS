@@ -370,6 +370,16 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                 target = null;
                 targetObject = null;
                 notifyTargetRemovalListeners();
+
+                if (target == null && targetObject == null) {
+                    if (firingLogic != null) {
+                        firingLogic.removeEnqueuedShots();
+                    }
+
+                    for (RotatingGun gun : rotatingGuns.values()) {
+                        gun.removeEnqueuedShots();
+                    }
+                }
             }
         }
 
@@ -378,6 +388,8 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                 firingLogic.target.x = target.x;
                 firingLogic.target.y = target.y;
                 firingLogic.enqueueShots(false);
+            } else {
+                firingLogic.removeEnqueuedShots();
             }
         }
     }
