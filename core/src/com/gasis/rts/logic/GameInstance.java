@@ -38,14 +38,6 @@ public class GameInstance implements Updatable {
     // game's viewport
     private Viewport viewport;
 
-    // size of the screen (expressed in screen coordinates)
-    private int screenWidth;
-    private int screenHeight;
-
-    // half width and height of the screen (expressed in game coordinates)
-    private float halfWidth;
-    private float halfHeight;
-
     // renders the game map
     private MapRenderer mapRenderer;
 
@@ -310,20 +302,17 @@ public class GameInstance implements Updatable {
      * @param height new height
      */
     public void screenSizeChanged(int width, int height) {
-        screenWidth = width;
-        screenHeight = height;
+        float halfHeight = cam.viewportHeight / 2f;
+        float halfWidth = cam.viewportWidth / 2f;
 
-        halfWidth = cam.viewportWidth / 2f;
-        halfHeight = cam.viewportHeight / 2f;
-
-        if (width > height) {
+        if (halfWidth < halfHeight * ((float) width / (float) height)) {
             halfHeight = halfWidth * ((float) height / (float) width);
         } else {
             halfWidth = halfHeight * ((float) width / (float) height);
         }
 
         mapScroller.setHalfScreenDimensions(halfWidth, halfHeight);
-        mapScroller.setScreenDimensions(screenWidth, screenHeight);
+        mapScroller.setScreenDimensions(width, height);
     }
 
     /**
