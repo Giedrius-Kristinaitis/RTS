@@ -12,7 +12,6 @@ import com.gasis.rts.ui.abstractions.ScreenWithInput;
 import com.gasis.rts.ui.implementations.GameScreen;
 import com.gasis.rts.ui.implementations.LoadingScreen;
 import com.gasis.rts.utils.Constants;
-import com.sun.org.apache.bcel.internal.classfile.Constant;
 
 import java.util.Map;
 import java.util.TreeMap;
