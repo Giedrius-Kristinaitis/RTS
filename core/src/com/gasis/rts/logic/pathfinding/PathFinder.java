@@ -424,7 +424,7 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public com.gasis.rts.math.Point getFinalDestination(Unit unit) {
         for (PathGroup group: groups) {
-            if (group.foundPaths.containsKey(unit)) {
+            if (group.foundPaths.containsKey(unit) && !group.foundPaths.get(unit).isEmpty()) {
                 return group.foundPaths.get(unit).getLast();
             }
         }
