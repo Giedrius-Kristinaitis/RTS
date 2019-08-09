@@ -282,7 +282,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param y mouse y in world coordinates
      */
     protected boolean handleUnitCombatControls(float x, float y) {
-        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+        if ((occupyingObject != null && !controlledPlayer.isAllied(occupyingObject.getOwner())) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
             stopSelectedUnits();
             aimSelectedUnits(x, y);
             return true;
