@@ -170,6 +170,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Requests the unit to make a movement request
+     *
+     * @param x destination x
+     * @param y destination y
+     */
+    public void requestToMove(short x, short y) {
+        movementRequestHandler.handleMovementRequest(this, x, y);
+    }
+
+    /**
      * Sets the movement request handler that the unit will use
      *
      * @param movementRequestHandler new movement request handler

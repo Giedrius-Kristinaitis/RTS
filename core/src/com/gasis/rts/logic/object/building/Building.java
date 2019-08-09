@@ -74,12 +74,24 @@ public class Building extends GameObject implements UnitProducer {
     // unit production listeners
     protected Set<UnitProductionListener> unitProductionListeners = new HashSet<UnitProductionListener>();
 
+    // the point to which spawned units go
+    protected Point gatherPoint;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the new gather point of the building
+     *
+     * @param gatherPoint new gather point
+     */
+    public void setGatherPoint(Point gatherPoint) {
+        this.gatherPoint = gatherPoint;
     }
 
     /**
@@ -284,6 +296,10 @@ public class Building extends GameObject implements UnitProducer {
         map.occupyBlock((short) spawn.x, (short) spawn.y, unit);
 
         notifyUnitProductionListeners(unit);
+
+        if (gatherPoint != null) {
+            unit.requestToMove((short) gatherPoint.x, (short) gatherPoint.y);
+        }
 
         producing = false;
     }

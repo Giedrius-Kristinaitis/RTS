@@ -18,6 +18,7 @@ import com.gasis.rts.logic.object.unit.movement.UnitMover;
 import com.gasis.rts.logic.pathfinding.PathFinder;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
+import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -212,7 +213,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 handleUnitMovementControls(x, y);
             }
 
-            handleBuildingCombatControls(x, y);
+            if (!handleBuildingCombatControls(x, y)) {
+                handleBuildingControls(x, y);
+            }
         } else if (button == Input.Buttons.LEFT) {
             if (!buildingPlacer.isPlacing()) {
                 buildingSelector.touchDown(x, y, pointer, button);
@@ -341,6 +344,20 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
             aimSelectedBuilding(x, y);
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Handles building controls
+     *
+     * @param x mouse x in world coords
+     * @param y mouse y in world coords
+     */
+    protected boolean handleBuildingControls(float x, float y) {
+        if (buildingSelector.getSelectedBuilding() != null) {
+            buildingSelector.getSelectedBuilding().setGatherPoint(new Point(x / Block.BLOCK_WIDTH, y / Block.BLOCK_WIDTH));
         }
 
         return false;
