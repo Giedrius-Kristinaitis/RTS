@@ -1142,13 +1142,17 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @return
      */
     protected boolean isTargetReachable() {
-        if (firingLogic == null || target == null) {
+        if (firingLogic == null || (target == null && targetObject == null)) {
             return true;
         } else {
-            if (!inSiegeMode) {
-                return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+            if (target != null) {
+                if (!inSiegeMode) {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                } else {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                }
             } else {
-                return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                return false;
             }
         }
     }

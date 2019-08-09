@@ -684,14 +684,18 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      * @return
      */
     public boolean isTargetReachable() {
-        if (firingLogic == null || target == null) {
+        if (firingLogic == null || (target == null && targetObject == null)) {
             return true;
         }
 
-        if (!inSiegeMode) {
-            return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+        if (target != null) {
+            if (!inSiegeMode) {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+            } else {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+            }
         } else {
-            return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+            return false;
         }
     }
 
