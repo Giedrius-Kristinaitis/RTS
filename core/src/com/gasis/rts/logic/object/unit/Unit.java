@@ -1119,6 +1119,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 }
             } else if (!isTargetReachable() && !movingToTarget) {
                 removeTarget();
+                notifyTargetRemovalListeners();
             }
         }
     }
@@ -1152,7 +1153,11 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
                 }
             } else {
-                return false;
+                if (!inSiegeMode) {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                } else {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                }
             }
         }
     }
