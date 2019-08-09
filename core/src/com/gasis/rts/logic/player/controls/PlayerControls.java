@@ -57,9 +57,6 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     // the code of the currently pressed key
     protected int pressedKey;
 
-    // moves units
-    protected UnitMover unitMover;
-
     /**
      * Default class constructor
      */
@@ -75,8 +72,6 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
         unitSelector.addUnitSelectionListener(this);
         buildingSelector.addBuildingSelectionListener(this);
-
-        unitMover = new UnitMover(map, new PathFinder(map));
 
         loadControlContexts();
     }
@@ -302,7 +297,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     protected void stopSelectedUnits() {
         if (unitSelector.getSelectedUnits() != null) {
             for (Unit unit: unitSelector.getSelectedUnits()) {
-                unitMover.stopUnit(unit);
+                controlledPlayer.getUnitMover().stopUnit(unit);
             }
         }
     }
@@ -332,7 +327,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 }
             }
 
-            unitMover.moveUnits(controlledPlayer.getSelectedUnits(), x, y);
+            controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y);
         }
     }
 
@@ -425,7 +420,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     @Override
     public void update(float delta) {
-        unitMover.update(delta);
+        controlledPlayer.getUnitMover().update(delta);
     }
 
     /**

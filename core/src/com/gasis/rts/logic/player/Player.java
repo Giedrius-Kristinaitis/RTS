@@ -12,6 +12,8 @@ import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.object.unit.movement.UnitMover;
+import com.gasis.rts.logic.pathfinding.PathFinder;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -59,12 +61,25 @@ public class Player implements DestructionListener, Updatable {
     // assigns targets to offensive objects
     protected TargetAssigner targetAssigner;
 
+    // moves units
+    protected UnitMover unitMover;
+
     /**
      * Default class constructor
      */
-    public Player(DestructionHandler destructionHandler, TargetAssigner targetAssigner) {
+    public Player(DestructionHandler destructionHandler, TargetAssigner targetAssigner, BlockMap map) {
         this.destructionHandler = destructionHandler;
         this.targetAssigner = targetAssigner;
+
+        unitMover = new UnitMover(map, new PathFinder(map));
+    }
+
+    /**
+     * Gets the unit mover used by the player
+     * @return
+     */
+    public UnitMover getUnitMover() {
+        return unitMover;
     }
 
     /**
@@ -175,6 +190,7 @@ public class Player implements DestructionListener, Updatable {
         unit.addMovementListener(targetAssigner);
         unit.addTargetRemovalListener(targetAssigner);
         unit.addSiegeModeListener(targetAssigner);
+        unit.setMovementRequestHandler(unitMover);
 
         units.add(unit);
     }

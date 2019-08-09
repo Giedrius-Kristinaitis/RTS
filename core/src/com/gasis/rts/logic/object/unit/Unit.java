@@ -13,6 +13,7 @@ import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
+import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -157,12 +158,24 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // is the unit rotating to it's target or because it is moving
     protected boolean rotatingToTarget = false;
 
+    // used to make movement requests from the unit itself
+    protected MovementRequestHandler movementRequestHandler;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the movement request handler that the unit will use
+     *
+     * @param movementRequestHandler new movement request handler
+     */
+    public void setMovementRequestHandler(MovementRequestHandler movementRequestHandler) {
+        this.movementRequestHandler = movementRequestHandler;
     }
 
     /**

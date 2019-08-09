@@ -102,8 +102,8 @@ public class GameInstance implements Updatable {
         targetAssigner = new TargetAssigner();
 
         // create some test players
-        Player one = new Player(destructionHandler, targetAssigner);
-        Player two = new Player(destructionHandler, targetAssigner);
+        Player one = new Player(destructionHandler, targetAssigner, map);
+        Player two = new Player(destructionHandler, targetAssigner, map);
 
         one.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "rebels"), map);
         two.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "confederation"), map);
