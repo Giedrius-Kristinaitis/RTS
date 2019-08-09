@@ -158,6 +158,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // is the unit rotating to it's target or because it is moving
     protected boolean rotatingToTarget = false;
 
+    // is the unit moving to it's target or not
+    protected boolean movingToTarget = false;
+
     // used to make movement requests from the unit itself
     protected MovementRequestHandler movementRequestHandler;
 
@@ -940,6 +943,15 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Sets the unit's movement cause
+     *
+     * @param movingToTarget is the unit moving to it's target or not
+     */
+    public void setMovingToTarget(boolean movingToTarget) {
+        this.movingToTarget = movingToTarget;
+    }
+
+    /**
      * Gets the direction the unit is facing
      * @return
      */
@@ -1070,6 +1082,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     removeTarget();
                     notifyTargetRemovalListeners();
                 }
+            } else if (!isTargetReachable() && !movingToTarget) {
+                removeTarget();
             }
         }
     }
@@ -1102,6 +1116,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
         if (rangePoint != null) {
             movementRequestHandler.handleMovementRequest(this, (short) rangePoint.x, (short) rangePoint.y);
+            movingToTarget = true;
         } else {
             removeTarget();
         }
