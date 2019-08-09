@@ -1063,17 +1063,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                         firingLogic.removeEnqueuedShots();
                     }
 
-                    if (leaveSiegeModeAfterTargetDestroyed) {
-                        leaveSiegeModeAfterTargetDestroyed = false;
-                        setInSiegeMode(false);
-
-                        if (pointToGoToAfterTargetDestroyed != null) {
-                            requestToMove((short) pointToGoToAfterTargetDestroyed.x,
-                                    (short) pointToGoToAfterTargetDestroyed.y);
-
-                            pointToGoToAfterTargetDestroyed = null;
-                        }
-                    }
+                    handleAutoSiegeMode2();
                 }
             }
         }
@@ -1117,10 +1107,16 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 } else {
                     removeTarget();
                     notifyTargetRemovalListeners();
+
+                    handleAutoSiegeMode2();
                 }
             } else if (!isTargetReachable() && !movingToTarget) {
                 removeTarget();
                 notifyTargetRemovalListeners();
+
+                if (inSiegeMode) {
+                    handleAutoSiegeMode2();
+                }
             }
         }
     }
@@ -1136,6 +1132,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
             setInSiegeMode(true);
             leaveSiegeModeAfterTargetDestroyed = true;
+        }
+    }
+
+    /**
+     * Handles auto siege mode method #2 I know this is bad naming
+     */
+    protected void handleAutoSiegeMode2() {
+        if (leaveSiegeModeAfterTargetDestroyed) {
+            leaveSiegeModeAfterTargetDestroyed = false;
+            setInSiegeMode(false);
+
+            if (pointToGoToAfterTargetDestroyed != null) {
+                requestToMove((short) pointToGoToAfterTargetDestroyed.x,
+                        (short) pointToGoToAfterTargetDestroyed.y);
+
+                pointToGoToAfterTargetDestroyed = null;
+            }
         }
     }
 
