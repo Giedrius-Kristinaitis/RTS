@@ -109,6 +109,10 @@ public class Player implements DestructionListener, Updatable {
      * @return
      */
     public boolean isAllied(Player player) {
+        if (player == this) {
+            return true;
+        }
+        
         return allies.contains(player);
     }
 
