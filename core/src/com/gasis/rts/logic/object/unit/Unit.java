@@ -1023,6 +1023,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                         firingLogic.enqueueShots(inSiegeMode);
                     } else {
                         firingLogic.removeEnqueuedShots();
+                        removeTarget();
                     }
                 } else if (rotatingToDirection == NONE && !inSiegeMode) {
                     if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
@@ -1031,12 +1032,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                         firingLogic.enqueueShots(inSiegeMode);
                     } else {
                         firingLogic.removeEnqueuedShots();
+                        moveCloserToTarget();
                     }
                 }
             } else {
                 firingLogic.removeEnqueuedShots();
             }
         }
+    }
+
+    /**
+     * Moves the unit to a point in which the unit can range it's target
+     */
+    protected void moveCloserToTarget() {
+        // find closest available point
+
+        // make a request to the unit mover to move to the closest point
+
     }
 
     /**
