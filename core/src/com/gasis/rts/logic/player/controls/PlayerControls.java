@@ -14,8 +14,6 @@ import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
-import com.gasis.rts.logic.object.unit.movement.UnitMover;
-import com.gasis.rts.logic.pathfinding.PathFinder;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.math.Point;
