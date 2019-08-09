@@ -154,6 +154,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // siege mode listeners
     protected Set<SiegeModeListener> siegeModeListeners = new HashSet<SiegeModeListener>();
 
+    // is the unit rotating to it's target or because it is moving
+    protected boolean rotatingToTarget = false;
+
     /**
      * Default class constructor
      * @param map
@@ -284,6 +287,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (direction != facingDirection) {
             rotateToDirection(direction);
             moveWhenFinishedRotating = true;
+            rotatingToTarget = false;
         } else {
             if (!moveOneBlockForward()) {
                 return;
@@ -1006,8 +1010,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         if (firingLogic != null && target != null) {
-            if (!moving && rotatingToDirection == NONE) {
+            if (!moving && (rotatingToDirection == NONE || rotatingToTarget)) {
                 rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
+                rotatingToTarget = true;
             }
 
             if (facingDirection == CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y)) {
