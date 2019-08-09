@@ -1009,7 +1009,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
 
             if (rotatingToDirection == NONE && inSiegeMode) {
-                if (MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
                     firingLogic.target.x = target.x;
                     firingLogic.target.y = target.y;
                     firingLogic.enqueueShots(inSiegeMode);
@@ -1017,7 +1017,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     firingLogic.removeEnqueuedShots();
                 }
             } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                if (MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
+                if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
                     firingLogic.target.x = target.x;
                     firingLogic.target.y = target.y;
                     firingLogic.enqueueShots(inSiegeMode);

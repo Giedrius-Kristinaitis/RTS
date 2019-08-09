@@ -3,6 +3,7 @@ package com.gasis.rts.logic.object.combat;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.math.MathUtils;
@@ -659,7 +660,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
             rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
 
             if (rotatingToDirection == NONE && inSiegeMode) {
-                if (MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
                     firingLogic.target.x = target.x;
                     firingLogic.target.y = target.y;
                     firingLogic.enqueueShots(inSiegeMode);
@@ -667,7 +668,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     firingLogic.removeEnqueuedShots();
                 }
             } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                if (MathUtils.distance(x, target.x, y, target.y) <= offensiveSpecs.getAttackRange()) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
                     firingLogic.target.x = target.x;
                     firingLogic.target.y = target.y;
                     firingLogic.enqueueShots(inSiegeMode);

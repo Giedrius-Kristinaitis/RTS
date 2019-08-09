@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.building;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.*;
@@ -384,7 +385,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         }
 
         if (firingLogic != null && target != null) {
-            if (MathUtils.distance(getCenterX(), target.x, getCenterY(), target.y) <= offensiveSpecs.getAttackRange()) {
+            if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
                 firingLogic.target.x = target.x;
                 firingLogic.target.y = target.y;
                 firingLogic.enqueueShots(false);

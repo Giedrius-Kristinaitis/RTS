@@ -151,9 +151,9 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToUnit(Unit unit, GameObject target) {
-        if (!unit.hasTarget() && ((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), target.getCenterX(), unit.getCenterY(), target.getCenterY()) <=
+        if (!unit.hasTarget() && ((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 unit.getDefensiveSpecs().getSightRange()) ||
-                (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX(), target.getCenterX(), unit.getCenterY(), target.getCenterY()) <=
+                (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                         unit.getOffensiveSpecs().getSiegeModeAttackRange()))) {
 
             unit.aimAt(target);
@@ -167,7 +167,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToBuilding(OffensiveBuilding building, GameObject target) {
-        if (!building.hasTarget() && MathUtils.distance(building.getCenterX(), target.getCenterX(), building.getCenterY(), target.getCenterY()) <=
+        if (!building.hasTarget() && MathUtils.distance(building.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, building.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 building.getOffensiveSpecs().getAttackRange()) {
 
             building.aimAt(target);
