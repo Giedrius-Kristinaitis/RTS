@@ -416,6 +416,23 @@ public class PathFinder implements PathFinderInterface {
     }
 
     /**
+     * Gets unit's final destination
+     *
+     * @param unit unit to get the destination for
+     * @return
+     */
+    @Override
+    public com.gasis.rts.math.Point getFinalDestination(Unit unit) {
+        for (PathGroup group: groups) {
+            if (group.foundPaths.containsKey(unit)) {
+                return group.foundPaths.get(unit).getLast();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * A point extension that has the last visited point
      * and the distance to the destination point attached to it
      */

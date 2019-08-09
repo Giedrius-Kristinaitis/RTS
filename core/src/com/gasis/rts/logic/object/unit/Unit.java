@@ -11,6 +11,7 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.*;
+import com.gasis.rts.logic.object.unit.movement.FinalDestinationProvider;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
@@ -164,12 +165,30 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // used to make movement requests from the unit itself
     protected MovementRequestHandler movementRequestHandler;
 
+    // the point the unit goes to after it destroys it's target and leaves siege mode
+    protected Point pointToGoToAfterTargetDestroyed;
+
+    // does the unit have to leave siege mode after it's target is destroyed
+    protected boolean leaveSiegeModeAfterTargetDestroyed;
+
+    // provides final destination point
+    protected FinalDestinationProvider finalDestinationProvider;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the final destination provider
+     *
+     * @param finalDestinationProvider new final destination provider
+     */
+    public void setFinalDestinationProvider(FinalDestinationProvider finalDestinationProvider) {
+        this.finalDestinationProvider = finalDestinationProvider;
     }
 
     /**
@@ -1038,11 +1057,27 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 targetObject = null;
                 notifyTargetRemovalListeners();
 
-                if (firingLogic != null && target == null && targetObject == null) {
-                    firingLogic.removeEnqueuedShots();
+                if (target == null && targetObject == null) {
+                    if (firingLogic != null) {
+                        firingLogic.removeEnqueuedShots();
+                    }
+
+                    if (leaveSiegeModeAfterTargetDestroyed) {
+                        leaveSiegeModeAfterTargetDestroyed = false;
+                        setInSiegeMode(false);
+
+                        if (pointToGoToAfterTargetDestroyed != null) {
+                            requestToMove((short) pointToGoToAfterTargetDestroyed.x,
+                                    (short) pointToGoToAfterTargetDestroyed.y);
+
+                            pointToGoToAfterTargetDestroyed = null;
+                        }
+                    }
                 }
             }
         }
+
+        handleAutoSiegeMode();
 
         if (target != null) {
             if (firingLogic != null) {
@@ -1085,6 +1120,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             } else if (!isTargetReachable() && !movingToTarget) {
                 removeTarget();
             }
+        }
+    }
+
+    /**
+     * Handles unit's automatic siege mode switching when there is a target
+     */
+    protected void handleAutoSiegeMode() {
+        if (siegeModeAvailable && !inSiegeMode && target != null && isTargetReachable()) {
+            if (moving) {
+                pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
+            }
+
+            setInSiegeMode(true);
+            leaveSiegeModeAfterTargetDestroyed = true;
         }
     }
 

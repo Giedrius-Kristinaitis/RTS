@@ -67,4 +67,12 @@ public interface PathFinderInterface {
      * Clears found path list
      */
     void clearAllPaths();
+
+    /**
+     * Gets unit's final destination
+     *
+     * @param unit unit to get the destination for
+     * @return
+     */
+    Point getFinalDestination(Unit unit);
 }
