@@ -680,6 +680,22 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Checks if the gun can reach it's target or not
+     * @return
+     */
+    public boolean isTargetReachable() {
+        if (firingLogic == null || target == null) {
+            return true;
+        }
+
+        if (!inSiegeMode) {
+            return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+        } else {
+            return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+        }
+    }
+
+    /**
      * Updates the offset of the gun
      *
      * @param delta time elapsed since the last update

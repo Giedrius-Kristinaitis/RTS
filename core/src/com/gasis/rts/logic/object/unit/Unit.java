@@ -1022,34 +1022,60 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             }
         }
 
-        if (firingLogic != null && target != null) {
-            if (!moving && (rotatingToDirection == NONE || rotatingToTarget)) {
-                rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
-                rotatingToTarget = true;
+        if (target != null) {
+            if (firingLogic != null) {
+                if (!moving && (rotatingToDirection == NONE || rotatingToTarget)) {
+                    rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));
+                    rotatingToTarget = true;
+                }
+
+                if (facingDirection == CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y)) {
+                    if (rotatingToDirection == NONE && inSiegeMode) {
+                        if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                            firingLogic.target.x = target.x;
+                            firingLogic.target.y = target.y;
+                            firingLogic.enqueueShots(inSiegeMode);
+                        } else {
+                            firingLogic.removeEnqueuedShots();
+                            removeTarget();
+                        }
+                    } else if (rotatingToDirection == NONE && !inSiegeMode) {
+                        if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                            firingLogic.target.x = target.x;
+                            firingLogic.target.y = target.y;
+                            firingLogic.enqueueShots(inSiegeMode);
+                        } else {
+                            firingLogic.removeEnqueuedShots();
+                        }
+                    }
+                } else {
+                    firingLogic.removeEnqueuedShots();
+                }
             }
 
-            if (facingDirection == CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y)) {
-                if (rotatingToDirection == NONE && inSiegeMode) {
-                    if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
-                        firingLogic.target.x = target.x;
-                        firingLogic.target.y = target.y;
-                        firingLogic.enqueueShots(inSiegeMode);
-                    } else {
-                        firingLogic.removeEnqueuedShots();
-                        removeTarget();
-                    }
-                } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                    if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
-                        firingLogic.target.x = target.x;
-                        firingLogic.target.y = target.y;
-                        firingLogic.enqueueShots(inSiegeMode);
-                    } else {
-                        firingLogic.removeEnqueuedShots();
-                        moveCloserToTarget();
-                    }
+            if (!moving && !isTargetReachable()) {
+                if (!inSiegeMode) {
+                    moveCloserToTarget();
+                } else {
+                    removeTarget();
+                    notifyTargetRemovalListeners();
                 }
+            }
+        }
+    }
+
+    /**
+     * Checks if the unit can reach it's target
+     * @return
+     */
+    protected boolean isTargetReachable() {
+        if (firingLogic == null || target == null) {
+            return true;
+        } else {
+            if (!inSiegeMode) {
+                return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
             } else {
-                firingLogic.removeEnqueuedShots();
+                return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
             }
         }
     }
@@ -1058,10 +1084,67 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Moves the unit to a point in which the unit can range it's target
      */
     protected void moveCloserToTarget() {
-        // find closest available point
+        if (target == null) {
+            return;
+        }
 
-        // make a request to the unit mover to move to the closest point
+        Point rangePoint = getPointToRangeTarget();
 
+        if (rangePoint != null) {
+            movementRequestHandler.handleMovementRequest(this, (short) rangePoint.x, (short) rangePoint.y);
+        } else {
+            removeTarget();
+        }
+    }
+
+    /**
+     * Gets the maximum valid range from which the unit can currently attack
+     * @return
+     */
+    protected float getMaximumValidAttackRange() {
+        return inSiegeMode ? offensiveSpecs.getSiegeModeAttackRange() : offensiveSpecs.getAttackRange();
+    }
+
+    /**
+     * Gets the point from which the unit can range it's target
+     * @return
+     */
+    protected Point getPointToRangeTarget() {
+        Point point = null;
+
+        float range = getMaximumValidAttackRange();
+        int closestDistanceToUnit = Integer.MAX_VALUE;
+
+        int startX = (int) (target.x / Block.BLOCK_WIDTH - range);
+        int startY = (int) (target.y / Block.BLOCK_HEIGHT - range);
+        int endX = (int) (target.x / Block.BLOCK_WIDTH + range);
+        int endY = (int) (target.y / Block.BLOCK_HEIGHT + range);
+
+        for (int x = startX + 1; x <= endX - 1; x++) {
+            for (int y = startY + 1; y <= endY - 1; y++) {
+                int distance = (int) MathUtils.distance(x, target.x / Block.BLOCK_WIDTH, y, target.y / Block.BLOCK_HEIGHT);
+                int distanceToUnit = (int) MathUtils.distance(x, getCenterX() / Block.BLOCK_WIDTH, y, getCenterY() / Block.BLOCK_HEIGHT);
+
+                if (distance == (int) range - 1 && map.isBlockPassable((short) x, (short) y) && !map.isBlockOccupied((short) x, (short) y)) {
+                    if (distanceToUnit < closestDistanceToUnit) {
+                        closestDistanceToUnit = distanceToUnit;
+
+                        if (point == null) {
+                            point = new Point(x, y);
+                        } else {
+                            point.x = x;
+                            point.y = y;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (point == null) {
+            point = new Point(target.x / Block.BLOCK_WIDTH, target.y / Block.BLOCK_HEIGHT);
+        }
+
+        return point;
     }
 
     /**

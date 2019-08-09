@@ -242,6 +242,36 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Checks if the unit can reach it's target
+     *
+     * @return
+     */
+    @Override
+    protected boolean isTargetReachable() {
+        if (super.isTargetReachable()) {
+            for (RotatingGun gun: guns.values()) {
+                if (!gun.isTargetReachable()) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Gets the maximum valid range from which the unit can currently attack
+     *
+     * @return
+     */
+    @Override
+    protected float getMaximumValidAttackRange() {
+        return super.getMaximumValidAttackRange() - 1;
+    }
+
+    /**
      * Renders the object to the screen
      *
      * @param batch     sprite batch to draw to
