@@ -355,7 +355,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected boolean handleBuildingControls(float x, float y) {
         if (buildingSelector.getSelectedBuilding() != null) {
-            buildingSelector.getSelectedBuilding().setGatherPoint(new Point(x / Block.BLOCK_WIDTH, y / Block.BLOCK_WIDTH));
+            buildingSelector.getSelectedBuilding().setGatherPoint(new Point(x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT));
         }
 
         return false;
