@@ -112,7 +112,7 @@ public class Player implements DestructionListener, Updatable {
         if (player == this) {
             return true;
         }
-        
+
         return allies.contains(player);
     }
 
