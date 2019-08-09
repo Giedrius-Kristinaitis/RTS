@@ -384,6 +384,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         changeOccupiedBlock();
         moving = true;
         notifyMovementStartListeners();
+        pointToGoToAfterTargetDestroyed = null;
 
         return true;
     }
