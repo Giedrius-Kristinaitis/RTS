@@ -55,6 +55,16 @@ public class Resources {
     }
 
     /**
+     * Checks if an asset is loaded
+     *
+     * @param name name of the asset
+     * @return
+     */
+    public boolean isLoaded(String name) {
+        return assetManager.isLoaded(name);
+    }
+
+    /**
      * Updates the asset manager. Must be called inside game loop to load assets
      *
      * @return true if finished loading, false otherwise
