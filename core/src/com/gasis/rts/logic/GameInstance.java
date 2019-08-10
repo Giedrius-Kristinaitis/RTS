@@ -192,6 +192,7 @@ public class GameInstance implements Updatable {
      */
     @Override
     public void update(float delta) {
+        soundPlayer.update(delta);
         musicManager.update(delta);
 
         playerControls.update(delta);

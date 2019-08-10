@@ -2,7 +2,7 @@ package com.gasis.rts;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -56,10 +56,10 @@ public class Main extends Game implements ScreenSwitcher {
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "junk.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + Constants.CRATER_TEXTURE_ATLAS, TextureAtlas.class);
 		assetsToLoad.put(Constants.GENERAL_TEXTURE_ATLAS, TextureAtlas.class);
-		assetsToLoad.put(Constants.FOLDER_SOUNDS + "missile_launch.mp3", Music.class);
-		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_1.mp3", Music.class);
-		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_2.mp3", Music.class);
-		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_3.mp3", Music.class);
+		assetsToLoad.put(Constants.FOLDER_SOUNDS + "missile_launch.mp3", Sound.class);
+		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_1.mp3", Sound.class);
+		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_2.mp3", Sound.class);
+		assetsToLoad.put(Constants.FOLDER_SOUNDS + "shell_fire_3.mp3", Sound.class);
 
 		// change the current screen to loading screen
 		showScreen(new LoadingScreen(

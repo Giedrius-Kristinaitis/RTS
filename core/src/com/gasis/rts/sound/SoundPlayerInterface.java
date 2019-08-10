@@ -19,5 +19,5 @@ public interface SoundPlayerInterface {
      *
      * @param name name of the sound effect
      */
-    Music playSoundEffect(String name);
+    void playSoundEffect(String name);
 }
