@@ -19,6 +19,7 @@ public class Constants {
     public static final String FOLDER_FACTIONS = "factions/";
     public static final String FOLDER_CONFIG = "config/";
     public static final String FOLDER_CONTROL_CONTEXTS = "config/control_contexts/";
+    public static final String FOLDER_SOUNDS = "sounds/";
 
     // global textures
     public static final String GENERAL_TEXTURE_ATLAS = "atl/general.atlas";
