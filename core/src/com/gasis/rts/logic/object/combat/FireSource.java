@@ -72,6 +72,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     // provides firing thing's damage
     protected DamageValueProvider specProvider;
 
+    // how much of the holder's damage does this fire source do (between 0 and 1)
+    protected float damageCoefficient = 1f;
+
     /**
      * Checks if all animations have finished
      * @return
@@ -84,6 +87,23 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         }
 
         return true;
+    }
+
+    /**
+     * Sets the damage coefficient for the fire source
+     *
+     * @param damageCoefficient new damage coefficient
+     */
+    public void setDamageCoefficient(float damageCoefficient) {
+        this.damageCoefficient = damageCoefficient;
+    }
+
+    /**
+     * Gets the fire source's damage coefficient
+     * @return
+     */
+    public float getDamageCoefficient() {
+        return damageCoefficient;
     }
 
     /**
@@ -301,7 +321,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
                 projectileExplosive = true;
             }
 
-            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage(), projectileExplosive, projectileScale);
+            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage() * damageCoefficient, projectileExplosive, projectileScale);
         }
     }
 

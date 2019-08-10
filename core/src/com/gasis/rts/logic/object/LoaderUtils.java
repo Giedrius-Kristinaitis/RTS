@@ -87,6 +87,12 @@ public class LoaderUtils {
         fireSource.setGunCount(Byte.parseByte(reader.readLine(prefix + " gun count")));
         fireSource.setProjectileSpeed(Float.parseFloat(reader.readLine(prefix + " projectile speed")));
 
+        try {
+            fireSource.setDamageCoefficient(Float.parseFloat(reader.readLine(prefix + " damage coefficient")));
+        } catch (Exception ex) {
+            fireSource.setDamageCoefficient(1);
+        }
+
         List<Point> firePoints = new ArrayList<Point>();
 
         firePoints.add(new Point(

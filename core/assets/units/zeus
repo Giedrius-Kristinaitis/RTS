@@ -59,6 +59,7 @@ f projectile deviation: 0
 f fire type: missile
 f projectile scale: heavy
 f projectile speed: 15
+f damage coefficient: 0.143
 f gun count: 1
 f fire point north x: 0
 f fire point north y: 0
@@ -82,6 +83,7 @@ f1 projectile deviation: 0
 f1 fire type: shell
 f1 projectile scale: heavy
 f1 projectile speed: 30
+f1 damage coefficient: 0.857
 f1 gun count: 1
 f1 fire point north x: 0
 f1 fire point north y: 0.5
