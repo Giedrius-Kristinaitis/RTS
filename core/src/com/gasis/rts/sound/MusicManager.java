@@ -96,12 +96,11 @@ public class MusicManager implements MusicManagerInterface, Updatable, Music.OnC
             resources.finishLoading();
         }
 
-        Music music = resources.music(tracks.get(currentTrackIndex));
+        currentTrack = soundPlayer.playMusic(tracks.get(currentTrackIndex));
 
-        music.setVolume(1);
-        music.setLooping(false);
-        music.setOnCompletionListener(this);
-        music.play();
+        if (currentTrack != null) {
+            currentTrack.setOnCompletionListener(this);
+        }
 
         assignNextTrackIndex();
         enqueueNextTrackToBeLoaded();
