@@ -5,6 +5,7 @@ import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.*;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -341,7 +342,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         super.update(delta);
 
         if (firingLogic != null) {
-            firingLogic.update(false, false, CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y),
+            firingLogic.update(false, false, target != null ? CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y) : Unit.NONE,
                     delta, getCenterX(), getCenterY());
         }
 

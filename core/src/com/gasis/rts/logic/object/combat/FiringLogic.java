@@ -2,6 +2,7 @@ package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
@@ -299,6 +300,12 @@ public class FiringLogic implements Renderable {
      * @return true if a shot was fired
      */
     private boolean launchShot(boolean siegeMode, byte facingDirection, float x, float y) {
+        if (facingDirection == Unit.NONE) {
+            removeEnqueuedShots();
+            timeSinceLastShot = 0;
+            return false;
+        }
+
         boolean fired = false;
 
         // select the correct fire source to fire and increment fire source index
