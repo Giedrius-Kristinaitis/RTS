@@ -1005,6 +1005,26 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Gets the x coordinate of it's occupied block (used for targeting the object)
+     *
+     * @return
+     */
+    @Override
+    public float getOccupiedBlockX() {
+        return occupiedBlock.x * Block.BLOCK_WIDTH;
+    }
+
+    /**
+     * Gets the y coordinate of it's occupied block (used for targeting the object)
+     *
+     * @return
+     */
+    @Override
+    public float getOccupiedBlockY() {
+        return occupiedBlock.y * Block.BLOCK_HEIGHT;
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render
@@ -1048,8 +1068,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (targetObject != null) {
             if (!targetObject.isDestroyed()) {
                 if (target != null) {
-                    target.x = targetObject.getCenterX();
-                    target.y = targetObject.getCenterY();
+                    target.x = targetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                    target.y = targetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
                 } else {
                     target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
                 }

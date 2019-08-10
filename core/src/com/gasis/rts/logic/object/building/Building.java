@@ -414,6 +414,26 @@ public class Building extends GameObject implements UnitProducer {
     }
 
     /**
+     * Gets the x coordinate of it's occupied block (used for targeting the object)
+     *
+     * @return
+     */
+    @Override
+    public float getOccupiedBlockX() {
+        return (int) (getCenterX() / Block.BLOCK_WIDTH) * Block.BLOCK_WIDTH;
+    }
+
+    /**
+     * Gets the y coordinate of it's occupied block (used for targeting the object)
+     *
+     * @return
+     */
+    @Override
+    public float getOccupiedBlockY() {
+        return (int) (getCenterY() / Block.BLOCK_HEIGHT) * Block.BLOCK_HEIGHT;
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render

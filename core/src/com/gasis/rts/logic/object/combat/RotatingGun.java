@@ -641,8 +641,8 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
         if (targetObject != null) {
             if (!targetObject.isDestroyed()) {
                 if (target != null) {
-                    target.x = targetObject.getCenterX();
-                    target.y = targetObject.getCenterY();
+                    target.x = targetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                    target.y = targetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
                 } else {
                     target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
                 }

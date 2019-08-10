@@ -386,6 +386,18 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     public abstract void deoccupyBlocks();
 
     /**
+     * Gets the x coordinate of it's occupied block (used for targeting the object)
+     * @return
+     */
+    public abstract float getOccupiedBlockX();
+
+    /**
+     * Gets the y coordinate of it's occupied block (used for targeting the object)
+     * @return
+     */
+    public abstract float getOccupiedBlockY();
+
+    /**
      * Renders the object's hp bar
      *
      * @param batch sprite batch to draw to
