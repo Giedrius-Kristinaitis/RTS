@@ -93,6 +93,10 @@ public class LoaderUtils {
             fireSource.setDamageCoefficient(1);
         }
 
+        try {
+            fireSource.setSoundEffect(reader.readLine(prefix + " sound effect"));
+        } catch (Exception ex) {}
+
         List<Point> firePoints = new ArrayList<Point>();
 
         firePoints.add(new Point(

@@ -12,6 +12,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.sound.SoundPlayerProvider;
 
 import java.util.*;
 
@@ -74,6 +75,26 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     // how much of the holder's damage does this fire source do (between 0 and 1)
     protected float damageCoefficient = 1f;
+
+    // the sound effect that is played when the source fires
+    protected String soundEffect;
+
+    /**
+     * Gets the sound effect
+     * @return
+     */
+    public String getSoundEffect() {
+        return soundEffect;
+    }
+
+    /**
+     * Sets the sound effect
+     *
+     * @param soundEffect new sound effect
+     */
+    public void setSoundEffect(String soundEffect) {
+        this.soundEffect = soundEffect;
+    }
 
     /**
      * Checks if all animations have finished
@@ -343,6 +364,10 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         animation.setFlightTime(MathUtils.distance(x, deviatedTargetX, y, deviatedTargetY) / projectileSpeed);
 
         animations.add(animation);
+
+        if (soundEffect != null) {
+            SoundPlayerProvider.getSoundPlayer().playSoundEffect(soundEffect);
+        }
     }
 
     /**

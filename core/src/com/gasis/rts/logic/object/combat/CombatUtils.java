@@ -72,7 +72,8 @@ public class CombatUtils {
                     fireSources.get(i).isPresentInSiegeMode(),
                     fireSources.get(i).isPresentOutOfSiegeMode(),
                     fireSources.get(i).getProjectileDeviation(),
-                    fireSources.get(i).getDamageCoefficient()
+                    fireSources.get(i).getDamageCoefficient(),
+                    fireSources.get(i).getSoundEffect()
             );
 
             logic.addFireSource(String.valueOf(i + 1), source);
@@ -124,10 +125,11 @@ public class CombatUtils {
      * @param presentOutOfSiegeMode is the source present when not in siege mode
      * @param projectileDeviation  how much can the projectile deviate from it's target
      * @param damageCoefficient    damage coefficient between 0 and 1
+     * @param soundEffect          sound effect when firing
      *
      * @return newly created fire source
      */
-    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation, float damageCoefficient) {
+    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation, float damageCoefficient, String soundEffect) {
         FireSource source = new FireSource();
 
         source.setFirePoints(firePoints);
@@ -139,6 +141,7 @@ public class CombatUtils {
         source.setPresentOutOfSiegeMode(presentOutOfSiegeMode);
         source.setProjectileDeviation(projectileDeviation);
         source.setDamageCoefficient(damageCoefficient);
+        source.setSoundEffect(soundEffect);
 
         return source;
     }
