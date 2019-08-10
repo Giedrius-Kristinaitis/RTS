@@ -13,6 +13,7 @@ import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.sound.SoundPlayerProvider;
+import com.gasis.rts.utils.Constants;
 
 import java.util.*;
 
@@ -366,7 +367,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         animations.add(animation);
 
         if (soundEffect != null) {
-            SoundPlayerProvider.getSoundPlayer().playSoundEffect(soundEffect);
+            SoundPlayerProvider.getSoundPlayer().playSoundEffect(Constants.FOLDER_SOUNDS + soundEffect);
         }
     }
 
