@@ -1063,12 +1063,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                         firingLogic.removeEnqueuedShots();
                     }
 
-                    handleAutoSiegeMode2();
+                    handleLeavingAutoSiegeMode();
                 }
             }
         }
 
-        handleAutoSiegeMode();
+        handleEnteringAutoSiegeMode();
 
         if (target != null) {
             if (firingLogic != null) {
@@ -1108,23 +1108,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     removeTarget();
                     notifyTargetRemovalListeners();
 
-                    handleAutoSiegeMode2();
+                    handleLeavingAutoSiegeMode();
                 }
             } else if (!isTargetReachable() && !movingToTarget) {
                 removeTarget();
                 notifyTargetRemovalListeners();
 
                 if (inSiegeMode) {
-                    handleAutoSiegeMode2();
+                    handleLeavingAutoSiegeMode();
                 }
             }
         }
     }
 
     /**
-     * Handles unit's automatic siege mode switching when there is a target
+     * Handles unit's automatic siege mode entering when there is a target
      */
-    protected void handleAutoSiegeMode() {
+    protected void handleEnteringAutoSiegeMode() {
         if (siegeModeAvailable && !inSiegeMode && target != null && isTargetReachable()) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
@@ -1136,9 +1136,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Handles auto siege mode method #2 I know this is bad naming
+     * Handles leaving auto siege mode method
      */
-    protected void handleAutoSiegeMode2() {
+    protected void handleLeavingAutoSiegeMode() {
         if (leaveSiegeModeAfterTargetDestroyed) {
             leaveSiegeModeAfterTargetDestroyed = false;
             setInSiegeMode(false);
