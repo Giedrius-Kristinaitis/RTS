@@ -1012,7 +1012,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public float getOccupiedBlockX() {
         if (occupiedBlock == null) {
-            return getCenterX();
+            return x;
         }
 
         return occupiedBlock.x * Block.BLOCK_WIDTH;
@@ -1026,7 +1026,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public float getOccupiedBlockY() {
         if (occupiedBlock == null) {
-            return getCenterY();
+            return y;
         }
 
         return occupiedBlock.y * Block.BLOCK_HEIGHT;
