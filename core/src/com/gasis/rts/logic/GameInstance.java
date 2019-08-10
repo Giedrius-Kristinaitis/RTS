@@ -22,6 +22,7 @@ import com.gasis.rts.logic.player.controls.PlayerControls;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.sound.MusicManager;
 import com.gasis.rts.sound.SoundPlayer;
+import com.gasis.rts.sound.SoundPlayerProvider;
 import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
@@ -90,6 +91,8 @@ public class GameInstance implements Updatable {
         // initialize sounds and music
         soundPlayer = new SoundPlayer(resources);
         musicManager = new MusicManager(resources, soundPlayer);
+
+        SoundPlayerProvider.initialize(soundPlayer);
 
         // initialize the map
         map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
