@@ -8,6 +8,7 @@ hs_err_pid*
 out/
 core/assets/atl
 core/assets/standalone_images
+core/assets/sounds
 
 ## Robovm
 /ios/robovm-build/
