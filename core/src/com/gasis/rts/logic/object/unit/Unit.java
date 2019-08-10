@@ -1028,7 +1028,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (occupiedBlock == null) {
             return getCenterY();
         }
-        
+
         return occupiedBlock.y * Block.BLOCK_HEIGHT;
     }
 
@@ -1145,6 +1145,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 if (inSiegeMode) {
                     handleLeavingAutoSiegeMode();
                 }
+            } else if (isTargetReachable() && movingToTarget) {
+                notifyUnableToMoveListeners();
             }
         }
     }
