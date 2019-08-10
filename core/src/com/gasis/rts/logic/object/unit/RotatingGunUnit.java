@@ -278,6 +278,7 @@ public class RotatingGunUnit extends Unit {
      * @param resources game assets
      */
     @Override
+    @SuppressWarnings("Duplicates")
     public void render(SpriteBatch batch, Resources resources) {
         if (!destroyed) {
             if (renderHp) {

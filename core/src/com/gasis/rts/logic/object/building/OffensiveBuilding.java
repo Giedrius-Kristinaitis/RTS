@@ -405,6 +405,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * @param resources game assets
      */
     @Override
+    @SuppressWarnings("Duplicates")
     public void render(SpriteBatch batch, Resources resources) {
         if (!destroyed) {
             if (renderHp) {
@@ -414,10 +415,10 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
             } else {
                 super.render(batch, resources);
             }
+        }
 
-            for (RotatingGun gun : rotatingGuns.values()) {
-                gun.render(batch, resources);
-            }
+        for (RotatingGun gun : rotatingGuns.values()) {
+            gun.render(batch, resources);
         }
 
         if (firingLogic != null) {
