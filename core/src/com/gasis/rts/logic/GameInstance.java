@@ -19,6 +19,8 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.sound.MusicManager;
+import com.gasis.rts.sound.SoundPlayer;
 import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
@@ -70,6 +72,12 @@ public class GameInstance implements Updatable {
     // current mouse coordinates (in screen units)
     private Vector3 screenCoords = new Vector3();
 
+    // used to play sounds
+    private SoundPlayer soundPlayer;
+
+    // used to play music
+    private MusicManager musicManager;
+
     /**
      * Default class constructor
      *
@@ -77,6 +85,10 @@ public class GameInstance implements Updatable {
      */
     public GameInstance(Resources resources) {
         this.resources = resources;
+
+        // initialize sounds and music
+        soundPlayer = new SoundPlayer(resources);
+        musicManager = new MusicManager(resources, soundPlayer);
 
         // initialize the map
         map = new BlockMapGenerator().generate(Gdx.files.internal(Constants.FOLDER_MAPS + "main.map"));
@@ -159,6 +171,8 @@ public class GameInstance implements Updatable {
      */
     @Override
     public void update(float delta) {
+        musicManager.update(delta);
+
         playerControls.update(delta);
         playerControls2.update(delta);
 
