@@ -54,6 +54,7 @@ g relative y west: 0.125
 g relative x north west: 0.075
 g relative y north west: 0.1
 g fire source: f
+f sound effect: shell_fire_3.mp3
 f projectile deviation: 0
 f present: always
 f fire type: shell

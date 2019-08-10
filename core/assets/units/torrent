@@ -63,6 +63,7 @@ g relative y west: 0.125
 g relative x north west: 0.075
 g relative y north west: 0.1
 g fire source: f
+f sound effect: missile_launch.mp3
 f present: always
 f projectile deviation: 0.75
 f fire type: missile
