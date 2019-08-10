@@ -8,6 +8,7 @@ import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,9 @@ public class FactionLoader {
     // the name of the default control context for the faction
     protected String defaultControlContextName;
 
+    // faction's music
+    protected List<String> soundtrack = new ArrayList<String>();
+
     /**
      * Loads a faction
      *
@@ -45,6 +49,7 @@ public class FactionLoader {
             FileLineReader reader = new FileLineReader(file.read(), ":");
 
             readMetaData(reader);
+            readSoundtrack(reader);
 
             initializeUnitLoaders(reader, map);
             initializeBuildingLoaders(reader, map);
@@ -54,6 +59,19 @@ public class FactionLoader {
         }
 
         return (loaded = true);
+    }
+
+    /**
+     * Reads faction's soundtrack
+     *
+     * @param reader reader to read data from
+     */
+    protected void readSoundtrack(FileLineReader reader) {
+        List<String> music = reader.readLines("soundtrack");
+
+        if (music != null) {
+            soundtrack.addAll(music);
+        }
     }
 
     /**
@@ -120,6 +138,7 @@ public class FactionLoader {
         faction.setDefaultControlContextName(defaultControlContextName);
         faction.setUnitLoaders(unitLoaders);
         faction.setBuildingLoaders(buildingLoaders);
+        faction.setSoundtrack(soundtrack);
 
         return faction;
     }

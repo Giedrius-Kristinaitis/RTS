@@ -3,7 +3,9 @@ package com.gasis.rts.logic.faction;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,9 @@ public class Faction {
 
     // the name of the default control context for this faction
     protected String defaultControlContextName;
+
+    // factions music
+    protected List<String> soundtrack = new ArrayList<String>();
 
     /**
      * Gets the name of the default control context
@@ -89,5 +94,22 @@ public class Faction {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the faction's soundtract
+     * @return
+     */
+    public List<String> getSoundtrack() {
+        return soundtrack;
+    }
+
+    /**
+     * Sets the faction's soundtrack
+     *
+     * @param soundtrack new soundtrack
+     */
+    public void setSoundtrack(List<String> soundtrack) {
+        this.soundtrack = soundtrack;
     }
 }

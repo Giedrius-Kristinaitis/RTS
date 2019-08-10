@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.logic.animation.FrameAnimationPlayer;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.building.Building;
@@ -125,9 +126,26 @@ public class GameInstance implements Updatable {
 
         targetAssigner.setPlayers(players, map);
 
+        // initialize soundtracks
+        initializeSoundtrack(two.getFaction());
+
         // initialize player controls
         playerControls = new PlayerControls(map, two, targetAssigner);
         playerControls2 = new PlayerControls(map, one, targetAssigner);
+    }
+
+    /**
+     * Initializes faction's soundtrack
+     *
+     * @param faction faction to get soundtrack from
+     */
+    private void initializeSoundtrack(Faction faction) {
+        for (String soundtrack: faction.getSoundtrack()) {
+            musicManager.addTrack(Constants.FOLDER_SOUNDS + soundtrack);
+        }
+
+        musicManager.setShuffle(true);
+        musicManager.start();
     }
 
     /**
