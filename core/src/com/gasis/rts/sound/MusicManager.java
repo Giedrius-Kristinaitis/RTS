@@ -101,6 +101,7 @@ public class MusicManager implements MusicManagerInterface, Updatable, Music.OnC
         music.setVolume(1);
         music.setLooping(false);
         music.setOnCompletionListener(this);
+        music.play();
 
         assignNextTrackIndex();
         enqueueNextTrackToBeLoaded();
