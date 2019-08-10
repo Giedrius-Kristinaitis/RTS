@@ -30,13 +30,15 @@ public class SoundPlayer implements SoundPlayerInterface, Music.OnCompletionList
      * @param name name of the loaded music
      */
     @Override
-    public void playMusic(String name) {
+    public Music playMusic(String name) {
         Music music = resources.music(name);
 
         music.setVolume(1);
         music.setLooping(false);
 
         music.play();
+
+        return music;
     }
 
     /**
@@ -45,7 +47,7 @@ public class SoundPlayer implements SoundPlayerInterface, Music.OnCompletionList
      * @param name name of the sound effect
      */
     @Override
-    public void playSoundEffect(String name) {
+    public Music playSoundEffect(String name) {
         if (soundEffectCount < MAX_CONCURRENT_SOUND_EFFECTS) {
             Music sound = resources.music(name);
 
@@ -56,7 +58,11 @@ public class SoundPlayer implements SoundPlayerInterface, Music.OnCompletionList
             sound.play();
 
             soundEffectCount++;
+
+            return sound;
         }
+
+        return null;
     }
 
     /**

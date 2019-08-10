@@ -1,5 +1,7 @@
 package com.gasis.rts.sound;
 
+import com.badlogic.gdx.audio.Music;
+
 /**
  * Plays all kinds of sounds
  */
@@ -10,12 +12,12 @@ public interface SoundPlayerInterface {
      *
      * @param name name of the loaded music
      */
-    void playMusic(String name);
+    Music playMusic(String name);
 
     /**
      * Plays a sound effect
      *
      * @param name name of the sound effect
      */
-    void playSoundEffect(String name);
+    Music playSoundEffect(String name);
 }
