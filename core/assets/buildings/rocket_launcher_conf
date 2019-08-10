@@ -16,7 +16,6 @@ hp bar height offset: 0.65
 width in blocks: 2
 height in blocks: 2
 hp: 100
-defence: 5
 sight range: 12
 offensive: true
 attack: 30
