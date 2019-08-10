@@ -1,0 +1,49 @@
+atlas: building5.atlas
+code: bunker rebels
+control context: default_context_rebels
+texture: bunker_rebels
+placement texture: bunker_rebels
+construction time: 50
+width: 2.2
+height: 1.68
+destruction animation: projectile_explosion
+destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
+hp bar width: 2.2
+hp bar height offset: 0
+width in blocks: 2
+height in blocks: 2
+hp: 100
+sight range: 9
+offensive: true
+attack: 5
+defence: 7
+attack range: 8
+shot count: 1
+shot interval: 0.2
+reload speed: 0.2
+fire source: f
+f present: always
+f projectile deviation: 0
+f fire type: bullet
+f projectile scale: heavy
+f projectile speed: 20
+f gun count: 1
+f fire point north x: 0
+f fire point north y: 0.8
+f fire point north east x: 0.5
+f fire point north east y: 0.5
+f fire point east x: 1
+f fire point east y: 0
+f fire point south east x: 0.5
+f fire point south east y: -0.5
+f fire point south x: 0
+f fire point south y: -0.8
+f fire point south west x: -0.5
+f fire point south west y: -0.5
+f fire point west x: -1
+f fire point west y: 0
+f fire point north west x: -0.5
+f fire point north west y: 0.5

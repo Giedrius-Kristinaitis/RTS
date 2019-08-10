@@ -48,6 +48,7 @@ public class Main extends Game implements ScreenSwitcher {
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "building2.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "building3.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "building4.atlas", TextureAtlas.class);
+		assetsToLoad.put(Constants.FOLDER_ATLASES + "building5.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "porcupine.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "torrent.atlas", TextureAtlas.class);
 		assetsToLoad.put(Constants.FOLDER_ATLASES + "hammer.atlas", TextureAtlas.class);

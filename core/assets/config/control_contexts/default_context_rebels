@@ -7,3 +7,8 @@ tech: power plant rebels
 power plant rebels type: placement
 power plant rebels file: placement_power_plant_rebels
 power plant rebels key binding: P
+
+tech: bunker rebels
+bunker rebels type: placement
+bunker rebels file: placement_bunker_rebels
+bunker rebels key binding: B
