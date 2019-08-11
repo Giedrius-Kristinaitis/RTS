@@ -377,10 +377,12 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (occupyingObject == null) {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(x, y);
+                unit.setMovingToTarget(true);
             }
         } else {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(occupyingObject);
+                unit.setMovingToTarget(true);
             }
         }
     }

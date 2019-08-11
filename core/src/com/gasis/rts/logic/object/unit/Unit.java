@@ -1139,7 +1139,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 }
             }
 
-            if (!moving && !isTargetReachable()) {
+            if (!moving && rotatingToDirection == NONE && !isTargetReachable()) {
                 if (!inSiegeMode) {
                     moveCloserToTarget();
                 } else {
@@ -1227,7 +1227,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
         if (rangePoint != null) {
             movementRequestHandler.handleMovementRequest(this, (short) rangePoint.x, (short) rangePoint.y);
-            movingToTarget = true;
         } else {
             removeTarget();
         }
