@@ -1,4 +1,4 @@
-texture atlas: building3.atlas
+texture atlas: buildings_conf.atlas
 width: 0.25
 height: 0.45
 delay: 0.1
