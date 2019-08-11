@@ -1,0 +1,21 @@
+atlas: buildings_conf.atlas
+code: barracks conf
+control context: context_barracks_conf
+texture: barracks_conf
+placement texture: barracks_conf
+construction time: 50
+width: 3.6
+height: 2.95
+destruction animation: projectile_explosion
+destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
+hp bar width: 3.6
+hp bar height offset: 0
+width in blocks: 3
+height in blocks: 3
+hp: 100
+sight range: 5
+defence: 5
+offensive: false

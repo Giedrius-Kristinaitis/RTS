@@ -32,3 +32,8 @@ tech: hq
 hq type: placement
 hq file: placement_headquarters_conf
 hq key binding: H
+
+tech: barracks
+barracks type: placement
+barracks file: placement_barracks_conf
+barracks key binding: C
