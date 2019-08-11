@@ -1,0 +1,12 @@
+texture atlas: buildings_conf.atlas
+width: 0.715
+height: 0.405
+delay: 0.1
+duration: 0.2
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: power_plant_conf_fan_1
+frame: power_plant_conf_fan_2

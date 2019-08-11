@@ -22,3 +22,8 @@ tech: tech center
 tech center type: placement
 tech center file: placement_tech_center_conf
 tech center key binding: Y
+
+tech: plant
+plant type: placement
+plant file: placement_power_plant_conf
+plant key binding: O
