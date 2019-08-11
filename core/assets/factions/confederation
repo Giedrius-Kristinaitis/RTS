@@ -7,6 +7,7 @@ building: rocket_launcher_conf
 building: machine_factory_conf
 building: bunker_conf
 building: wall_conf
+building: tech_center_conf
 soundtrack: music_conf_1.mp3
 soundtrack: music_conf_2.mp3
 soundtrack: music_conf_3.mp3

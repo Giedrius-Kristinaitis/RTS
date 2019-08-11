@@ -17,3 +17,8 @@ tech: wall
 wall type: placement
 wall file: placement_wall_conf
 wall key binding: Q
+
+tech: tech center
+tech center type: placement
+tech center file: placement_tech_center_conf
+tech center key binding: Y
