@@ -1,4 +1,4 @@
-atlas: building3.atlas
+atlas: buildings_conf.atlas
 code: machine factory conf
 control context: context_machine_factory_conf
 texture: machine_factory_conf

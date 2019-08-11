@@ -1,4 +1,4 @@
-atlas: building2.atlas
+atlas: buildings_conf.atlas
 code: rocker launcher conf
 control context: default_context_conf
 texture: mountable_tower_conf
@@ -26,7 +26,7 @@ shot interval: 0.2
 reload speed: 2
 rotating gun: g
 g present: always
-g atlas: building2.atlas
+g atlas: buildings_conf.atlas
 g width: 1.15
 g height: 1.15
 g texture north: rocket_launcher_north_conf

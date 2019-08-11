@@ -1,4 +1,4 @@
-atlas: wall_conf.atlas
+atlas: buildings_conf.atlas
 code: wall conf
 control context: default_context_conf
 texture: wall_conf_base

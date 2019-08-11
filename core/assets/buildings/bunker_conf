@@ -1,4 +1,4 @@
-atlas: bunker_conf.atlas
+atlas: buildings_conf.atlas
 code: bunker conf
 control context: default_context_conf
 texture: bunker_conf
