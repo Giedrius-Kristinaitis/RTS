@@ -737,6 +737,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (animation == siegeModeTransitionAnimation) {
             siegeModeTransitionAnimation = null;
             notifySiegeModeListeners();
+
+            if (inSiegeMode && leaveSiegeModeAfterTargetDestroyed) {
+                if ((targetObject == null && target == null) || (targetObject != null && targetObject.isDestroyed())) {
+                    handleLeavingAutoSiegeMode();
+                }
+            } else if (!inSiegeMode) {
+                leaveSiegeModeAfterTargetDestroyed = false;
+            }
         }
     }
 
@@ -1096,7 +1104,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             }
         }
 
-        handleEnteringAutoSiegeMode();
+        if (!inSiegeMode) {
+            handleEnteringAutoSiegeMode();
+        }
 
         if (target != null) {
             if (firingLogic != null) {
@@ -1170,7 +1180,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     protected void handleLeavingAutoSiegeMode() {
         if (leaveSiegeModeAfterTargetDestroyed) {
-            leaveSiegeModeAfterTargetDestroyed = false;
             setInSiegeMode(false);
 
             if (pointToGoToAfterTargetDestroyed != null) {
