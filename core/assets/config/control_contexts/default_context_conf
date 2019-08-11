@@ -12,3 +12,8 @@ tech: bunker conf
 bunker conf type: placement
 bunker conf file: placement_bunker_conf
 bunker conf key binding: V
+
+tech: wall
+wall type: placement
+wall file: placement_wall_conf
+wall key binding: Q
