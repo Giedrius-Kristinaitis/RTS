@@ -17,3 +17,8 @@ tech: tower rebels
 tower rebels type: placement
 tower rebels file: placement_tower_rebels
 tower rebels key binding: T
+
+tech: wall
+wall type: placement
+wall file: placement_wall_rebels
+wall key binding: W
