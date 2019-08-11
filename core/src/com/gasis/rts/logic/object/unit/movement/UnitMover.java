@@ -207,7 +207,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      */
     protected void removeUnitFromAllGroups(Unit unit) {
         for (UnitGroup group: groups) {
-            group.units.remove(unit);
+            if (group.units.contains(unit)) {
+                group.units.remove(unit);
+                pathFinder.removePathForObject(unit);
+                movementStates.remove(unit);
+            }
         }
     }
 
