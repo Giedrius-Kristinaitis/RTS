@@ -11,6 +11,7 @@ building: tech_center_conf
 building: power_plant_conf
 building: headquarters_conf
 building: barracks_conf
+building: locator_conf
 soundtrack: music_conf_1.mp3
 soundtrack: music_conf_2.mp3
 soundtrack: music_conf_3.mp3

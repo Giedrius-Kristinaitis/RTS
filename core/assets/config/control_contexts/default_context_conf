@@ -37,3 +37,8 @@ tech: barracks
 barracks type: placement
 barracks file: placement_barracks_conf
 barracks key binding: C
+
+tech: locator
+locator type: placement
+locator file: placement_locator_conf
+locator key binding: L

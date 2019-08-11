@@ -18,8 +18,8 @@ hp: 100
 defence: 5
 sight range: 8
 offensive: false
-animation: fan
+animation: radar
 animation availability: always
-fan animation name: radar_conf
-fan relative x: 0.5
-fan relative y: 1.5
+radar animation name: radar_conf
+radar relative x: 0.5
+radar relative y: 1.5
