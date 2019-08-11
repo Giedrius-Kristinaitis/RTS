@@ -131,6 +131,10 @@ public class GameInstance implements Updatable {
 
         // initialize soundtracks
         initializeSoundtrack(two.getFaction());
+        initializeSoundtrack(one.getFaction());
+
+        musicManager.setShuffle(true);
+        musicManager.start();
 
         // initialize player controls
         playerControls = new PlayerControls(map, two, targetAssigner);
@@ -146,9 +150,6 @@ public class GameInstance implements Updatable {
         for (String soundtrack: faction.getSoundtrack()) {
             musicManager.addTrack(Constants.FOLDER_SOUNDS + soundtrack);
         }
-
-        musicManager.setShuffle(true);
-        musicManager.start();
     }
 
     /**
