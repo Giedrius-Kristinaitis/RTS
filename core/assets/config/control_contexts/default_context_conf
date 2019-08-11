@@ -7,3 +7,8 @@ tech: rocket launcher conf
 rocket launcher conf type: placement
 rocket launcher conf file: placement_rocket_launcher_conf
 rocket launcher conf key binding: R
+
+tech: bunker conf
+bunker conf type: placement
+bunker conf file: placement_bunker_conf
+bunker conf key binding: V
