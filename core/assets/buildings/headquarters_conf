@@ -1,0 +1,25 @@
+atlas: buildings_conf.atlas
+code: headquarters conf
+control context: context_headquarters_conf
+texture: headquarters_conf
+placement texture: headquarters_conf
+destruction animation: projectile_explosion
+destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
+construction time: 50
+hp bar width: 4.8
+width: 4.8
+height: 3.376
+width in blocks: 4
+height in blocks: 4
+hp: 100
+defence: 5
+sight range: 8
+offensive: false
+animation: fan
+animation availability: always
+fan animation name: radar_conf
+fan relative x: 0.5
+fan relative y: 1.5

@@ -1,0 +1,19 @@
+texture atlas: buildings_conf.atlas
+width: 0.8
+height: 0.8
+delay: 0
+duration: 0.6
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: radar_conf_1
+frame: radar_conf_2
+frame: radar_conf_3
+frame: radar_conf_4
+frame: radar_conf_5
+frame: radar_conf_6
+frame: radar_conf_7
+frame: radar_conf_8
+frame: radar_conf_8

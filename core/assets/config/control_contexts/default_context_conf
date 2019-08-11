@@ -27,3 +27,8 @@ tech: plant
 plant type: placement
 plant file: placement_power_plant_conf
 plant key binding: O
+
+tech: hq
+hq type: placement
+hq file: placement_headquarters_conf
+hq key binding: H
