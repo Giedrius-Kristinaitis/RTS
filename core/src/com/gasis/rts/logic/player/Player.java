@@ -333,7 +333,12 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      */
     @Override
     public void electricityGained(int amount) {
-
+        for (Building building: buildings) {
+            if (!building.isElectricityAvailable() && state.totalElectricity - state.usedElectricity >= building.getElectricityRequirement()) {
+                state.usedElectricity += building.getElectricityRequirement();
+                building.setElectricityAvailable(true);
+            }
+        }
     }
 
     /**
@@ -343,6 +348,11 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      */
     @Override
     public void electricityLost(int amount) {
-
+        for (Building building: buildings) {
+            if (building.isElectricityAvailable() && state.totalElectricity < state.usedElectricity) {
+                state.usedElectricity -= building.getElectricityRequirement();
+                building.setElectricityAvailable(false);
+            }
+        }
     }
 }
