@@ -131,8 +131,8 @@ public class BlockMapScroller {
         }
 
         // make sure the correct portion of the map is rendered
-        mapRenderer.setRenderX(cam.position.x / Block.BLOCK_WIDTH - cam.viewportWidth / 2f - 2);
-        mapRenderer.setRenderY(cam.position.y / Block.BLOCK_HEIGHT - cam.viewportHeight / 2f - 2);
+        mapRenderer.setRenderX(cam.position.x / Block.BLOCK_WIDTH - cam.viewportWidth / 2f - 3);
+        mapRenderer.setRenderY(cam.position.y / Block.BLOCK_HEIGHT - cam.viewportHeight / 2f - 3);
 
         // make sure the render width and height is always up to date
         mapRenderer.setRenderWidth((cam.viewportWidth / Block.BLOCK_WIDTH + 3) * Math.max(1, cam.zoom));
