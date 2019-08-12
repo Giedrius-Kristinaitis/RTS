@@ -521,7 +521,10 @@ public class Building extends GameObject implements UnitProducer {
                 updateConstruction(delta);
             } else {
                 updateProduction(delta);
-                updateTaskExecution(delta);
+
+                if (task != null) {
+                    updateTaskExecution(delta);
+                }
             }
         }
     }
