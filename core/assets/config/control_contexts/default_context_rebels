@@ -22,3 +22,8 @@ tech: wall
 wall type: placement
 wall file: placement_wall_rebels
 wall key binding: W
+
+tech: barracks
+barracks type: placement
+barracks file: placement_barracks_rebels
+barracks key binding: X

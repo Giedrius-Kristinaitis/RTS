@@ -7,6 +7,7 @@ building: machine_factory_rebels
 building: bunker_rebels
 building: tower_rebels
 building: wall_rebels
+building: barracks_rebels
 soundtrack: music_rebels_1.mp3
 soundtrack: music_rebels_2.mp3
 soundtrack: music_rebels_3.mp3
