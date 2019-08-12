@@ -60,7 +60,7 @@ f projectile deviation: 0
 f fire type: missile
 f projectile scale: medium
 f projectile speed: 10
-f damage coefficient: 0.8
+f damage coefficient: 0.4
 f gun count: 1
 f fire point north x: 0
 f fire point north y: 0

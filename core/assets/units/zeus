@@ -7,8 +7,8 @@ height: 1
 hp: 50
 defence: 6
 sight range: 6
-attack: 35
-speed: 3
+attack: 38
+speed: 3.5
 attack range: 6
 shot count: 1
 shot interval: 2
@@ -60,7 +60,7 @@ f projectile deviation: 0
 f fire type: missile
 f projectile scale: heavy
 f projectile speed: 15
-f damage coefficient: 0.143
+f damage coefficient: 0.2
 f gun count: 1
 f fire point north x: 0
 f fire point north y: 0
@@ -85,7 +85,7 @@ f1 projectile deviation: 0
 f1 fire type: shell
 f1 projectile scale: heavy
 f1 projectile speed: 30
-f1 damage coefficient: 0.857
+f1 damage coefficient: 1
 f1 gun count: 1
 f1 fire point north x: 0
 f1 fire point north y: 0.5

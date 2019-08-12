@@ -8,7 +8,7 @@ hp: 50
 defence: 6
 sight range: 7
 attack: 30
-speed: 2
+speed: 2.5
 junk texture atlas: junk.atlas
 junk texture: tank_junk
 junk scale: 1
