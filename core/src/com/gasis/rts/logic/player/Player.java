@@ -7,6 +7,7 @@ import com.gasis.rts.logic.faction.FactionLoader;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.ElectricityListener;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.DestructionListener;
@@ -23,7 +24,7 @@ import java.util.Set;
 /**
  * Represents any player of the game: human or AI
  */
-public class Player implements DestructionListener, Updatable {
+public class Player implements DestructionListener, Updatable, ElectricityListener {
 
     // unique identifier
     protected Long id;
@@ -323,5 +324,25 @@ public class Player implements DestructionListener, Updatable {
                 state.buildings--;
             }
         }
+    }
+
+    /**
+     * Called when electricity is gained
+     *
+     * @param amount amount of gained electricity
+     */
+    @Override
+    public void electricityGained(int amount) {
+
+    }
+
+    /**
+     * Called when electricity is lost
+     *
+     * @param amount amount of lost electricity
+     */
+    @Override
+    public void electricityLost(int amount) {
+
     }
 }

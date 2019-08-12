@@ -11,6 +11,7 @@ public class ElectricityProviderTask extends ResourceProviderTask {
     @Override
     public void execute() {
         player.getState().totalElectricity += amount;
+        player.electricityGained(amount);
     }
 
     /**
@@ -19,5 +20,6 @@ public class ElectricityProviderTask extends ResourceProviderTask {
     @Override
     public void revert() {
         player.getState().totalElectricity -= amount;
+        player.electricityLost(amount);
     }
 }
