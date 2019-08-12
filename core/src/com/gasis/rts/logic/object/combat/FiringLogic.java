@@ -2,6 +2,7 @@ package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -11,7 +12,7 @@ import java.util.*;
 /**
  * Logic for firing shots from fire sources
  */
-public class FiringLogic implements Renderable {
+public class FiringLogic implements Renderable, OwnerProvider {
 
     // fire sources used to fire shots
     private Map<String, FireSource> fireSources = new HashMap<String, FireSource>();
@@ -54,6 +55,27 @@ public class FiringLogic implements Renderable {
 
     // names of all fire sources (used to pick the correct fire source to fire)
     private List<String> fireSourceNames = new ArrayList<String>();
+
+    // the object that owns the firing logic
+    private GameObject owner;
+
+    /**
+     * Sets the owner of the firing logic
+     *
+     * @param owner new owner
+     */
+    public void setOwner(GameObject owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Gets the owner of the firing logic
+     * @return
+     */
+    @Override
+    public GameObject getOwner() {
+        return owner;
+    }
 
     /**
      * Checks if the firing logic can be removed (all projectile animations have finished)
@@ -213,6 +235,7 @@ public class FiringLogic implements Renderable {
     public void addFireSource(String name, FireSource source) {
         fireSources.put(name, source);
         fireSourceNames.add(name);
+        source.setOwnerProvider(this);
     }
 
     /**

@@ -34,6 +34,7 @@ public class RotatingGunUnit extends Unit {
      * @param gun gun to add
      */
     public void addGun(String name, RotatingGun gun) {
+        gun.getFiringLogic().setOwner(this);
         guns.put(name, gun);
     }
 

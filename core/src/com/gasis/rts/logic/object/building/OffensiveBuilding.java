@@ -151,6 +151,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * @param gun the gun to add
      */
     public void addGun(String name, RotatingGun gun) {
+        gun.getFiringLogic().setOwner(this);
         rotatingGuns.put(name, gun);
     }
 
@@ -161,6 +162,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      */
     public void setFiringLogic(FiringLogic firingLogic) {
         firingLogic.setDamageProvider(this);
+        firingLogic.setOwner(this);
         this.firingLogic = firingLogic;
     }
 

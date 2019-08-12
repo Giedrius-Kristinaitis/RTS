@@ -639,6 +639,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     public void setFiringLogic(FiringLogic firingLogic) {
         firingLogic.setDamageProvider(this);
+        firingLogic.setOwner(this);
         this.firingLogic = firingLogic;
     }
 

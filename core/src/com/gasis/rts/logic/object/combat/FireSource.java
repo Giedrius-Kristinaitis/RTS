@@ -80,6 +80,18 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     // the sound effect that is played when the source fires
     protected String soundEffect;
 
+    // provides the source's owner
+    protected OwnerProvider ownerProvider;
+
+    /**
+     * Sets the fire source owner provider
+     *
+     * @param ownerProvider new owner provider
+     */
+    public void setOwnerProvider(OwnerProvider ownerProvider) {
+        this.ownerProvider = ownerProvider;
+    }
+
     /**
      * Gets the sound effect
      * @return
@@ -343,7 +355,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
                 projectileExplosive = true;
             }
 
-            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage() * damageCoefficient, projectileExplosive, projectileScale);
+            listener.targetReached(((FrameAnimation) animation).getCenterX(), ((FrameAnimation) animation).getCenterY(), specProvider.getDamage() * damageCoefficient, projectileExplosive, projectileScale, ownerProvider.getOwner());
         }
     }
 

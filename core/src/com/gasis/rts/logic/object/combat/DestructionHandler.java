@@ -42,19 +42,20 @@ public class DestructionHandler implements TargetReachListener {
     /**
      * Gets called when a projectile reaches it's target
      *
-     * @param targetX   x coordinate of the target
-     * @param targetY   y coordinate of the target
-     * @param damage    the damage caused by the projectile
+     * @param targetX x coordinate of the target
+     * @param targetY y coordinate of the target
+     * @param damage the damage caused by the projectile
      * @param explosive is the projectile that reached the target explosive or not
-     * @param scale     the scale of the projectile
+     * @param scale the scale of the projectile
+     * @param shooter the object that launched the shot
      */
     @Override
-    public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale) {
+    public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale, GameObject shooter) {
         if (explosive) {
             createCrater(targetX, targetY, scale);
         }
 
-        dealDamage((short) (targetX / Block.BLOCK_WIDTH), (short) (targetY / Block.BLOCK_HEIGHT), damage, explosive);
+        dealDamage((short) (targetX / Block.BLOCK_WIDTH), (short) (targetY / Block.BLOCK_HEIGHT), damage, explosive, shooter);
     }
 
     /**
@@ -65,16 +66,25 @@ public class DestructionHandler implements TargetReachListener {
      * @param y target's block y
      * @param damage damage dealt by the projectile
      * @param explosive is the projectile explosive
+     * @param shooter the object that launched the shot
      */
-    protected void dealDamage(short x, short y, float damage, boolean explosive) {
+    protected void dealDamage(short x, short y, float damage, boolean explosive, GameObject shooter) {
         GameObject occupyingObject = map.getOccupyingObject(x, y);
 
-        if (occupyingObject != null) {
+        if (occupyingObject != null && !occupyingObject.isDestroyed()) {
             occupyingObject.doDamage(damage);
 
             if (occupyingObject.isDestroyed()) {
                 leaveJunk(occupyingObject);
                 playDestructionAnimation(occupyingObject);
+
+                if (occupyingObject instanceof Unit) {
+                    occupyingObject.getOwner().getState().unitsLost++;
+                    shooter.getOwner().getState().unitsKilled++;
+                } else {
+                    occupyingObject.getOwner().getState().buildingsLost++;
+                    shooter.getOwner().getState().buildingsRaised++;
+                }
             }
         }
 
@@ -90,7 +100,7 @@ public class DestructionHandler implements TargetReachListener {
             neighbourObjects.add(map.getOccupyingObject((short) (x - 1), (short) (y + 1)));
 
             for (GameObject object: neighbourObjects) {
-                if (object != null && object != occupyingObject) {
+                if (object != null && object != occupyingObject && !object.isDestroyed()) {
                     object.doDamage(damage * 0.25f);
 
                     if (object.isDestroyed()) {
@@ -98,8 +108,10 @@ public class DestructionHandler implements TargetReachListener {
                         leaveJunk(object);
 
                         if (object instanceof Unit) {
+                            shooter.getOwner().getState().unitsKilled++;
                             object.getOwner().getState().unitsLost++;
                         } else {
+                            shooter.getOwner().getState().buildingsRaised++;
                             object.getOwner().getState().buildingsLost++;
                         }
                     }
