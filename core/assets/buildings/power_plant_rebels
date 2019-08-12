@@ -35,3 +35,6 @@ complex animation: smoke4
 smoke4 animation name: rising smoke
 smoke4 relative x: 0.5
 smoke4 relative y: 1
+provider task: electricity
+electricity task provided amount: 6
+electricity task reverted on destruction: true

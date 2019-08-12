@@ -31,3 +31,6 @@ animation: fan
 fan animation name: power_plant_conf_fan
 fan relative x: 0.96
 fan relative y: 0.42
+provider task: electricity
+electricity task provided amount: 6
+electricity task reverted on destruction: true
