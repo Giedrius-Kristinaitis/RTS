@@ -1,0 +1,18 @@
+texture atlas: buildings_rebels.atlas
+width: 0.7
+height: 0.7
+delay: 0.15
+duration: 1.2
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: tech_center_rebels_antenna_1
+frame: tech_center_rebels_antenna_2
+frame: tech_center_rebels_antenna_3
+frame: tech_center_rebels_antenna_4
+frame: tech_center_rebels_antenna_3
+frame: tech_center_rebels_antenna_2
+frame: tech_center_rebels_antenna_1
+frame: tech_center_rebels_antenna_1

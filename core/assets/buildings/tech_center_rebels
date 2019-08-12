@@ -1,0 +1,25 @@
+atlas: buildings_rebels.atlas
+code: tech center rebels
+control context: context_tech_center_rebels
+texture: tech_center_rebels
+placement texture: tech_center_rebels
+destruction animation: projectile_explosion
+destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
+construction time: 50
+hp bar width: 3.6
+width: 3.6
+height: 3.621
+width in blocks: 3
+height in blocks: 3
+hp: 100
+defence: 5
+sight range: 5
+offensive: false
+animation: radar
+animation availability: when active
+radar animation name: tech_center_rebels_radar
+radar relative x: 0.06
+radar relative y: 1.46

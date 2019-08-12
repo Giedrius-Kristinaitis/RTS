@@ -9,6 +9,7 @@ building: tower_rebels
 building: wall_rebels
 building: barracks_rebels
 building: headquarters_rebels
+building: tech_center_rebels
 soundtrack: music_rebels_1.mp3
 soundtrack: music_rebels_2.mp3
 soundtrack: music_rebels_3.mp3

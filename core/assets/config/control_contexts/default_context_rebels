@@ -32,3 +32,8 @@ tech: headquarters
 headquarters type: placement
 headquarters file: placement_headquarters_rebels
 headquarters key binding: G
+
+tech: tech center
+tech center type: placement
+tech center file: placement_tech_center_rebels
+tech center key binding: E
