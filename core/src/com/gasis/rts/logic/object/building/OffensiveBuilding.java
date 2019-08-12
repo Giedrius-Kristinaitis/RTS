@@ -343,6 +343,10 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     public void update(float delta) {
         super.update(delta);
 
+        if (!electricityAvailable && electricityRequirement > 0) {
+            return;
+        }
+
         if (firingLogic != null) {
             firingLogic.update(false, false, target != null ? CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y) : Unit.NONE,
                     delta, getCenterX(), getCenterY());
