@@ -336,7 +336,9 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 unitsToRemove.clear();
             }
 
-            if (!anyGroupUnitMoved) {
+            if (!anyGroupUnitMoved && group.units.size() > 1) {
+                groupsToRemove.add(group);
+            } else if (group.units.isEmpty()) {
                 groupsToRemove.add(group);
             }
         }
