@@ -5,6 +5,10 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObjectLoader;
 import com.gasis.rts.logic.object.LoaderUtils;
 import com.gasis.rts.logic.object.combat.*;
+import com.gasis.rts.logic.task.ElectricityProviderTask;
+import com.gasis.rts.logic.task.FinanceProviderTask;
+import com.gasis.rts.logic.task.ResourceProviderTask;
+import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.math.Point;
 
 import java.util.HashMap;
@@ -14,6 +18,7 @@ import java.util.Map;
 /**
  * Loads buildings from their description files
  */
+@SuppressWarnings("Duplicates")
 public class BuildingLoader extends GameObjectLoader {
 
     // combat data
@@ -56,6 +61,21 @@ public class BuildingLoader extends GameObjectLoader {
 
     // how long does it take to construct the building (in seconds)
     protected float constructionTime;
+
+    // provider task executed by the building
+    protected String providerTask;
+
+    // should the task be executed periodically or just once
+    protected boolean taskExecutedPeriodically;
+
+    // time period in which the task will be executed (in seconds)
+    protected float taskPeriod;
+
+    // should the task be reverted on building's destruction
+    protected boolean revertTaskOnDestruction;
+
+    // the amount of resource provided by provider task
+    protected int providerTaskAmount;
 
     /**
      * Default class constructor
@@ -152,6 +172,24 @@ public class BuildingLoader extends GameObjectLoader {
     }
 
     /**
+     * Reads building's task data
+     *
+     * @param reader file reader to read data from
+     */
+    protected void readTaskData(FileLineReader reader) {
+        try {
+            providerTask = reader.readLine("provider task");
+
+            providerTaskAmount = Integer.parseInt(reader.readLine(providerTask + " provided amount"));
+
+            revertTaskOnDestruction = Boolean.parseBoolean(reader.readLine(providerTask + " reverted on destruction"));
+
+            taskExecutedPeriodically = Boolean.parseBoolean(reader.readLine(providerTask + " task executed periodically"));
+            taskPeriod = Float.parseFloat(reader.readLine(providerTask + " task execution period"));
+        } catch (Exception ex) {}
+    }
+
+    /**
      * Reads other data of the object that is not meta data
      *
      * @param reader reader to read data from
@@ -160,6 +198,7 @@ public class BuildingLoader extends GameObjectLoader {
     protected void readOtherData(FileLineReader reader) {
         readCombatData(reader);
         readTexturesAndAnimations(reader);
+        readTaskData(reader);
 
         widthInBlocks = Byte.parseByte(reader.readLine("width in blocks"));
         heightInBlocks = Byte.parseByte(reader.readLine("height in blocks"));
@@ -201,6 +240,8 @@ public class BuildingLoader extends GameObjectLoader {
         building.setJunkTexture(junkTexture);
         building.setJunkAtlas(junkAtlas);
 
+        initializeTasks(building);
+
         // add firing things to the building if it has any
         if (offensive) {
             if (fireSources.size() > 0) {
@@ -228,6 +269,30 @@ public class BuildingLoader extends GameObjectLoader {
         }
 
         return building;
+    }
+
+    /**
+     * Initializes tasks for the building
+     *
+     * @param building building to add the task(s) to
+     */
+    protected void initializeTasks(Building building) {
+        if (providerTask != null) {
+            ResourceProviderTask task = null;
+
+            if (providerTask.equalsIgnoreCase("electricity")) {
+                task = new ElectricityProviderTask();
+                task.setAmount(providerTaskAmount);
+            } else if (providerTask.equalsIgnoreCase("finance")) {
+                task = new FinanceProviderTask();
+                task.setAmount(providerTaskAmount);
+            }
+
+            building.setTask(task);
+            building.setTaskExecutedPeriodically(taskExecutedPeriodically);
+            building.setTaskPeriod(taskPeriod);
+            building.setRevertTaskOnDestruction(revertTaskOnDestruction);
+        }
     }
 
     /**

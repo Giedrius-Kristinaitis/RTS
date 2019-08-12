@@ -10,6 +10,19 @@ public abstract class ResourceProviderTask implements Task {
     // the player on which the task will be applied
     protected Player player;
 
+    // amount of money provided
+    protected int amount;
+
+    /**
+     * Sets the amount of money to provide
+     *
+     * @param amount new amount of money
+     */
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+
     /**
      * Sets the played that will be affected by the task
      *

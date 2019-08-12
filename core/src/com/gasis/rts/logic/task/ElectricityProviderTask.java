@@ -5,18 +5,6 @@ package com.gasis.rts.logic.task;
  */
 public class ElectricityProviderTask extends ResourceProviderTask {
 
-    // the amount of provided electricity
-    private int amount;
-
-    /**
-     * Sets the amount of provided electricity
-     *
-     * @param amount amount of electricity
-     */
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     /**
      * Executes the task
      */

@@ -12,6 +12,8 @@ import com.gasis.rts.logic.object.production.UnitProducer;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.task.ResourceProviderTask;
 import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -136,6 +138,20 @@ public class Building extends GameObject implements UnitProducer {
      */
     public void setRevertTaskOnDestruction(boolean revertTaskOnDestruction) {
         this.revertTaskOnDestruction = revertTaskOnDestruction;
+    }
+
+    /**
+     * Sets the owner of the object
+     *
+     * @param owner new owner
+     */
+    @Override
+    public void setOwner(Player owner) {
+        super.setOwner(owner);
+
+        if (task != null && task instanceof ResourceProviderTask) {
+            ((ResourceProviderTask) task).setPlayer(owner);
+        }
     }
 
     /**

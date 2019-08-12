@@ -13,6 +13,7 @@ import java.util.Map;
 /**
  * Loads a unit from a unit description file
  */
+@SuppressWarnings("Duplicates")
 public class UnitLoader extends GameObjectLoader {
 
     // combat data
