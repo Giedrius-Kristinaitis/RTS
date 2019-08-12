@@ -13,6 +13,7 @@ junk texture: building_junk
 junk scale: 2
 hp bar width: 3.6
 hp bar height offset: 0
+hp bar horizontal offset: 0.2
 width in blocks: 3
 height in blocks: 3
 hp: 100

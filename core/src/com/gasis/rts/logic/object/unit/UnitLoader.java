@@ -236,6 +236,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setHpBarWidth(hpBarWidth);
         unit.setControlContextName(controlContextName);
         unit.setHpBarYOffset(hpBarYOffset);
+        unit.setHpBarXOffset(hpBarXOffset);
         unit.setDestructionAnimationName(destructionAnimationName);
         unit.setDestructionAnimationScale(destructionAnimationScale);
         unit.setJunkScale(junkScale);

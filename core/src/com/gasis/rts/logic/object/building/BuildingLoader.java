@@ -238,6 +238,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setHpBarWidth(hpBarWidth);
         building.setControlContextName(controlContextName);
         building.setHpBarYOffset(hpBarYOffset);
+        building.setHpBarXOffset(hpBarXOffset);
         building.setAnimationsWhenActive(animationsWhenActive);
         building.setAnimationsWhenIdle(animationsWhenIdle);
         building.setConstructionTime(constructionTime);

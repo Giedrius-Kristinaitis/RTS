@@ -28,6 +28,9 @@ public abstract class GameObjectLoader {
     // the offset of the hp bar upwards from the object's top
     protected float hpBarYOffset = 0;
 
+    // the horizontal offset of the hp bar
+    protected float hpBarXOffset = 0;
+
     // the object's control context's name
     protected String controlContextName;
 
@@ -109,6 +112,10 @@ public abstract class GameObjectLoader {
 
         try {
             hpBarYOffset = Float.parseFloat(reader.readLine("hp bar height offset"));
+        } catch (Exception ex) {}
+
+        try {
+            hpBarXOffset = Float.parseFloat(reader.readLine("hp bar horizontal offset"));
         } catch (Exception ex) {}
     }
 
