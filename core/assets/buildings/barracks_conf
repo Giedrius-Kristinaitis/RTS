@@ -19,3 +19,4 @@ hp: 100
 sight range: 5
 defence: 5
 offensive: false
+electricity requirement: 2

@@ -23,3 +23,4 @@ animation availability: when active
 radar animation name: tech_center_rebels_radar
 radar relative x: 0.06
 radar relative y: 1.46
+electricity requirement: 2

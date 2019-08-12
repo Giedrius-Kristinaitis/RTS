@@ -24,3 +24,4 @@ animation availability: always
 radar animation name: radar_conf
 radar relative x: 0.02
 radar relative y: 0.8
+electricity requirement: 1

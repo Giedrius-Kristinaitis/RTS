@@ -77,6 +77,9 @@ public class BuildingLoader extends GameObjectLoader {
     // the amount of resource provided by provider task
     protected int providerTaskAmount;
 
+    // how much electricity does the building require in order to work
+    protected int electricityRequirement;
+
     /**
      * Default class constructor
      * @param map
@@ -204,6 +207,10 @@ public class BuildingLoader extends GameObjectLoader {
         heightInBlocks = Byte.parseByte(reader.readLine("height in blocks"));
 
         constructionTime = Float.parseFloat(reader.readLine("construction time"));
+
+        try {
+            electricityRequirement = Integer.parseInt(reader.readLine("electricity requirement"));
+        } catch (Exception ex) {}
     }
 
     /**
@@ -239,6 +246,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setJunkScale(junkScale);
         building.setJunkTexture(junkTexture);
         building.setJunkAtlas(junkAtlas);
+        building.setElectricityRequirement(electricityRequirement);
 
         initializeTasks(building);
 

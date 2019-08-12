@@ -95,12 +95,32 @@ public class Building extends GameObject implements UnitProducer {
     // should the task be reverted on building's destruction
     protected boolean revertTaskOnDestruction;
 
+    // how much electricity does the building require in order to work
+    protected int electricityRequirement;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the building's electricity requirement
+     *
+     * @param electricityRequirement building's electricity requirement
+     */
+    public void setElectricityRequirement(int electricityRequirement) {
+        this.electricityRequirement = electricityRequirement;
+    }
+
+    /**
+     * Gets the building's electricity requirement
+     * @return
+     */
+    public int getElectricityRequirement() {
+        return electricityRequirement;
     }
 
     /**

@@ -23,3 +23,4 @@ animation availability: when active
 fan animation name: tech_center_conf_fan
 fan relative x: -0.17
 fan relative y: 0.425
+electricity requirement: 2

@@ -47,3 +47,4 @@ f fire point west x: -1
 f fire point west y: 0
 f fire point north west x: -0.5
 f fire point north west y: 0.5
+electricity requirement: 2
