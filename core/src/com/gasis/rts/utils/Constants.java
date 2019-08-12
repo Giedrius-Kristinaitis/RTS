@@ -35,4 +35,5 @@ public class Constants {
     public static final String CONSTRUCTION_HP_BAR_TEXTURE = "construction_hp_bar";
     public static final String UNIT_SELECTION_CIRCLE_TEXTURE = "unit_selection_circle";
     public static final String PRODUCTION_PROGRESS_TEXTURE = "production_progress";
+    public static final String NO_ELECTRICITY_INDICATOR_TEXTURE = "no_electricity_indicator";
 }

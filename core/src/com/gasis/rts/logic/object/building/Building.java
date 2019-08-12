@@ -98,12 +98,32 @@ public class Building extends GameObject implements UnitProducer {
     // how much electricity does the building require in order to work
     protected int electricityRequirement;
 
+    // does the building have electricity to function
+    protected boolean electricityAvailable;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Enables or disabled building's electricity
+     *
+     * @param electricityAvailable is electricity available
+     */
+    public void setElectricityAvailable(boolean electricityAvailable) {
+        this.electricityAvailable = electricityAvailable;
+    }
+
+    /**
+     * Checks if the building has electricity
+     * @return
+     */
+    public boolean isElectricityAvailable() {
+        return electricityAvailable;
     }
 
     /**
@@ -547,6 +567,10 @@ public class Building extends GameObject implements UnitProducer {
     @Override
     public void update(float delta) {
         if (!destroyed) {
+            if (!electricityAvailable) {
+                return;
+            }
+
             if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
                 for (Animation animation : animations) {
                     animation.update(delta);
@@ -656,6 +680,16 @@ public class Building extends GameObject implements UnitProducer {
 
             if (producing) {
                 renderProgress(batch, resources);
+            }
+
+            if (!electricityAvailable) {
+                batch.draw(
+                        resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.NO_ELECTRICITY_INDICATOR_TEXTURE),
+                        getCenterX() - 0.25f,
+                        getCenterY() - 0.25f,
+                        0.5f,
+                        0.5f
+                );
             }
         }
     }
