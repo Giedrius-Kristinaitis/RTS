@@ -573,7 +573,7 @@ public class Building extends GameObject implements UnitProducer {
     @Override
     public void update(float delta) {
         if (!destroyed) {
-            if (!electricityAvailable) {
+            if (!electricityAvailable && electricityRequirement > 0) {
                 timeSinceElectricityIndicatorFlash += delta;
 
                 if (timeSinceElectricityIndicatorFlash >= noElectricityIndicatorPeriod * 2f) {
@@ -694,7 +694,7 @@ public class Building extends GameObject implements UnitProducer {
                 renderProgress(batch, resources);
             }
 
-            if (!electricityAvailable && timeSinceElectricityIndicatorFlash >= noElectricityIndicatorPeriod) {
+            if (!electricityAvailable && electricityRequirement > 0 && timeSinceElectricityIndicatorFlash >= noElectricityIndicatorPeriod) {
                 batch.draw(
                         resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.NO_ELECTRICITY_INDICATOR_TEXTURE),
                         getCenterX() - 0.25f,
