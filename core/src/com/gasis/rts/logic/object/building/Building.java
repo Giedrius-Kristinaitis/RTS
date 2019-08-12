@@ -554,7 +554,11 @@ public class Building extends GameObject implements UnitProducer {
         if (timeSinceLastTaskExecution >= taskPeriod) {
             task.execute();
 
-            timeSinceLastTaskExecution = 0;
+            if (taskExecutedPeriodically) {
+                timeSinceLastTaskExecution = 0;
+            } else {
+                timeSinceLastTaskExecution = -1;
+            }
         } else if (taskExecutedPeriodically) {
             timeSinceLastTaskExecution += delta;
         }

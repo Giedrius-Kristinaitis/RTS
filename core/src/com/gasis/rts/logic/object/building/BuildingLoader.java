@@ -180,9 +180,9 @@ public class BuildingLoader extends GameObjectLoader {
         try {
             providerTask = reader.readLine("provider task");
 
-            providerTaskAmount = Integer.parseInt(reader.readLine(providerTask + " provided amount"));
+            providerTaskAmount = Integer.parseInt(reader.readLine(providerTask + " task provided amount"));
 
-            revertTaskOnDestruction = Boolean.parseBoolean(reader.readLine(providerTask + " reverted on destruction"));
+            revertTaskOnDestruction = Boolean.parseBoolean(reader.readLine(providerTask + " task reverted on destruction"));
 
             taskExecutedPeriodically = Boolean.parseBoolean(reader.readLine(providerTask + " task executed periodically"));
             taskPeriod = Float.parseFloat(reader.readLine(providerTask + " task execution period"));
