@@ -168,6 +168,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the point the unit goes to after it destroys it's target and leaves siege mode
     protected Point pointToGoToAfterTargetDestroyed;
 
+    // the point the unit goes to after it leaves siege mode
+    protected Point pointToGoToAfterLeavingSiegeMode;
+
     // does the unit have to leave siege mode after it's target is destroyed
     protected boolean leaveSiegeModeAfterTargetDestroyed;
 
@@ -180,6 +183,15 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the point to which the unit has to move when it leaves siege mode
+     *
+     * @param pointToGoToAfterLeavingSiegeMode point to go to
+     */
+    public void setPointToGoToAfterLeavingSiegeMode(Point pointToGoToAfterLeavingSiegeMode) {
+        this.pointToGoToAfterLeavingSiegeMode = pointToGoToAfterLeavingSiegeMode;
     }
 
     /**
@@ -745,6 +757,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 }
             } else if (!inSiegeMode) {
                 leaveSiegeModeAfterTargetDestroyed = false;
+
+                if (pointToGoToAfterLeavingSiegeMode != null) {
+                    requestToMove((short) pointToGoToAfterLeavingSiegeMode.x, (short) pointToGoToAfterLeavingSiegeMode.y);
+                    pointToGoToAfterLeavingSiegeMode = null;
+                    movingToTarget = false;
+                }
             }
         }
     }

@@ -85,7 +85,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(Set<Unit> units, short x, short y) {
-        UnitGroup group = createUnitGroup(units);
+        UnitGroup group = createUnitGroup(units, x, y);
 
         this.groups.add(group);
 
@@ -184,9 +184,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * Creates a unit group from the given units
      *
      * @param units units to form the group from
+     * @param x destination x
+     * @param y destination y
      * @return
      */
-    protected UnitGroup createUnitGroup(Set<Unit> units) {
+    protected UnitGroup createUnitGroup(Set<Unit> units, short x, short y) {
         UnitGroup group = new UnitGroup();
 
         for (Unit unit: units) {
@@ -194,6 +196,9 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
             if (!unit.isInSiegeMode()) {
                 group.units.add(unit);
+            } else {
+                unit.setInSiegeMode(false);
+                unit.setPointToGoToAfterLeavingSiegeMode(new Point(x, y));
             }
         }
 
