@@ -12,6 +12,7 @@ import com.gasis.rts.logic.object.production.UnitProducer;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
+import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -77,12 +78,81 @@ public class Building extends GameObject implements UnitProducer {
     // the point to which spawned units go
     protected Point gatherPoint;
 
+    // task executed by the building
+    protected Task task;
+
+    // should the task be executed periodically or just once
+    protected boolean taskExecutedPeriodically;
+
+    // time period in which the task will be executed (in seconds)
+    protected float taskPeriod;
+
+    // the time that has elapsed since the last execution of the task
+    protected float timeSinceLastTaskExecution;
+
+    // should the task be reverted on building's destruction
+    protected boolean revertTaskOnDestruction;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the task that will be executed by the building
+     *
+     * @param task task to execute
+     */
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * Makes the task be executed periodically or once
+     *
+     * @param taskExecutedPeriodically should the task be executed periodically
+     */
+    public void setTaskExecutedPeriodically(boolean taskExecutedPeriodically) {
+        this.taskExecutedPeriodically = taskExecutedPeriodically;
+    }
+
+    /**
+     * Sets the task's execution period
+     *
+     * @param taskPeriod task execution period
+     */
+    public void setTaskPeriod(float taskPeriod) {
+        this.taskPeriod = taskPeriod;
+        timeSinceLastTaskExecution = taskPeriod;
+    }
+
+    /**
+     * Sets the task's revert on destruction flag
+     *
+     * @param revertTaskOnDestruction should the task be reverted on building's destruction
+     */
+    public void setRevertTaskOnDestruction(boolean revertTaskOnDestruction) {
+        this.revertTaskOnDestruction = revertTaskOnDestruction;
+    }
+
+    /**
+     * Does damage to the object
+     *
+     * @param attack attack stat of the attacker,
+     *               damage will be calculated based on the object's defence
+     */
+    @Override
+    public void doDamage(float attack) {
+        if (!destroyed) {
+            super.doDamage(attack);
+
+            if (destroyed && revertTaskOnDestruction && task != null) {
+                task.revert();
+            }
+        }
     }
 
     /**
@@ -451,7 +521,23 @@ public class Building extends GameObject implements UnitProducer {
                 updateConstruction(delta);
             } else {
                 updateProduction(delta);
+                updateTaskExecution(delta);
             }
+        }
+    }
+
+    /**
+     * Updates the building task's execution
+     *
+     * @param delta time since the last update
+     */
+    protected void updateTaskExecution(float delta) {
+        if (timeSinceLastTaskExecution >= taskPeriod) {
+            task.execute();
+
+            timeSinceLastTaskExecution = 0;
+        } else if (taskExecutedPeriodically) {
+            timeSinceLastTaskExecution += delta;
         }
     }
 
