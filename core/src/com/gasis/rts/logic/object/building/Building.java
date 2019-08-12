@@ -339,7 +339,7 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void queueUp(UnitLoader unit) {
-        if (!producing && !beingConstructed) {
+        if (!producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
             producedUnitLoader = unit;
             progress = 0;
             producing = true;
