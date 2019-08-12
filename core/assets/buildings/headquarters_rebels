@@ -23,3 +23,8 @@ animation availability: always
 radar animation name: headquarters_radar_rebels
 radar relative x: 0.1
 radar relative y: 1.7
+provider task: finance
+finance task provided amount: 100
+finance task reverted on destruction: false
+finance task executed periodically: true
+finance task execution period: 30

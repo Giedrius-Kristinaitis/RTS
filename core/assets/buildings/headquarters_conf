@@ -23,3 +23,8 @@ animation availability: always
 radar animation name: radar_conf
 radar relative x: 0.5
 radar relative y: 1.5
+provider task: finance
+finance task provided amount: 100
+finance task reverted on destruction: false
+finance task executed periodically: true
+finance task execution period: 30
