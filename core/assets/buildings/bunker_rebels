@@ -1,4 +1,4 @@
-atlas: building5.atlas
+atlas: buildings_rebels.atlas
 code: bunker rebels
 control context: default_context_rebels
 texture: bunker_rebels

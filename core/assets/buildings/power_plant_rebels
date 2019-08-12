@@ -1,8 +1,8 @@
-atlas: building.atlas
+atlas: buildings_rebels.atlas
 code: power plant rebels
 control context: default_context_rebels
-texture: plant
-placement texture: plant
+texture: power_plant_rebels
+placement texture: power_plant_rebels
 destruction animation: projectile_explosion
 destruction animation scale: 2
 junk texture atlas: junk.atlas

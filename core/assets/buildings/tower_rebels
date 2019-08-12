@@ -1,4 +1,4 @@
-atlas: tower_rebels.atlas
+atlas: buildings_rebels.atlas
 code: tower rebels
 control context: default_context_rebels
 texture: tower_rebels

@@ -1,4 +1,4 @@
-atlas: building4.atlas
+atlas: buildings_rebels.atlas
 code: machine factory rebels
 control context: context_machine_factory_rebels
 texture: machine_factory_rebels
@@ -10,8 +10,8 @@ junk texture: building_junk
 junk scale: 2
 construction time: 50
 hp bar width: 3.5
-width: 3.9
-height: 3.25
+width: 3.6
+height: 2.8
 width in blocks: 3
 height in blocks: 3
 hp: 100
@@ -21,9 +21,9 @@ offensive: false
 complex animation: smoke1
 animation availability: when active
 smoke1 animation name: rising smoke
-smoke1 relative x: -1.45
-smoke1 relative y: 1.1
+smoke1 relative x: -1.2
+smoke1 relative y: 1
 complex animation: smoke2
 smoke2 animation name: rising smoke
-smoke2 relative x: -1.15
-smoke2 relative y: 0.75
+smoke2 relative x: -0.925
+smoke2 relative y: 0.7
