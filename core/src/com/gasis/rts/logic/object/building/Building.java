@@ -101,6 +101,12 @@ public class Building extends GameObject implements UnitProducer {
     // does the building have electricity to function
     protected boolean electricityAvailable;
 
+    // time period in which the no electricity indicator flashes
+    protected final float noElectricityIndicatorPeriod = 0.5f;
+
+    // how much time has passed since the last time electricity indicator flashed
+    protected float timeSinceElectricityIndicatorFlash;
+
     /**
      * Default class constructor
      * @param map
@@ -568,6 +574,12 @@ public class Building extends GameObject implements UnitProducer {
     public void update(float delta) {
         if (!destroyed) {
             if (!electricityAvailable) {
+                timeSinceElectricityIndicatorFlash += delta;
+
+                if (timeSinceElectricityIndicatorFlash >= noElectricityIndicatorPeriod * 2f) {
+                    timeSinceElectricityIndicatorFlash = 0;
+                }
+
                 return;
             }
 
@@ -682,7 +694,7 @@ public class Building extends GameObject implements UnitProducer {
                 renderProgress(batch, resources);
             }
 
-            if (!electricityAvailable) {
+            if (!electricityAvailable && timeSinceElectricityIndicatorFlash >= noElectricityIndicatorPeriod) {
                 batch.draw(
                         resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.NO_ELECTRICITY_INDICATOR_TEXTURE),
                         getCenterX() - 0.25f,
