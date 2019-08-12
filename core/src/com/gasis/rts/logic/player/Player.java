@@ -198,6 +198,8 @@ public class Player implements DestructionListener, Updatable {
         unit.setFinalDestinationProvider(unitMover);
 
         units.add(unit);
+
+        state.units++;
     }
 
     /**
@@ -216,6 +218,8 @@ public class Player implements DestructionListener, Updatable {
         building.addUnitProductionListener(targetAssigner);
 
         buildings.add(building);
+
+        state.buildings++;
     }
 
     /**
@@ -301,6 +305,7 @@ public class Player implements DestructionListener, Updatable {
                 unitsToRemove.get(i).removeDestructionListener(this);
                 units.remove(unitsToRemove.get(i));
                 unitsToRemove.remove(i--);
+                state.units--;
             }
         }
     }
@@ -315,6 +320,7 @@ public class Player implements DestructionListener, Updatable {
                 buildingsToRemove.get(i).removeDestructionListener(this);
                 buildingsToRemove.remove(i);
                 i--;
+                state.buildings--;
             }
         }
     }

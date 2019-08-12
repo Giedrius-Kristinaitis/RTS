@@ -488,9 +488,13 @@ public class Building extends GameObject implements UnitProducer {
      */
     protected void updateProduction(float delta) {
         if (producing) {
-            progress += delta / producedUnitLoader.getProductionTime();
+            if (progress < 1) {
+                progress += delta / producedUnitLoader.getProductionTime();
+            } else {
+                progress = 1;
+            }
 
-            if (progress >= 1) {
+            if (progress >= 1 && owner.getState().units < owner.getState().maxUnits) {
                 spawnUnit();
             }
         }

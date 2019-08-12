@@ -6,6 +6,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
@@ -95,6 +96,12 @@ public class DestructionHandler implements TargetReachListener {
                     if (object.isDestroyed()) {
                         playDestructionAnimation(object);
                         leaveJunk(object);
+
+                        if (object instanceof Unit) {
+                            object.getOwner().getState().unitsLost++;
+                        } else {
+                            object.getOwner().getState().buildingsLost++;
+                        }
                     }
                 }
             }

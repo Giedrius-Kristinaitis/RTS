@@ -5,6 +5,9 @@ package com.gasis.rts.logic.player;
  */
 public class PlayerState {
 
+    public int maxUnits = 100;
+    public int units;
+    public int buildings;
     public int money;
     public int totalElectricity;
     public int usedElectricity;
