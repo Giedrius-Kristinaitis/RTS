@@ -1,0 +1,25 @@
+atlas: buildings_rebels.atlas
+code: headquarters rebels
+control context: context_headquarters_rebels
+texture: headquarters_rebels
+placement texture: headquarters_rebels
+destruction animation: projectile_explosion
+destruction animation scale: 2
+junk texture atlas: junk.atlas
+junk texture: building_junk
+junk scale: 2
+construction time: 50
+hp bar width: 4.8
+width: 3.6
+height: 3.62
+width in blocks: 3
+height in blocks: 4
+hp: 100
+defence: 5
+sight range: 8
+offensive: false
+animation: radar
+animation availability: always
+radar animation name: headquarters_radar_rebels
+radar relative x: 0.1
+radar relative y: 1.7

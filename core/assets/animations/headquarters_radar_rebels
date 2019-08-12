@@ -1,0 +1,19 @@
+texture atlas: buildings_rebels.atlas
+width: 0.8
+height: 0.8
+delay: 0
+duration: 0.5
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 1
+frame: headquarters_rebels_radar_1
+frame: headquarters_rebels_radar_2
+frame: headquarters_rebels_radar_3
+frame: headquarters_rebels_radar_4
+frame: headquarters_rebels_radar_5
+frame: headquarters_rebels_radar_6
+frame: headquarters_rebels_radar_8
+frame: headquarters_rebels_radar_7
+frame: headquarters_rebels_radar_7

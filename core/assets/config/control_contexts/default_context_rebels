@@ -27,3 +27,8 @@ tech: barracks
 barracks type: placement
 barracks file: placement_barracks_rebels
 barracks key binding: X
+
+tech: headquarters
+headquarters type: placement
+headquarters file: placement_headquarters_rebels
+headquarters key binding: G
