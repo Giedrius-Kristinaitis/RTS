@@ -8,7 +8,7 @@ import com.gasis.rts.logic.player.Player;
 public abstract class ResourceProviderTask implements Task {
 
     // the player on which the task will be applied
-    private Player player;
+    protected Player player;
 
     /**
      * Sets the played that will be affected by the task
