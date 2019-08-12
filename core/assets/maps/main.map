@@ -1,5 +1,5 @@
-width: 25
-height: 25
+width: 75
+height: 75
 seed: 2019
-command: dirt 0 0 25 25 rectangle 1
-command: grass 0 0 25 25 rectangle 0.4
+command: dirt 0 0 75 75 rectangle 1
+command: grass 0 0 75 75 rectangle 0.4
