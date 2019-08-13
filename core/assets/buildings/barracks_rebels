@@ -19,5 +19,33 @@ height in blocks: 3
 hp: 100
 sight range: 5
 defence: 5
-offensive: false
 electricity requirement: 2
+offensive: true
+attack: 5
+attack range: 6
+shot count: 1
+shot interval: 0.5
+reload speed: 0.5
+fire source: f
+f present: always
+f projectile deviation: 0
+f fire type: bullet
+f projectile scale: heavy
+f projectile speed: 20
+f gun count: 1
+f fire point north x: 0
+f fire point north y: 0.8
+f fire point north east x: 0.5
+f fire point north east y: 0.5
+f fire point east x: 1
+f fire point east y: 0
+f fire point south east x: 0.5
+f fire point south east y: -0.5
+f fire point south x: 0
+f fire point south y: -0.8
+f fire point south west x: -0.5
+f fire point south west y: -0.5
+f fire point west x: -1
+f fire point west y: 0
+f fire point north west x: -0.5
+f fire point north west y: 0.5
