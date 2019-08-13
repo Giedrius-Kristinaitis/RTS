@@ -248,6 +248,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setJunkTexture(junkTexture);
         building.setJunkAtlas(junkAtlas);
         building.setElectricityRequirement(electricityRequirement);
+        building.setHealingSpeed(healingSpeed);
 
         initializeTasks(building);
 

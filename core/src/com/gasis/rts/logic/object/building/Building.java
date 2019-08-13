@@ -589,6 +589,10 @@ public class Building extends GameObject implements UnitProducer {
                 }
             }
 
+            if (!beingConstructed) {
+                updateHealing(delta);
+            }
+
             if (beingConstructed) {
                 updateConstruction(delta);
             } else {

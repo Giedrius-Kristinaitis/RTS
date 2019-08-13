@@ -52,6 +52,9 @@ public abstract class GameObjectLoader {
     // the name of the texture atlas that holds junk texture
     protected String junkAtlas;
 
+    // object's healing speed (hp per second)
+    protected float healingSpeed = 0.25f;
+
     /**
      * Default class constructor
      * @param map
@@ -116,6 +119,10 @@ public abstract class GameObjectLoader {
 
         try {
             hpBarXOffset = Float.parseFloat(reader.readLine("hp bar horizontal offset"));
+        } catch (Exception ex) {}
+
+        try {
+            healingSpeed = Float.parseFloat(reader.readLine("healing speed"));
         } catch (Exception ex) {}
     }
 

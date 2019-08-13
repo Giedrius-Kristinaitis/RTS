@@ -85,12 +85,24 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
     // the name of the texture atlas that holds junk texture
     protected String junkAtlas;
 
+    // how much the object heals itself (hp per second)
+    protected float healingSpeed;
+
     /**
      * Default class constructor
      * @param map
      */
     public GameObject(BlockMap map) {
         this.map = map;
+    }
+
+    /**
+     * Sets the object's healing speed
+     *
+     * @param healingSpeed healing speed
+     */
+    public void setHealingSpeed(float healingSpeed) {
+        this.healingSpeed = healingSpeed;
     }
 
     /**
@@ -429,6 +441,21 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
             } else {
                 batch.draw(resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.HP_BAR_RED_TEXTURE),
                         hpBarXOffset + getCenterX() - hpBarWidth / 2f + 0.025f, y + height + 0.025f + hpBarYOffset, hpBarWidth * hp / defensiveSpecs.getMaxHp() - 0.05f, 0.05f);
+            }
+        }
+    }
+
+    /**
+     * Updates the object's healing
+     *
+     * @param delta time since the last update
+     */
+    protected void updateHealing(float delta) {
+        if (hp < defensiveSpecs.getMaxHp()) {
+            hp += healingSpeed * delta;
+
+            if (hp > defensiveSpecs.getMaxHp()) {
+                hp = defensiveSpecs.getMaxHp();
             }
         }
     }

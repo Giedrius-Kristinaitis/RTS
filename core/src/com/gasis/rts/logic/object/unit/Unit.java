@@ -1147,6 +1147,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             updateBodyFacingDirection(delta);
             updateTarget();
             updateMovement(delta);
+            updateHealing(delta);
 
             // update fire texture's time
             firingTextureTime += delta;
