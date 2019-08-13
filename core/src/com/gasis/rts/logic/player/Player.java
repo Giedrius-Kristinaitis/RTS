@@ -221,8 +221,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         buildings.add(building);
 
         state.buildings++;
+        state.requiredElectricity += building.getElectricityRequirement();
 
-        electricityLost(0);
+        electricityGained(0);
     }
 
     /**
@@ -319,11 +320,19 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     protected void removeBuildings() {
         for (int i = 0; i < buildingsToRemove.size(); i++) {
             if (buildingsToRemove.get(i).canBeRemoved()) {
+                state.buildings--;
+                state.requiredElectricity -= buildingsToRemove.get(i).getElectricityRequirement();
+
+                if (buildingsToRemove.get(i).isElectricityAvailable()) {
+                    state.usedElectricity -= buildingsToRemove.get(i).getElectricityRequirement();
+                    buildingsToRemove.get(i).setElectricityAvailable(false);
+                }
+
                 buildings.remove(buildingsToRemove.get(i));
                 buildingsToRemove.get(i).removeDestructionListener(this);
                 buildingsToRemove.remove(i);
                 i--;
-                state.buildings--;
+
                 electricityGained(0);
             }
         }
@@ -337,7 +346,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     @Override
     public void electricityGained(int amount) {
         for (Building building: buildings) {
-            if (!building.isElectricityAvailable() && state.totalElectricity - state.usedElectricity >= building.getElectricityRequirement()) {
+            if (!building.isElectricityAvailable() && state.availableElectricity - state.usedElectricity >= building.getElectricityRequirement()) {
                 state.usedElectricity += building.getElectricityRequirement();
                 building.setElectricityAvailable(true);
             }
@@ -352,7 +361,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     @Override
     public void electricityLost(int amount) {
         for (Building building: buildings) {
-            if (building.isElectricityAvailable() && state.totalElectricity < state.usedElectricity) {
+            if (building.isElectricityAvailable() && state.availableElectricity < state.usedElectricity) {
                 state.usedElectricity -= building.getElectricityRequirement();
                 building.setElectricityAvailable(false);
             }

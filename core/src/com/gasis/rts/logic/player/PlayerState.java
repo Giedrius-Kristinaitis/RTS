@@ -9,7 +9,8 @@ public class PlayerState {
     public int units;
     public int buildings;
     public int money;
-    public int totalElectricity;
+    public int availableElectricity;
+    public int requiredElectricity;
     public int usedElectricity;
     public int unitsKilled;
     public int unitsLost;
