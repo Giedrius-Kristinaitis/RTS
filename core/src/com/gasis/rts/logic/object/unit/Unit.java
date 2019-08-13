@@ -1184,7 +1184,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (siegeModeAvailable && !inSiegeMode && target != null && isTargetReachable()) {
+        if (siegeModeAvailable && !inSiegeMode && target != null && isTargetReachable() && (movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
             }
