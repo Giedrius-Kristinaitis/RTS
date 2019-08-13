@@ -102,7 +102,7 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
 
         if (distance < SOUND_EFFECT_HEARING_RADIUS) {
             playSpatialSoundEffect(name,
-                    1 - distance / SOUND_EFFECT_HEARING_RADIUS,
+                    1 - distance / SOUND_EFFECT_HEARING_RADIUS * 0.5f,
                     (x - povX) / SOUND_EFFECT_HEARING_RADIUS);
         }
     }
