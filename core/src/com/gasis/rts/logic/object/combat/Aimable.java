@@ -29,6 +29,12 @@ public interface Aimable {
     boolean hasTarget();
 
     /**
+     * Checks if the object has a target object
+     * @return
+     */
+    boolean hasTargetObject();
+
+    /**
      * Removes the current target
      */
     void removeTarget();

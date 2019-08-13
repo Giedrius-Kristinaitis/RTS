@@ -27,6 +27,7 @@ import java.util.Set;
 /**
  * Represents a single unit on a map
  */
+@SuppressWarnings("Duplicates")
 public class Unit extends OffensiveGameObject implements AnimationFinishListener, Rotatable, Aimable, Movable, DamageValueProvider {
 
     // unit facing directions
@@ -154,7 +155,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected GameObject targetObject;
 
     // the secondary target object the unit can fire at while moving to it's main target
-    protected GameObject secondaryTarget;
+    protected GameObject secondaryTargetObject;
+
+    // the secondary target's point
+    protected Point secondaryTarget;
 
     // siege mode listeners
     protected Set<SiegeModeListener> siegeModeListeners = new HashSet<SiegeModeListener>();
@@ -578,20 +582,30 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the object has a target object
+     *
+     * @return
+     */
+    @Override
+    public boolean hasTargetObject() {
+        return targetObject != null;
+    }
+
+    /**
      * Checks if the unit has a secondary target
      * @return
      */
     public boolean hasSecondaryTarget() {
-        return secondaryTarget != null;
+        return secondaryTargetObject != null;
     }
 
     /**
      * Sets the unit's secondary target
      *
-     * @param secondaryTarget new secondary target
+     * @param secondaryTargetObject new secondary target
      */
-    public void setSecondaryTarget(GameObject secondaryTarget) {
-        this.secondaryTarget = secondaryTarget;
+    public void setSecondaryTargetObject(GameObject secondaryTargetObject) {
+        this.secondaryTargetObject = secondaryTargetObject;
     }
 
     /**
@@ -602,7 +616,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         target = null;
         targetObject = null;
 
-        notifyTargetRemovalListeners();
+        secondaryTarget = null;
+        secondaryTargetObject = null;
     }
 
     /**
@@ -1141,6 +1156,26 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     handleLeavingAutoSiegeMode();
                 }
             }
+
+            if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
+                if (!secondaryTargetObject.isDestroyed()) {
+                    if (secondaryTarget != null) {
+                        secondaryTarget.x = secondaryTargetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                        secondaryTarget.y = secondaryTargetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
+                    } else {
+                        secondaryTarget = new Point(secondaryTargetObject.getCenterX(), secondaryTargetObject.getCenterY());
+                    }
+                } else {
+                    secondaryTarget = null;
+                    secondaryTargetObject = null;
+
+                    notifyTargetRemovalListeners();
+
+                    if (firingLogic != null) {
+                        firingLogic.removeEnqueuedShots();
+                    }
+                }
+            }
         }
 
         if (!inSiegeMode) {
@@ -1163,6 +1198,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                         } else {
                             firingLogic.removeEnqueuedShots();
                             removeTarget();
+                            notifyTargetRemovalListeners();
                         }
                     } else if (rotatingToDirection == NONE && !inSiegeMode) {
                         if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
@@ -1175,6 +1211,32 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     }
                 } else {
                     firingLogic.removeEnqueuedShots();
+                }
+
+                if (!isMainTargetReachable() && secondaryTarget != null && isSecondaryTargetReachable()) {
+                    if (facingDirection == CombatUtils.getFacingDirection(getCenterX(), getCenterY(), secondaryTarget.x, secondaryTarget.y)) {
+                        if (rotatingToDirection == NONE && inSiegeMode) {
+                            if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                                firingLogic.target.x = secondaryTarget.x;
+                                firingLogic.target.y = secondaryTarget.y;
+                                firingLogic.enqueueShots(inSiegeMode);
+                            } else {
+                                firingLogic.removeEnqueuedShots();
+                                secondaryTarget = null;
+                                secondaryTargetObject = null;
+                            }
+                        } else if (rotatingToDirection == NONE && !inSiegeMode) {
+                            if (MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                                firingLogic.target.x = secondaryTarget.x;
+                                firingLogic.target.y = secondaryTarget.y;
+                                firingLogic.enqueueShots(inSiegeMode);
+                            } else {
+                                firingLogic.removeEnqueuedShots();
+                            }
+                        }
+                    } else {
+                        firingLogic.removeEnqueuedShots();
+                    }
                 }
             }
 
@@ -1196,6 +1258,11 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 }
             } else if (isMainTargetReachable() && movingToTarget) {
                 notifyUnableToMoveListeners();
+            }
+
+            if (secondaryTargetObject != null && (!isSecondaryTargetReachable() || isMainTargetReachable())) {
+                secondaryTargetObject = null;
+                secondaryTarget = null;
             }
         }
     }
@@ -1234,7 +1301,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Checks if the unit can reach it's main target
      * @return
      */
-    protected boolean isMainTargetReachable() {
+    public boolean isMainTargetReachable() {
         if (firingLogic == null || (target == null && targetObject == null)) {
             return true;
         } else {
@@ -1255,6 +1322,30 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the unit can reach it's secondary target
+     * @return
+     */
+    public boolean isSecondaryTargetReachable() {
+        if (firingLogic == null || (secondaryTarget == null && secondaryTargetObject == null)) {
+            return false;
+        } else {
+            if (secondaryTarget != null) {
+                if (!inSiegeMode) {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                } else {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                }
+            } else {
+                if (!inSiegeMode) {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                } else {
+                    return MathUtils.distance(getCenterX() / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, getCenterY() / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                }
+            }
+        }
+    }
+
+    /**
      * Moves the unit to a point in which the unit can range it's target
      */
     protected void moveCloserToTarget() {
@@ -1268,6 +1359,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             movementRequestHandler.handleMovementRequest(this, (short) rangePoint.x, (short) rangePoint.y);
         } else {
             removeTarget();
+            notifyTargetRemovalListeners();
         }
     }
 
@@ -1326,7 +1418,6 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      *
      * @param delta time elapsed since the last update
      */
-    @SuppressWarnings("Duplicates")
     protected void updateBodyFacingDirection(float delta) {
         // update unit's rotation if it is currently rotating
         if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / offensiveSpecs.getSpeed()) {

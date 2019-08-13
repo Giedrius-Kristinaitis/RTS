@@ -151,12 +151,16 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToUnit(Unit unit, GameObject target) {
-        if (!unit.hasTarget() && ((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
+        if (((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 unit.getDefensiveSpecs().getSightRange()) ||
                 (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                         unit.getOffensiveSpecs().getSiegeModeAttackRange()))) {
 
-            unit.aimAt(target);
+            if (!unit.hasTarget() && !unit.hasTargetObject()) {
+                unit.aimAt(target);
+            } else if (!unit.hasSecondaryTarget() && !unit.isMainTargetReachable()) {
+                unit.setSecondaryTargetObject(target);
+            }
         }
     }
 
@@ -167,7 +171,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToBuilding(OffensiveBuilding building, GameObject target) {
-        if (!building.hasTarget() && MathUtils.distance(building.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, building.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
+        if (!building.hasTarget() && !building.hasTargetObject() && MathUtils.distance(building.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, building.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 building.getOffensiveSpecs().getAttackRange()) {
 
             building.aimAt(target);
@@ -181,7 +185,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      */
     @SuppressWarnings("Duplicates")
     protected void assignTargetForObject(GameObject object) {
-        if (hasTarget(object)) {
+        if (hasTarget(object) && (!(object instanceof Unit) || ((Unit) object).isMainTargetReachable())) {
             return;
         }
 
@@ -204,12 +208,12 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
          */
 
         for (int distance = 1; distance <= Math.max(sightRangeX, sightRangeY); distance++) {
-            if (hasTarget(object)) {
+            if (hasTarget(object) && (!(object instanceof Unit) || ((Unit) object).hasSecondaryTarget())) {
                 break;
             }
 
             for (int x = centerBlockX - distance; x <= centerBlockX + distance; x++) {
-                if (hasTarget(object)) {
+                if (hasTarget(object) && (!(object instanceof Unit) || ((Unit) object).hasSecondaryTarget())) {
                     break;
                 }
 
@@ -226,12 +230,12 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
                 }
             }
 
-            if (hasTarget(object)) {
+            if (hasTarget(object) && (!(object instanceof Unit) || ((Unit) object).hasSecondaryTarget())) {
                 break;
             }
 
             for (int y = centerBlockY - distance; y <= centerBlockY + distance; y++) {
-                if (hasTarget(object)) {
+                if (hasTarget(object) && (!(object instanceof Unit) || ((Unit) object).hasSecondaryTarget())) {
                     break;
                 }
 

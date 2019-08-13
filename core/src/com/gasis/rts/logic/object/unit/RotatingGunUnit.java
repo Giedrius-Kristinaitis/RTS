@@ -243,15 +243,31 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Sets the unit's secondary target
+     *
+     * @param secondaryTargetObject new secondary target
+     */
+    @Override
+    public void setSecondaryTargetObject(GameObject secondaryTargetObject) {
+        super.setSecondaryTargetObject(secondaryTargetObject);
+
+        for (RotatingGun gun: guns.values()) {
+            if (!gun.hasSecondaryTarget()) {
+                gun.setSecondaryTargetObject(secondaryTargetObject);
+            }
+        }
+    }
+
+    /**
      * Checks if the unit can reach it's target
      *
      * @return
      */
     @Override
-    protected boolean isMainTargetReachable() {
+    public boolean isMainTargetReachable() {
         if (super.isMainTargetReachable()) {
             for (RotatingGun gun: guns.values()) {
-                if (!gun.isTargetReachable()) {
+                if (!gun.isMainTargetReachable()) {
                     return false;
                 }
             }

@@ -18,6 +18,7 @@ import static com.gasis.rts.logic.object.unit.Unit.*;
 /**
  * Represents any gun that rotates around a fixed point (tank gun, rocket launcher...)
  */
+@SuppressWarnings("Duplicates")
 public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, DamageValueProvider {
 
     // texture atlas that holds the textures of the gun
@@ -92,6 +93,29 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     // the object the gun is aiming at
     protected GameObject targetObject;
+
+    // the secondary target object the unit can fire at while moving to it's main target
+    protected GameObject secondaryTargetObject;
+
+    // the secondary target's point
+    protected Point secondaryTarget;
+
+    /**
+     * Sets the gun's secondary target
+     *
+     * @param secondaryTargetObject secondary target object
+     */
+    public void setSecondaryTargetObject(GameObject secondaryTargetObject) {
+        this.secondaryTargetObject = secondaryTargetObject;
+    }
+
+    /**
+     * Checks if the gun has a secondary target
+     * @return
+     */
+    public boolean hasSecondaryTarget() {
+        return secondaryTargetObject != null;
+    }
 
     /**
      * Sets the gun's destroyed value
@@ -246,12 +270,25 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     }
 
     /**
+     * Checks if the object has a target object
+     *
+     * @return
+     */
+    @Override
+    public boolean hasTargetObject() {
+        return targetObject != null;
+    }
+
+    /**
      * Removes the current target
      */
     @Override
     public void removeTarget() {
         target = null;
         targetObject = null;
+
+        secondaryTarget = null;
+        secondaryTargetObject = null;
     }
 
     /**
@@ -636,7 +673,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     /**
      * Updates the target logic
      */
-    @SuppressWarnings("Duplicates")
     protected void updateTarget() {
         if (targetObject != null) {
             if (!targetObject.isDestroyed()) {
@@ -654,10 +690,37 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     firingLogic.removeEnqueuedShots();
                 }
             }
+
+            if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
+                if (!secondaryTargetObject.isDestroyed()) {
+                    if (secondaryTarget != null) {
+                        secondaryTarget.x = secondaryTargetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                        secondaryTarget.y = secondaryTargetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
+                    } else {
+                        secondaryTarget = new Point(secondaryTargetObject.getCenterX(), secondaryTargetObject.getCenterY());
+                    }
+                } else {
+                    secondaryTarget = null;
+                    secondaryTargetObject = null;
+
+                    if (firingLogic != null) {
+                        firingLogic.removeEnqueuedShots();
+                    }
+                }
+            }
         }
 
         if (target != null) {
-            rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+            if (secondaryTargetObject == null || isMainTargetReachable()) {
+                rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+
+                if (isMainTargetReachable() && secondaryTargetObject != null) {
+                    setSecondaryTargetObject(null);
+                    secondaryTarget = null;
+                }
+            } else if (secondaryTarget != null) {
+                rotateToDirection(CombatUtils.getFacingDirection(x, y, secondaryTarget.x, secondaryTarget.y));
+            }
 
             if (rotatingToDirection == NONE && inSiegeMode) {
                 if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
@@ -676,14 +739,39 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     removeEnqueuedShots();
                 }
             }
+
+            if (!isMainTargetReachable() && secondaryTarget != null && isSecondaryTargetReachable()) {
+                if (rotatingToDirection == NONE && inSiegeMode) {
+                    if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                        firingLogic.target.x = secondaryTarget.x;
+                        firingLogic.target.y = secondaryTarget.y;
+                        firingLogic.enqueueShots(inSiegeMode);
+                    } else {
+                        firingLogic.removeEnqueuedShots();
+                    }
+                } else if (rotatingToDirection == NONE && !inSiegeMode) {
+                    if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                        firingLogic.target.x = secondaryTarget.x;
+                        firingLogic.target.y = secondaryTarget.y;
+                        firingLogic.enqueueShots(inSiegeMode);
+                    } else {
+                        removeEnqueuedShots();
+                    }
+                }
+            }
+
+            if (secondaryTargetObject != null && (!isSecondaryTargetReachable() || isMainTargetReachable())) {
+                secondaryTargetObject = null;
+                secondaryTarget = null;
+            }
         }
     }
 
     /**
-     * Checks if the gun can reach it's target or not
+     * Checks if the gun can reach it's main target or not
      * @return
      */
-    public boolean isTargetReachable() {
+    public boolean isMainTargetReachable() {
         if (firingLogic == null || (target == null && targetObject == null)) {
             return true;
         }
@@ -699,6 +787,30 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                 return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
             } else {
                 return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+            }
+        }
+    }
+
+    /**
+     * Checks if the gun can reach it's secondary target or not
+     * @return
+     */
+    public boolean isSecondaryTargetReachable() {
+        if (firingLogic == null || (secondaryTarget == null && secondaryTargetObject == null)) {
+            return false;
+        }
+
+        if (secondaryTarget != null) {
+            if (!inSiegeMode) {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+            } else {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+            }
+        } else {
+            if (!inSiegeMode) {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+            } else {
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
             }
         }
     }
@@ -734,7 +846,6 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      *
      * @param delta time elapsed since the last update
      */
-    @SuppressWarnings("Duplicates")
     protected void updateFacingDirection(float delta) {
         // update gun's rotation if it is currently rotating
         if (rotatingToDirection != NONE && timeSinceLastRotation >= 1f / rotationSpeed) {

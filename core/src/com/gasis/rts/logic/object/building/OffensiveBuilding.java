@@ -234,6 +234,16 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Checks if the object has a target object
+     *
+     * @return
+     */
+    @Override
+    public boolean hasTargetObject() {
+        return targetObject != null;
+    }
+
+    /**
      * Removes the current target
      */
     @Override
