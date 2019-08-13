@@ -682,7 +682,7 @@ public class Building extends GameObject implements UnitProducer {
                     height
             );
 
-            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
+            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) && (electricityAvailable || electricityRequirement == 0)) {
                 for (Animation animation : animations) {
                     animation.render(batch, resources);
                 }
