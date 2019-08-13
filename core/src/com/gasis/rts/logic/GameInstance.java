@@ -19,6 +19,7 @@ import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
+import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.sound.MusicManager;
 import com.gasis.rts.sound.SoundPlayer;
@@ -79,6 +80,9 @@ public class GameInstance implements Updatable {
 
     // used to play music
     private MusicManager musicManager;
+
+    // where the camera was last frame
+    private Point lastCamPosition = new Point();
 
     /**
      * Default class constructor
@@ -215,6 +219,9 @@ public class GameInstance implements Updatable {
 
             player.update(delta);
         }
+
+        lastCamPosition.x = cam.position.x;
+        lastCamPosition.y = cam.position.y;
     }
 
 
@@ -350,6 +357,9 @@ public class GameInstance implements Updatable {
 
         mapScroller.setHalfScreenDimensions(halfWidth, halfHeight);
         mapScroller.setScreenDimensions(width, height);
+
+        cam.position.x = lastCamPosition.x;
+        cam.position.y = lastCamPosition.y;
     }
 
     /**
