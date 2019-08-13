@@ -153,6 +153,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the object the unit is currently aiming at
     protected GameObject targetObject;
 
+    // the secondary target object the unit can fire at while moving to it's main target
+    protected GameObject secondaryTarget;
+
     // siege mode listeners
     protected Set<SiegeModeListener> siegeModeListeners = new HashSet<SiegeModeListener>();
 
@@ -572,6 +575,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public boolean hasTarget() {
         return target != null;
+    }
+
+    /**
+     * Checks if the unit has a secondary target
+     * @return
+     */
+    public boolean hasSecondaryTarget() {
+        return secondaryTarget != null;
     }
 
     /**
@@ -1158,7 +1169,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 }
             }
 
-            if (!moving && rotatingToDirection == NONE && !isTargetReachable()) {
+            if (!moving && rotatingToDirection == NONE && !isMainTargetReachable()) {
                 if (!inSiegeMode) {
                     moveCloserToTarget();
                 } else {
@@ -1167,14 +1178,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
                     handleLeavingAutoSiegeMode();
                 }
-            } else if (!isTargetReachable() && !movingToTarget) {
+            } else if (!isMainTargetReachable() && !movingToTarget) {
                 removeTarget();
                 notifyTargetRemovalListeners();
 
                 if (inSiegeMode) {
                     handleLeavingAutoSiegeMode();
                 }
-            } else if (isTargetReachable() && movingToTarget) {
+            } else if (isMainTargetReachable() && movingToTarget) {
                 notifyUnableToMoveListeners();
             }
         }
@@ -1184,7 +1195,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (siegeModeAvailable && !inSiegeMode && target != null && isTargetReachable() && (movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
+        if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
             }
@@ -1211,10 +1222,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Checks if the unit can reach it's target
+     * Checks if the unit can reach it's main target
      * @return
      */
-    protected boolean isTargetReachable() {
+    protected boolean isMainTargetReachable() {
         if (firingLogic == null || (target == null && targetObject == null)) {
             return true;
         } else {

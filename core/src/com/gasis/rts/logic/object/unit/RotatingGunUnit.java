@@ -248,8 +248,8 @@ public class RotatingGunUnit extends Unit {
      * @return
      */
     @Override
-    protected boolean isTargetReachable() {
-        if (super.isTargetReachable()) {
+    protected boolean isMainTargetReachable() {
+        if (super.isMainTargetReachable()) {
             for (RotatingGun gun: guns.values()) {
                 if (!gun.isTargetReachable()) {
                     return false;
