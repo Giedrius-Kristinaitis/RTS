@@ -9,9 +9,9 @@ junk texture atlas: junk.atlas
 junk texture: building_junk
 junk scale: 2
 construction time: 50
-hp bar width: 4.8
+hp bar width: 3.6
 width: 3.6
-height: 3.62
+height: 4.242
 width in blocks: 3
 height in blocks: 4
 hp: 100
@@ -22,7 +22,7 @@ animation: radar
 animation availability: always
 radar animation name: headquarters_radar_rebels
 radar relative x: 0.1
-radar relative y: 1.7
+radar relative y: 1.4
 provider task: finance
 finance task provided amount: 100
 finance task reverted on destruction: false
