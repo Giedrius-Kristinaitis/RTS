@@ -221,6 +221,8 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         buildings.add(building);
 
         state.buildings++;
+
+        electricityLost(0);
     }
 
     /**
@@ -322,6 +324,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
                 buildingsToRemove.remove(i);
                 i--;
                 state.buildings--;
+                electricityGained(0);
             }
         }
     }
