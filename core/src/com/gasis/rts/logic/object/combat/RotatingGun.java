@@ -675,94 +675,126 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      */
     protected void updateTarget() {
         if (targetObject != null) {
-            if (!targetObject.isDestroyed()) {
-                if (target != null) {
-                    target.x = targetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
-                    target.y = targetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
+            updateMainTarget();
+        }
+
+        if (target != null) {
+            updateSecondaryTarget();
+            updateRotationToTarget();
+            updateMainTargetShooting();
+            updateSecondaryTargetShooting();
+
+            if (secondaryTargetObject != null && (!isSecondaryTargetReachable() || isMainTargetReachable())) {
+                secondaryTargetObject = null;
+                secondaryTarget = null;
+            }
+        }
+    }
+
+    /**
+     * Updates the shooting at the secondary target
+     */
+    protected void updateSecondaryTargetShooting() {
+        if (!isMainTargetReachable() && secondaryTarget != null && isSecondaryTargetReachable()) {
+            if (rotatingToDirection == NONE && inSiegeMode) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                    firingLogic.target.x = secondaryTarget.x;
+                    firingLogic.target.y = secondaryTarget.y;
+                    firingLogic.enqueueShots(inSiegeMode);
                 } else {
-                    target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
+                    firingLogic.removeEnqueuedShots();
+                }
+            } else if (rotatingToDirection == NONE && !inSiegeMode) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                    firingLogic.target.x = secondaryTarget.x;
+                    firingLogic.target.y = secondaryTarget.y;
+                    firingLogic.enqueueShots(inSiegeMode);
+                } else {
+                    removeEnqueuedShots();
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the shooting at the main target
+     */
+    protected void updateMainTargetShooting() {
+        if (rotatingToDirection == NONE && inSiegeMode) {
+            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                firingLogic.target.x = target.x;
+                firingLogic.target.y = target.y;
+                firingLogic.enqueueShots(inSiegeMode);
+            } else {
+                firingLogic.removeEnqueuedShots();
+            }
+        } else if (rotatingToDirection == NONE && !inSiegeMode) {
+            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                firingLogic.target.x = target.x;
+                firingLogic.target.y = target.y;
+                firingLogic.enqueueShots(inSiegeMode);
+            } else {
+                removeEnqueuedShots();
+            }
+        }
+    }
+
+    /**
+     * Updates the gun's rotation to it's target
+     */
+    protected void updateRotationToTarget() {
+        if (secondaryTargetObject == null || isMainTargetReachable()) {
+            rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
+
+            if (isMainTargetReachable() && secondaryTargetObject != null) {
+                setSecondaryTargetObject(null);
+                secondaryTarget = null;
+            }
+        } else if (secondaryTarget != null) {
+            rotateToDirection(CombatUtils.getFacingDirection(x, y, secondaryTarget.x, secondaryTarget.y));
+        }
+    }
+
+    /**
+     * Updates the gun's secondary target
+     */
+    protected void updateSecondaryTarget() {
+        if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
+            if (!secondaryTargetObject.isDestroyed()) {
+                if (secondaryTarget != null) {
+                    secondaryTarget.x = secondaryTargetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                    secondaryTarget.y = secondaryTargetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
+                } else {
+                    secondaryTarget = new Point(secondaryTargetObject.getCenterX(), secondaryTargetObject.getCenterY());
                 }
             } else {
-                target = null;
-                targetObject = null;
+                secondaryTarget = null;
+                secondaryTargetObject = null;
 
                 if (firingLogic != null) {
                     firingLogic.removeEnqueuedShots();
                 }
             }
         }
+    }
 
-        if (target != null) {
-            if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
-                if (!secondaryTargetObject.isDestroyed()) {
-                    if (secondaryTarget != null) {
-                        secondaryTarget.x = secondaryTargetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
-                        secondaryTarget.y = secondaryTargetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
-                    } else {
-                        secondaryTarget = new Point(secondaryTargetObject.getCenterX(), secondaryTargetObject.getCenterY());
-                    }
-                } else {
-                    secondaryTarget = null;
-                    secondaryTargetObject = null;
-
-                    if (firingLogic != null) {
-                        firingLogic.removeEnqueuedShots();
-                    }
-                }
+    /**
+     * Updates the gun's main target
+     */
+    protected void updateMainTarget() {
+        if (!targetObject.isDestroyed()) {
+            if (target != null) {
+                target.x = targetObject.getOccupiedBlockX() + Block.BLOCK_WIDTH / 2f;
+                target.y = targetObject.getOccupiedBlockY() + Block.BLOCK_HEIGHT / 2f;
+            } else {
+                target = new Point(targetObject.getCenterX(), targetObject.getCenterY());
             }
+        } else {
+            target = null;
+            targetObject = null;
 
-            if (secondaryTargetObject == null || isMainTargetReachable()) {
-                rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
-
-                if (isMainTargetReachable() && secondaryTargetObject != null) {
-                    setSecondaryTargetObject(null);
-                    secondaryTarget = null;
-                }
-            } else if (secondaryTarget != null) {
-                rotateToDirection(CombatUtils.getFacingDirection(x, y, secondaryTarget.x, secondaryTarget.y));
-            }
-
-            if (rotatingToDirection == NONE && inSiegeMode) {
-                if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
-                    firingLogic.target.x = target.x;
-                    firingLogic.target.y = target.y;
-                    firingLogic.enqueueShots(inSiegeMode);
-                } else {
-                    firingLogic.removeEnqueuedShots();
-                }
-            } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
-                    firingLogic.target.x = target.x;
-                    firingLogic.target.y = target.y;
-                    firingLogic.enqueueShots(inSiegeMode);
-                } else {
-                    removeEnqueuedShots();
-                }
-            }
-
-            if (!isMainTargetReachable() && secondaryTarget != null && isSecondaryTargetReachable()) {
-                if (rotatingToDirection == NONE && inSiegeMode) {
-                    if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
-                        firingLogic.target.x = secondaryTarget.x;
-                        firingLogic.target.y = secondaryTarget.y;
-                        firingLogic.enqueueShots(inSiegeMode);
-                    } else {
-                        firingLogic.removeEnqueuedShots();
-                    }
-                } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                    if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
-                        firingLogic.target.x = secondaryTarget.x;
-                        firingLogic.target.y = secondaryTarget.y;
-                        firingLogic.enqueueShots(inSiegeMode);
-                    } else {
-                        removeEnqueuedShots();
-                    }
-                }
-            }
-
-            if (secondaryTargetObject != null && (!isSecondaryTargetReachable() || isMainTargetReachable())) {
-                secondaryTargetObject = null;
-                secondaryTarget = null;
+            if (firingLogic != null) {
+                firingLogic.removeEnqueuedShots();
             }
         }
     }
