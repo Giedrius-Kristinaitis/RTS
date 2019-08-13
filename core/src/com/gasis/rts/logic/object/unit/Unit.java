@@ -1156,7 +1156,17 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     handleLeavingAutoSiegeMode();
                 }
             }
+        }
 
+        if (target != null) {
+
+        }
+
+        if (!inSiegeMode) {
+            handleEnteringAutoSiegeMode();
+        }
+
+        if (target != null) {
             if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
                 if (!secondaryTargetObject.isDestroyed()) {
                     if (secondaryTarget != null) {
@@ -1176,13 +1186,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     }
                 }
             }
-        }
-
-        if (!inSiegeMode) {
-            handleEnteringAutoSiegeMode();
-        }
-
-        if (target != null) {
+            
             if (firingLogic != null) {
                 if (!moving && (rotatingToDirection == NONE || rotatingToTarget)) {
                     rotateToDirection(CombatUtils.getFacingDirection(getCenterX(), getCenterY(), target.x, target.y));

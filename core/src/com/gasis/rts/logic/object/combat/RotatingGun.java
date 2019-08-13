@@ -690,7 +690,9 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     firingLogic.removeEnqueuedShots();
                 }
             }
+        }
 
+        if (target != null) {
             if (!isMainTargetReachable() && secondaryTargetObject != null && isSecondaryTargetReachable()) {
                 if (!secondaryTargetObject.isDestroyed()) {
                     if (secondaryTarget != null) {
@@ -708,9 +710,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     }
                 }
             }
-        }
 
-        if (target != null) {
             if (secondaryTargetObject == null || isMainTargetReachable()) {
                 rotateToDirection(CombatUtils.getFacingDirection(x, y, target.x, target.y));
 
