@@ -184,12 +184,39 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // provides final destination point
     protected FinalDestinationProvider finalDestinationProvider;
 
+    // was the unit ordered to 'attack move'
+    protected boolean attackMove;
+
+    // the point to which the unit was ordered to 'attack move'
+    protected Point attackMoveDestination;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the unit's attack move flag
+     *
+     * @param attackMove was the unit ordered to attack move
+     */
+    public void setAttackMove(boolean attackMove) {
+        this.attackMove = attackMove;
+
+        removeTarget();
+        notifyTargetRemovalListeners();
+    }
+
+    /**
+     * Sets the destination point of the unit's attack move
+     *
+     * @param attackMoveDestination attack move destination
+     */
+    public void setAttackMoveDestination(Point attackMoveDestination) {
+        this.attackMoveDestination = attackMoveDestination;
     }
 
     /**
@@ -569,6 +596,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void aimAt(GameObject target) {
         targetObject = target;
+
+        if (attackMove) {
+            notifyUnableToMoveListeners();
+        }
     }
 
     /**
@@ -1279,6 +1310,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
                 handleLeavingAutoSiegeMode();
             }
+
+            if (attackMove && attackMoveDestination != null) {
+                requestToMove((short) attackMoveDestination.x, (short) attackMoveDestination.y);
+            }
         }
     }
 
@@ -1311,7 +1346,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
+        if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (attackMove || movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
             }
