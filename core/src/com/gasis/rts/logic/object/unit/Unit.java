@@ -586,6 +586,15 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Sets the unit's secondary target
+     *
+     * @param secondaryTarget new secondary target
+     */
+    public void setSecondaryTarget(GameObject secondaryTarget) {
+        this.secondaryTarget = secondaryTarget;
+    }
+
+    /**
      * Removes the current target
      */
     @Override
