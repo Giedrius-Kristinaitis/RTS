@@ -114,6 +114,13 @@ public class BuildingPlacer implements Renderable {
     }
 
     /**
+     * Re-initiates building placement to place the same building that was just placed
+     */
+    public void reinitiateBuildingPlacement() {
+        initiateBuildingPlacement(loader);
+    }
+
+    /**
      * Called when the mouse is moved
      *
      * @param x mouse x relative to map's bottom left

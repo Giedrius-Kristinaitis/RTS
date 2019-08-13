@@ -454,6 +454,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (buildingPlacer.isPlacing()) {
             if (mouseButton == Input.Buttons.LEFT) {
                 buildingPlacer.finishPlacement(controlledPlayer);
+
+                if (pressedKey == Input.Keys.SHIFT_LEFT || pressedKey == Input.Keys.SHIFT_RIGHT) {
+                    buildingPlacer.reinitiateBuildingPlacement();
+                }
             } else if (mouseButton == Input.Buttons.RIGHT) {
                 buildingPlacer.cancelPlacement();
             }
