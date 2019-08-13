@@ -3,6 +3,7 @@ package com.gasis.rts.sound;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
@@ -24,6 +25,13 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
 
     // how many times per second is the same sound allowed to be played
     private final int MAX_SAME_SOUND_PLAYS_PER_SECOND = 4;
+
+    // how far away can sound effects be heard
+    private final float SOUND_EFFECT_HEARING_RADIUS = 30f;
+
+    // where is point of view located
+    private float povX;
+    private float povY;
 
     /**
      * Default class constructor
@@ -56,17 +64,46 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
      */
     @Override
     public void playSoundEffect(String name) {
+        playSpatialSoundEffect(name, 1, 0);
+    }
+
+    /**
+     * Plays a sound effect with spatial effect
+     *
+     * @param name name of the sound effect
+     * @param volume volume of the effect
+     * @param pan pan of the effect (between -1 and 1)
+     */
+    private void playSpatialSoundEffect(String name, float volume, float pan) {
         if (playCounts.containsKey(name) && playCounts.get(name) >= MAX_SAME_SOUND_PLAYS_PER_SECOND) {
             return;
         }
 
         Sound sound = resources.sound(name);
-        sound.play(1, 1, 0);
+        sound.play(volume, 1, pan);
 
         if (playCounts.containsKey(name)) {
             playCounts.put(name, playCounts.get(name) + 1);
         } else {
             playCounts.put(name, 1);
+        }
+    }
+
+    /**
+     * Plays a sound effect at a specific position
+     *
+     * @param name name of the sound effect
+     * @param x    x position of the sound effect
+     * @param y    y position of the sound effect
+     */
+    @Override
+    public void playSoundEffect(String name, float x, float y) {
+        float distance = MathUtils.distance(x, povX, y, povY);
+
+        if (distance < SOUND_EFFECT_HEARING_RADIUS) {
+            playSpatialSoundEffect(name,
+                    1 - distance / SOUND_EFFECT_HEARING_RADIUS,
+                    (x - povX) / SOUND_EFFECT_HEARING_RADIUS);
         }
     }
 
@@ -88,5 +125,16 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
         } else {
             timer += delta;
         }
+    }
+
+    /**
+     * Sets the current position of the point of view
+     *
+     * @param x current x
+     * @param y current y
+     */
+    public void setCurrentViewPosition(float x, float y) {
+        povX = x;
+        povY = y;
     }
 }

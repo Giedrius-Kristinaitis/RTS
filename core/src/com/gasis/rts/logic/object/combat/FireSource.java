@@ -379,7 +379,8 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         animations.add(animation);
 
         if (soundEffect != null) {
-            SoundPlayerProvider.getSoundPlayer().playSoundEffect(Constants.FOLDER_SOUNDS + soundEffect);
+            SoundPlayerProvider.getSoundPlayer().playSoundEffect(Constants.FOLDER_SOUNDS + soundEffect,
+                    x, y);
         }
     }
 

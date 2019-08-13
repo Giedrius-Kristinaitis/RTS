@@ -197,6 +197,7 @@ public class GameInstance implements Updatable {
      */
     @Override
     public void update(float delta) {
+        soundPlayer.setCurrentViewPosition(cam.position.x, cam.position.y);
         soundPlayer.update(delta);
         musicManager.update(delta);
 
