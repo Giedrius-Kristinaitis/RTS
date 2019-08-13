@@ -343,8 +343,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param y mouse y in world coords
      */
     protected boolean handleBuildingCombatControls(float x, float y) {
-        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
-            aimSelectedBuilding(x, y);
+        if (aimSelectedBuilding(x, y)) {
             return true;
         }
 
@@ -393,16 +392,20 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param x x of the target
      * @param y y of the target
      */
-    protected void aimSelectedBuilding(float x, float y) {
+    protected boolean aimSelectedBuilding(float x, float y) {
         if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
             GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
-            if (occupyingObject == null) {
+            if (occupyingObject == null && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
-            } else {
+                return true;
+            } else if (occupyingObject != null && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(occupyingObject);
+                return true;
             }
         }
+
+        return false;
     }
 
     /**
