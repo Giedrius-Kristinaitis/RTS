@@ -84,6 +84,9 @@ public class BuildingLoader extends GameObjectLoader {
     // the building's damaged textures
     protected List<String> damagedTextures;
 
+    // the building's damage points
+    protected List<Point> damagePoints;
+
     /**
      * Default class constructor
      * @param map
@@ -181,6 +184,22 @@ public class BuildingLoader extends GameObjectLoader {
         try {
             damagedTextures = reader.readLines("damaged texture");
         } catch (Exception ex) {}
+
+        // read damage points
+        try {
+            List<String> points = reader.readLines("damage point");
+
+            damagePoints = new ArrayList<Point>();
+
+            for (String pointData: points) {
+                String[] data = pointData.trim().split(" ");
+
+                damagePoints.add(new Point(
+                        Float.parseFloat(data[0]),
+                        Float.parseFloat(data[1])
+                ));
+            }
+        } catch (Exception ex) {}
     }
 
     /**
@@ -261,6 +280,10 @@ public class BuildingLoader extends GameObjectLoader {
 
         if (damagedTextures != null && damagedTextures.size() > 0) {
             building.setDamagedTextures(damagedTextures);
+        }
+
+        if (damagePoints != null && damagePoints.size() > 0) {
+            building.setDamagePoints(damagePoints);
         }
 
         initializeTasks(building);

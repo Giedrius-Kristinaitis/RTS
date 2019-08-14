@@ -26,6 +26,9 @@ import java.util.*;
  */
 public class Building extends GameObject implements UnitProducer {
 
+    // used to generate random data
+    protected final Random random = new Random();
+
     // the name of the building's texture
     protected String texture;
 
@@ -119,12 +122,31 @@ public class Building extends GameObject implements UnitProducer {
     // the index of the current damaged texture
     protected int damagedTextureIndex;
 
+    // the points where black damage textures are being drawn
+    protected List<Point> damagePoints;
+
+    // the textures that are being drawn on the damage points
+    protected List<DamageTexture> damagePointTextures = new ArrayList<DamageTexture>();
+
+    // the size of the textures that are being drawn at the damage points
+    protected final static float DAMAGE_POINT_TEXTURE_WIDTH = 1f;
+    protected final static float DAMAGE_POINT_TEXTURE_HEIGHT = 1f;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the building's damage points
+     *
+     * @param damagePoints damage points
+     */
+    public void setDamagePoints(List<Point> damagePoints) {
+        this.damagePoints = damagePoints;
     }
 
     /**
@@ -629,6 +651,10 @@ public class Building extends GameObject implements UnitProducer {
                 if (gatherPointAnimation != null) {
                     gatherPointAnimation.update(delta);
                 }
+
+                if (damagePoints != null && damagePoints.size() > 0) {
+                    updateDamagePoints();
+                }
             }
 
             if (beingConstructed) {
@@ -640,6 +666,49 @@ public class Building extends GameObject implements UnitProducer {
                     updateTaskExecution(delta);
                 }
             }
+        }
+    }
+
+    /**
+     * Updates the building's damage points and assigning damage textures to them
+     */
+    protected void updateDamagePoints() {
+        if (hp / defensiveSpecs.getMaxHp() <= 0.33f) {
+            if (damagePointTextures.size() != 6) {
+                if (damagePointTextures.size() == 3) {
+                    assignDamagePointTextures(3);
+                } else {
+                    assignDamagePointTextures(6);
+                }
+            }
+        } else if (hp / defensiveSpecs.getMaxHp() <= 0.66f) {
+            if (damagePointTextures.size() != 3) {
+                if (damagePointTextures.isEmpty()) {
+                    assignDamagePointTextures(3);
+                } else if (damagePointTextures.size() == 6) {
+                    for (int i = 5; i >= 3; i--) {
+                        damagePointTextures.remove(i);
+                    }
+                } else {
+                    damagePointTextures.clear();
+                }
+            }
+        } else if (!damagePointTextures.isEmpty()) {
+            damagePointTextures.clear();
+        }
+    }
+
+    /**
+     * Assigns a number of building damage textures to damage points
+     *
+     * @param count count of textures
+     */
+    protected void assignDamagePointTextures(int count) {
+        for (int i = 0; i < count; i++) {
+            damagePointTextures.add(new DamageTexture(
+                    damagePoints.get(random.nextInt(damagePoints.size())),
+                    Constants.BUILDING_DAMAGE_PREFIX + (1 + random.nextInt(Constants.BUILDING_DAMAGE_TEXTURE_COUNT))
+            ));
         }
     }
 
@@ -726,6 +795,10 @@ public class Building extends GameObject implements UnitProducer {
                 );
             }
 
+            if (damagePointTextures.size() > 0) {
+                renderDamagePointTextures(batch, resources);
+            }
+
             if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) && (electricityAvailable || electricityRequirement == 0)) {
                 for (Animation animation : animations) {
                     animation.render(batch, resources);
@@ -751,6 +824,24 @@ public class Building extends GameObject implements UnitProducer {
                         0.5f
                 );
             }
+        }
+    }
+
+    /**
+     * Renders the building's damage point textures
+     *
+     * @param batch sprite batch to draw tp
+     * @param resources game's assets
+     */
+    protected void renderDamagePointTextures(SpriteBatch batch, Resources resources) {
+        for (DamageTexture damageTexture: damagePointTextures) {
+            batch.draw(
+                    resources.atlas(Constants.BUILDING_DAMAGE_ATLAS).findRegion(damageTexture.texture),
+                    getCenterX() - damageTexture.point.x - DAMAGE_POINT_TEXTURE_WIDTH / 2f,
+                    getCenterY() - damageTexture.point.y - DAMAGE_POINT_TEXTURE_WIDTH / 2f,
+                    DAMAGE_POINT_TEXTURE_WIDTH,
+                    DAMAGE_POINT_TEXTURE_HEIGHT
+            );
         }
     }
 
@@ -907,5 +998,19 @@ public class Building extends GameObject implements UnitProducer {
         }
 
         return spawnPoint;
+    }
+
+    /**
+     * Texture drawn on a damage point
+     */
+    protected class DamageTexture {
+
+        protected Point point;
+        protected String texture;
+
+        protected DamageTexture(Point point, String texture) {
+            this.point = point;
+            this.texture = texture;
+        }
     }
 }

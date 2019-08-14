@@ -36,4 +36,7 @@ public class Constants {
     public static final String UNIT_SELECTION_CIRCLE_TEXTURE = "unit_selection_circle";
     public static final String PRODUCTION_PROGRESS_TEXTURE = "production_progress";
     public static final String NO_ELECTRICITY_INDICATOR_TEXTURE = "no_electricity_indicator";
+    public static final String BUILDING_DAMAGE_ATLAS = "atl/building_damage.atlas";
+    public static final String BUILDING_DAMAGE_PREFIX = "building_damage_";
+    public static final int BUILDING_DAMAGE_TEXTURE_COUNT = 7;
 }
