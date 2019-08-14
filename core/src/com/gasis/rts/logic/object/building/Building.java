@@ -29,6 +29,9 @@ public class Building extends GameObject implements UnitProducer {
     // the name of the building's texture
     protected String texture;
 
+    // the list of textures that are being used when the building is damaged
+    protected List<String> damagedTextures;
+
     // building frame animations' names and coordinates
     protected Map<Point, String> frameAnimations;
 
@@ -113,12 +116,24 @@ public class Building extends GameObject implements UnitProducer {
     // the animation that is played at the building's gather point
     protected FrameAnimation gatherPointAnimation;
 
+    // the index of the current damaged texture
+    protected int damagedTextureIndex;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the damaged textures of the building
+     *
+     * @param damagedTextures damaged textures
+     */
+    public void setDamagedTextures(List<String> damagedTextures) {
+        this.damagedTextures = damagedTextures;
     }
 
     /**
@@ -701,13 +716,15 @@ public class Building extends GameObject implements UnitProducer {
     @Override
     public void render(SpriteBatch batch, Resources resources) {
         if (!destroyed) {
-            batch.draw(
-                    resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(texture),
-                    x,
-                    y,
-                    width,
-                    height
-            );
+            if (!renderDamagedTextures(batch, resources)) {
+                batch.draw(
+                        resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(texture),
+                        x,
+                        y,
+                        width,
+                        height
+                );
+            }
 
             if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) && (electricityAvailable || electricityRequirement == 0)) {
                 for (Animation animation : animations) {
@@ -735,6 +752,36 @@ public class Building extends GameObject implements UnitProducer {
                 );
             }
         }
+    }
+
+    /**
+     * Renders the building's damaged textures
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected boolean renderDamagedTextures(SpriteBatch batch, Resources resources) {
+        if (beingConstructed || damagedTextures == null || damagedTextures.isEmpty()) {
+            return false;
+        }
+
+        if (hp / defensiveSpecs.getMaxHp() <= 0.33f) {
+            damagedTextureIndex = 0;
+        } else if (hp / defensiveSpecs.getMaxHp() <= 0.66f) {
+            damagedTextureIndex = 1;
+        } else {
+            return false;
+        }
+
+        batch.draw(
+                resources.atlas(Constants.FOLDER_ATLASES + atlas).findRegion(damagedTextures.get(damagedTextureIndex)),
+                x,
+                y,
+                width,
+                height
+        );
+
+        return true;
     }
 
     /**

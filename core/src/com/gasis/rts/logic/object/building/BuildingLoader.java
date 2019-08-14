@@ -11,6 +11,7 @@ import com.gasis.rts.logic.task.ResourceProviderTask;
 import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.math.Point;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,9 @@ public class BuildingLoader extends GameObjectLoader {
 
     // how much electricity does the building require in order to work
     protected int electricityRequirement;
+
+    // the building's damaged textures
+    protected List<String> damagedTextures;
 
     /**
      * Default class constructor
@@ -172,6 +176,11 @@ public class BuildingLoader extends GameObjectLoader {
                 animationsWhenIdle = false;
             }
         }
+
+        // read damaged textures
+        try {
+            damagedTextures = reader.readLines("damaged texture");
+        } catch (Exception ex) {}
     }
 
     /**
@@ -249,6 +258,10 @@ public class BuildingLoader extends GameObjectLoader {
         building.setJunkAtlas(junkAtlas);
         building.setElectricityRequirement(electricityRequirement);
         building.setHealingSpeed(healingSpeed);
+
+        if (damagedTextures != null && damagedTextures.size() > 0) {
+            building.setDamagedTextures(damagedTextures);
+        }
 
         initializeTasks(building);
 
