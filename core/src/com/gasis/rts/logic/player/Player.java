@@ -196,7 +196,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         unit.addTargetRemovalListener(targetAssigner);
         unit.addSiegeModeListener(targetAssigner);
         unit.setMovementRequestHandler(unitMover);
-        unit.setFinalDestinationProvider(unitMover);
+        unit.setPathInfoProvider(unitMover);
 
         units.add(unit);
 

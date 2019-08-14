@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Handles unit path finding and movement
  */
-public class UnitMover implements Updatable, MovementListener, MovementRequestHandler, FinalDestinationProvider {
+public class UnitMover implements Updatable, MovementListener, MovementRequestHandler, PathInfoProvider {
 
     // the unit groups that are being moved
     protected Set<UnitGroup> groups = new HashSet<UnitGroup>();
@@ -60,6 +60,17 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
     @Override
     public Point getFinalDestination(Unit unit) {
         return pathFinder.getFinalDestination(unit);
+    }
+
+    /**
+     * Gets unit's next path point
+     *
+     * @param unit unit to get the next point for
+     * @return
+     */
+    @Override
+    public Point getNextPathPoint(Unit unit) {
+        return pathFinder.getNextPathPointForObject(unit);
     }
 
     /**
