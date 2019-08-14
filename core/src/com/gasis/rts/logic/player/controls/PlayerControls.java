@@ -422,6 +422,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param keycode code of the pressed key
      */
     protected void handleControlContextHotkeys(int keycode) {
+        if (currentContext == null) {
+            return;
+        }
+        
         String pressedKey = Input.Keys.toString(keycode);
         Tech tech = currentContext.getTech(pressedKey);
 
