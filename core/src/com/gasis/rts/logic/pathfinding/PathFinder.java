@@ -36,7 +36,7 @@ public class PathFinder implements PathFinderInterface {
     public PathFinder(BlockMap map) {
         this.map = map;
 
-        maxObstacleDistance = Math.max(20, Math.min(map.getWidth(), map.getHeight()) / 10);
+        maxObstacleDistance = Math.max(20, Math.min(map.getWidth(), map.getHeight()) / 3);
     }
 
     /**
@@ -143,8 +143,16 @@ public class PathFinder implements PathFinderInterface {
         float lastDistanceToDestination = Float.MAX_VALUE;
         Point closestToDestination = processedPoint;
 
+        int timesMovedAway = 0;
+
         while (true) {
-            if (processedPoint.distanceToDestination > lastDistanceToDestination && processedPoint.distanceToDestination > maxObstacleDistance) {
+            if (processedPoint.distanceToDestination > lastDistanceToDestination) {
+                timesMovedAway++;
+            } else if (processedPoint.distanceToDestination < lastDistanceToDestination) {
+                timesMovedAway = Math.max(0, --timesMovedAway);
+            }
+
+            if (timesMovedAway >= maxObstacleDistance) {
                 // stop the algorithm to avoid searching very large amounts of blocks
                 break;
             }
