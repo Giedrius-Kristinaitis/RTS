@@ -206,8 +206,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     public void setAttackMove(boolean attackMove) {
         this.attackMove = attackMove;
 
-        removeTarget();
-        notifyTargetRemovalListeners();
+        if (attackMove) {
+            removeTarget();
+            notifyTargetRemovalListeners();
+        }
     }
 
     /**
