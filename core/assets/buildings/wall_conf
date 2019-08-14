@@ -20,3 +20,4 @@ sight range: 3
 offensive: false
 damaged texture: wall_conf_base_2
 damaged texture: wall_conf_base_1
+healing speed: 0
