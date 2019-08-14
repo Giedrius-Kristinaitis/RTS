@@ -85,7 +85,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
         Set<Unit> units = new HashSet<Unit>();
         units.add(unit);
 
-        moveUnits(units, x, y);
+        if (!unit.isAttackMove()) {
+            moveUnits(units, x, y);
+        } else {
+            attackMoveUnits(units, x, y, false);
+        }
     }
 
     /**
@@ -96,8 +100,12 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(Set<Unit> units, short x, short y) {
-        UnitGroup group = createUnitGroup(units, x, y);
+        for (Unit unit: units) {
+            unit.setAttackMove(false);
+            unit.setAttackMoveDestination(null);
+        }
 
+        UnitGroup group = createUnitGroup(units, x, y);
         this.groups.add(group);
 
         if (!group.units.isEmpty()) {
@@ -108,6 +116,58 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
         addMovementListeners(units);
         initializeMovementStates(units);
+    }
+
+    /**
+     * Moves the given units to the specified block on the map in attack move mode
+     *
+     * @param units units to move
+     * @param x x of the block in block map coordinates
+     * @param y y of the block in block map coordinates
+     * @param newGroup should a new group of units be created
+     */
+    public void attackMoveUnits(Set<Unit> units, short x, short y, boolean newGroup) {
+        if (newGroup) {
+            UnitGroup group = createUnitGroup(units, x, y);
+            group.attackMove = true;
+
+            if (!group.units.isEmpty()) {
+                this.groups.add(group);
+
+                Point destination = new Point(x, y);
+
+                for (Unit unit : group.units) {
+                    unit.setAttackMove(true);
+                    unit.setAttackMoveDestination(destination);
+
+                    removeUnitAndFindPath(unit, x, y);
+                }
+
+                addMovementListeners(units);
+                initializeMovementStates(units);
+            }
+        } else {
+            for (Unit unit: units) {
+                removeUnitAndFindPath(unit, x, y);
+                movementStates.put(unit, false);
+            }
+        }
+    }
+
+    /**
+     * Removes a unit's path and refinds it
+     *
+     * @param unit unit to refind path for
+     * @param x destination x
+     * @param y destination y
+     */
+    protected void removeUnitAndFindPath(Unit unit, short x, short y) {
+        Set<Unit> pathGroup = new HashSet<Unit>();
+        pathGroup.add(unit);
+
+        pathFinder.removePathForObject(unit);
+        pathFinder.newGroup(pathGroup);
+        pathFinder.findPathToObject(unit, x, y);
     }
 
     /**
@@ -326,7 +386,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                                 pathFinder.refindPathToObject(unit);
                                 anyGroupUnitMoved = true;
                             }
-                        } else if (nextPathPoint == null) {
+                        } else if (nextPathPoint == null && !group.attackMove) {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);
                         }
@@ -364,6 +424,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                     pathFinder.removePathForObject(unit);
                     movementStates.remove(unit);
                     unit.removeMovementListener(this);
+
+                    if (group.attackMove) {
+                        unit.setAttackMove(false);
+                        unit.setAttackMoveDestination(null);
+                    }
                 }
 
                 group.units.clear();
@@ -380,6 +445,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
     protected class UnitGroup {
 
         protected Set<Unit> units = new HashSet<Unit>();
+        protected boolean attackMove = false;
     }
 
     /**

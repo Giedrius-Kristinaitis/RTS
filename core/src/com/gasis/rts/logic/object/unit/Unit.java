@@ -11,7 +11,7 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.combat.*;
-import com.gasis.rts.logic.object.unit.movement.FinalDestinationProvider;
+import com.gasis.rts.logic.object.unit.movement.PathInfoProvider;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
@@ -181,8 +181,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // does the unit have to leave siege mode after it's target is destroyed
     protected boolean leaveSiegeModeAfterTargetDestroyed;
 
-    // provides final destination point
-    protected FinalDestinationProvider finalDestinationProvider;
+    // provides path info
+    protected PathInfoProvider pathInfoProvider;
 
     // was the unit ordered to 'attack move'
     protected boolean attackMove;
@@ -237,12 +237,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Sets the final destination provider
+     * Sets the  path info provider
      *
-     * @param finalDestinationProvider new final destination provider
+     * @param pathInfoProvider new path info provider
      */
-    public void setFinalDestinationProvider(FinalDestinationProvider finalDestinationProvider) {
-        this.finalDestinationProvider = finalDestinationProvider;
+    public void setPathInfoProvider(PathInfoProvider pathInfoProvider) {
+        this.pathInfoProvider = pathInfoProvider;
     }
 
     /**
@@ -1183,6 +1183,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             handleEnteringAutoSiegeMode();
         }
 
+        if (attackMove) {
+            updateAttackMove();
+        }
+
         if (target != null) {
             updateSecondaryTarget();
 
@@ -1198,6 +1202,15 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 secondaryTargetObject = null;
                 secondaryTarget = null;
             }
+        }
+    }
+
+    /**
+     * Updates the unit's 'attack-move' logic
+     */
+    protected void updateAttackMove() {
+        if (!moving && rotatingToDirection == NONE && attackMoveDestination != null && !inSiegeMode && targetObject == null) {
+            requestToMove((short) attackMoveDestination.x, (short) attackMoveDestination.y);
         }
     }
 
@@ -1312,6 +1325,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             targetObject = null;
             notifyTargetRemovalListeners();
 
+            if (movingToTarget) {
+                notifyUnableToMoveListeners();
+            }
+
             if (target == null && targetObject == null) {
                 if (firingLogic != null) {
                     firingLogic.removeEnqueuedShots();
@@ -1355,9 +1372,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (attackMove || movingToTarget || (!moving && rotatingToDirection == NONE && finalDestinationProvider.getFinalDestination(this) == null))) {
+        if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (attackMove || movingToTarget || (!moving && rotatingToDirection == NONE && pathInfoProvider.getFinalDestination(this) == null))) {
             if (moving) {
-                pointToGoToAfterTargetDestroyed = finalDestinationProvider.getFinalDestination(this);
+                pointToGoToAfterTargetDestroyed = pathInfoProvider.getFinalDestination(this);
             }
 
             setInSiegeMode(true);

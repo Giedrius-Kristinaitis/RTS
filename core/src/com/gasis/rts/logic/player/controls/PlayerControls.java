@@ -323,8 +323,6 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void orderUnitsToMove(short x, short y) {
         if (controlledPlayer.getSelectedUnits() != null) {
-            Point destination = new Point(x, y);
-
             for (Unit unit: controlledPlayer.getSelectedUnits()) {
                 if (unit.aimedAtGround()) {
                     unit.removeTarget();
@@ -332,16 +330,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 }
 
                 unit.setMovingToTarget(false);
-
-                if (pressedKey == Input.Keys.A) {
-                    unit.setAttackMove(true);
-                    unit.setAttackMoveDestination(destination);
-                } else {
-                    unit.setAttackMove(false);
-                }
             }
 
-            controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y);
+            if (pressedKey == Input.Keys.A) {
+                controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), x, y, true);
+            } else {
+                controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y);
+            }
         }
     }
 
@@ -380,31 +375,21 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param y y of the target
      */
     protected void aimSelectedUnits(float x, float y) {
-        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+        if (pressedKey == Input.Keys.A) {
+            controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), (short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT), true);
+        }
 
-        Point destination = new Point(x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT);
+        GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
         if (occupyingObject == null) {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(x, y);
                 unit.setMovingToTarget(true);
-
-                if (pressedKey == Input.Keys.A) {
-                    unit.requestToMove((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
-                    unit.setAttackMove(true);
-                    unit.setAttackMoveDestination(destination);
-                }
             }
         } else {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(occupyingObject);
                 unit.setMovingToTarget(true);
-
-                if (pressedKey == Input.Keys.A) {
-                    unit.setAttackMove(true);
-                    unit.setAttackMoveDestination(destination);
-                    unit.requestToMove((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
-                }
             }
         }
     }
