@@ -107,12 +107,31 @@ public class Building extends GameObject implements UnitProducer {
     // how much time has passed since the last time electricity indicator flashed
     protected float timeSinceElectricityIndicatorFlash;
 
+    // should the building render it's gather point
+    protected boolean renderGatherPoint;
+
+    // the animation that is played at the building's gather point
+    protected FrameAnimation gatherPointAnimation;
+
     /**
      * Default class constructor
      * @param map
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the render gather point flag
+     *
+     * @param renderGatherPoint should the building render it's gather point
+     */
+    public void setRenderGatherPoint(boolean renderGatherPoint) {
+        this.renderGatherPoint = renderGatherPoint;
+
+        if (gatherPointAnimation == null) {
+            gatherPointAnimation = FrameAnimationFactory.getInstance().create("gather_point");
+        }
     }
 
     /**
@@ -591,6 +610,10 @@ public class Building extends GameObject implements UnitProducer {
 
             if (!beingConstructed) {
                 updateHealing(delta);
+
+                if (gatherPointAnimation != null) {
+                    gatherPointAnimation.update(delta);
+                }
             }
 
             if (beingConstructed) {
@@ -694,6 +717,10 @@ public class Building extends GameObject implements UnitProducer {
 
             renderHp(batch, resources);
 
+            if (renderGatherPoint && gatherPoint != null) {
+                renderGatherPoint(batch, resources);
+            }
+
             if (producing) {
                 renderProgress(batch, resources);
             }
@@ -708,6 +735,18 @@ public class Building extends GameObject implements UnitProducer {
                 );
             }
         }
+    }
+
+    /**
+     * Renders the building's gather point
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected void renderGatherPoint(SpriteBatch batch, Resources resources) {
+        gatherPointAnimation.setCenterX((int) (gatherPoint.x) * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f);
+        gatherPointAnimation.setCenterY((int) (gatherPoint.y) * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
+        gatherPointAnimation.render(batch, resources);
     }
 
     /**

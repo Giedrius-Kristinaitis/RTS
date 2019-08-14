@@ -98,6 +98,7 @@ public class BuildingSelector extends Selector {
         if (player.getBuildings().contains(building)) {
             selectedBuilding = building;
             selectedBuilding.setRenderHp(true);
+            selectedBuilding.setRenderGatherPoint(true);
 
             notifySelectionListeners();
         }
@@ -128,6 +129,7 @@ public class BuildingSelector extends Selector {
     public void deselectBuilding() {
         if (selectedBuilding != null) {
             selectedBuilding.setRenderHp(false);
+            selectedBuilding.setRenderGatherPoint(false);
             selectedBuilding = null;
             notifyDeselectionListeners();
         }

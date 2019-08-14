@@ -425,7 +425,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (currentContext == null) {
             return;
         }
-        
+
         String pressedKey = Input.Keys.toString(keycode);
         Tech tech = currentContext.getTech(pressedKey);
 

@@ -1,0 +1,11 @@
+texture atlas: general.atlas
+width: 0.3
+height: 0.2
+delay: 0
+duration: 0.5
+loop: true
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 4
+frame: gather_point_circle
