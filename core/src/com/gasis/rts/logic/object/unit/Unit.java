@@ -211,6 +211,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if the unit is 'attack-moving'
+     * @return
+     */
+    public boolean isAttackMove() {
+        return attackMove;
+    }
+
+    /**
      * Sets the destination point of the unit's attack move
      *
      * @param attackMoveDestination attack move destination
