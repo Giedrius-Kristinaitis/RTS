@@ -5,7 +5,6 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.MathUtils;
-import com.gasis.rts.math.Point;
 
 import java.util.*;
 
