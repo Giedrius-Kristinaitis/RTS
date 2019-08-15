@@ -443,13 +443,13 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
             GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
-            Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
-
             if (occupyingObject == null && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
+                Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;
             } else if (occupyingObject != null && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(occupyingObject);
+                Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;
             }
         }
