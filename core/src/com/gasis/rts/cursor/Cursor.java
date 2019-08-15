@@ -25,10 +25,10 @@ public class Cursor {
     public static final byte ANIMATION_MOVE = 0;
     public static final byte ANIMATION_ATTACK = 1;
 
-    // cursor texture data
-    private static Pixmap normalCursorPixmap;
-    private static Pixmap attackCursorPixmap;
-    private static Pixmap emptyPixmap;
+    // cursors
+    private static com.badlogic.gdx.graphics.Cursor cursorNormal;
+    private static com.badlogic.gdx.graphics.Cursor cursorAttack;
+    private static com.badlogic.gdx.graphics.Cursor cursorNone;
 
     // order animations
     private static FrameAnimation attackOrderAnimation;
@@ -48,25 +48,35 @@ public class Cursor {
      */
     public static void initialize(Resources resources) {
         // create an empty pixmap
-        emptyPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        Pixmap emptyPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
         emptyPixmap.setColor(0, 0, 0, 0);
         emptyPixmap.drawPixel(0, 0);
 
         // initialize normal cursor pixmap
         TextureRegion region = resources.atlas(Constants.CURSOR_ATLAS).findRegion(Constants.CURSOR_TEXTURE_NORMAL);
 
-        normalCursorPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        Pixmap normalCursorPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
         fillPixmap(normalCursorPixmap, region);
 
         // initialize attack cursor pixmaps
         region = resources.atlas(Constants.CURSOR_ATLAS).findRegion(Constants.CURSOR_TEXTURE_ATTACK);
 
-        attackCursorPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        Pixmap attackCursorPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
         fillPixmap(attackCursorPixmap, region);
 
         // initialize animations
         attackOrderAnimation = FrameAnimationFactory.getInstance().create("cursor_animation_attack");
         moveOrderAnimation = FrameAnimationFactory.getInstance().create("cursor_animation_move");
+
+        // initialize cursors
+        cursorNormal = Gdx.graphics.newCursor(normalCursorPixmap, 0, 0);
+        cursorAttack = Gdx.graphics.newCursor(attackCursorPixmap, 0, 0);
+        cursorNone = Gdx.graphics.newCursor(emptyPixmap, 0, 0);
+
+        // get rid of the pixmaps
+        normalCursorPixmap.dispose();
+        attackCursorPixmap.dispose();
+        emptyPixmap.dispose();
 
         initialized = true;
     }
@@ -110,28 +120,19 @@ public class Cursor {
 
         switch (cursorType) {
             case CURSOR_NONE:
-                changeCursor(emptyPixmap);
+                Gdx.graphics.setCursor(cursorNone);
                 break;
             case CURSOR_NORMAL:
-                changeCursor(normalCursorPixmap);
+                Gdx.graphics.setCursor(cursorNormal);
                 break;
             case CURSOR_ATTACK:
-                changeCursor(attackCursorPixmap);
+                Gdx.graphics.setCursor(cursorAttack);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown cursor type");
         }
 
         cursor = cursorType;
-    }
-
-    /**
-     * Changes the current cursor to a new one
-     *
-     * @param pixmap pixmap with texture data of the cursor
-     */
-    private static void changeCursor(Pixmap pixmap) {
-        Gdx.graphics.setCursor(Gdx.graphics.newCursor(pixmap, 0, 0));
     }
 
     /**
@@ -181,9 +182,9 @@ public class Cursor {
      */
     public static void dispose() {
         if (initialized) {
-            normalCursorPixmap.dispose();
-            attackCursorPixmap.dispose();
-            emptyPixmap.dispose();
+            cursorNormal.dispose();
+            cursorAttack.dispose();
+            cursorNone.dispose();
 
             attackOrderAnimation = null;
             moveOrderAnimation = null;
