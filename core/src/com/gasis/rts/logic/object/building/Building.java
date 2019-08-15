@@ -717,8 +717,30 @@ public class Building extends GameObject implements UnitProducer {
      */
     protected void assignDamagePointTextures(int count) {
         for (int i = 0; i < count; i++) {
+            Point point = null;
+
+            for (Point point2: damagePoints) {
+                boolean exists = false;
+
+                for (DamageTexture texture: damagePointTextures) {
+                    if (texture.point == point2) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    point = point2;
+                    break;
+                }
+            }
+
+            if (point == null) {
+                point = damagePoints.get(random.nextInt(damagePoints.size()));
+            }
+
             damagePointTextures.add(new DamageTexture(
-                    damagePoints.get(random.nextInt(damagePoints.size())),
+                    point,
                     Constants.BUILDING_DAMAGE_PREFIX + (1 + random.nextInt(Constants.BUILDING_DAMAGE_TEXTURE_COUNT))
             ));
         }
