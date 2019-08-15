@@ -72,6 +72,8 @@ public class LoaderUtils {
             fireSource.setFireType(FireSource.FIRE_TYPE_MISSILE);
         } else if (fireType.equalsIgnoreCase("shell")) {
             fireSource.setFireType(FireSource.FIRE_TYPE_SHELL);
+        } else if (fireType.equalsIgnoreCase("flame")) {
+            fireSource.setFireType(FireSource.FIRE_TYPE_FLAME);
         }
 
         String projectileScale = reader.readLine(prefix + " projectile scale");
