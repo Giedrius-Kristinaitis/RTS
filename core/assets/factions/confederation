@@ -3,6 +3,7 @@ default control context: default_context_conf
 unit: zeus
 unit: torrent
 unit: hammer
+unit: fortress
 building: rocket_launcher_conf
 building: machine_factory_conf
 building: bunker_conf

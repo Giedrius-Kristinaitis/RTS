@@ -12,3 +12,8 @@ tech: prod hammer
 prod hammer type: production
 prod hammer file: production_hammer
 prod hammer key binding: H
+
+tech: prod fortress
+prod fortress type: production
+prod fortress file: production_fortress
+prod fortress key binding: A
