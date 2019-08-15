@@ -660,7 +660,7 @@ public class Building extends GameObject implements UnitProducer {
             if (!beingConstructed) {
                 updateHealing(delta);
 
-                if (gatherPointAnimation != null) {
+                if (gatherPointAnimation != null && gatherPoint != null) {
                     gatherPointAnimation.update(delta);
                 }
 
