@@ -128,6 +128,9 @@ public class Building extends GameObject implements UnitProducer {
     // the textures that are being drawn on the damage points
     protected List<DamageTexture> damagePointTextures = new ArrayList<DamageTexture>();
 
+    // how many damage textures does the building have
+    protected int damageTextureCount;
+
     // the size of the textures that are being drawn at the damage points
     protected final static float DAMAGE_POINT_TEXTURE_WIDTH = 1f;
     protected final static float DAMAGE_POINT_TEXTURE_HEIGHT = 1f;
@@ -138,6 +141,15 @@ public class Building extends GameObject implements UnitProducer {
      */
     public Building(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the damage texture count
+     *
+     * @param damagedTextureCount new damage texture count
+     */
+    public void setDamageTextureCount(int damagedTextureCount) {
+        this.damageTextureCount = damagedTextureCount;
     }
 
     /**
@@ -674,19 +686,19 @@ public class Building extends GameObject implements UnitProducer {
      */
     protected void updateDamagePoints() {
         if (hp / defensiveSpecs.getMaxHp() <= 0.33f) {
-            if (damagePointTextures.size() != 6) {
-                if (damagePointTextures.size() == 3) {
-                    assignDamagePointTextures(3);
+            if (damagePointTextures.size() != damageTextureCount) {
+                if (damagePointTextures.size() == damageTextureCount / 2) {
+                    assignDamagePointTextures(damageTextureCount / 2);
                 } else {
-                    assignDamagePointTextures(6);
+                    assignDamagePointTextures(damageTextureCount);
                 }
             }
         } else if (hp / defensiveSpecs.getMaxHp() <= 0.66f) {
-            if (damagePointTextures.size() != 3) {
+            if (damagePointTextures.size() != damageTextureCount / 2) {
                 if (damagePointTextures.isEmpty()) {
-                    assignDamagePointTextures(3);
-                } else if (damagePointTextures.size() == 6) {
-                    for (int i = 5; i >= 3; i--) {
+                    assignDamagePointTextures(damageTextureCount / 2);
+                } else if (damagePointTextures.size() == damageTextureCount) {
+                    for (int i = damageTextureCount - 1; i >= damageTextureCount / 2; i--) {
                         damagePointTextures.remove(i);
                     }
                 } else {

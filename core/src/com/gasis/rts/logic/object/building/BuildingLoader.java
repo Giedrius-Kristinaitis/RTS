@@ -87,6 +87,9 @@ public class BuildingLoader extends GameObjectLoader {
     // the building's damage points
     protected List<Point> damagePoints;
 
+    // how many damage textures does the building have
+    protected int damageTextureCount;
+
     /**
      * Default class constructor
      * @param map
@@ -199,6 +202,8 @@ public class BuildingLoader extends GameObjectLoader {
                         Float.parseFloat(data[1])
                 ));
             }
+
+            damageTextureCount = Integer.parseInt(reader.readLine("damage texture count"));
         } catch (Exception ex) {}
     }
 
@@ -284,6 +289,7 @@ public class BuildingLoader extends GameObjectLoader {
 
         if (damagePoints != null && damagePoints.size() > 0) {
             building.setDamagePoints(damagePoints);
+            building.setDamageTextureCount(damageTextureCount);
         }
 
         initializeTasks(building);
