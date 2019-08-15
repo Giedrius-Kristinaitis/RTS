@@ -100,6 +100,26 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     // the secondary target's point
     protected Point secondaryTarget;
 
+    // the range of the gun that overrides the one specified in offensive specs
+    protected float individualRange;
+
+    /**
+     * Sets the individual range of the gun
+     *
+     * @param individualRange new individual range
+     */
+    public void setIndividualRange(float individualRange) {
+        this.individualRange = individualRange;
+    }
+
+    /**
+     * Gets the gun's individual range
+     * @return
+     */
+    public float getIndividualRange() {
+        return individualRange;
+    }
+
     /**
      * Sets the gun's secondary target
      *
@@ -705,7 +725,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     protected void updateSecondaryTargetShooting() {
         if (!isMainTargetReachable() && secondaryTarget != null && isSecondaryTargetReachable()) {
             if (rotatingToDirection == NONE && inSiegeMode) {
-                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange())) {
                     firingLogic.target.x = secondaryTarget.x;
                     firingLogic.target.y = secondaryTarget.y;
                     firingLogic.enqueueShots(inSiegeMode);
@@ -713,7 +733,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                     firingLogic.removeEnqueuedShots();
                 }
             } else if (rotatingToDirection == NONE && !inSiegeMode) {
-                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+                if (MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange())) {
                     firingLogic.target.x = secondaryTarget.x;
                     firingLogic.target.y = secondaryTarget.y;
                     firingLogic.enqueueShots(inSiegeMode);
@@ -729,7 +749,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      */
     protected void updateMainTargetShooting() {
         if (rotatingToDirection == NONE && inSiegeMode) {
-            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange()) {
+            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange())) {
                 firingLogic.target.x = target.x;
                 firingLogic.target.y = target.y;
                 firingLogic.enqueueShots(inSiegeMode);
@@ -737,7 +757,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
                 firingLogic.removeEnqueuedShots();
             }
         } else if (rotatingToDirection == NONE && !inSiegeMode) {
-            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange()) {
+            if (MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange())) {
                 firingLogic.target.x = target.x;
                 firingLogic.target.y = target.y;
                 firingLogic.enqueueShots(inSiegeMode);
@@ -818,15 +838,15 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
         if (target != null) {
             if (!inSiegeMode) {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange());
             } else {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, target.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, target.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange());
             }
         } else {
             if (!inSiegeMode) {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange());
             } else {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, targetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, targetObject.getCenterY() / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange());
             }
         }
     }
@@ -842,15 +862,15 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
         if (secondaryTarget != null) {
             if (!inSiegeMode) {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange());
             } else {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTarget.x / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTarget.y / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange());
             }
         } else {
             if (!inSiegeMode) {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getAttackRange());
             } else {
-                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= offensiveSpecs.getSiegeModeAttackRange();
+                return MathUtils.distance(x / Block.BLOCK_WIDTH, secondaryTargetObject.getCenterX() / Block.BLOCK_WIDTH, y / Block.BLOCK_HEIGHT, secondaryTargetObject.getCenterY() / Block.BLOCK_HEIGHT) <= (individualRange > 0 ? individualRange : offensiveSpecs.getSiegeModeAttackRange());
             }
         }
     }

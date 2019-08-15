@@ -238,6 +238,10 @@ public class LoaderUtils {
         rotatingGun.setRelativeX(relativeX);
         rotatingGun.setRelativeY(relativeY);
 
+        try {
+            rotatingGun.setIndividualRange(Float.parseFloat(reader.readLine(prefix + " individual range")));
+        } catch (Exception ex) {}
+
         String presence = reader.readLine(prefix + " present");
 
         if (presence.equalsIgnoreCase("always")) {

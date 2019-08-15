@@ -285,7 +285,15 @@ public class RotatingGunUnit extends Unit {
      */
     @Override
     protected float getMaximumValidAttackRange() {
-        return super.getMaximumValidAttackRange() - 1;
+        float minGunRange = Float.MAX_VALUE;
+
+        for (RotatingGun gun: guns.values()) {
+            if (gun.getIndividualRange() > 0 && gun.getIndividualRange() < minGunRange) {
+                minGunRange = gun.getIndividualRange();
+            }
+        }
+
+        return minGunRange == 0 ? super.getMaximumValidAttackRange() - 1 : minGunRange - 1;
     }
 
     /**

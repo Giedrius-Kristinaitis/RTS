@@ -109,6 +109,7 @@ public class CombatUtils {
         gun.setPresentInSiegeMode(data.getKey().isPresentInSiegeMode());
         gun.setPresentOutOfSiegeMode(data.getKey().isPresentOutOfSiegeMode());
         gun.setCurrentlyPresent(data.getKey().isPresentOutOfSiegeMode());
+        gun.setIndividualRange(data.getKey().getIndividualRange());
 
         return gun;
     }
