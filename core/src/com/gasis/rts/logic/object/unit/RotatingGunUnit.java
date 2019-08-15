@@ -288,7 +288,7 @@ public class RotatingGunUnit extends Unit {
         float minGunRange = Float.MAX_VALUE;
 
         for (RotatingGun gun: guns.values()) {
-            if (gun.getIndividualRange() > 0 && gun.getIndividualRange() < minGunRange) {
+            if (gun.getIndividualRange() < minGunRange) {
                 minGunRange = gun.getIndividualRange();
             }
         }
