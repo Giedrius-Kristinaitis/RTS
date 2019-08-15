@@ -674,22 +674,39 @@ public class FrameAnimation implements Animation {
         }
 
         // check if the animation is looping
-        if (totalTime >= frameCount * updateInterval && !loop) {
-            // notify finish listeners
-            if (!listenersNotified) {
-                listenersNotified = true;
+        if (!loop && (initialX != finalX || initialY != finalY)) {
+            if (totalTime >= frameCount * updateInterval) {
+                // notify finish listeners
+                if (!listenersNotified) {
+                    listenersNotified = true;
 
-                for (AnimationFinishListener listener: finishListeners) {
-                    listener.finished(this);
+                    for (AnimationFinishListener listener : finishListeners) {
+                        listener.finished(this);
+                    }
                 }
-            }
 
-            return;
+                return;
+            }
+        } else if (!loop) {
+            if (currentFrame == lastFrameIndex && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
+                // notify finish listeners
+                if (timeSinceLastUpdate >= updateInterval && !listenersNotified) {
+                    listenersNotified = true;
+
+                    for (AnimationFinishListener listener : finishListeners) {
+                        listener.finished(this);
+                    }
+                } else if (!listenersNotified) {
+                    timeSinceLastUpdate += delta;
+                }
+
+                return;
+            }
         }
 
         // check if the animation's position, rotation, scale and frame needs to be reset
         // (not the whole animation state, which calling resetAnimation would do!)
-        else if (currentFrame == lastFrameIndex && loop && (timeSinceLastUpdate >= updateInterval * frameCount || frameCount > 1)) {
+        if (currentFrame == lastFrameIndex && loop && (timeSinceLastUpdate >= updateInterval * frameCount || frameCount > 1)) {
             x = initialX;
             y = initialY;
             scale = initialScale;

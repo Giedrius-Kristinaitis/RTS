@@ -22,7 +22,7 @@ public class MissileAnimation extends ProjectileAnimation {
     protected float trailScale;
 
     // how often missile trails are spawned in seconds
-    protected final float trailSpawnInterval = 0.016f;
+    protected final float trailSpawnInterval = 0.018f;
 
     // how much time in seconds has passed since the last spawn of a trail
     protected float timeSinceTrailSpawn;
@@ -108,7 +108,7 @@ public class MissileAnimation extends ProjectileAnimation {
 
             smokeTrails.add(trail);
 
-            timeSinceTrailSpawn = 0;
+            timeSinceTrailSpawn = timeSinceTrailSpawn - trailSpawnInterval;
         }
 
         if (spawnTrails || timeSinceTrailSpawn < trailSpawnInterval) {
