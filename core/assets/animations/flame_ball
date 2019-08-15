@@ -1,0 +1,21 @@
+texture atlas: effects.atlas
+width: 0.4
+height: 0.4
+delay: 0
+duration: 1
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1
+final scale: 3
+frame: flame_ball_1
+frame: flame_ball_2
+frame: flame_ball_3
+frame: flame_ball_4
+frame: flame_ball_5
+frame: flame_ball_6
+frame: flame_ball_5
+frame: flame_ball_4
+frame: flame_ball_3
+frame: flame_ball_2
+frame: flame_ball_1
