@@ -1,4 +1,4 @@
-atlas: hammer.atlas
+atlas: tanks_conf.atlas
 code: t21-hammer
 control context: default_context_conf
 production time: 7.5
@@ -23,7 +23,7 @@ destruction animation: projectile_explosion
 destruction animation scale: 1.5
 rotating gun: g
 g present: always
-g atlas: hammer.atlas
+g atlas: tanks_conf.atlas
 g width: 1
 g height: 1
 g texture north: hammer_gun_north

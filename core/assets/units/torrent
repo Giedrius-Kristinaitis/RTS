@@ -1,4 +1,4 @@
-atlas: torrent.atlas
+atlas: tanks_conf.atlas
 code: torrent mrls
 control context: context_torrent
 production time: 10
@@ -32,7 +32,7 @@ siege mode shot interval: 0.3
 siege mode reload speed: 6
 rotating gun: g
 g present: always
-g atlas: torrent.atlas
+g atlas: tanks_conf.atlas
 g width: 1
 g height: 0.9
 g texture north: torrent_gun_north

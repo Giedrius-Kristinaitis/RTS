@@ -1,4 +1,4 @@
-atlas: zeus.atlas
+atlas: tanks_conf.atlas
 code: t22-zeus
 control context: default_context_conf
 production time: 10
@@ -23,7 +23,7 @@ junk texture: tank_junk
 junk scale: 1
 rotating gun: g
 g present: always
-g atlas: zeus.atlas
+g atlas: tanks_conf.atlas
 g width: 0.6
 g height: 0.6
 g texture north: zeus_rocket_launcher_south_north
