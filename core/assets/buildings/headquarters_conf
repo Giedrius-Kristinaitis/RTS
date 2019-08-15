@@ -30,7 +30,7 @@ finance task executed periodically: true
 finance task execution period: 30
 damage point: 0 0
 damage point: -1 -1
-damage point: 1 0.4
+damage point: 1 0.15
 damage point: -1.2 0
 damage point: 1.4 0
 damage texture count: 6
