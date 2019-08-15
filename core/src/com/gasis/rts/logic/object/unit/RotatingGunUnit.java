@@ -293,7 +293,13 @@ public class RotatingGunUnit extends Unit {
             }
         }
 
-        return minGunRange == 0 ? super.getMaximumValidAttackRange() - 1 : minGunRange - 1;
+        float maxValidRange = super.getMaximumValidAttackRange();
+
+        if (minGunRange > 0 && minGunRange < maxValidRange) {
+            maxValidRange = minGunRange;
+        }
+
+        return maxValidRange - 1;
     }
 
     /**
