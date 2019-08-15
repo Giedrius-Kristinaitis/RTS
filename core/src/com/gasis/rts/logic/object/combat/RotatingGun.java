@@ -103,6 +103,31 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     // the range of the gun that overrides the one specified in offensive specs
     protected float individualRange;
 
+    // the gun's individual reload speed that overrides the one specified in offensive specs
+    protected float individualReloadSpeed;
+
+    /**
+     * Gets the gun's individual reload speed
+     * @return
+     */
+    public float getIndividualReloadSpeed() {
+        return individualReloadSpeed;
+    }
+
+    /**
+     * Sets the gun's individual reload speed
+     *
+     * @param individualReloadSpeed individual reload speed
+     */
+    public void setIndividualReloadSpeed(float individualReloadSpeed) {
+        this.individualReloadSpeed = individualReloadSpeed;
+
+        if (firingLogic != null && individualReloadSpeed > 0) {
+            firingLogic.setReloadSpeed(individualReloadSpeed);
+            firingLogic.setSiegeModeReloadSpeed(individualReloadSpeed);
+        }
+    }
+
     /**
      * Sets the individual range of the gun
      *

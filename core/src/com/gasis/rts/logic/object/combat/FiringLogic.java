@@ -297,9 +297,9 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
         // update firing logic
         if (enqueuedShots > 0) {
-            if (siegeMode && timeSinceLastShot >= siegeModeShotInterval) {
+            if (siegeMode && timeSinceLastShot >= Math.min(siegeModeShotInterval, siegeModeReloadSpeed)) {
                 fired = launchShot(true, facingDirection, x, y);
-            } else if (!siegeMode && timeSinceLastShot >= shotInterval) {
+            } else if (!siegeMode && timeSinceLastShot >= Math.min(shotInterval, reloadSpeed)) {
                 fired = launchShot(false, facingDirection, x, y);
             }
         }

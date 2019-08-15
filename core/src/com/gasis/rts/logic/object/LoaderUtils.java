@@ -242,6 +242,10 @@ public class LoaderUtils {
             rotatingGun.setIndividualRange(Float.parseFloat(reader.readLine(prefix + " individual range")));
         } catch (Exception ex) {}
 
+        try {
+            rotatingGun.setIndividualReloadSpeed(Float.parseFloat(reader.readLine(prefix + " individual reload speed")));
+        } catch (Exception ex) {}
+
         String presence = reader.readLine(prefix + " present");
 
         if (presence.equalsIgnoreCase("always")) {
