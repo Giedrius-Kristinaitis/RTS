@@ -35,6 +35,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     public static final byte FIRE_TYPE_MISSILE = 0;
     public static final byte FIRE_TYPE_BULLET = 1;
     public static final byte FIRE_TYPE_SHELL = 2;
+    public static final byte FIRE_TYPE_FLAME = 3;
 
     // all scales of the projectile
     public static final byte SMALL = 0;
@@ -422,6 +423,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
             case FIRE_TYPE_SHELL:
                 animation = createShellAnimation(facingDirection, targetX, targetY);
                 break;
+            case FIRE_TYPE_FLAME:
+                animation = createFlameAnimation(targetX, targetY);
+                break;
             default:
                 throw new RuntimeException("Invalid fire/projectile type");
         }
@@ -429,6 +433,21 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         animation.setTrajectory(x, y, targetX, targetY, explosiveEnd);
 
         return animation;
+    }
+
+    /**
+     * Creates a flame ball animation
+     *
+     * @param targetX target x
+     * @param targetY target y
+     * @return
+     */
+    protected ProjectileAnimation createFlameAnimation(float targetX, float targetY) {
+        return new ProjectileAnimation(
+                FrameAnimationFactory.getInstance().create("flame_ball"),
+                null,
+                null
+        );
     }
 
     /**
