@@ -8,7 +8,7 @@ destruction animation scale: 2
 junk texture atlas: junk.atlas
 junk texture: building_junk
 junk scale: 2
-construction time: 50
+construction time: 1
 hp bar width: 5
 width: 5.2
 height: 3
@@ -35,4 +35,4 @@ animation: mover2
 mover2 animation name: machine_factory_conf_mover_right
 mover2 relative x: 0.525
 mover2 relative y: 0.49
-electricity requirement: 3
+electricity requirement: 0

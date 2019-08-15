@@ -177,7 +177,7 @@ public class RotatingGunUnit extends Unit {
         for (RotatingGun gun: guns.values()) {
             gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
             gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
-            gun.update(siegeModeTransitionAnimation != null, delta);
+            gun.update(siegeModeTransitionAnimation != null, delta, true);
 
             if (!gun.hasTarget() && !inSiegeMode) {
                 if (Math.abs(facingDirection - gun.getFacingDirection()) > 1) {

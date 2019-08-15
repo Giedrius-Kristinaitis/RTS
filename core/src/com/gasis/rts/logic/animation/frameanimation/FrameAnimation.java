@@ -95,6 +95,9 @@ public class FrameAnimation implements Animation {
     // the index of the last frame
     protected int lastFrameIndex;
 
+    // the time that has elapsed since the start
+    protected float totalTime;
+
     /**
      * Checks whether the animation is being delayed on every iteration when looping
      *
@@ -655,6 +658,7 @@ public class FrameAnimation implements Animation {
         scale = initialScale;
         delayTime = 0;
         listenersNotified = false;
+        totalTime = 0;
     }
 
     /**
@@ -670,16 +674,14 @@ public class FrameAnimation implements Animation {
         }
 
         // check if the animation is looping
-        if (currentFrame == lastFrameIndex && !loop && (frameCount > 1 || timeSinceLastUpdate >= updateInterval * frameCount)) {
+        if (totalTime >= frameCount * updateInterval && !loop) {
             // notify finish listeners
-            if (timeSinceLastUpdate >= updateInterval && !listenersNotified) {
+            if (!listenersNotified) {
                 listenersNotified = true;
 
                 for (AnimationFinishListener listener: finishListeners) {
                     listener.finished(this);
                 }
-            } else if (!listenersNotified) {
-                timeSinceLastUpdate += delta;
             }
 
             return;
@@ -705,9 +707,9 @@ public class FrameAnimation implements Animation {
 
         // update the animation frame
         if (frameCount > 1 && timeSinceLastUpdate >= updateInterval) {
-            timeSinceLastUpdate = 0;
+            timeSinceLastUpdate = timeSinceLastUpdate - updateInterval;
 
-            currentFrame = currentFrame == lastFrameIndex ? firstFrameIndex : (lastFrameIndex < firstFrameIndex ? currentFrame - 1 : currentFrame + 1);
+            currentFrame = currentFrame == lastFrameIndex ? loop ? firstFrameIndex : currentFrame : (lastFrameIndex < firstFrameIndex ? currentFrame - 1 : currentFrame + 1);
         } else {
             timeSinceLastUpdate += delta;
         }
@@ -721,6 +723,8 @@ public class FrameAnimation implements Animation {
         // update the position of the animation
         x += (finalX - initialX) / (frameCount * updateInterval) * delta;
         y += ((finalY - initialY) / (frameCount * updateInterval)) * delta;
+
+        totalTime += delta;
     }
 
     /**
