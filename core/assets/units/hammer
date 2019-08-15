@@ -57,7 +57,7 @@ g fire source: f
 f sound effect: shell_fire_3.mp3
 f projectile deviation: 0
 f present: always
-f fire type: shell
+f fire type: flame
 f projectile scale: heavy
 f projectile speed: 30
 f gun count: 1

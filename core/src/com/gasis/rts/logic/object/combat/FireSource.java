@@ -594,7 +594,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
         for (int i = 0; i < animations.size(); i++) {
             animations.get(i).update(delta);
 
-            if (animations.get(i).hasEndAnimationFinished()) {
+            if (animations.get(i).hasProjectileReachedTarget() && animations.get(i).hasEndAnimationFinished()) {
                 animations.remove(i--);
             }
         }

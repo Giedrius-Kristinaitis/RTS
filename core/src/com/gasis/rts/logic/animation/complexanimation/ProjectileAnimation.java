@@ -106,6 +106,14 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     }
 
     /**
+     * Checks if the projectile has reached it's target
+     * @return
+     */
+    public boolean hasProjectileReachedTarget() {
+        return targetReached;
+    }
+
+    /**
      * Adds a listener that listens for the end of the end animation
      *
      * @param listener end animation's finish listener
