@@ -40,9 +40,15 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
         this.projectile = projectile;
         this.endAnimation = endAnimation;
 
-        fireAnimation.addFinishListener(this);
+        if (fireAnimation != null) {
+            fireAnimation.addFinishListener(this);
+        }
+
         projectile.addFinishListener(this);
-        endAnimation.addFinishListener(this);
+
+        if (endAnimation != null) {
+            endAnimation.addFinishListener(this);
+        }
     }
 
     /**
@@ -62,11 +68,9 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     @Override
     public boolean hasFinished() {
         // I know this if can be simplified, but whatever
-        if (fireAnimation != null && fireAnimation.hasFinished()) {
-            if (projectile != null && projectile.hasFinished()) {
-                if (endAnimation != null && endAnimation.hasFinished()) {
-                    return true;
-                }
+        if (projectile.hasFinished()) {
+            if ((fireAnimation == null || fireAnimation.hasFinished()) && (endAnimation == null || endAnimation.hasFinished())) {
+                return true;
             }
         }
 
@@ -94,6 +98,10 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      * @return
      */
     public boolean hasEndAnimationFinished() {
+        if (endAnimation == null) {
+            return true;
+        }
+
         return endAnimation.hasFinished();
     }
 
@@ -103,6 +111,10 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      * @param listener end animation's finish listener
      */
     public void addEndAnimationFinishListener(AnimationFinishListener listener) {
+        if (endAnimation == null) {
+            return;
+        }
+
         endAnimation.addFinishListener(listener);
     }
 
@@ -156,33 +168,37 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
         projectile.setFinalCenterX(targetX);
         projectile.setFinalCenterY(targetY);
 
-        fireAnimation.setCenterX(x);
-        fireAnimation.setCenterY(y);
+        if (fireAnimation != null) {
+            fireAnimation.setCenterX(x);
+            fireAnimation.setCenterY(y);
 
-        fireAnimation.setFinalCenterX(x);
-        fireAnimation.setFinalCenterY(y);
+            fireAnimation.setFinalCenterX(x);
+            fireAnimation.setFinalCenterY(y);
 
-        fireAnimation.setInitialCenterX(x);
-        fireAnimation.setInitialCenterY(y);
+            fireAnimation.setInitialCenterX(x);
+            fireAnimation.setInitialCenterY(y);
+        }
 
-        if (explosiveEnd) {
-            endAnimation.setCenterX(targetX);
-            endAnimation.setY(targetY - 0.4f);
+        if (endAnimation != null) {
+            if (explosiveEnd) {
+                endAnimation.setCenterX(targetX);
+                endAnimation.setY(targetY - 0.4f);
 
-            endAnimation.setInitialCenterX(targetX);
-            endAnimation.setInitialY(targetY - 0.4f);
+                endAnimation.setInitialCenterX(targetX);
+                endAnimation.setInitialY(targetY - 0.4f);
 
-            endAnimation.setFinalCenterX(targetX);
-            endAnimation.setFinalY(targetY - 0.4f);
-        } else {
-            endAnimation.setCenterX(targetX);
-            endAnimation.setCenterY(targetY);
+                endAnimation.setFinalCenterX(targetX);
+                endAnimation.setFinalY(targetY - 0.4f);
+            } else {
+                endAnimation.setCenterX(targetX);
+                endAnimation.setCenterY(targetY);
 
-            endAnimation.setInitialCenterX(targetX);
-            endAnimation.setInitialCenterY(targetY);
+                endAnimation.setInitialCenterX(targetX);
+                endAnimation.setInitialCenterY(targetY);
 
-            endAnimation.setFinalCenterX(targetX);
-            endAnimation.setFinalCenterY(targetY);
+                endAnimation.setFinalCenterX(targetX);
+                endAnimation.setFinalCenterY(targetY);
+            }
         }
 
         // rotate projectile to match the moving direction
@@ -233,7 +249,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      */
     @Override
     public void update(float delta) {
-        if (!fireAnimationFinished) {
+        if (fireAnimation != null && !fireAnimationFinished) {
             fireAnimation.update(delta);
         }
 
@@ -254,8 +270,9 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
         targetReached = false;
         fireAnimationFinished = false;
 
-        endAnimation.resetAnimation();
-        fireAnimation.resetAnimation();
+        if (endAnimation != null) endAnimation.resetAnimation();
+        if (fireAnimation != null) fireAnimation.resetAnimation();
+
         projectile.resetAnimation();
 
         rotateProjectile(projectile.getInitialCenterX(), projectile.getInitialCenterY(),
@@ -270,7 +287,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
-        if (!fireAnimationFinished) {
+        if (fireAnimation != null && !fireAnimationFinished) {
             fireAnimation.render(batch, resources);
         }
 
