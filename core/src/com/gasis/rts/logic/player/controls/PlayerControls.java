@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.gasis.rts.cursor.Cursor;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
@@ -195,6 +196,28 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         buildingPlacer.mouseMoved(x, y);
         buildingSelector.mouseMoved(x, y);
         unitSelector.mouseMoved(x, y);
+
+        updateCursor(x, y);
+    }
+
+    /**
+     * Updates the mouse cursor
+     *
+     * @param x mouse x (world coordinates)
+     * @param y mouse y (world coordinates)
+     */
+    protected void updateCursor(float x, float y) {
+        if (buildingPlacer.isPlacing()) {
+            return;
+        }
+
+        GameObject object = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+        if (object != null && !controlledPlayer.isAllied(object.getOwner())) {
+            Cursor.setCursor(Cursor.CURSOR_ATTACK);
+        } else if (pressedKey != Input.Keys.CONTROL_LEFT && pressedKey != Input.Keys.CONTROL_RIGHT) {
+            Cursor.setCursor(Cursor.CURSOR_NORMAL);
+        }
     }
 
     /**
@@ -265,6 +288,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         handleControlContextHotkeys(keycode);
 
         pressedKey = keycode;
+
+        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+            Cursor.setCursor(Cursor.CURSOR_ATTACK);
+        }
     }
 
     /**
@@ -273,6 +300,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param keycode code of the pressed key
      */
     public void keyUp(int keycode) {
+        if (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT) {
+            Cursor.setCursor(Cursor.CURSOR_NORMAL);
+        }
+
         pressedKey = -1;
     }
 
@@ -334,8 +365,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
             if (pressedKey == Input.Keys.A) {
                 controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), x, y, true);
+                Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
             } else {
                 controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y);
+                Cursor.playCursorAnimation(Cursor.ANIMATION_MOVE, x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
             }
         }
     }
@@ -375,6 +408,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param y y of the target
      */
     protected void aimSelectedUnits(float x, float y) {
+        if (unitSelector.getSelectedUnits() == null || unitSelector.getSelectedUnits().isEmpty()) {
+            return;
+        }
+
         if (pressedKey == Input.Keys.A) {
             controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), (short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT), true);
         }
@@ -392,6 +429,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 unit.setMovingToTarget(true);
             }
         }
+
+        Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
     }
 
     /**
@@ -403,6 +442,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     protected boolean aimSelectedBuilding(float x, float y) {
         if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
             GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
+
+            Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
 
             if (occupyingObject == null && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
@@ -446,9 +487,12 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
                 if (pressedKey == Input.Keys.SHIFT_LEFT || pressedKey == Input.Keys.SHIFT_RIGHT) {
                     buildingPlacer.reinitiateBuildingPlacement();
+                } else {
+                    Cursor.setCursor(Cursor.CURSOR_NORMAL);
                 }
             } else if (mouseButton == Input.Buttons.RIGHT) {
                 buildingPlacer.cancelPlacement();
+                Cursor.setCursor(Cursor.CURSOR_NORMAL);
             }
         }
     }

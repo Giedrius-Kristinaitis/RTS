@@ -39,4 +39,7 @@ public class Constants {
     public static final String BUILDING_DAMAGE_ATLAS = "atl/building_damage.atlas";
     public static final String BUILDING_DAMAGE_PREFIX = "building_damage_";
     public static final int BUILDING_DAMAGE_TEXTURE_COUNT = 7;
+    public static final String CURSOR_ATLAS = "atl/general.atlas";
+    public static final String CURSOR_TEXTURE_NORMAL = "cursor_normal";
+    public static final String CURSOR_TEXTURE_ATTACK = "cursor_attack";
 }

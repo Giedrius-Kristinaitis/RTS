@@ -1,0 +1,11 @@
+texture atlas: general.atlas
+width: 1.2
+height: 0.8
+delay: 0
+duration: 1
+loop: false
+rotation: 0
+rotation speed: 0
+scale: 1.5
+final scale: 1
+frame: cursor_order_attack

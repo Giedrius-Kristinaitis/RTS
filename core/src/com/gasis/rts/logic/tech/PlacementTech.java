@@ -1,5 +1,6 @@
 package com.gasis.rts.logic.tech;
 
+import com.gasis.rts.cursor.Cursor;
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
@@ -38,6 +39,7 @@ public class PlacementTech extends Tech {
             // if the loader is null, that means the faction doesn't have this building
             if (loader != null) {
                 placer.initiateBuildingPlacement(loader);
+                Cursor.setCursor(Cursor.CURSOR_NONE);
             }
         }
     }

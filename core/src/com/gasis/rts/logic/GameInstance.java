@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gasis.rts.cursor.Cursor;
 import com.gasis.rts.logic.animation.FrameAnimationPlayer;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.faction.Faction;
@@ -143,6 +144,10 @@ public class GameInstance implements Updatable {
         // initialize player controls
         playerControls = new PlayerControls(map, two, targetAssigner);
         playerControls2 = new PlayerControls(map, one, targetAssigner);
+
+        // initialize cursor
+        Cursor.initialize(resources);
+        Cursor.setCursor(Cursor.CURSOR_NORMAL);
     }
 
     /**
@@ -178,6 +183,8 @@ public class GameInstance implements Updatable {
 
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
+
+        Cursor.renderAnimation(batch, resources);
     }
 
     /**
@@ -220,6 +227,8 @@ public class GameInstance implements Updatable {
 
             player.update(delta);
         }
+
+        Cursor.updateAnimation(delta);
 
         lastCamPosition.x = cam.position.x;
         lastCamPosition.y = cam.position.y;
@@ -398,6 +407,6 @@ public class GameInstance implements Updatable {
      * Cleans up resources
      */
     public void unloadResources() {
-
+        Cursor.dispose();
     }
 }
