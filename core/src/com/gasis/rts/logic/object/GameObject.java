@@ -6,7 +6,9 @@ import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.logic.object.combat.DestructionListener;
+import com.gasis.rts.logic.object.research.TechListener;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -16,7 +18,7 @@ import java.util.Set;
 /**
  * Represents all game objects: units, buildings
  */
-public abstract class GameObject implements Updatable, Renderable, Damageable {
+public abstract class GameObject implements Updatable, Renderable, Damageable, TechListener {
 
     // the object type identifier (e.g. All tanks in a group have code T-21)
     protected String code;
@@ -594,5 +596,16 @@ public abstract class GameObject implements Updatable, Renderable, Damageable {
      */
     public void setJunkAtlas(String junkAtlas) {
         this.junkAtlas = junkAtlas;
+    }
+
+    /**
+     * Called when a tech gets researched
+     *
+     * @param player the player the tech was applied to
+     * @param tech   the researched tech
+     */
+    @Override
+    public void techResearched(Player player, String tech) {
+        // default implementation does nothing
     }
 }

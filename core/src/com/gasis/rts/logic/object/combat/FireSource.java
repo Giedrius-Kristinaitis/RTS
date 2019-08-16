@@ -84,6 +84,26 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     // provides the source's owner
     protected OwnerProvider ownerProvider;
 
+    // the tech that is required for this fire source to work
+    protected String requiredTechId;
+
+    /**
+     * Gets the source's required tech
+     * @return
+     */
+    public String getRequiredTechId() {
+        return requiredTechId;
+    }
+
+    /**
+     * Sets the source's required tech
+     *
+     * @param requiredTechId tech required for the source to work
+     */
+    public void setRequiredTechId(String requiredTechId) {
+        this.requiredTechId = requiredTechId;
+    }
+
     /**
      * Sets the fire source owner provider
      *

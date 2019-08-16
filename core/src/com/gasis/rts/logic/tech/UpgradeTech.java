@@ -14,13 +14,6 @@ public class UpgradeTech extends Tech {
     // to what object type this tech applies
     protected List<String> objectCodes = new ArrayList<String>();
 
-    // the action done by the tech (e.g. availability)
-    protected String action;
-
-    // availability action's data
-
-
-    // alter value action's data
 
 
     /**

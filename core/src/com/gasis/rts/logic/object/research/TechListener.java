@@ -14,5 +14,5 @@ public interface TechListener {
      * @param player the player the tech was applied to
      * @param tech the researched tech
      */
-    void techResearched(Player player, Tech tech);
+    void techResearched(Player player, String tech);
 }

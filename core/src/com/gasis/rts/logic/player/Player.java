@@ -86,6 +86,14 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      */
     public void addResearchedTech(String techId) {
         researchedTechs.add(techId);
+
+        for (Unit unit: units) {
+            unit.techResearched(this, techId);
+        }
+
+        for (Building building: buildings) {
+            building.techResearched(this, techId);
+        }
     }
 
     /**

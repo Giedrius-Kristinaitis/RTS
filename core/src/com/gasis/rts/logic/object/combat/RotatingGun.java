@@ -106,6 +106,26 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     // the gun's individual reload speed that overrides the one specified in offensive specs
     protected float individualReloadSpeed;
 
+    // the tech required for this gun to work
+    protected String requiredTechId;
+
+    /**
+     * Gets the gun's required tech
+     * @return
+     */
+    public String getRequiredTechId() {
+        return requiredTechId;
+    }
+
+    /**
+     * Sets the gun's required tech
+     *
+     * @param requiredTechId tech required for the gun to work
+     */
+    public void setRequiredTechId(String requiredTechId) {
+        this.requiredTechId = requiredTechId;
+    }
+
     /**
      * Gets the gun's individual reload speed
      * @return
