@@ -73,7 +73,9 @@ public class CombatUtils {
                     fireSources.get(i).isPresentOutOfSiegeMode(),
                     fireSources.get(i).getProjectileDeviation(),
                     fireSources.get(i).getDamageCoefficient(),
-                    fireSources.get(i).getSoundEffect()
+                    fireSources.get(i).getSoundEffect(),
+                    fireSources.get(i).getRequiredTechId(),
+                    fireSources.get(i).isEnabled()
             );
 
             logic.addFireSource(String.valueOf(i + 1), source);
@@ -106,11 +108,10 @@ public class CombatUtils {
         gun.setRelativeY(data.getKey().getRelativeY());
         gun.setFiringLogic(createFiringLogic(data.getValue(), firingData));
         gun.setCurrentlyPresent(true);
-        gun.setPresentInSiegeMode(data.getKey().isPresentInSiegeMode());
-        gun.setPresentOutOfSiegeMode(data.getKey().isPresentOutOfSiegeMode());
-        gun.setCurrentlyPresent(data.getKey().isPresentOutOfSiegeMode());
         gun.setIndividualRange(data.getKey().getIndividualRange());
         gun.setIndividualReloadSpeed(data.getKey().getIndividualReloadSpeed());
+        gun.setRequiredTechId(data.getKey().getRequiredTechId());
+        gun.setCurrentlyPresent(data.getKey().isCurrentlyPresent());
 
         return gun;
     }
@@ -128,10 +129,12 @@ public class CombatUtils {
      * @param projectileDeviation  how much can the projectile deviate from it's target
      * @param damageCoefficient    damage coefficient between 0 and 1
      * @param soundEffect          sound effect when firing
+     * @param requiredTechId       source's required tech
+     * @param enabled              is the source enabled by default
      *
      * @return newly created fire source
      */
-    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation, float damageCoefficient, String soundEffect) {
+    public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation, float damageCoefficient, String soundEffect, String requiredTechId, boolean enabled) {
         FireSource source = new FireSource();
 
         source.setFirePoints(firePoints);
@@ -144,6 +147,8 @@ public class CombatUtils {
         source.setProjectileDeviation(projectileDeviation);
         source.setDamageCoefficient(damageCoefficient);
         source.setSoundEffect(soundEffect);
+        source.setRequiredTechId(requiredTechId);
+        source.setEnabled(enabled);
 
         return source;
     }

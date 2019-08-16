@@ -31,7 +31,6 @@ siege mode shot count: 5
 siege mode shot interval: 0.3
 siege mode reload speed: 6
 rotating gun: g
-g present: always
 g atlas: tanks_conf.atlas
 g width: 1
 g height: 0.9

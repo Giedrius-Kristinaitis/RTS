@@ -99,6 +99,17 @@ public class LoaderUtils {
             fireSource.setSoundEffect(reader.readLine(prefix + " sound effect"));
         } catch (Exception ex) {}
 
+        try {
+            String requiredTech = reader.readLine(prefix + " required tech id");
+
+            if (requiredTech != null) {
+                fireSource.setRequiredTechId(requiredTech);
+                fireSource.setEnabled(false);
+            } else {
+                fireSource.setEnabled(true);
+            }
+        } catch (Exception ex) {}
+
         List<Point> firePoints = new ArrayList<Point>();
 
         firePoints.add(new Point(
@@ -239,25 +250,23 @@ public class LoaderUtils {
         rotatingGun.setRelativeY(relativeY);
 
         try {
+            String requiredTech = reader.readLine(prefix + " required tech id");
+
+            if (requiredTech != null) {
+                rotatingGun.setRequiredTechId(requiredTech);
+                rotatingGun.setCurrentlyPresent(false);
+            } else {
+                rotatingGun.setCurrentlyPresent(true);
+            }
+        } catch (Exception ex) {}
+
+        try {
             rotatingGun.setIndividualRange(Float.parseFloat(reader.readLine(prefix + " individual range")));
         } catch (Exception ex) {}
 
         try {
             rotatingGun.setIndividualReloadSpeed(Float.parseFloat(reader.readLine(prefix + " individual reload speed")));
         } catch (Exception ex) {}
-
-        String presence = reader.readLine(prefix + " present");
-
-        if (presence.equalsIgnoreCase("always")) {
-            rotatingGun.setPresentInSiegeMode(true);
-            rotatingGun.setPresentOutOfSiegeMode(true);
-        } else if (presence.equalsIgnoreCase("siege mode")) {
-            rotatingGun.setPresentInSiegeMode(true);
-            rotatingGun.setPresentOutOfSiegeMode(false);
-        } else if (presence.equalsIgnoreCase("not siege mode")) {
-            rotatingGun.setPresentInSiegeMode(false);
-            rotatingGun.setPresentOutOfSiegeMode(true);
-        }
 
         Object[] lines = reader.readLines(prefix + " fire source").toArray();
 

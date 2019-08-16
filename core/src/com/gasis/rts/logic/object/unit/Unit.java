@@ -16,6 +16,7 @@ import com.gasis.rts.logic.object.unit.movement.PathInfoProvider;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -1419,7 +1420,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @return
      */
     public boolean isMainTargetReachable() {
-        if (firingLogic == null || (target == null && targetObject == null)) {
+        if (firingLogic == null || !anyFireSourceEnabled() || (target == null && targetObject == null)) {
             return true;
         } else {
             if (target != null) {
@@ -1439,11 +1440,29 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Checks if any fire source is enabled
+     * @return
+     */
+    protected boolean anyFireSourceEnabled() {
+        boolean anySourceEnabled = false;
+
+        if (firingLogic != null) {
+            for (FireSource source: firingLogic.getFireSources()) {
+                if (source.isEnabled()) {
+                    anySourceEnabled = true;
+                }
+            }
+        }
+
+        return anySourceEnabled;
+    }
+
+    /**
      * Checks if the unit can reach it's secondary target
      * @return
      */
     public boolean isSecondaryTargetReachable() {
-        if (firingLogic == null || (secondaryTarget == null && secondaryTargetObject == null)) {
+        if (firingLogic == null || !anyFireSourceEnabled() || (secondaryTarget == null && secondaryTargetObject == null)) {
             return false;
         } else {
             if (secondaryTarget != null) {
@@ -1485,6 +1504,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @return
      */
     protected float getMaximumValidAttackRange() {
+        if (!anyFireSourceEnabled()) {
+            return -1;
+        }
+
         return inSiegeMode ? offensiveSpecs.getSiegeModeAttackRange() : offensiveSpecs.getAttackRange();
     }
 
@@ -1665,5 +1688,22 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      */
     public void setRenderSelectionCircle(boolean renderSelectionCircle) {
         this.renderSelectionCircle = renderSelectionCircle;
+    }
+
+    /**
+     * Called when a tech gets researched
+     *
+     * @param player the player the tech was applied to
+     * @param tech   the researched tech
+     */
+    @Override
+    public void techResearched(Player player, String tech) {
+        if (firingLogic != null) {
+            for (FireSource source: firingLogic.getFireSources()) {
+                if (source.getRequiredTechId() != null && source.getRequiredTechId().equalsIgnoreCase(tech)) {
+                    source.setEnabled(true);
+                }
+            }
+        }
     }
 }

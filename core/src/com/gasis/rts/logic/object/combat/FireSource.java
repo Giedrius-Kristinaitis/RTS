@@ -87,6 +87,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
     // the tech that is required for this fire source to work
     protected String requiredTechId;
 
+    // is the source enabled
+    protected boolean enabled;
+
     /**
      * Gets the source's required tech
      * @return
@@ -102,6 +105,23 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      */
     public void setRequiredTechId(String requiredTechId) {
         this.requiredTechId = requiredTechId;
+    }
+
+    /**
+     * Sets the source's enabled flag
+     *
+     * @param enabled is the source enabled or not
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * Checks if the source is enabled or not
+     * @return
+     */
+    public boolean isEnabled() {
+        return enabled;
     }
 
     /**

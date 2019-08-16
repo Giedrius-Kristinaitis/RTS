@@ -336,13 +336,15 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
         // launch a shot
         if ((!siegeMode && timeSinceLastReload >= reloadSpeed && source.isPresentOutOfSiegeMode()) || (siegeMode && timeSinceLastReload >= siegeModeReloadSpeed && source.isPresentInSiegeMode())) {
-            source.setX(x + source.getFirePoints().get(facingDirection).x);
-            source.setY(y + source.getFirePoints().get(facingDirection).y);
-            source.fire(facingDirection, target.x, target.y);
+            if (source.isEnabled()) {
+                source.setX(x + source.getFirePoints().get(facingDirection).x);
+                source.setY(y + source.getFirePoints().get(facingDirection).y);
+                source.fire(facingDirection, target.x, target.y);
 
-            fired = true;
-            enqueuedShots--;
-            timeSinceLastShot = 0;
+                fired = true;
+                enqueuedShots--;
+                timeSinceLastShot = 0;
+            }
 
             if (nextFiringSourceIndex == fireSourceNames.size() - 1) {
                 nextFiringSourceIndex = 0;
@@ -376,5 +378,13 @@ public class FiringLogic implements Renderable, OwnerProvider {
         timeSinceLastReload = 0;
         initialEnqueue = true;
         nextFiringSourceIndex = 0;
+    }
+
+    /**
+     * Gets all logic's fire sources
+     * @return
+     */
+    public Iterable<FireSource> getFireSources() {
+        return fireSources.values();
     }
 }

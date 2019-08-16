@@ -22,7 +22,6 @@ siege mode available: false
 destruction animation: projectile_explosion
 destruction animation scale: 1.5
 rotating gun: g
-g present: always
 g atlas: tanks_conf.atlas
 g width: 1
 g height: 1

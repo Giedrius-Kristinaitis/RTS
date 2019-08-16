@@ -22,7 +22,6 @@ junk texture atlas: junk.atlas
 junk texture: tank_junk
 junk scale: 1
 rotating gun: g
-g present: always
 g atlas: tanks_conf.atlas
 g width: 0.6
 g height: 0.6
@@ -80,6 +79,7 @@ f fire point west y: 0
 f fire point north west x: 0
 f fire point north west y: 0
 fire source: f1
+f1 required tech id: flame_thrower
 f1 present: always
 f1 projectile deviation: 0
 f1 fire type: flame

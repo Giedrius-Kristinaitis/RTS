@@ -1,11 +1,11 @@
 package com.gasis.rts.logic.object.unit;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.logic.object.combat.TargetReachListener;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public class RotatingGunUnit extends Unit {
     public boolean canBeRemoved() {
         if (super.canBeRemoved()) {
             for (RotatingGun gun: guns.values()) {
-                if (!gun.canBeRemoved()) {
+                if (gun.isCurrentlyPresent() && !gun.canBeRemoved()) {
                     return false;
                 }
             }
@@ -90,7 +90,7 @@ public class RotatingGunUnit extends Unit {
 
         // if there is no target, rotate the guns as well
         for (RotatingGun gun: guns.values()) {
-            if (!gun.hasTarget()) {
+            if (gun.isCurrentlyPresent() && !gun.hasTarget()) {
                 gun.rotateToDirection(facingDirection);
             }
         }
@@ -105,35 +105,7 @@ public class RotatingGunUnit extends Unit {
 
         for (RotatingGun gun : guns.values()) {
             gun.setInSiegeMode(inSiegeMode);
-
-            // update gun's presence
-            if (inSiegeMode && !gun.isPresentInSiegeMode() && gun.isCurrentlyPresent()) {
-                gun.setCurrentlyPresent(false);
-            } else if (inSiegeMode && !gun.isCurrentlyPresent()) {
-                gun.setCurrentlyPresent(true);
-            }
         }
-    }
-
-    /**
-     * Notifies the observer that the animation has finished
-     *
-     * @param animation the animation that just finished
-     */
-    @Override
-    public void finished(Animation animation) {
-        if (animation == super.siegeModeTransitionAnimation && !inSiegeMode) {
-            // update guns' presence
-            for (RotatingGun gun : guns.values()) {
-                if (!gun.isPresentOutOfSiegeMode() && gun.isCurrentlyPresent()) {
-                    gun.setCurrentlyPresent(false);
-                } else if (!gun.isCurrentlyPresent()) {
-                    gun.setCurrentlyPresent(true);
-                }
-            }
-        }
-
-        super.finished(animation);
     }
 
     /**
@@ -175,15 +147,17 @@ public class RotatingGunUnit extends Unit {
 
         // update the rotating guns
         for (RotatingGun gun: guns.values()) {
-            gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
-            gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
-            gun.update(siegeModeTransitionAnimation != null, delta, true);
+            if (gun.isCurrentlyPresent()) {
+                gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
+                gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
+                gun.update(siegeModeTransitionAnimation != null, delta, true);
 
-            if (!gun.hasTarget() && !inSiegeMode) {
-                if (Math.abs(facingDirection - gun.getFacingDirection()) > 1) {
-                    gun.rotateToDirection(facingDirection);
-                } else {
-                    gun.setFacingDirection(facingDirection);
+                if (!gun.hasTarget() && !inSiegeMode) {
+                    if (Math.abs(facingDirection - gun.getFacingDirection()) > 1) {
+                        gun.rotateToDirection(facingDirection);
+                    } else {
+                        gun.setFacingDirection(facingDirection);
+                    }
                 }
             }
         }
@@ -267,7 +241,7 @@ public class RotatingGunUnit extends Unit {
     public boolean isMainTargetReachable() {
         if (super.isMainTargetReachable()) {
             for (RotatingGun gun: guns.values()) {
-                if (!gun.isMainTargetReachable()) {
+                if (gun.isCurrentlyPresent() && !gun.isMainTargetReachable()) {
                     return false;
                 }
             }
@@ -288,14 +262,14 @@ public class RotatingGunUnit extends Unit {
         float minGunRange = Float.MAX_VALUE;
 
         for (RotatingGun gun: guns.values()) {
-            if (gun.getIndividualRange() < minGunRange) {
+            if (gun.isCurrentlyPresent() && gun.getIndividualRange() < minGunRange) {
                 minGunRange = gun.getIndividualRange();
             }
         }
 
         float maxValidRange = super.getMaximumValidAttackRange();
 
-        if (minGunRange > 0 && minGunRange < maxValidRange) {
+        if (minGunRange > 0 && (minGunRange < maxValidRange || maxValidRange < 0)) {
             maxValidRange = minGunRange;
         }
 
@@ -330,6 +304,23 @@ public class RotatingGunUnit extends Unit {
 
         if (!destroyed) {
             renderHp(batch, resources);
+        }
+    }
+
+    /**
+     * Called when a tech gets researched
+     *
+     * @param player the player the tech was applied to
+     * @param tech   the researched tech
+     */
+    @Override
+    public void techResearched(Player player, String tech) {
+        super.techResearched(player, tech);
+
+        for (RotatingGun gun: guns.values()) {
+            if (gun.getRequiredTechId() != null && gun.getRequiredTechId().equalsIgnoreCase(tech)) {
+                gun.setCurrentlyPresent(true);
+            }
         }
     }
 }
