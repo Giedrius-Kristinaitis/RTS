@@ -327,7 +327,7 @@ public class PathFinder implements PathFinderInterface {
 
         return
                 map.isBlockPassable((short) point.x, (short) point.y)
-                        && (!map.isBlockOccupied((short) point.x, (short) point.y) || (occupyingUnit != null && (occupyingUnit.isMoving() || getGroup(unit).foundPaths.containsKey(occupyingUnit))))
+                        && (!map.isBlockOccupied((short) point.x, (short) point.y) || occupyingObject.isPassable() || (occupyingUnit != null && (occupyingUnit.isMoving() || getGroup(unit).foundPaths.containsKey(occupyingUnit))))
                         && !visitedPoints.contains(point);
     }
 
