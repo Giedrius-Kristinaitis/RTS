@@ -18,6 +18,9 @@ public class Block {
     // what currently is on this block
     protected GameObject occupyingObject;
 
+    // the second passable object occupying the block
+    protected GameObject passableObject;
+
     // is the block passable or not (can units and buildings be on it or not)
     protected boolean passable;
 
@@ -52,7 +55,11 @@ public class Block {
      * @return occupying object
      */
     public GameObject getOccupyingObject() {
-        return occupyingObject;
+        if (occupyingObject != null) {
+            return occupyingObject;
+        } else {
+            return passableObject;
+        }
     }
 
     /**
@@ -62,6 +69,15 @@ public class Block {
      */
     public void setOccupyingObject(GameObject object) {
         occupyingObject = object;
+    }
+
+    /**
+     * Sets the block's passable object
+     *
+     * @param object passable object
+     */
+    public void setPassableObject(GameObject object) {
+        passableObject = object;
     }
 
     /**
