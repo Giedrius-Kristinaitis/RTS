@@ -37,3 +37,18 @@ tech: tech center
 tech center type: placement
 tech center file: placement_tech_center_rebels
 tech center key binding: E
+
+tech: landmine light
+landmine light type: placement
+landmine light file: placement_landmine_rebels_light
+landmine light key binding: J
+
+tech: landmine medium
+landmine medium type: placement
+landmine medium file: placement_landmine_rebels_medium
+landmine medium key binding: K
+
+tech: landmine heavy
+landmine heavy type: placement
+landmine heavy file: placement_landmine_rebels_heavy
+landmine heavy key binding: I

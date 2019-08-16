@@ -1,0 +1,28 @@
+atlas: buildings_rebels.atlas
+code: landmine rebels heavy
+control context: context_default_rebels
+texture: landmine_heavy
+placement texture: landmine_heavy
+construction time: 0.0001
+width: 1.2
+height: 0.8
+destruction animation: projectile_explosion
+destruction animation scale: 2
+hp bar width: 1
+hp bar height offset: 0
+hp bar horizontal offset: 0
+width in blocks: 1
+height in blocks: 1
+hp: 25
+sight range: 1
+defence: 1
+electricity requirement: 0
+offensive: true
+attack: 75
+attack range: 1
+shot count: 0
+shot interval: 0
+reload speed: 0
+landmine: true
+landmine scale: heavy
+passable: true

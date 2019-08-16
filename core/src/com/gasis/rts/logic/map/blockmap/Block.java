@@ -63,6 +63,14 @@ public class Block {
     }
 
     /**
+     * Gets the block's passable object
+     * @return
+     */
+    public GameObject getPassableObject() {
+        return passableObject;
+    }
+
+    /**
      * Occupies this block with an object
      *
      * @param object the object that occupies the block now

@@ -5,6 +5,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingConstructionListener;
+import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
 import com.gasis.rts.logic.object.unit.Unit;
@@ -151,6 +152,10 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToUnit(Unit unit, GameObject target) {
+        if (target instanceof Landmine) {
+            return;
+        }
+
         if (((!unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 unit.getDefensiveSpecs().getSightRange()) ||
                 (unit.isInSiegeMode() && MathUtils.distance(unit.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, unit.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
@@ -171,6 +176,10 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param target the target
      */
     protected void assignTargetToBuilding(OffensiveBuilding building, GameObject target) {
+        if (target instanceof Landmine) {
+            return;
+        }
+
         if (!building.hasTarget() && !building.hasTargetObject() && MathUtils.distance(building.getCenterX() / Block.BLOCK_WIDTH, target.getCenterX() / Block.BLOCK_WIDTH, building.getCenterY() / Block.BLOCK_HEIGHT, target.getCenterY() / Block.BLOCK_HEIGHT) <=
                 building.getOffensiveSpecs().getAttackRange()) {
 

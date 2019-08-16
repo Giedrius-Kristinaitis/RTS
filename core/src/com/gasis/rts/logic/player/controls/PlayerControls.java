@@ -12,6 +12,7 @@ import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
@@ -318,8 +319,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
         if ((occupyingObject != null && !controlledPlayer.isAllied(occupyingObject.getOwner())) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
             stopSelectedUnits();
-            aimSelectedUnits(x, y);
-            return true;
+            return aimSelectedUnits(x, y);
         }
 
         return false;
@@ -407,9 +407,9 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param x x of the target
      * @param y y of the target
      */
-    protected void aimSelectedUnits(float x, float y) {
+    protected boolean aimSelectedUnits(float x, float y) {
         if (unitSelector.getSelectedUnits() == null || unitSelector.getSelectedUnits().isEmpty()) {
-            return;
+            return false;
         }
 
         if (pressedKey == Input.Keys.A) {
@@ -424,6 +424,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 unit.setMovingToTarget(true);
             }
         } else {
+            if (occupyingObject instanceof Landmine && (pressedKey != Input.Keys.CONTROL_LEFT && pressedKey != Input.Keys.CONTROL_RIGHT)) {
+                return false;
+            }
+
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(occupyingObject);
                 unit.setMovingToTarget(true);
@@ -431,6 +435,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         }
 
         Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
+
+        return true;
     }
 
     /**
@@ -447,7 +453,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;
-            } else if (occupyingObject != null && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
+            } else if (occupyingObject != null && !(occupyingObject instanceof Landmine) && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(occupyingObject);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;

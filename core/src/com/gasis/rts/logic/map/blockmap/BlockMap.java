@@ -175,6 +175,27 @@ public class BlockMap implements Map {
     }
 
     /**
+     * Gets the passable object that occupies the specified block
+     *
+     * @param x block x
+     * @param y block y
+     * @return occupying object, null if there is no such object
+     */
+    public GameObject getOccupyingPassableObject(short x, short y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return null;
+        }
+
+        Block block = layers.getFirst().getBlock(x, y);
+
+        if (block != null) {
+            return block.getPassableObject();
+        }
+
+        return null;
+    }
+
+    /**
      * Adds a new layer to the map
      *
      * @param layer layer to add

@@ -548,9 +548,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles going over a landmine
      */
     protected void handleLandmine() {
-        GameObject object = map.getOccupyingObject((short) occupiedBlock.x, (short) occupiedBlock.y);
+        GameObject object = map.getOccupyingPassableObject((short) occupiedBlock.x, (short) occupiedBlock.y);
 
-        if (object instanceof Landmine) {
+        if (object instanceof Landmine && !owner.isAllied(object.getOwner())) {
             ((Landmine) object).detonate();
         }
     }

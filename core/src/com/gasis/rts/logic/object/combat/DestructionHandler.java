@@ -202,6 +202,7 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
                 textureScale = Math.min(1.25f , 0.75f + random.nextFloat());
             }
         } else if (scale == FireSource.SMALL) {
+            textureScale = 0.4f;
             craterTexture = Constants.SMALL_CRATER_PREFIX + random.nextInt(Constants.SMALL_CRATER_COUNT);
         }
 
