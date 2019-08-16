@@ -137,6 +137,12 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     protected final static float DAMAGE_POINT_TEXTURE_WIDTH = 1f;
     protected final static float DAMAGE_POINT_TEXTURE_HEIGHT = 1f;
 
+    // is the building currently researching a tech
+    protected boolean researching;
+
+    // the tech that is currently being researched
+    protected Tech currentlyResearchedTech;
+
     /**
      * Default class constructor
      * @param map
@@ -409,7 +415,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      */
     @Override
     public void queueUp(UnitLoader unit) {
-        if (!producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
+        if (!researching && !producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
             producedUnitLoader = unit;
             progress = 0;
             producing = true;
@@ -423,7 +429,11 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      */
     @Override
     public void queueUpTech(Tech tech) {
-
+        if (!researching && !producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
+            currentlyResearchedTech = tech;
+            producing = true;
+            progress = 0;
+        }
     }
 
     /**
@@ -512,8 +522,6 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
         if (gatherPoint != null) {
             unit.requestToMove((short) gatherPoint.x, (short) gatherPoint.y);
         }
-
-        producing = false;
     }
 
     /**
@@ -821,15 +829,21 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      * @param delta time elapsed since the last update
      */
     protected void updateProduction(float delta) {
-        if (producing) {
+        if (producing || researching) {
             if (progress < 1) {
-                progress += delta / producedUnitLoader.getProductionTime();
+                progress += producing ? delta / producedUnitLoader.getProductionTime() : delta / currentlyResearchedTech.getResearchTime();
             } else {
                 progress = 1;
             }
 
-            if (progress >= 1 && owner.getState().units < owner.getState().maxUnits) {
-                spawnUnit();
+            if (progress >= 1) {
+                if (producing && owner.getState().units < owner.getState().maxUnits) {
+                    spawnUnit();
+                    producing = false;
+                } else if (researching) {
+                    currentlyResearchedTech.apply(owner);
+                    researching = false;
+                }
             }
         }
     }

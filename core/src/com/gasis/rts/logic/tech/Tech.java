@@ -12,6 +12,9 @@ public abstract class Tech {
     // unique tech id
     protected String id;
 
+    // time to research the tech (in seconds)
+    protected float researchTime;
+
     /**
      * Applies the tech to the specified player
      *
@@ -32,6 +35,10 @@ public abstract class Tech {
             id = reader.readLine("id");
         } catch (Exception ex) {}
 
+        try {
+            researchTime = Float.parseFloat(reader.readLine("research time"));
+        } catch (Exception ex) {}
+
         return loadData(reader);
     }
 
@@ -42,4 +49,12 @@ public abstract class Tech {
      * @return
      */
     protected abstract boolean loadData(FileLineReader reader);
+
+    /**
+     * Gets the tech's research time
+     * @return
+     */
+    public float getResearchTime() {
+        return researchTime;
+    }
 }
