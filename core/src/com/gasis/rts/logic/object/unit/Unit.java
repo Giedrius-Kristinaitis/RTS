@@ -403,7 +403,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     protected boolean destinationAvailable() {
         Point destination = getDestinationBlock();
 
-        if (map.isBlockOccupied((short) destination.x, (short) destination.y)
+        if ((map.isBlockOccupied((short) destination.x, (short) destination.y) && !map.getOccupyingObject((short) destination.x, (short) destination.y).isPassable())
             || !map.isBlockPassable((short) destination.x, (short) destination.y)) {
             return false;
         }
