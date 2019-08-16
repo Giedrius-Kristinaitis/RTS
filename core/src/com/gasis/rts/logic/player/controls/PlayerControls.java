@@ -418,25 +418,25 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
 
         GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
-        if (occupyingObject == null) {
+        if ((occupyingObject instanceof Landmine && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) || occupyingObject == null) {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(x, y);
                 unit.setMovingToTarget(true);
             }
-        } else {
-            if (occupyingObject instanceof Landmine && (pressedKey != Input.Keys.CONTROL_LEFT && pressedKey != Input.Keys.CONTROL_RIGHT)) {
-                return false;
-            }
 
+            Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
+
+            return true;
+        } else {
             for (Unit unit : unitSelector.getSelectedUnits()) {
                 unit.aimAt(occupyingObject);
                 unit.setMovingToTarget(true);
             }
+
+            Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
+
+            return true;
         }
-
-        Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
-
-        return true;
     }
 
     /**
@@ -449,11 +449,11 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         if (buildingSelector.getSelectedBuilding() != null && buildingSelector.getSelectedBuilding() instanceof Aimable) {
             GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
 
-            if (occupyingObject == null && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT)) {
+            if ((occupyingObject instanceof Landmine && !controlledPlayer.isAllied(occupyingObject.getOwner())) || (occupyingObject == null && (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(x, y);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;
-            } else if (occupyingObject != null && !(occupyingObject instanceof Landmine) && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
+            } else if (occupyingObject != null && (!controlledPlayer.isAllied(occupyingObject.getOwner()) || (pressedKey == Input.Keys.CONTROL_LEFT || pressedKey == Input.Keys.CONTROL_RIGHT))) {
                 ((Aimable) buildingSelector.getSelectedBuilding()).aimAt(occupyingObject);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x, y);
                 return true;
