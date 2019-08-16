@@ -96,6 +96,21 @@ public class BlockMap implements Map {
     }
 
     /**
+     * Occupies a map block
+     *
+     * @param x x of the block
+     * @param y y of the block
+     * @param occupier new occupying passable object
+     */
+    public void occupyBlockPassable(short x, short y, GameObject occupier) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return;
+        }
+
+        layers.getFirst().getBlock(x, y).setPassableObject(occupier);
+    }
+
+    /**
      * Checks if the map block at (x, y) is occupied or not
      *
      * @param x x of the block

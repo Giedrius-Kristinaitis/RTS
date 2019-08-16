@@ -8,6 +8,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.ElectricityListener;
+import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.building.OffensiveBuilding;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.DestructionListener;
@@ -212,6 +213,10 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         if (building instanceof OffensiveBuilding) {
             ((OffensiveBuilding) building).addTargetReachedListener(destructionHandler);
             ((OffensiveBuilding) building).addTargetRemovalListener(targetAssigner);
+
+            if (building instanceof Landmine) {
+                ((Landmine) building).addListener(destructionHandler);
+            }
         }
 
         building.addDestructionListener(this);

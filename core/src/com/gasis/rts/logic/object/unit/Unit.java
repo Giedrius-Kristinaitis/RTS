@@ -10,6 +10,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
+import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.logic.object.unit.movement.PathInfoProvider;
 import com.gasis.rts.logic.object.unit.movement.Movable;
@@ -537,7 +538,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                     notifyUnableToMoveListeners();
                     enterSiegeModeWhenFinishedMoving = false;
                 }
+
+                handleLandmine();
             }
+        }
+    }
+
+    /**
+     * Handles going over a landmine
+     */
+    protected void handleLandmine() {
+        GameObject object = map.getOccupyingObject((short) occupiedBlock.x, (short) occupiedBlock.y);
+
+        if (object instanceof Landmine) {
+            ((Landmine) object).detonate();
         }
     }
 

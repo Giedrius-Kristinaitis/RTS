@@ -597,8 +597,14 @@ public class Building extends GameObject implements UnitProducer {
      */
     @Override
     public void deoccupyBlocks() {
-        for (Point block: occupiedBlocks) {
-            map.occupyBlock((short) block.x, (short) block.y, null);
+        if (!passable) {
+            for (Point block : occupiedBlocks) {
+                map.occupyBlock((short) block.x, (short) block.y, null);
+            }
+        } else {
+            for (Point block : occupiedBlocks) {
+                map.occupyBlockPassable((short) block.x, (short) block.y, null);
+            }
         }
     }
 
@@ -608,8 +614,14 @@ public class Building extends GameObject implements UnitProducer {
     public void occupyBlocks(List<Point> blocks) {
         occupiedBlocks = blocks;
 
-        for (Point block: occupiedBlocks) {
-            map.occupyBlock((short) block.x, (short) block.y, this);
+        if (!passable) {
+            for (Point block : occupiedBlocks) {
+                map.occupyBlock((short) block.x, (short) block.y, this);
+            }
+        } else {
+            for (Point block : occupiedBlocks) {
+                map.occupyBlockPassable((short) block.x, (short) block.y, this);
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.utils.Constants;
 
@@ -16,7 +17,7 @@ import java.util.Random;
 /**
  * Handles game object destruction
  */
-public class DestructionHandler implements TargetReachListener {
+public class DestructionHandler implements TargetReachListener, LandmineListener {
 
     // the game's map
     protected BlockMap map;
@@ -56,6 +57,23 @@ public class DestructionHandler implements TargetReachListener {
         }
 
         dealDamage((short) (targetX / Block.BLOCK_WIDTH), (short) (targetY / Block.BLOCK_HEIGHT), damage, explosive, shooter);
+    }
+
+    /**
+     * Called when a landmine gets detonated
+     *
+     * @param landmine landmine that just detonated
+     */
+    @Override
+    public void landmineDetonated(Landmine landmine) {
+        createCrater(landmine.getCenterX(), landmine.getCenterY(), landmine.getScale());
+
+        dealDamage((short) (landmine.getCenterX() / Block.BLOCK_WIDTH), (short) (landmine.getCenterY() / Block.BLOCK_HEIGHT),
+                landmine.getOffensiveSpecs().getAttack(), true, landmine);
+
+        landmine.doDamage(10000);
+        playDestructionAnimation(landmine);
+        landmine.getOwner().objectDestroyed(landmine);
     }
 
     /**

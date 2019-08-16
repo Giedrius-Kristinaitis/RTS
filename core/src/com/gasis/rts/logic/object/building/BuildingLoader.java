@@ -90,6 +90,12 @@ public class BuildingLoader extends GameObjectLoader {
     // how many damage textures does the building have
     protected int damageTextureCount;
 
+    // is the building a landmine
+    protected boolean landmine;
+
+    // the scale of the landmine
+    protected byte landmineScale;
+
     /**
      * Default class constructor
      * @param map
@@ -244,6 +250,20 @@ public class BuildingLoader extends GameObjectLoader {
         try {
             electricityRequirement = Integer.parseInt(reader.readLine("electricity requirement"));
         } catch (Exception ex) {}
+
+        try {
+            landmine = Boolean.parseBoolean(reader.readLine("landmine"));
+
+            String scale = reader.readLine("landmine scale");
+
+            if (scale.equalsIgnoreCase("light")) {
+                landmineScale = FireSource.SMALL;
+            } else if (scale.equalsIgnoreCase("medium")) {
+                landmineScale = FireSource.MEDIUM;
+            } else if (scale.equalsIgnoreCase("heavy")) {
+                landmineScale = FireSource.HEAVY;
+            }
+        } catch (Exception ex) {}
     }
 
     /**
@@ -257,7 +277,7 @@ public class BuildingLoader extends GameObjectLoader {
             throw new IllegalStateException("Building not loaded");
         }
 
-        Building building = !offensive ? new Building(map) : new OffensiveBuilding(map);
+        Building building = !offensive ? new Building(map) : landmine ? new Landmine(map) : new OffensiveBuilding(map);
 
         building.setAtlas(atlas);
         building.setWidth(width);
@@ -310,6 +330,10 @@ public class BuildingLoader extends GameObjectLoader {
             }
 
             ((OffensiveBuilding) building).setOffensiveSpecs(offensiveSpecs);
+
+            if (landmine) {
+                ((Landmine) building).setScale(landmineScale);
+            }
         }
 
         // add animations to the building
