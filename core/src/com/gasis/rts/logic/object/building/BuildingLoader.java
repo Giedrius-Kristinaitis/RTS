@@ -282,6 +282,7 @@ public class BuildingLoader extends GameObjectLoader {
         building.setJunkAtlas(junkAtlas);
         building.setElectricityRequirement(electricityRequirement);
         building.setHealingSpeed(healingSpeed);
+        building.setPassable(passable);
 
         if (damagedTextures != null && damagedTextures.size() > 0) {
             building.setDamagedTextures(damagedTextures);

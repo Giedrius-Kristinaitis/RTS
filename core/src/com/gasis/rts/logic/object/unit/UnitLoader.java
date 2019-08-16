@@ -243,6 +243,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setJunkTexture(junkTexture);
         unit.setJunkAtlas(junkAtlas);
         unit.setHealingSpeed(healingSpeed);
+        unit.setPassable(passable);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

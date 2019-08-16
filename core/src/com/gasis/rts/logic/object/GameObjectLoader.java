@@ -55,6 +55,9 @@ public abstract class GameObjectLoader {
     // object's healing speed (hp per second)
     protected float healingSpeed = 0.25f;
 
+    // is the object passable or not
+    protected boolean passable;
+
     /**
      * Default class constructor
      * @param map
@@ -97,6 +100,10 @@ public abstract class GameObjectLoader {
         height = Float.parseFloat(reader.readLine("height"));
 
         controlContextName = reader.readLine("control context");
+
+        try {
+            passable = Boolean.parseBoolean(reader.readLine("passable"));
+        } catch (Exception ex) {}
 
         try {
             destructionAnimationName = reader.readLine("destruction animation");
