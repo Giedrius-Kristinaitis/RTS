@@ -11,6 +11,9 @@ public class UpgradeTech extends Tech {
     // to what object type this tech applies
     protected String objectCode;
 
+    // the action done by the tech (e.g. availability)
+    protected String action;
+
     /**
      * Applies the tech to the specified player
      *
@@ -18,6 +21,17 @@ public class UpgradeTech extends Tech {
      */
     @Override
     public void apply(Player player) {
+        if (player.getSelectedBuilding() != null) {
+            player.getSelectedBuilding().queueUpTech(this);
+        }
+    }
+
+    /**
+     * Called when the tech is finished being applied
+     *
+     * @param player player the tech was applied to
+     */
+    public void applied(Player player) {
 
     }
 

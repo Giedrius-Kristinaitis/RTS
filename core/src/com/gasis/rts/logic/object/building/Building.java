@@ -10,11 +10,13 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.production.UnitProducer;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
+import com.gasis.rts.logic.object.research.TechReasearcher;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.task.ResourceProviderTask;
 import com.gasis.rts.logic.task.Task;
+import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -24,7 +26,7 @@ import java.util.*;
 /**
  * A building on the map
  */
-public class Building extends GameObject implements UnitProducer {
+public class Building extends GameObject implements UnitProducer, TechReasearcher {
 
     // used to generate random data
     protected final Random random = new Random();
@@ -412,6 +414,16 @@ public class Building extends GameObject implements UnitProducer {
             progress = 0;
             producing = true;
         }
+    }
+
+    /**
+     * Queues up a tech to be researched
+     *
+     * @param tech tech to research
+     */
+    @Override
+    public void queueUpTech(Tech tech) {
+
     }
 
     /**
