@@ -78,7 +78,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
             return false;
         } else {
             for (RotatingGun gun: rotatingGuns.values()) {
-                if (!gun.canBeRemoved()) {
+                if (gun.isCurrentlyPresent() && !gun.canBeRemoved()) {
                     return false;
                 }
             }
@@ -205,7 +205,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         targetObject = null;
 
         for (RotatingGun gun: rotatingGuns.values()) {
-            gun.aimAt(targetX, targetY);
+            if (gun.isCurrentlyPresent()) {
+                gun.aimAt(targetX, targetY);
+            }
         }
     }
 
@@ -219,7 +221,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         targetObject = target;
 
         for (RotatingGun gun: rotatingGuns.values()) {
-            gun.aimAt(target);
+            if (gun.isCurrentlyPresent()) {
+                gun.aimAt(target);
+            }
         }
     }
 
@@ -359,7 +363,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         }
 
         for (RotatingGun gun: rotatingGuns.values()) {
-            gun.update(false, delta, electricityAvailable || electricityRequirement == 0);
+            if (gun.isCurrentlyPresent()) {
+                gun.update(false, delta, electricityAvailable || electricityRequirement == 0);
+            }
         }
 
         if (!electricityAvailable && electricityRequirement > 0) {
@@ -434,7 +440,9 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         }
 
         for (RotatingGun gun : rotatingGuns.values()) {
-            gun.render(batch, resources);
+            if (gun.isCurrentlyPresent()) {
+                gun.render(batch, resources);
+            }
         }
 
         if (firingLogic != null) {
