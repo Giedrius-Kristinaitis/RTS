@@ -66,6 +66,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     // moves units
     protected UnitMover unitMover;
 
+    // all techs researched by the player
+    protected Set<String> researchedTechs = new HashSet<String>();
+
     /**
      * Default class constructor
      */
@@ -74,6 +77,25 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         this.targetAssigner = targetAssigner;
 
         unitMover = new UnitMover(map, new PathFinder(map));
+    }
+
+    /**
+     * Adds a researched tech
+     *
+     * @param techId tech id
+     */
+    public void addResearchedTech(String techId) {
+        researchedTechs.add(techId);
+    }
+
+    /**
+     * Checks if a tech is researched
+     *
+     * @param id tech id
+     * @return
+     */
+    public boolean isTechResearched(String id) {
+        return researchedTechs.contains(id);
     }
 
     /**

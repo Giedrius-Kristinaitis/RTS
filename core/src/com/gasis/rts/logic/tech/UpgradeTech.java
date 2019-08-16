@@ -1,7 +1,6 @@
 package com.gasis.rts.logic.tech;
 
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.player.Player;
 
 /**

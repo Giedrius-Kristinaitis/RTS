@@ -2,13 +2,15 @@ package com.gasis.rts.logic.tech;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
-import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.player.Player;
 
 /**
  * An improvement a.k.a. tech
  */
 public abstract class Tech {
+
+    // unique tech id
+    protected String id;
 
     /**
      * Applies the tech to the specified player
@@ -25,6 +27,10 @@ public abstract class Tech {
      */
     public final boolean load(FileHandle file) {
         FileLineReader reader = new FileLineReader(file.read(), ":");
+
+        try {
+            id = reader.readLine("id");
+        } catch (Exception ex) {}
 
         return loadData(reader);
     }
