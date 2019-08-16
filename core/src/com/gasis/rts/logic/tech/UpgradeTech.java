@@ -14,8 +14,6 @@ public class UpgradeTech extends Tech {
     // to what object type this tech applies
     protected List<String> objectCodes = new ArrayList<String>();
 
-
-
     /**
      * Applies the tech to the specified player
      *
