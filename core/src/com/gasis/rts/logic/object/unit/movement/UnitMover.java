@@ -139,6 +139,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 for (Unit unit : group.units) {
                     unit.setAttackMove(true);
                     unit.setAttackMoveDestination(destination);
+                    unit.setMovingToTarget(true);
 
                     removeUnitAndFindPath(unit, x, y);
                 }
@@ -391,12 +392,16 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                             unitsToRemove.add(unit);
                         }
 
-                        if (unit.isRotating() || unit.isMoving() || (unit.isAttackMove() && unit.hasTargetObject())) {
+                        if (unit.isRotating() || unit.isMoving()) {
                             anyGroupUnitMoved = true;
                         }
                     } else {
                         anyGroupUnitMoved = true;
                     }
+                }
+
+                if (unit.isAttackMove() && unit.hasTargetObject()) {
+                    anyGroupUnitMoved = true;
                 }
             }
 

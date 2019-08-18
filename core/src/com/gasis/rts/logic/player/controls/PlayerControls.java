@@ -364,6 +364,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
             }
 
             if (pressedKey == Input.Keys.A) {
+                stopSelectedUnits();
+                removeSelectedUnitTargets();
                 controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), x, y, true);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
             } else {
@@ -413,6 +415,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         }
 
         if (pressedKey == Input.Keys.A) {
+            stopSelectedUnits();
+            removeSelectedUnitTargets();
             controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), (short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT), true);
         }
 
@@ -439,6 +443,17 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
         }
 
         return false;
+    }
+
+    /**
+     * Removes targets for all selected units
+     */
+    protected void removeSelectedUnitTargets() {
+        if (controlledPlayer.getSelectedUnits() != null && controlledPlayer.getSelectedUnits().size() > 0) {
+            for (Unit unit: controlledPlayer.getSelectedUnits()) {
+                unit.removeTarget();
+            }
+        }
     }
 
     /**

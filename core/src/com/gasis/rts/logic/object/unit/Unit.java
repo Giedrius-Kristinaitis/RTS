@@ -1366,7 +1366,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 handleLeavingAutoSiegeMode();
             }
 
-            if (attackMove && attackMoveDestination != null) {
+            if (attackMove && attackMoveDestination != null && targetObject == null) {
                 requestToMove((short) attackMoveDestination.x, (short) attackMoveDestination.y);
             }
         }
