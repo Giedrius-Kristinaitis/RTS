@@ -1404,7 +1404,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         if (!autoSiegeMode) {
             return;
         }
-        
+
         if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (attackMove || movingToTarget || (!moving && rotatingToDirection == NONE && pathInfoProvider.getFinalDestination(this) == null))) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = pathInfoProvider.getFinalDestination(this);

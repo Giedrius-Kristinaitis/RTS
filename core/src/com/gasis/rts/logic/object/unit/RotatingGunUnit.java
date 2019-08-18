@@ -262,8 +262,12 @@ public class RotatingGunUnit extends Unit {
         float minGunRange = Float.MAX_VALUE;
 
         for (RotatingGun gun: guns.values()) {
-            if (gun.isCurrentlyPresent() && gun.getIndividualRange() < minGunRange) {
-                minGunRange = gun.getIndividualRange();
+            if (gun.isCurrentlyPresent()) {
+                if (gun.getIndividualRange() > 0 && gun.getIndividualRange() < minGunRange) {
+                    minGunRange = gun.getIndividualRange();
+                } else if (gun.getIndividualRange() == 0 && ((!inSiegeMode && offensiveSpecs.getAttackRange() < minGunRange) || (inSiegeMode && offensiveSpecs.getSiegeModeAttackRange() < minGunRange))) {
+                    minGunRange = inSiegeMode ? offensiveSpecs.getSiegeModeAttackRange() : offensiveSpecs.getAttackRange();
+                }
             }
         }
 
@@ -272,6 +276,8 @@ public class RotatingGunUnit extends Unit {
         if (minGunRange > 0 && (minGunRange < maxValidRange || maxValidRange < 0)) {
             maxValidRange = minGunRange;
         }
+
+        System.out.println(maxValidRange);
 
         return maxValidRange - 1;
     }
