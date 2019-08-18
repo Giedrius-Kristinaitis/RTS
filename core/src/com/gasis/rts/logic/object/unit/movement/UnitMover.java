@@ -391,7 +391,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                             unitsToRemove.add(unit);
                         }
 
-                        if (unit.isRotating() || unit.isMoving()) {
+                        if (unit.isRotating() || unit.isMoving() || (unit.isAttackMove() && unit.hasTargetObject())) {
                             anyGroupUnitMoved = true;
                         }
                     } else {
