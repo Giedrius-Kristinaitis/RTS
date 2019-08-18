@@ -192,12 +192,24 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the point to which the unit was ordered to 'attack move'
     protected Point attackMoveDestination;
 
+    // should the unit automatically toggle siege mode when necessary
+    protected boolean autoSiegeMode;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Sets the unit's auto siege mode flag
+     *
+     * @param autoSiegeMode should the unit automatically toggle siege mode
+     */
+    public void setAutoSiegeMode(boolean autoSiegeMode) {
+        this.autoSiegeMode = autoSiegeMode;
     }
 
     /**
@@ -1389,6 +1401,10 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
+        if (!autoSiegeMode) {
+            return;
+        }
+        
         if (siegeModeAvailable && !inSiegeMode && target != null && isMainTargetReachable() && (attackMove || movingToTarget || (!moving && rotatingToDirection == NONE && pathInfoProvider.getFinalDestination(this) == null))) {
             if (moving) {
                 pointToGoToAfterTargetDestroyed = pathInfoProvider.getFinalDestination(this);
