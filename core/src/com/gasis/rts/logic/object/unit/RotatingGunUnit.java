@@ -277,8 +277,6 @@ public class RotatingGunUnit extends Unit {
             maxValidRange = minGunRange;
         }
 
-        System.out.println(maxValidRange);
-
         return maxValidRange - 1;
     }
 
