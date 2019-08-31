@@ -1,7 +1,6 @@
 package com.gasis.rts.logic.object.research;
 
 import com.gasis.rts.logic.player.Player;
-import com.gasis.rts.logic.tech.Tech;
 
 /**
  * Listens for tech research events
