@@ -24,7 +24,7 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
      */
     @Override
     public void apply(Player player) {
-        if (player.getSelectedBuilding() != null && !player.isTechResearched(id)) {
+        if (player.getSelectedBuilding() != null && !player.isTechResearched(id) && !player.isTechQueuedUp(id)) {
             player.getSelectedBuilding().queueUpTech(this);
         }
     }

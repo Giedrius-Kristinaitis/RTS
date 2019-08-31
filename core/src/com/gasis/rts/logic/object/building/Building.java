@@ -434,6 +434,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
             currentlyResearchedTech = tech;
             researching = true;
             progress = 0;
+            owner.addQueuedUpTech(tech.getId());
         }
     }
 
@@ -847,6 +848,8 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                     }
 
                     researching = false;
+
+                    owner.removeQueuedUpTech(currentlyResearchedTech.getId());
                 }
             }
         }

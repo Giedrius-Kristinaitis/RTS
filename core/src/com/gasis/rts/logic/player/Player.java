@@ -69,6 +69,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     // all techs researched by the player
     protected Set<String> researchedTechs = new HashSet<String>();
 
+    // currently queued up techs
+    protected Set<String> queuedUpTechs = new HashSet<String>();
+
     /**
      * Default class constructor
      */
@@ -77,6 +80,34 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         this.targetAssigner = targetAssigner;
 
         unitMover = new UnitMover(map, new PathFinder(map));
+    }
+
+    /**
+     * Adds a tech to the queued up list
+     *
+     * @param tech id of the tech to add
+     */
+    public void addQueuedUpTech(String tech) {
+        queuedUpTechs.add(tech);
+    }
+
+    /**
+     * Removes a tech from the queued up list
+     *
+     * @param tech id of the tech to remove
+     */
+    public void removeQueuedUpTech(String tech) {
+        queuedUpTechs.remove(tech);
+    }
+
+    /**
+     * Checks if a tech is queued up
+     *
+     * @param techId id of the tech
+     * @return
+     */
+    public boolean isTechQueuedUp(String techId) {
+        return queuedUpTechs.contains(techId);
     }
 
     /**

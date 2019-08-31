@@ -57,4 +57,12 @@ public abstract class Tech {
     public float getResearchTime() {
         return researchTime;
     }
+
+    /**
+     * Gets the tech's id
+     * @return
+     */
+    public String getId() {
+        return id;
+    }
 }
