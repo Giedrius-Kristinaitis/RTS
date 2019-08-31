@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.tech;
 
 import com.gasis.rts.filehandling.FileLineReader;
+import com.gasis.rts.logic.object.research.TechApplicationListener;
 import com.gasis.rts.logic.player.Player;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Any unit or building upgrade
  */
-public class UpgradeTech extends Tech {
+public class UpgradeTech extends Tech implements TechApplicationListener {
 
     // to what object type this tech applies
     protected List<String> objectCodes = new ArrayList<String>();
@@ -33,6 +34,7 @@ public class UpgradeTech extends Tech {
      *
      * @param player player the tech was applied to
      */
+    @Override
     public void applied(Player player) {
         player.addResearchedTech(id);
     }

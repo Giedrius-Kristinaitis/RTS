@@ -10,6 +10,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.production.UnitProducer;
 import com.gasis.rts.logic.object.production.UnitProductionListener;
+import com.gasis.rts.logic.object.research.TechApplicationListener;
 import com.gasis.rts.logic.object.research.TechReasearcher;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
@@ -841,7 +842,10 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                     spawnUnit();
                     producing = false;
                 } else if (researching) {
-                    currentlyResearchedTech.apply(owner);
+                    if (currentlyResearchedTech instanceof TechApplicationListener) {
+                        ((TechApplicationListener) currentlyResearchedTech).applied(owner);
+                    }
+
                     researching = false;
                 }
             }
