@@ -277,4 +277,20 @@ public class UnitLoader extends GameObjectLoader {
     public float getProductionTime() {
         return productionTime;
     }
+
+    /**
+     * Gets the unit's offensive specs
+     * @return
+     */
+    public OffensiveSpecs getOffensiveSpecs() {
+        return offensiveSpecs;
+    }
+
+    /**
+     * Gets the unit's defensive specs
+     * @return
+     */
+    public DefensiveSpecs getDefensiveSpecs() {
+        return defensiveSpecs;
+    }
 }

@@ -403,4 +403,20 @@ public class BuildingLoader extends GameObjectLoader {
     public byte getHeightInBlocks() {
         return heightInBlocks;
     }
+
+    /**
+     * Gets the building's offensive specs
+     * @return
+     */
+    public OffensiveSpecs getOffensiveSpecs() {
+        return offensiveSpecs;
+    }
+
+    /**
+     * Gets the building's defensive specs
+     * @return
+     */
+    public DefensiveSpecs getDefensiveSpecs() {
+        return defensiveSpecs;
+    }
 }
