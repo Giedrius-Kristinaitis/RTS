@@ -145,7 +145,7 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
             List<String> stats = reader.readLines("stat increase");
 
             for (String stat: stats) {
-                statIncreases.put(stat, Float.parseFloat(reader.readLine(stat + " increase")));
+                statIncreases.put(stat, Float.parseFloat(reader.readLine(stat + " increased by")));
             }
         } catch (Exception ex) {}
     }
