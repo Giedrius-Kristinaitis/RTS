@@ -192,8 +192,8 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the point to which the unit was ordered to 'attack move'
     protected Point attackMoveDestination;
 
-    // should the unit automatically toggle siege mode when necessary
-    protected boolean autoSiegeMode;
+    // the tech needed for siege mode to work
+    protected String siegeModeRequiredTechId;
 
     /**
      * Default class constructor
@@ -204,12 +204,12 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
-     * Sets the unit's auto siege mode flag
+     * Sets the tech that is required in order for siege mode to work
      *
-     * @param autoSiegeMode should the unit automatically toggle siege mode
+     * @param siegeModeRequiredTechId siege mode tech
      */
-    public void setAutoSiegeMode(boolean autoSiegeMode) {
-        this.autoSiegeMode = autoSiegeMode;
+    public void setSiegeModeRequiredTechId(String siegeModeRequiredTechId) {
+        this.siegeModeRequiredTechId = siegeModeRequiredTechId;
     }
 
     /**
@@ -884,7 +884,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param inSiegeMode is the unit in siege mode now
      */
     public void setInSiegeMode(boolean inSiegeMode) {
-        if (!siegeModeAvailable || (rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating) || siegeModeTransitionAnimation != null) {
+        if (!siegeModeAvailable || (rotatingToDirection != NONE && enterSiegeModeWhenFinishedRotating) || siegeModeTransitionAnimation != null || (siegeModeRequiredTechId != null && !owner.isTechResearched(siegeModeRequiredTechId))) {
             return;
         }
 
@@ -1401,7 +1401,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (!autoSiegeMode) {
+        if (siegeModeRequiredTechId != null && !owner.isTechResearched(siegeModeRequiredTechId)) {
             return;
         }
 

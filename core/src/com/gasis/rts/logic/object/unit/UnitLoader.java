@@ -59,6 +59,9 @@ public class UnitLoader extends GameObjectLoader {
     // how much time does it take to produce the unit (in seconds)
     protected float productionTime;
 
+    // the tech required in order for siege mode to work
+    protected String siegeModeRequiredTechId;
+
     /**
      * Default class constructor
      * @param map
@@ -96,6 +99,10 @@ public class UnitLoader extends GameObjectLoader {
             } catch (IllegalAccessException ex) {
                 ex.printStackTrace();
             }
+
+            try {
+                siegeModeRequiredTechId = reader.readLine("siege mode required tech id");
+            } catch (Exception ex) {}
 
             defensiveSpecs.setSiegeModeSightRange(Float.parseFloat(reader.readLine("siege mode sight range")));
 
@@ -244,6 +251,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setJunkAtlas(junkAtlas);
         unit.setHealingSpeed(healingSpeed);
         unit.setPassable(passable);
+        unit.setSiegeModeRequiredTechId(siegeModeRequiredTechId);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

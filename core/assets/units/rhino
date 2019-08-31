@@ -21,6 +21,7 @@ junk texture: tank_junk
 junk scale: 1
 firing textures available: false
 siege mode available: true
+siege mode required tech id: siege_mode_rhino
 siege mode facing directions: 1
 siege mode facing direction: EAST
 siege mode texture: rhino_siege_mode
