@@ -684,7 +684,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 return;
             }
 
-            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing))) {
+            if (!beingConstructed && ((animationsWhenActive && (producing || researching)) || (animationsWhenIdle && !producing && !researching))) {
                 for (Animation animation : animations) {
                     animation.update(delta);
                 }
