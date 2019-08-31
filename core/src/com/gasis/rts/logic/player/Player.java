@@ -229,6 +229,10 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         unit.setMovementRequestHandler(unitMover);
         unit.setPathInfoProvider(unitMover);
 
+        for (String tech: researchedTechs) {
+            unit.techResearched(this, tech);
+        }
+
         units.add(unit);
 
         state.units++;
@@ -252,6 +256,10 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         building.addDestructionListener(this);
         building.addConstructionListener(targetAssigner);
         building.addUnitProductionListener(targetAssigner);
+
+        for (String tech: researchedTechs) {
+            building.techResearched(this, tech);
+        }
 
         buildings.add(building);
 
