@@ -418,6 +418,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
             stopSelectedUnits();
             removeSelectedUnitTargets();
             controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), (short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT), true);
+            Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, (int) (x / Block.BLOCK_WIDTH) * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, (int) (y / Block.BLOCK_HEIGHT) * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
+            return true;
         }
 
         GameObject occupyingObject = map.getOccupyingObject((short) (x / Block.BLOCK_WIDTH), (short) (y / Block.BLOCK_HEIGHT));
