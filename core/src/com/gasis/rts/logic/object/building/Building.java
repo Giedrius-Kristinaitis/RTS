@@ -432,7 +432,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     public void queueUpTech(Tech tech) {
         if (!researching && !producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
             currentlyResearchedTech = tech;
-            producing = true;
+            researching = true;
             progress = 0;
         }
     }
