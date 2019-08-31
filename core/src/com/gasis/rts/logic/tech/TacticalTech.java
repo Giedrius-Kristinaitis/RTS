@@ -19,7 +19,7 @@ public class TacticalTech extends Tech {
      */
     @Override
     public void apply(Player player) {
-        if (action != null) {
+        if (action != null && (requiredTechId == null || player.isTechResearched(requiredTechId))) {
             if (action.equalsIgnoreCase("siege mode")) {
                 toggleUnitSiegeMode(player);
             }

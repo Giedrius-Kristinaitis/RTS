@@ -19,7 +19,7 @@ public class ProductionTech extends Tech {
      */
     @Override
     public void apply(Player player) {
-        if (unit != null && player.getSelectedBuilding() != null) {
+        if (unit != null && player.getSelectedBuilding() != null && (requiredTechId == null || player.isTechResearched(requiredTechId))) {
             UnitLoader loader = player.getFaction().getUnitLoaders().get(unit);
 
             if (loader != null) {

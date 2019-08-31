@@ -33,7 +33,7 @@ public class PlacementTech extends Tech {
      */
     @Override
     public void apply(Player player) {
-        if (building != null) {
+        if (building != null && (requiredTechId == null || player.isTechResearched(requiredTechId))) {
             BuildingLoader loader = player.getFaction().getBuildingLoaders().get(building);
 
             // if the loader is null, that means the faction doesn't have this building

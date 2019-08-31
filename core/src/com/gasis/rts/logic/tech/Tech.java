@@ -15,6 +15,9 @@ public abstract class Tech {
     // time to research the tech (in seconds)
     protected float researchTime;
 
+    // the tech that is needed in order to research this tech
+    protected String requiredTechId;
+
     /**
      * Applies the tech to the specified player
      *
@@ -37,6 +40,10 @@ public abstract class Tech {
 
         try {
             researchTime = Float.parseFloat(reader.readLine("research time"));
+        } catch (Exception ex) {}
+
+        try {
+            requiredTechId = reader.readLine("required tech id");
         } catch (Exception ex) {}
 
         return loadData(reader);
