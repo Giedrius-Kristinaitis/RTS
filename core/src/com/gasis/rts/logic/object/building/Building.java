@@ -875,7 +875,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 renderDamagePointTextures(batch, resources);
             }
 
-            if (!beingConstructed && ((animationsWhenActive && producing) || (animationsWhenIdle && !producing)) && (electricityAvailable || electricityRequirement == 0)) {
+            if (!beingConstructed && ((animationsWhenActive && (producing || researching)) || (animationsWhenIdle && !producing && !researching)) && (electricityAvailable || electricityRequirement == 0)) {
                 for (Animation animation : animations) {
                     animation.render(batch, resources);
                 }
@@ -887,7 +887,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 renderGatherPoint(batch, resources);
             }
 
-            if (producing) {
+            if (producing || researching) {
                 renderProgress(batch, resources);
             }
 
