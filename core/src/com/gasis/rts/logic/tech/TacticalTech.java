@@ -48,14 +48,9 @@ public class TacticalTech extends Tech {
      * @return
      */
     @Override
-    protected boolean loadData(FileLineReader reader) {
+    protected void loadData(FileLineReader reader) {
         try {
             action = reader.readLine("action");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        return true;
+        } catch (Exception ex) {}
     }
 }

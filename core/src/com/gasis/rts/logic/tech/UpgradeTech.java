@@ -46,14 +46,10 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
      * @return
      */
     @Override
-    protected boolean loadData(FileLineReader reader) {
+    protected void loadData(FileLineReader reader) {
         try {
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        return true;
+            List<String> objectCodes = reader.readLines("applies to object");
+            this.objectCodes.addAll(objectCodes);
+        } catch (Exception ex) {}
     }
 }

@@ -31,7 +31,7 @@ public abstract class Tech {
      * @param file file to load the tech from
      * @return
      */
-    public final boolean load(FileHandle file) {
+    public final void load(FileHandle file) {
         FileLineReader reader = new FileLineReader(file.read(), ":");
 
         try {
@@ -46,7 +46,7 @@ public abstract class Tech {
             requiredTechId = reader.readLine("required tech id");
         } catch (Exception ex) {}
 
-        return loadData(reader);
+        loadData(reader);
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class Tech {
      * @param reader file reader to read data from
      * @return
      */
-    protected abstract boolean loadData(FileLineReader reader);
+    protected abstract void loadData(FileLineReader reader);
 
     /**
      * Gets the tech's research time

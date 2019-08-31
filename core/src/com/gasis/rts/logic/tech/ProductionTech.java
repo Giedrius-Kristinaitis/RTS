@@ -35,14 +35,9 @@ public class ProductionTech extends Tech {
      * @return
      */
     @Override
-    protected boolean loadData(FileLineReader reader) {
+    protected void loadData(FileLineReader reader) {
         try {
             unit = reader.readLine("unit");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        return true;
+        } catch (Exception ex) {}
     }
 }

@@ -51,14 +51,9 @@ public class PlacementTech extends Tech {
      * @return
      */
     @Override
-    protected boolean loadData(FileLineReader reader) {
+    protected void loadData(FileLineReader reader) {
         try {
             building = reader.readLine("building");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
-
-        return true;
+        } catch (Exception ex) {}
     }
 }
