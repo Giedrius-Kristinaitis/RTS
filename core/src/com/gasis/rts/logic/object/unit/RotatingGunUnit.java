@@ -28,6 +28,34 @@ public class RotatingGunUnit extends Unit {
     }
 
     /**
+     * Sets the x coordinate of the object's center point
+     *
+     * @param x new center x
+     */
+    @Override
+    public void setCenterX(float x) {
+        super.setCenterX(x);
+
+        for (RotatingGun gun: guns.values()) {
+            updateGunPosition(gun);
+        }
+    }
+
+    /**
+     * Sets the y coordinate of the object's center point
+     *
+     * @param y new center y
+     */
+    @Override
+    public void setCenterY(float y) {
+        super.setCenterY(y);
+
+        for (RotatingGun gun: guns.values()) {
+            updateGunPosition(gun);
+        }
+    }
+
+    /**
      * Adds a rotating gun to the unit
      *
      * @param name name used to identify the gun
@@ -148,8 +176,7 @@ public class RotatingGunUnit extends Unit {
         // update the rotating guns
         for (RotatingGun gun: guns.values()) {
             if (gun.isCurrentlyPresent()) {
-                gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
-                gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
+                updateGunPosition(gun);
                 gun.update(siegeModeTransitionAnimation != null, delta, true);
 
                 if (!gun.hasTarget() && !inSiegeMode) {
@@ -161,6 +188,16 @@ public class RotatingGunUnit extends Unit {
                 }
             }
         }
+    }
+
+    /**
+     * Updates the position of a rotating gun
+     *
+     * @param gun gun to update the position for
+     */
+    protected void updateGunPosition(RotatingGun gun) {
+        gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(facingDirection));
+        gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(facingDirection));
     }
 
     /**
