@@ -28,6 +28,9 @@ public class PathFinder implements PathFinderInterface {
     // the maximum allowed distance the algorithm can cover to avoid an obstacle
     protected float maxObstacleDistance;
 
+    // how many times can a single object request for a new path per second
+    public static final int MAX_PATH_FINDS_PER_SECOND = 3;
+
     /**
      * Default class constructor
      *
@@ -129,6 +132,14 @@ public class PathFinder implements PathFinderInterface {
         if (newestGroup == null) {
             throw new IllegalStateException("No path groups created");
         }
+
+        long currentTimestamp = System.currentTimeMillis();
+
+        if (currentTimestamp - object.getLastPathFindingTimestamp() < 1000f / (float) MAX_PATH_FINDS_PER_SECOND) {
+            return;
+        }
+
+        object.setLastPathFindingTimestamp(currentTimestamp);
 
         Point startPoint = getObjectCoordinates(object);
         Point destination = new Point(x, y);

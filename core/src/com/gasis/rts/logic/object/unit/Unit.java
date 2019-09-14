@@ -195,12 +195,32 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the tech needed for siege mode to work
     protected String siegeModeRequiredTechId;
 
+    // the last time the unit's path was found
+    protected long lastPathFindingTimestamp;
+
     /**
      * Default class constructor
      * @param map
      */
     public Unit(BlockMap map) {
         super(map);
+    }
+
+    /**
+     * Gets the timestamp at which the unit's path was last found
+     * @return
+     */
+    public long getLastPathFindingTimestamp() {
+        return lastPathFindingTimestamp;
+    }
+
+    /**
+     * Sets the timestamp of the last moment when the unit's path was found
+     *
+     * @param lastPathFindingTimestamp last timestamp
+     */
+    public void setLastPathFindingTimestamp(long lastPathFindingTimestamp) {
+        this.lastPathFindingTimestamp = lastPathFindingTimestamp;
     }
 
     /**

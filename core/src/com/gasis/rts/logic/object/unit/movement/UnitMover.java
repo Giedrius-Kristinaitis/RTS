@@ -6,6 +6,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.CombatUtils;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.pathfinding.PathFinder;
 import com.gasis.rts.logic.pathfinding.PathFinderInterface;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
@@ -387,12 +388,12 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                                 pathFinder.refindPathToObject(unit);
                                 anyGroupUnitMoved = true;
                             }
-                        } else if (nextPathPoint == null && !group.attackMove) {
+                        } else if (nextPathPoint == null && !group.attackMove && System.currentTimeMillis() - unit.getLastPathFindingTimestamp() >= 1000f / (float) PathFinder.MAX_PATH_FINDS_PER_SECOND) {
                             // the unit has arrived at it's destination and needs to be removed
                             unitsToRemove.add(unit);
                         }
 
-                        if (unit.isRotating() || unit.isMoving()) {
+                        if (unit.isRotating() || unit.isMoving() || System.currentTimeMillis() - unit.getLastPathFindingTimestamp() < 1000f / (float) PathFinder.MAX_PATH_FINDS_PER_SECOND) {
                             anyGroupUnitMoved = true;
                         }
                     } else {
