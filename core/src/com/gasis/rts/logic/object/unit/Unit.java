@@ -562,7 +562,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             setCenterX(getCenterX() + (finalCenterX - startingCenterX) / 4 * offensiveSpecs.getSpeed() * delta);
             setCenterY(getCenterY() + (finalCenterY - startingCenterY) / 4 * offensiveSpecs.getSpeed() * delta);
 
-            if (Math.abs(getCenterX() - finalCenterX) < 0.05f && Math.abs(getCenterY() - finalCenterY) < 0.05f) {
+            if (MathUtils.distance(getCenterX(), startingCenterX, getCenterY(), startingCenterY) >= MathUtils.distance(finalCenterX, startingCenterX, finalCenterY, startingCenterY)) {
                 moving = false;
                 notifyDestinationListeners();
 
