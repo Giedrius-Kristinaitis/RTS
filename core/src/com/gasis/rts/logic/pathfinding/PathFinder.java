@@ -366,8 +366,8 @@ public class PathFinder implements PathFinderInterface {
      */
     protected Point getObjectCoordinates(Unit object) {
         return new Point(
-                (short) (object.getCenterX() / Block.BLOCK_WIDTH),
-                (short) (object.getCenterY() / Block.BLOCK_HEIGHT)
+                (short) object.getOccupiedBlockX(),
+                (short) object.getOccupiedBlockY()
         );
     }
 
