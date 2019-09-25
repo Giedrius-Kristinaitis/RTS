@@ -1742,4 +1742,20 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
             }
         }
     }
+
+    /**
+     * Gets the unit's final center x
+     * @return
+     */
+    public float getFinalCenterX() {
+        return finalCenterX;
+    }
+
+    /**
+     * Gets the unit's final center y
+     * @return
+     */
+    public float getFinalCenterY() {
+        return finalCenterY;
+    }
 }

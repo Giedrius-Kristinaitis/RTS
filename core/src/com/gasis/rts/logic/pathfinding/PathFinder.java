@@ -365,10 +365,17 @@ public class PathFinder implements PathFinderInterface {
      * @return
      */
     protected Point getObjectCoordinates(Unit object) {
-        return new Point(
-                (short) object.getOccupiedBlockX(),
-                (short) object.getOccupiedBlockY()
-        );
+        if (!object.isMoving()) {
+            return new Point(
+                    (short) (object.getCenterX() / Block.BLOCK_WIDTH),
+                    (short) (object.getCenterY() / Block.BLOCK_HEIGHT)
+            );
+        } else {
+            return new Point(
+                    (short) (object.getFinalCenterX() / Block.BLOCK_WIDTH),
+                    (short) (object.getFinalCenterY() / Block.BLOCK_HEIGHT)
+            );
+        }
     }
 
     /**
