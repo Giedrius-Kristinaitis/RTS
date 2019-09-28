@@ -101,6 +101,10 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param y y of the block in block map coordinates
      */
     public void moveUnits(Set<Unit> units, short x, short y) {
+        if (units.size() > 1) {
+            resetLastPathFindingTimestamps(units);
+        }
+
         for (Unit unit: units) {
             unit.setAttackMove(false);
             unit.setAttackMoveDestination(null);
@@ -117,6 +121,17 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
         addMovementListeners(units);
         initializeMovementStates(units);
+    }
+
+    /**
+     * Resets last path finding timestamps for the given units
+     *
+     * @param units units to reset timestamps for
+     */
+    protected void resetLastPathFindingTimestamps(Set<Unit> units) {
+        for (Unit unit: units) {
+            unit.setLastPathFindingTimestamp(System.currentTimeMillis() - 1000);
+        }
     }
 
     /**
@@ -180,61 +195,63 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param destY destination y
      */
     protected void calculateDestinationsAndMoveUnits(UnitGroup group, short destX, short destY) {
-        if (group.units.isEmpty()) {
-            return;
-        }
-
-        calculateUnitDistances(group.units, destX, destY);
-
-        short currentIterationSize = 3;
-
-        /*
-         * The following code might appear ugly to some people,
-         *
-         * READER DISCRETION IS ADVISED
-         */
-
-        pathFinder.findPathToObject(unitDistances.pollFirst().unit, destX, destY);
-
-        while (!unitDistances.isEmpty()) {
-            // loop through the top side
-            for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
-                if (!unitDistances.isEmpty()) {
-                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY + (short) (currentIterationSize / 2)));
-                } else {
-                    break;
-                }
+        try {
+            if (group.units.isEmpty()) {
+                return;
             }
 
-            // loop through the bottom side
-            for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
-                if (!unitDistances.isEmpty()) {
-                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY - (short) (currentIterationSize / 2)));
-                } else {
-                    break;
-                }
-            }
+            calculateUnitDistances(group.units, destX, destY);
 
-            // loop through the left side
-            for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
-                if (!unitDistances.isEmpty()) {
-                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX - (short) (currentIterationSize / 2)), (short) y);
-                } else {
-                    break;
-                }
-            }
+            short currentIterationSize = 3;
 
-            // loop through the right side
-            for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
-                if (!unitDistances.isEmpty()) {
-                    pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX + (short) (currentIterationSize / 2)), (short) y);
-                } else {
-                    break;
-                }
-            }
+            /*
+             * The following code might appear ugly to some people,
+             *
+             * READER DISCRETION IS ADVISED
+             */
 
-            currentIterationSize += 2;
-        }
+            pathFinder.findPathToObject(unitDistances.pollFirst().unit, destX, destY);
+
+            while (!unitDistances.isEmpty()) {
+                // loop through the top side
+                for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
+                    if (!unitDistances.isEmpty()) {
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY + (short) (currentIterationSize / 2)));
+                    } else {
+                        break;
+                    }
+                }
+
+                // loop through the bottom side
+                for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
+                    if (!unitDistances.isEmpty()) {
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY - (short) (currentIterationSize / 2)));
+                    } else {
+                        break;
+                    }
+                }
+
+                // loop through the left side
+                for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
+                    if (!unitDistances.isEmpty()) {
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX - (short) (currentIterationSize / 2)), (short) y);
+                    } else {
+                        break;
+                    }
+                }
+
+                // loop through the right side
+                for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
+                    if (!unitDistances.isEmpty()) {
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX + (short) (currentIterationSize / 2)), (short) y);
+                    } else {
+                        break;
+                    }
+                }
+
+                currentIterationSize += 2;
+            }
+        } catch (Exception ex) {}
     }
 
     /**
