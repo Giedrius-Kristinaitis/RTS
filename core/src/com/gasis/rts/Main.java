@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.resources.Resources;
-import com.gasis.rts.ui.abstractions.BasicScreen;
-import com.gasis.rts.ui.abstractions.ScreenSwitcher;
-import com.gasis.rts.ui.abstractions.ScreenWithInput;
-import com.gasis.rts.ui.implementations.GameScreen;
-import com.gasis.rts.ui.implementations.LoadingScreen;
+import com.gasis.rts.ui.screen.abstractions.BasicScreen;
+import com.gasis.rts.ui.screen.abstractions.ScreenSwitcher;
+import com.gasis.rts.ui.screen.abstractions.ScreenWithInput;
+import com.gasis.rts.ui.screen.implementations.GameScreen;
+import com.gasis.rts.ui.screen.implementations.LoadingScreen;
 import com.gasis.rts.utils.Constants;
 
 import java.util.Map;

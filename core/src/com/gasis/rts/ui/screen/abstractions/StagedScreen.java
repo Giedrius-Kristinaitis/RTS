@@ -1,4 +1,4 @@
-package com.gasis.rts.ui.abstractions;
+package com.gasis.rts.ui.screen.abstractions;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;

@@ -1,4 +1,4 @@
-package com.gasis.rts.ui.abstractions;
+package com.gasis.rts.ui.screen.abstractions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;

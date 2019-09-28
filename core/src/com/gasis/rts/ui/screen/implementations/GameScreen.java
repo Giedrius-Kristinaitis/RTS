@@ -1,11 +1,11 @@
-package com.gasis.rts.ui.implementations;
+package com.gasis.rts.ui.screen.implementations;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gasis.rts.logic.GameInstance;
-import com.gasis.rts.ui.abstractions.StagedScreen;
+import com.gasis.rts.ui.screen.abstractions.StagedScreen;
 
 /**
  * Game screen. Displays game world and ui
