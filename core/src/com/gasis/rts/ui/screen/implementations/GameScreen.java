@@ -24,7 +24,7 @@ public class GameScreen extends StagedScreen {
         game.setCamera((OrthographicCamera) port.getCamera());
         game.setViewport(port);
     }
- 
+
     /**
      * Performs ui setup
      * @param stage stage to put ui widgets in
