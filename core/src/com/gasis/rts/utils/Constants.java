@@ -22,6 +22,9 @@ public class Constants {
     public static final String FOLDER_SOUNDS = "sounds/";
     public static final String FOLDER_UI = "ui/";
 
+    // ui files
+    public static final String UI_FILE_HUD = "hud";
+
     // global textures
     public static final String GENERAL_TEXTURE_ATLAS = "atl/general.atlas";
     public static final String CRATER_TEXTURE_ATLAS = "craters.atlas";
