@@ -155,6 +155,18 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     }
 
     /**
+     * Sets the component's position
+     *
+     * @param x new x
+     * @param y new y
+     */
+    @Override
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
      * Gets the component's x
      *
      * @return
@@ -262,7 +274,7 @@ public class Component implements ComponentInterface, Updatable, Renderable {
      * Notifies all listeners that the component has been clicked
      */
     protected void notifyClickListeners() {
-        for (ClickListener listener: clickListeners) {
+        for (ClickListener listener : clickListeners) {
             listener.clicked(this);
         }
     }

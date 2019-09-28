@@ -166,4 +166,12 @@ public interface ComponentInterface {
      * @return
      */
     boolean isClicked();
+
+    /**
+     * Sets the component's position
+     *
+     * @param x new x
+     * @param y new y
+     */
+    void setPosition(float x, float y);
 }

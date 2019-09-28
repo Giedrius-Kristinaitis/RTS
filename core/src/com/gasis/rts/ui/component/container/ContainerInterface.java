@@ -27,7 +27,7 @@ public interface ContainerInterface {
      * @param x x of the mouse
      * @param y y of the mouse
      */
-    void mouseMoved(float x, float y);
+    boolean mouseMoved(float x, float y);
 
     /**
      * Called when the mouse if pressed down
@@ -35,7 +35,7 @@ public interface ContainerInterface {
      * @param x x of the mouse
      * @param y y of the mouse
      */
-    void mouseDown(float x, float y);
+    boolean mouseDown(float x, float y);
 
     /**
      * Called when the mouse is released
@@ -43,14 +43,14 @@ public interface ContainerInterface {
      * @param x x of the mouse
      * @param y y of the mouse
      */
-    void mouseUp(float x, float y);
+    boolean mouseUp(float x, float y);
 
     /**
      * Called when the mouse is scrolled
      *
      * @param amount scroll amount
      */
-    void mouseScrolled(int amount);
+    boolean mouseScrolled(int amount);
 
     /**
      * Sets the container's vertical scrolling flag
@@ -65,4 +65,23 @@ public interface ContainerInterface {
      * @param scrollable is the container horizontally scrollable
      */
     void setHorizontallyScrollable(boolean scrollable);
+
+    /**
+     * Checks if the container is vertically scrollable
+     *
+     * @return
+     */
+    boolean isVerticallyScrollable();
+
+    /**
+     * Checks if the container is horizontally scrollable
+     *
+     * @return
+     */
+    boolean isHorizontallyScrollable();
+
+    /**
+     * Updates children components' positions
+     */
+    void updateChildrenPositions();
 }
