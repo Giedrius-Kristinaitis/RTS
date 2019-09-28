@@ -2,19 +2,11 @@ package com.gasis.rts.ui.component;
 
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
-import com.gasis.rts.ui.event.ClickListener;
 
 /**
  * A UI component
  */
 public interface ComponentInterface extends Renderable, Updatable {
-
-    /**
-     * Adds a click listener to the component
-     *
-     * @param listener listener to add
-     */
-    void addClickListener(ClickListener listener);
 
     /**
      * Sets the texture atlas to use for the component
