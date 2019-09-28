@@ -391,6 +391,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
             anyGroupUnitMoved = false;
 
             for (Unit unit : group.units) {
+                if (unit.isDestroyed()) {
+                    unitsToRemove.add(unit);
+                    continue;
+                }
+
                 if (movementStates.containsKey(unit)) {
                     if (!movementStates.get(unit)) {
                         Point nextPathPoint = pathFinder.getNextPathPointForObject(unit);
