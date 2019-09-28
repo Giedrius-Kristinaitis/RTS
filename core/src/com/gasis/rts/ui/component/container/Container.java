@@ -166,6 +166,10 @@ public class Container extends Component implements ContainerInterface {
      */
     @Override
     public boolean mouseScrolled(int amount) {
+        if (!verticallyScrollable) {
+            return false;
+        }
+        
         boolean eventHandled = false;
 
         for (Container container : childContainers) {
