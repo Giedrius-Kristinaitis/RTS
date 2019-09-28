@@ -1,119 +1,167 @@
 package com.gasis.rts.ui.component;
 
 /**
- * A UI component
+ * Abstract UI component
  */
-public interface ComponentInterface {
+public class AbstractComponent implements ComponentInterface {
 
     /**
      * Sets the texture atlas to use for the component
      *
      * @param textureAtlas name of the atlas to use
      */
-    void setTextureAtlas(String textureAtlas);
+    @Override
+    public void setTextureAtlas(String textureAtlas) {
+
+    }
 
     /**
      * Sets the component's background texture
      *
      * @param backgroundTexture background texture
      */
-    void setBackgroundTexture(String backgroundTexture);
+    @Override
+    public void setBackgroundTexture(String backgroundTexture) {
+
+    }
 
     /**
      * Sets the component's hover background texture
      *
      * @param hoverBackgroundTexture hover background texture
      */
-    void setHoverBackgroundTexture(String hoverBackgroundTexture);
+    @Override
+    public void setHoverBackgroundTexture(String hoverBackgroundTexture) {
+
+    }
 
     /**
      * Sets the component's active background texture
      *
      * @param activeBackgroundTexture active background texture
      */
-    void setActiveBackgroundTexture(String activeBackgroundTexture);
+    @Override
+    public void setActiveBackgroundTexture(String activeBackgroundTexture) {
+
+    }
 
     /**
      * Gets the component's texture atlas
      *
      * @return
      */
-    String getTextureAtlas();
+    @Override
+    public String getTextureAtlas() {
+        return null;
+    }
 
     /**
      * Gets the component's background texture
      *
      * @return
      */
-    String getBackgroundTexture();
+    @Override
+    public String getBackgroundTexture() {
+        return null;
+    }
 
     /**
      * Gets the component's hover background texture
      *
      * @return
      */
-    String getHoverBackgroundTexture();
+    @Override
+    public String getHoverBackgroundTexture() {
+        return null;
+    }
 
     /**
      * Gets the component's active background texture
      *
      * @return
      */
-    String getActiveBackgroundTexture();
+    @Override
+    public String getActiveBackgroundTexture() {
+        return null;
+    }
 
     /**
      * Sets the component's x position
      *
      * @param x x
      */
-    void setX(float x);
+    @Override
+    public void setX(float x) {
+
+    }
 
     /**
      * Sets the component's y position
      *
      * @param y y
      */
-    void setY(float y);
+    @Override
+    public void setY(float y) {
+
+    }
 
     /**
      * Sets the component's width
      *
      * @param width width
      */
-    void setWidth(float width);
+    @Override
+    public void setWidth(float width) {
+
+    }
 
     /**
      * Sets the component's height
      *
      * @param height width
      */
-    void setHeight(float height);
+    @Override
+    public void setHeight(float height) {
+
+    }
 
     /**
      * Gets the component's x
      *
      * @return
      */
-    float getX();
+    @Override
+    public float getX() {
+        return 0;
+    }
 
     /**
      * Gets the component's y
      *
      * @return
      */
-    float getY();
+    @Override
+    public float getY() {
+        return 0;
+    }
 
     /**
      * Gets the component's width
      *
      * @return
      */
-    float getWidth();
+    @Override
+    public float getWidth() {
+        return 0;
+    }
 
     /**
      * Gets the component's height
      *
      * @return
      */
-    float getHeight();
+    @Override
+    public float getHeight() {
+        return 0;
+    }
 }
