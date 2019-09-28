@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.ui.event.ClickListener;
 import com.gasis.rts.utils.Constants;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Abstract UI component
@@ -15,6 +19,7 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     protected String textureAtlas;
     protected String backgroundTexture;
     protected String hoverBackgroundTexture;
+    protected String activeBackgroundTexture;
 
     // positioning of the component
     protected float x;
@@ -24,6 +29,12 @@ public class Component implements ComponentInterface, Updatable, Renderable {
 
     // is the component currently hovered over
     protected boolean hover;
+
+    // click listeners
+    protected Set<ClickListener> clickListeners = new HashSet<ClickListener>();
+
+    // is the component currently clicked on
+    protected boolean clicked;
 
     /**
      * Sets the texture atlas to use for the component
@@ -204,6 +215,69 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     }
 
     /**
+     * Adds a click listener to the component
+     *
+     * @param listener listener to add
+     */
+    @Override
+    public void addClickListener(ClickListener listener) {
+        clickListeners.add(listener);
+    }
+
+    /**
+     * Sets the component's active background texture
+     *
+     * @param activeBackgroundTexture active background texture
+     */
+    @Override
+    public void setActiveBackgroundTexture(String activeBackgroundTexture) {
+        this.activeBackgroundTexture = activeBackgroundTexture;
+    }
+
+    /**
+     * Gets the component's active background texture
+     *
+     * @return
+     */
+    @Override
+    public String getActiveBackgroundTexture() {
+        return activeBackgroundTexture;
+    }
+
+    /**
+     * Sets the component's clicked flag
+     *
+     * @param clicked is the component clicked
+     */
+    @Override
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+
+        if (clicked) {
+            notifyClickListeners();
+        }
+    }
+
+    /**
+     * Notifies all listeners that the component has been clicked
+     */
+    protected void notifyClickListeners() {
+        for (ClickListener listener: clickListeners) {
+            listener.clicked(this);
+        }
+    }
+
+    /**
+     * Checks if the component is clicked
+     *
+     * @return
+     */
+    @Override
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    /**
      * Called when the component's size changes
      */
     @Override
@@ -229,6 +303,18 @@ public class Component implements ComponentInterface, Updatable, Renderable {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources) {
+        if (clicked && activeBackgroundTexture != null) {
+            batch.draw(
+                    resources.atlas(Constants.FOLDER_ATLASES + textureAtlas).findRegion(activeBackgroundTexture),
+                    x,
+                    y,
+                    width,
+                    height
+            );
+
+            return;
+        }
+
         if (hover && hoverBackgroundTexture != null) {
             batch.draw(
                     resources.atlas(Constants.FOLDER_ATLASES + textureAtlas).findRegion(hoverBackgroundTexture),
