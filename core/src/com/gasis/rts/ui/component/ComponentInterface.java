@@ -27,13 +27,6 @@ public interface ComponentInterface {
     void setHoverBackgroundTexture(String hoverBackgroundTexture);
 
     /**
-     * Sets the component's active background texture
-     *
-     * @param activeBackgroundTexture active background texture
-     */
-    void setActiveBackgroundTexture(String activeBackgroundTexture);
-
-    /**
      * Gets the component's texture atlas
      *
      * @return
@@ -53,13 +46,6 @@ public interface ComponentInterface {
      * @return
      */
     String getHoverBackgroundTexture();
-
-    /**
-     * Gets the component's active background texture
-     *
-     * @return
-     */
-    String getActiveBackgroundTexture();
 
     /**
      * Sets the component's x position
@@ -116,4 +102,18 @@ public interface ComponentInterface {
      * @return
      */
     float getHeight();
+
+    /**
+     * Sets the component's hover flag
+     *
+     * @param hover is the component hovered over
+     */
+    void setHover(boolean hover);
+
+    /**
+     * Checks if the component is hovered over
+     *
+     * @return
+     */
+    boolean isHover();
 }

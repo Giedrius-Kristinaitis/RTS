@@ -1,6 +1,6 @@
 package com.gasis.rts.ui.event;
 
-import com.gasis.rts.ui.component.ComponentInterface;
+import com.gasis.rts.ui.component.ClickableComponentInterface;
 
 /**
  * UI component's click callback interface
@@ -12,5 +12,5 @@ public interface ClickListener {
      *
      * @param component component that was just clicked
      */
-    void clicked(ComponentInterface component);
+    void clicked(ClickableComponentInterface component);
 }
