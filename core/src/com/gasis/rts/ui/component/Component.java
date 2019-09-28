@@ -113,6 +113,8 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     @Override
     public void setWidth(float width) {
         this.width = width;
+
+        sizeChanged();
     }
 
     /**
@@ -123,6 +125,22 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     @Override
     public void setHeight(float height) {
         this.height = height;
+
+        sizeChanged();
+    }
+
+    /**
+     * Sets the size of the component
+     *
+     * @param width  new width
+     * @param height new height
+     */
+    @Override
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+
+        sizeChanged();
     }
 
     /**
@@ -183,6 +201,14 @@ public class Component implements ComponentInterface, Updatable, Renderable {
     @Override
     public boolean isHover() {
         return hover;
+    }
+
+    /**
+     * Called when the component's size changes
+     */
+    @Override
+    public void sizeChanged() {
+
     }
 
     /**

@@ -116,4 +116,17 @@ public interface ComponentInterface {
      * @return
      */
     boolean isHover();
+
+    /**
+     * Called when the component's size changes
+     */
+    void sizeChanged();
+
+    /**
+     * Sets the size of the component
+     *
+     * @param width  new width
+     * @param height new height
+     */
+    void setSize(float width, float height);
 }
