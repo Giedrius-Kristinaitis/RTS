@@ -16,6 +16,7 @@ import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.UnitMover;
 import com.gasis.rts.logic.pathfinding.PathFinder;
+import com.gasis.rts.logic.player.exploration.ExplorationData;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -80,6 +81,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         this.targetAssigner = targetAssigner;
 
         unitMover = new UnitMover(map, new PathFinder(map));
+
+        state.explorationData = new ExplorationData();
+        state.explorationData.init((short) map.getWidth(), (short) map.getHeight());
     }
 
     /**

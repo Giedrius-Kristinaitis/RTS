@@ -1,5 +1,7 @@
 package com.gasis.rts.logic.player;
 
+import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
+
 /**
  * Holds player's state: money, electricity, other statistics...
  */
@@ -16,4 +18,6 @@ public class PlayerState {
     public int unitsLost;
     public int buildingsRaised;
     public int buildingsLost;
+
+    public ExplorationDataInterface explorationData;
 }
