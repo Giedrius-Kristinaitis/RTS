@@ -38,8 +38,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
     // the game's map
     protected BlockMap map;
 
-    // has any unit in a group of units moved
-    protected boolean anyGroupUnitMoved;
+    // has any unit in a group of units been active
+    protected boolean anyGroupUnitWasActive;
+
+    // has any unit in a group been ordered to move
+    protected boolean anyGroupUnitOrderedToMove;
 
     // used to temporarily store units' distances to the destination point
     protected TreeSet<UnitDistance> unitDistances = new TreeSet<UnitDistance>();
@@ -292,6 +295,8 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
             }
         }
 
+        group.maxIdleTime = Math.max(21 - group.units.size(), 10);
+
         return group;
     }
 
@@ -388,7 +393,8 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
     @Override
     public void update(float delta) {
         for (UnitGroup group: groups) {
-            anyGroupUnitMoved = false;
+            anyGroupUnitWasActive = false;
+            anyGroupUnitOrderedToMove = false;
 
             for (Unit unit : group.units) {
                 if (unit.isDestroyed()) {
@@ -406,9 +412,11 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
                             if (occupyingObject == null || occupyingObject.isPassable() || occupyingUnit == unit) {
                                 unit.move(CombatUtils.getFacingDirection(unit.getCenterX(), unit.getCenterY(), nextPathPoint.x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, nextPathPoint.y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f));
+                                anyGroupUnitOrderedToMove = true;
+                                anyGroupUnitWasActive = true;
                             } else if (occupyingUnit == null || (!occupyingUnit.isMoving() && !group.units.contains(occupyingUnit))) {
                                 pathFinder.refindPathToObject(unit);
-                                anyGroupUnitMoved = true;
+                                anyGroupUnitWasActive = true;
                             }
                         } else if (nextPathPoint == null && !group.attackMove && System.currentTimeMillis() - unit.getLastPathFindingTimestamp() >= 1000f / (float) PathFinder.MAX_PATH_FINDS_PER_SECOND) {
                             // the unit has arrived at it's destination and needs to be removed
@@ -416,15 +424,15 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                         }
 
                         if (unit.isRotating() || unit.isMoving() || System.currentTimeMillis() - unit.getLastPathFindingTimestamp() < 1000f / (float) PathFinder.MAX_PATH_FINDS_PER_SECOND) {
-                            anyGroupUnitMoved = true;
+                            anyGroupUnitWasActive = true;
                         }
                     } else {
-                        anyGroupUnitMoved = true;
+                        anyGroupUnitWasActive = true;
                     }
                 }
 
                 if (unit.isAttackMove() && unit.hasTargetObject()) {
-                    anyGroupUnitMoved = true;
+                    anyGroupUnitWasActive = true;
                 }
             }
 
@@ -439,11 +447,19 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 unitsToRemove.clear();
             }
 
-            if (!anyGroupUnitMoved && group.units.size() > 1) {
+            if (anyGroupUnitOrderedToMove) {
+                group.timeSinceLastUnitMovement = 0;
+            }
+
+            if (!anyGroupUnitWasActive && group.units.size() > 1) {
                 groupsToRemove.add(group);
             } else if (group.units.isEmpty()) {
                 groupsToRemove.add(group);
+            } else if (group.timeSinceLastUnitMovement > group.maxIdleTime) {
+                groupsToRemove.add(group);
             }
+
+            group.timeSinceLastUnitMovement += delta;
         }
 
         if (groupsToRemove.size() > 0) {
@@ -474,6 +490,8 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
         protected Set<Unit> units = new HashSet<Unit>();
         protected boolean attackMove = false;
+        protected float timeSinceLastUnitMovement;
+        protected float maxIdleTime;
     }
 
     /**
