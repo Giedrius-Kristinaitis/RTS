@@ -17,6 +17,7 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.UnitMover;
 import com.gasis.rts.logic.pathfinding.PathFinder;
 import com.gasis.rts.logic.player.exploration.ExplorationData;
+import com.gasis.rts.logic.player.exploration.ExplorationDataManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -73,6 +74,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     // currently queued up techs
     protected Set<String> queuedUpTechs = new HashSet<String>();
 
+    // manages exploration data
+    protected ExplorationDataManager explorationDataManager = new ExplorationDataManager();
+
     /**
      * Default class constructor
      */
@@ -84,6 +88,8 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
         state.explorationData = new ExplorationData();
         state.explorationData.init((short) map.getWidth(), (short) map.getHeight());
+
+        explorationDataManager.setExplorationData(state.explorationData);
     }
 
     /**
@@ -263,6 +269,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         unit.addSiegeModeListener(targetAssigner);
         unit.setMovementRequestHandler(unitMover);
         unit.setPathInfoProvider(unitMover);
+        unit.addMovementListener(explorationDataManager);
 
         for (String tech: researchedTechs) {
             unit.techResearched(this, tech);
@@ -291,6 +298,8 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         building.addDestructionListener(this);
         building.addConstructionListener(targetAssigner);
         building.addUnitProductionListener(targetAssigner);
+        building.addConstructionListener(explorationDataManager);
+        building.addUnitProductionListener(explorationDataManager);
 
         for (String tech: researchedTechs) {
             building.techResearched(this, tech);
