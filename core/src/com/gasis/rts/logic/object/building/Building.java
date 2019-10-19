@@ -484,7 +484,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 }
 
                 // loop through the top side of the square
-                for (short x = (short) (closest.x - (short) (size / 2)); x < closest.x + (short) (size / 2); x++) {
+                for (short x = (short) (closest.x - (short) (size / 2)); x <= closest.x + (short) (size / 2); x++) {
                     if (map.isBlockPassable(x, (short) (closest.y + (short) (size / 2))) && !map.isBlockOccupied(x, (short) (closest.y + (short) (size / 2)))) {
                         closest.x = x;
                         closest.y = (short) (closest.y + (short) (size / 2));
