@@ -20,6 +20,7 @@ import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
+import com.gasis.rts.logic.player.exploration.ExplorationDataMultiplexer;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.sound.MusicManager;
@@ -148,6 +149,14 @@ public class GameInstance implements Updatable {
         // initialize cursor
         Cursor.initialize(resources);
         Cursor.setCursor(Cursor.CURSOR_NORMAL);
+
+        // pass exploration data instance to the map renderer
+        ExplorationDataMultiplexer explorationData = new ExplorationDataMultiplexer();
+
+        explorationData.addExplorationDataInstance(one.getState().explorationData);
+        explorationData.addExplorationDataInstance(two.getState().explorationData);
+
+        mapRenderer.setExplorationData(explorationData);
     }
 
     /**

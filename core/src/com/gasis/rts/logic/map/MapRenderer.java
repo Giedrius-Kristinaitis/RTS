@@ -2,6 +2,7 @@ package com.gasis.rts.logic.map;
 
 import com.gasis.rts.logic.Renderable;
 import com.gasis.rts.logic.Updatable;
+import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 
 /**
  * Renders a map to the screen
@@ -56,4 +57,11 @@ public interface MapRenderer extends Renderable, Updatable {
      * @param map
      */
     void setRenderedMap(Map map);
+
+    /**
+     * Sets map exploration data to use
+     *
+     * @param explorationData exploration data
+     */
+    void setExplorationData(ExplorationDataInterface explorationData);
 }

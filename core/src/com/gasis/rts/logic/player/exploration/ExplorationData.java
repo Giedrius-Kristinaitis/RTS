@@ -3,10 +3,15 @@ package com.gasis.rts.logic.player.exploration;
 /**
  * Contains a player's map exploration data
  */
+@SuppressWarnings("Duplicates")
 public class ExplorationData implements ExplorationDataInterface {
 
     // map exploration data
     protected Cell[][] explorationData;
+
+    // map dimensions
+    protected short mapWidth;
+    protected short mapHeight;
 
     /**
      * Initializes exploration data
@@ -17,6 +22,9 @@ public class ExplorationData implements ExplorationDataInterface {
     @Override
     public void init(short mapWidth, short mapHeight) {
         explorationData = new Cell[mapWidth][mapHeight];
+
+        this.mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
     }
 
     /**
@@ -28,6 +36,10 @@ public class ExplorationData implements ExplorationDataInterface {
      */
     @Override
     public void setExplored(short x, short y, boolean explored) {
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {
+            return;
+        }
+
         if (explorationData[x][y] == null) {
             explorationData[x][y] = new Cell();
         }
@@ -44,6 +56,10 @@ public class ExplorationData implements ExplorationDataInterface {
      */
     @Override
     public boolean isExplored(short x, short y) {
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {
+            return false;
+        }
+
         return explorationData[x][y] != null && explorationData[x][y].explored;
     }
 
@@ -56,6 +72,10 @@ public class ExplorationData implements ExplorationDataInterface {
      */
     @Override
     public void setVisible(short x, short y, boolean visible) {
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {
+            return;
+        }
+
         if (explorationData[x][y] == null) {
             explorationData[x][y] = new Cell();
         }
@@ -72,6 +92,10 @@ public class ExplorationData implements ExplorationDataInterface {
      */
     @Override
     public boolean isVisible(short x, short y) {
+        if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {
+            return false;
+        }
+
         return explorationData[x][y] != null && explorationData[x][y].visible;
     }
 

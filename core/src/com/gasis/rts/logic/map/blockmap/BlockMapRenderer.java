@@ -3,6 +3,7 @@ package com.gasis.rts.logic.map.blockmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
+import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -18,6 +19,9 @@ public class BlockMapRenderer implements MapRenderer {
 
     // the rendered map
     protected BlockMap map;
+
+    // exploration data
+    protected ExplorationDataInterface explorationData;
 
     /**
      * Renders the map
@@ -39,7 +43,7 @@ public class BlockMapRenderer implements MapRenderer {
                 for (short y = windowY; y < windowY + windowHeight; y++) {
                     Block block = layer.getBlock(x, y);
 
-                    if (block == null) {
+                    if (block == null || !explorationData.isVisible(x, y)) {
                         continue;
                     }
 
@@ -49,6 +53,16 @@ public class BlockMapRenderer implements MapRenderer {
                 }
             }
         }
+    }
+
+    /**
+     * Sets map exploration data to use
+     *
+     * @param explorationData exploration data
+     */
+    @Override
+    public void setExplorationData(ExplorationDataInterface explorationData) {
+        this.explorationData = explorationData;
     }
 
     /**
