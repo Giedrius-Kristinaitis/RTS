@@ -96,7 +96,7 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
 
         for (short x = startX; x <= endX; x++) {
             for (short y = startY; y <= endY; y++) {
-                if (MathUtils.distance(x, object.getCenterX() / Block.BLOCK_WIDTH, y, object.getCenterY() / Block.BLOCK_HEIGHT) > sightRange) {
+                if (MathUtils.distance(x + 0.5f, object.getCenterX() / Block.BLOCK_WIDTH, y + 0.5f, object.getCenterY() / Block.BLOCK_HEIGHT) > sightRange) {
                     continue;
                 }
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.cursor.Cursor;
-import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;

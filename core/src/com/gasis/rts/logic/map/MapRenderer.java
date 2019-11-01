@@ -1,6 +1,6 @@
 package com.gasis.rts.logic.map;
 
-import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 

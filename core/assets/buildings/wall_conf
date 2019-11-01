@@ -16,7 +16,7 @@ width in blocks: 1
 height in blocks: 1
 hp: 100
 defence: 3
-sight range: 0
+sight range: 1
 offensive: false
 damaged texture: wall_conf_base_2
 damaged texture: wall_conf_base_1

@@ -1,4 +1,4 @@
-package com.gasis.rts.logic;
+package com.gasis.rts.logic.render;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.resources.Resources;

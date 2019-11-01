@@ -1,14 +1,13 @@
 package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.object.research.TechListener;
 import com.gasis.rts.logic.player.Player;
-import com.gasis.rts.logic.tech.Tech;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 

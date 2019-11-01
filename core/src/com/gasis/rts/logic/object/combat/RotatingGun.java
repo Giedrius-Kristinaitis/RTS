@@ -1,7 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.object.GameObject;

@@ -21,6 +21,7 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.controls.PlayerControls;
 import com.gasis.rts.logic.player.exploration.ExplorationDataMultiplexer;
+import com.gasis.rts.logic.render.RenderQueue;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.sound.MusicManager;
@@ -85,6 +86,9 @@ public class GameInstance implements Updatable {
 
     // where the camera was last frame
     private Point lastCamPosition = new Point();
+
+    // render queue
+    private RenderQueue renderQueue;
 
     /**
      * Default class constructor
@@ -157,6 +161,9 @@ public class GameInstance implements Updatable {
         explorationData.addExplorationDataInstance(two.getState().explorationData);
 
         mapRenderer.setExplorationData(explorationData);
+
+        // initialize render queue
+        renderQueue = new RenderQueue();
     }
 
     /**
@@ -178,18 +185,20 @@ public class GameInstance implements Updatable {
     public void draw(SpriteBatch batch) {
         mapRenderer.render(batch, resources);
 
+        renderQueue.clearQueue();
+
         for (Player player: players) {
             for (Unit unit: player.getUnits()) {
-                unit.render(batch, resources);
+                renderQueue.addRenderable(unit, unit.getCenterX(), unit.getCenterY());
             }
 
             for (Building building: player.getBuildings()) {
-                building.render(batch, resources);
+                renderQueue.addRenderable(building, building.getCenterX(), building.getCenterY());
             }
         }
 
+        renderQueue.render(batch, resources);
         animationPlayer.render(batch, resources);
-
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
 

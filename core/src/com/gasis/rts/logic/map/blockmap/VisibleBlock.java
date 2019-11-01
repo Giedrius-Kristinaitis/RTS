@@ -1,7 +1,7 @@
 package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.Renderable;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
