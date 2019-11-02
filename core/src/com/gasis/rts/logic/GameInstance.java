@@ -14,7 +14,10 @@ import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.faction.Faction;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
+import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
+import com.gasis.rts.logic.object.building.OffensiveBuilding;
+import com.gasis.rts.logic.object.combat.Aimable;
 import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
@@ -31,6 +34,7 @@ import com.gasis.rts.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Game instance. Holds game state, draws the game world and updates it
@@ -172,7 +176,7 @@ public class GameInstance implements Updatable {
      * @param faction faction to get soundtrack from
      */
     private void initializeSoundtrack(Faction faction) {
-        for (String soundtrack: faction.getSoundtrack()) {
+        for (String soundtrack : faction.getSoundtrack()) {
             musicManager.addTrack(Constants.FOLDER_SOUNDS + soundtrack);
         }
     }
@@ -185,24 +189,85 @@ public class GameInstance implements Updatable {
     public void draw(SpriteBatch batch) {
         mapRenderer.render(batch, resources);
 
-        renderQueue.clearQueue();
+        drawObjects(batch);
 
-        for (Player player: players) {
-            for (Unit unit: player.getUnits()) {
-                renderQueue.addRenderable(unit, unit.getCenterX(), unit.getCenterY());
-            }
-
-            for (Building building: player.getBuildings()) {
-                renderQueue.addRenderable(building, building.getCenterX(), building.getCenterY());
-            }
-        }
-
-        renderQueue.render(batch, resources);
         animationPlayer.render(batch, resources);
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
 
         Cursor.renderAnimation(batch, resources);
+    }
+
+    /**
+     * Draws game objects
+     *
+     * @param batch sprite batch to draw to
+     */
+    protected void drawObjects(SpriteBatch batch) {
+        renderQueue.clearQueue();
+
+        for (Player player : players) {
+            renderUnits(player.getUnits());
+            renderBuildings(player.getBuildings());
+        }
+
+        renderQueue.render(batch, resources);
+    }
+
+    /**
+     * Renders units
+     *
+     * @param units units to render
+     */
+    protected void renderUnits(Set<Unit> units) {
+        for (Unit unit : units) {
+            if (shouldBeRendered(unit)) {
+                renderQueue.addRenderable(unit, unit.getCenterX(), unit.getCenterY());
+            }
+        }
+    }
+
+    /**
+     * Renders buildings
+     *
+     * @param buildings buildings to render
+     */
+    protected void renderBuildings(Set<Building> buildings) {
+        for (Building building : buildings) {
+            if (shouldBeRendered(building)) {
+                renderQueue.addRenderable(building, building.getCenterX(), building.getCenterY());
+            }
+        }
+    }
+
+    /**
+     * Checks if the given game object should be rendered
+     *
+     * @param object object to check
+     * @return
+     */
+    protected boolean shouldBeRendered(GameObject object) {
+        boolean render = false;
+
+        if (object.getX() + object.getWidth() >= mapRenderer.getActualRenderXInWorldCoordinates() && object.getY() + object.getHeight() >= mapRenderer.getActualRenderYInWorldCoordinates() && object.getX() <= mapRenderer.getActualRenderXInWorldCoordinates() + mapRenderer.getActualRenderWidthInWorldCoordinates() && object.getY() <= mapRenderer.getActualRenderYInWorldCoordinates() + mapRenderer.getActualRenderHeightInWorldCoordinates()) {
+            render = true;
+        }
+
+        if (object instanceof Aimable) {
+            Aimable aimable = (Aimable) object;
+
+            if ((aimable.hasTarget() || aimable.hasTargetObject()) && aimable.getTargetX() >= mapRenderer.getActualRenderXInWorldCoordinates() && aimable.getTargetY() >= mapRenderer.getActualRenderYInWorldCoordinates() && aimable.getTargetX() <= mapRenderer.getActualRenderXInWorldCoordinates() + mapRenderer.getActualRenderWidthInWorldCoordinates() && aimable.getTargetY() <= mapRenderer.getActualRenderYInWorldCoordinates() + mapRenderer.getActualRenderHeightInWorldCoordinates()) {
+                render = true;
+            }
+        }
+
+        if (object instanceof Unit && ((Unit) object).getFiringLogic() != null && !((Unit) object).getFiringLogic().canBeRemoved()) {
+            render = true;
+        } else if (object instanceof OffensiveBuilding && ((OffensiveBuilding) object).getFiringLogic() != null && !((OffensiveBuilding) object).getFiringLogic().canBeRemoved()) {
+            render = true;
+        }
+
+        return render;
     }
 
     /**
@@ -234,12 +299,12 @@ public class GameInstance implements Updatable {
 
         animationPlayer.update(delta);
 
-        for (Player player: players) {
-            for (Unit unit: player.getUnits()) {
+        for (Player player : players) {
+            for (Unit unit : player.getUnits()) {
                 unit.update(delta);
             }
 
-            for (Building building: player.getBuildings()) {
+            for (Building building : player.getBuildings()) {
                 building.update(delta);
             }
 
@@ -370,7 +435,7 @@ public class GameInstance implements Updatable {
     /**
      * Called when the size of the screen changes
      *
-     * @param width new width
+     * @param width  new width
      * @param height new height
      */
     public void screenSizeChanged(int width, int height) {

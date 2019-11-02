@@ -64,4 +64,32 @@ public interface MapRenderer extends Renderable, Updatable {
      * @param explorationData exploration data
      */
     void setExplorationData(ExplorationDataInterface explorationData);
+
+    /**
+     * Gets render x
+     *
+     * @return
+     */
+    float getActualRenderXInWorldCoordinates();
+
+    /**
+     * Gets render y
+     *
+     * @return
+     */
+    float getActualRenderYInWorldCoordinates();
+
+    /**
+     * Gets render width
+     *
+     * @return
+     */
+    float getActualRenderWidthInWorldCoordinates();
+
+    /**
+     * Gets render height
+     *
+     * @return
+     */
+    float getActualRenderHeightInWorldCoordinates();
 }

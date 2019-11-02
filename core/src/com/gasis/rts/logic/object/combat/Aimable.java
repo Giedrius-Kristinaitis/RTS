@@ -49,4 +49,16 @@ public interface Aimable {
      * @return
      */
     boolean aimedAtGround();
+
+    /**
+     * Gets target x
+     * @return
+     */
+    float getTargetX();
+
+    /**
+     * Gets target y
+     * @return
+     */
+    float getTargetY();
 }

@@ -178,4 +178,44 @@ public class BlockMapRenderer implements MapRenderer {
             renderY = 0;
         }
     }
+
+    /**
+     * Gets render x
+     *
+     * @return
+     */
+    @Override
+    public float getActualRenderXInWorldCoordinates() {
+        return (renderX - 3f) * Block.BLOCK_WIDTH;
+    }
+
+    /**
+     * Gets render y
+     *
+     * @return
+     */
+    @Override
+    public float getActualRenderYInWorldCoordinates() {
+        return (renderY - 3f) * Block.BLOCK_HEIGHT;
+    }
+
+    /**
+     * Gets render width
+     *
+     * @return
+     */
+    @Override
+    public float getActualRenderWidthInWorldCoordinates() {
+        return (renderWidth + 6f) * Block.BLOCK_WIDTH;
+    }
+
+    /**
+     * Gets render height
+     *
+     * @return
+     */
+    @Override
+    public float getActualRenderHeightInWorldCoordinates() {
+        return (renderHeight + 6f) * Block.BLOCK_HEIGHT;
+    }
 }

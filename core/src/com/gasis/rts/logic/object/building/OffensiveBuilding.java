@@ -283,6 +283,26 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     }
 
     /**
+     * Gets target x
+     *
+     * @return
+     */
+    @Override
+    public float getTargetX() {
+        return target != null ? target.x : (targetObject != null ? targetObject.getCenterX() : 0);
+    }
+
+    /**
+     * Gets target y
+     *
+     * @return
+     */
+    @Override
+    public float getTargetY() {
+        return target != null ? target.y : (targetObject != null ? targetObject.getCenterY() : 0);
+    }
+
+    /**
      * Sets the x coordinate of the object
      *
      * @param x new x coordinate
@@ -452,5 +472,13 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         if (!destroyed) {
             renderHp(batch, resources);
         }
+    }
+
+    /**
+     * Gets the building's firing logic
+     * @return
+     */
+    public FiringLogic getFiringLogic() {
+        return firingLogic;
     }
 }

@@ -680,6 +680,26 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Gets target x
+     *
+     * @return
+     */
+    @Override
+    public float getTargetX() {
+        return target != null ? target.x : (targetObject != null ? targetObject.getCenterX() : (secondaryTarget != null ? secondaryTarget.x : (secondaryTargetObject != null ? secondaryTargetObject.getCenterX() : 0)));
+    }
+
+    /**
+     * Gets target y
+     *
+     * @return
+     */
+    @Override
+    public float getTargetY() {
+        return target != null ? target.y : (targetObject != null ? targetObject.getCenterY() : (secondaryTarget != null ? secondaryTarget.y : (secondaryTargetObject != null ? secondaryTargetObject.getCenterY() : 0)));
+    }
+
+    /**
      * Checks if the unit has a secondary target
      * @return
      */
