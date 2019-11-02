@@ -62,6 +62,9 @@ public class UnitLoader extends GameObjectLoader {
     // the tech required in order for siege mode to work
     protected String siegeModeRequiredTechId;
 
+    // is auto siege mode supported
+    protected boolean autoSiegeModeSupported = true;
+
     /**
      * Default class constructor
      * @param map
@@ -98,6 +101,10 @@ public class UnitLoader extends GameObjectLoader {
 
             try {
                 siegeModeRequiredTechId = reader.readLine("siege mode required tech id");
+            } catch (Exception ex) {}
+
+            try {
+                autoSiegeModeSupported = Boolean.parseBoolean(reader.readLine("auto siege mode"));
             } catch (Exception ex) {}
 
             defensiveSpecs.setSiegeModeSightRange(Float.parseFloat(reader.readLine("siege mode sight range")));
@@ -248,6 +255,7 @@ public class UnitLoader extends GameObjectLoader {
         unit.setHealingSpeed(healingSpeed);
         unit.setPassable(passable);
         unit.setSiegeModeRequiredTechId(siegeModeRequiredTechId);
+        unit.setAutoSiegeModeSupported(autoSiegeModeSupported);
 
         // create firing logic of the unit
         if (fireSources.size() > 0) {

@@ -198,6 +198,9 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     // the last time the unit's path was found
     protected long lastPathFindingTimestamp;
 
+    // is auto siege mode supported
+    protected boolean autoSiegeModeSupported = true;
+
     /**
      * Default class constructor
      * @param map
@@ -1456,10 +1459,19 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Sets auto siege mode flag
+     *
+     * @param autoSiegeModeSupported auto siege mode flag
+     */
+    public void setAutoSiegeModeSupported(boolean autoSiegeModeSupported) {
+        this.autoSiegeModeSupported = autoSiegeModeSupported;
+    }
+
+    /**
      * Handles unit's automatic siege mode entering when there is a target
      */
     protected void handleEnteringAutoSiegeMode() {
-        if (siegeModeRequiredTechId != null && !owner.isTechResearched(siegeModeRequiredTechId)) {
+        if (siegeModeRequiredTechId != null && !owner.isTechResearched(siegeModeRequiredTechId) || !autoSiegeModeSupported) {
             return;
         }
 

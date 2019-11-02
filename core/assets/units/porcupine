@@ -16,6 +16,7 @@ reload speed: 0.15
 movement animations available: false
 firing textures available: false
 siege mode available: true
+auto siege mode: false
 siege mode facing directions: 8
 siege mode texture north: porcupine_north
 siege mode texture north east: porcupine_north_east
@@ -26,7 +27,7 @@ siege mode texture south west: porcupine_south_west
 siege mode texture west: porcupine_west
 siege mode texture north west: porcupine_north_west
 siege mode sight range: 18
-siege mode attack: 16
+siege mode attack: 25
 siege mode attack range: 16
 siege mode shot count: 10
 siege mode shot interval: 0.1

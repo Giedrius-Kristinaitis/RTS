@@ -21,6 +21,7 @@ destruction animation scale: 1.5
 movement animations available: false
 firing textures available: false
 siege mode available: true
+auto siege mode: false
 siege mode facing directions: 1
 siege mode facing direction: EAST
 siege mode texture: torrent_siege_mode
