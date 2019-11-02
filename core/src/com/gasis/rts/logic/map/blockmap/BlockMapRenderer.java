@@ -5,10 +5,12 @@ import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.utils.Constants;
 
 /**
  * Renders a block map to the screen
  */
+@SuppressWarnings("Duplicates")
 public class BlockMapRenderer implements MapRenderer {
 
     // position and dimensions of the rendered area
@@ -43,13 +45,51 @@ public class BlockMapRenderer implements MapRenderer {
                 for (short y = windowY; y < windowY + windowHeight; y++) {
                     Block block = layer.getBlock(x, y);
 
-                    if (block == null || !explorationData.isVisible(x, y)) {
+                    if (block == null) {
                         continue;
                     }
 
                     if (block instanceof VisibleBlock) {
                         ((VisibleBlock) block).render(batch, resources);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Renders for of war
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    @Override
+    public void renderFogOfWar(SpriteBatch batch, Resources resources) {
+        // position and dimensions of the rendered map portion (window)
+        short windowX = (short) Math.max(0, (short) renderX - 3);
+        short windowY = (short) Math.max(0, (short) renderY - 3);
+
+        short windowWidth = (short) Math.min(map.getWidth() - windowX, (short) renderWidth + 6);
+        short windowHeight = (short) Math.min(map.getHeight() - windowY, (short) renderHeight + 6);
+
+        for (short x = windowX; x < windowX + windowWidth; x++) {
+            for (short y = windowY; y < windowY + windowHeight; y++) {
+                if (!explorationData.isExplored(x, y)) {
+                    batch.draw(
+                            resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.UNEXPLORED_AREA),
+                            x * Block.BLOCK_WIDTH - Block.BLOCK_WIDTH / 5f,
+                            y * Block.BLOCK_HEIGHT - Block.BLOCK_HEIGHT / 5f,
+                            Block.BLOCK_WIDTH * 1.4f,
+                            Block.BLOCK_HEIGHT * 1.4f
+                    );
+                } else if (!explorationData.isVisible(x, y)) {
+                    batch.draw(
+                            resources.atlas(Constants.GENERAL_TEXTURE_ATLAS).findRegion(Constants.FOG_OF_WAR),
+                            x * Block.BLOCK_WIDTH - Block.BLOCK_WIDTH / 5.9f,
+                            y * Block.BLOCK_HEIGHT - Block.BLOCK_HEIGHT / 5.9f,
+                            Block.BLOCK_WIDTH * 1.33898f,
+                            Block.BLOCK_HEIGHT * 1.33898f
+                    );
                 }
             }
         }

@@ -1,8 +1,10 @@
 package com.gasis.rts.logic.map;
 
-import com.gasis.rts.logic.render.Renderable;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
+import com.gasis.rts.logic.render.Renderable;
+import com.gasis.rts.resources.Resources;
 
 /**
  * Renders a map to the screen
@@ -92,4 +94,12 @@ public interface MapRenderer extends Renderable, Updatable {
      * @return
      */
     float getActualRenderHeightInWorldCoordinates();
+
+    /**
+     * Renders for of war
+     *
+     * @param batch sprite batch to draw to
+     * @param resources game's assets
+     */
+    void renderFogOfWar(SpriteBatch batch, Resources resources);
 }

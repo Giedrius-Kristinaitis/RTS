@@ -51,7 +51,7 @@ public class GameInstance implements Updatable {
     private Viewport viewport;
 
     // renders the game map
-    private MapRenderer mapRenderer;
+    private BlockMapRenderer mapRenderer;
 
     // game map
     private BlockMap map;
@@ -195,6 +195,9 @@ public class GameInstance implements Updatable {
         drawObjects(batch);
 
         animationPlayer.render(batch, resources);
+
+        mapRenderer.renderFogOfWar(batch, resources);
+
         playerControls.render(batch, resources);
         playerControls2.render(batch, resources);
 

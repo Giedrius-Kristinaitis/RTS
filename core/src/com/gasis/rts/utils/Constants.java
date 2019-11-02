@@ -42,4 +42,6 @@ public class Constants {
     public static final String CURSOR_ATLAS = "atl/general.atlas";
     public static final String CURSOR_TEXTURE_NORMAL = "cursor_normal";
     public static final String CURSOR_TEXTURE_ATTACK = "cursor_attack";
+    public static final String UNEXPLORED_AREA = "unexplored_area";
+    public static final String FOG_OF_WAR = "fog_of_war";
 }
