@@ -1,7 +1,7 @@
 atlas: porcupine.atlas
 code: porcupine
 control context: context_porcupine
-production time: 0.1
+production time: 10
 width: 1.307
 height: 1
 hp: 50
