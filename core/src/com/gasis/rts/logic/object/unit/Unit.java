@@ -1203,6 +1203,23 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     }
 
     /**
+     * Gets the occupied block
+     * @return
+     */
+    public Point getOccupiedBlock() {
+        return occupiedBlock;
+    }
+
+    /**
+     * Sets the occupied block
+     *
+     * @param block occupied block
+     */
+    public void setOccupiedBlock(Point block) {
+        this.occupiedBlock = block;
+    }
+
+    /**
      * Updates the game object
      *
      * @param delta time elapsed since the last render

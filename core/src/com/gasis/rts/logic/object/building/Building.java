@@ -518,6 +518,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
         unit.setOwner(owner);
 
         map.occupyBlock((short) spawn.x, (short) spawn.y, unit);
+        unit.setOccupiedBlock(spawn);
 
         notifyUnitProductionListeners(unit);
 
@@ -645,6 +646,14 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 map.occupyBlockPassable((short) block.x, (short) block.y, this);
             }
         }
+    }
+
+    /**
+     * Gets the building's occupied blocks
+     * @return
+     */
+    public List<Point> getOccupiedBlocks() {
+        return occupiedBlocks;
     }
 
     /**

@@ -94,6 +94,9 @@ public class GameInstance implements Updatable {
     // render queue
     private RenderQueue renderQueue;
 
+    // map exploration data
+    private ExplorationDataMultiplexer explorationData;
+
     /**
      * Default class constructor
      *
@@ -159,7 +162,7 @@ public class GameInstance implements Updatable {
         Cursor.setCursor(Cursor.CURSOR_NORMAL);
 
         // pass exploration data instance to the map renderer
-        ExplorationDataMultiplexer explorationData = new ExplorationDataMultiplexer();
+        explorationData = new ExplorationDataMultiplexer();
 
         explorationData.addExplorationDataInstance(one.getState().explorationData);
         explorationData.addExplorationDataInstance(two.getState().explorationData);
@@ -221,7 +224,7 @@ public class GameInstance implements Updatable {
      */
     protected void renderUnits(Set<Unit> units) {
         for (Unit unit : units) {
-            if (shouldBeRendered(unit)) {
+            if (shouldBeRendered(unit) && (explorationData.isVisible((short) unit.getOccupiedBlock().x, (short) unit.getOccupiedBlock().y) || (unit.getFiringLogic() != null && !unit.getFiringLogic().canBeRemoved()))) {
                 renderQueue.addRenderable(unit, unit.getCenterX(), unit.getCenterY());
             }
         }
@@ -235,7 +238,18 @@ public class GameInstance implements Updatable {
     protected void renderBuildings(Set<Building> buildings) {
         for (Building building : buildings) {
             if (shouldBeRendered(building)) {
-                renderQueue.addRenderable(building, building.getCenterX(), building.getCenterY());
+                boolean render = false;
+
+                for (Point block: building.getOccupiedBlocks()) {
+                    if (explorationData.isExplored((short) block.x, (short) block.y)) {
+                        render = true;
+                        break;
+                    }
+                }
+
+                if (render || (building instanceof OffensiveBuilding && ((OffensiveBuilding) building).getFiringLogic() != null && !((OffensiveBuilding) building).getFiringLogic().canBeRemoved())) {
+                    renderQueue.addRenderable(building, building.getCenterX(), building.getCenterY());
+                }
             }
         }
     }
