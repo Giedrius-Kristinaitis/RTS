@@ -30,7 +30,7 @@ siege mode attack: 55
 siege mode attack range: 16
 siege mode shot count: 5
 siege mode shot interval: 0.3
-siege mode reload speed: 6
+siege mode reload speed: 10
 rotating gun: g
 g atlas: tanks_conf.atlas
 g width: 1
