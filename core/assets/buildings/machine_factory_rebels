@@ -8,7 +8,7 @@ destruction animation scale: 2
 junk texture atlas: junk.atlas
 junk texture: building_junk
 junk scale: 2
-construction time: 50
+construction time: 0.1
 hp bar width: 3.5
 width: 3.6
 height: 2.8
@@ -27,4 +27,4 @@ complex animation: smoke2
 smoke2 animation name: rising smoke
 smoke2 relative x: -0.925
 smoke2 relative y: 0.7
-electricity requirement: 3
+electricity requirement: 0

@@ -1,6 +1,6 @@
-texture atlas: unit.atlas
-width: 1.2
-height: 1.2
+texture atlas: porcupine.atlas
+width: 1.307
+height: 1
 delay: 0
 duration: 0.5
 loop: false
@@ -8,5 +8,4 @@ rotation: 0
 rotation speed: 0
 scale: 1
 final scale: 1
-frame: rhino_east
-frame: rhino_siege_mode
+frame: porcupine_south_east

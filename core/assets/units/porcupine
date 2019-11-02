@@ -1,7 +1,7 @@
 atlas: porcupine.atlas
 code: porcupine
-control context: default_context_rebels
-production time: 10
+control context: context_porcupine
+production time: 0.1
 width: 1.307
 height: 1
 hp: 50
@@ -15,7 +15,30 @@ shot interval: 0
 reload speed: 0.15
 movement animations available: false
 firing textures available: false
-siege mode available: false
+siege mode available: true
+siege mode facing directions: 8
+siege mode texture north: porcupine_north
+siege mode texture north east: porcupine_north_east
+siege mode texture east: porcupine_east
+siege mode texture south east: porcupine_south_east
+siege mode texture south: porcupine_south
+siege mode texture south west: porcupine_south_west
+siege mode texture west: porcupine_west
+siege mode texture north west: porcupine_north_west
+siege mode sight range: 18
+siege mode attack: 16
+siege mode attack range: 17
+siege mode shot count: 10
+siege mode shot interval: 0.1
+siege mode reload speed: 5
+siege mode transition animation name north: porcupine_siege_mode_transition
+siege mode transition animation name north east: porcupine_siege_mode_transition
+siege mode transition animation name east: porcupine_siege_mode_transition
+siege mode transition animation name south east: porcupine_siege_mode_transition
+siege mode transition animation name south: porcupine_siege_mode_transition
+siege mode transition animation name south west: porcupine_siege_mode_transition
+siege mode transition animation name west: porcupine_siege_mode_transition
+siege mode transition animation name north west: porcupine_siege_mode_transition
 destruction animation: projectile_explosion
 destruction animation scale: 1.5
 junk texture atlas: junk.atlas
@@ -79,7 +102,7 @@ f fire point north west x: 0
 f fire point north west y: 0
 g fire source: f1
 f1 projectile deviation: 0
-f1 present: always
+f1 present: not siege mode
 f1 fire type: bullet
 f1 projectile scale: heavy
 f1 projectile speed: 20
