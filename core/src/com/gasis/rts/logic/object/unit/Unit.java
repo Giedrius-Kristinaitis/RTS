@@ -955,6 +955,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
                 siegeModeToggleValue = true;
             }
         } else {
+            siegeModeToggleValue = newSiegeModeValue;
             toggleSiegeMode();
         }
 

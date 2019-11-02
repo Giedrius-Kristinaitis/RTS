@@ -94,11 +94,7 @@ public class UnitLoader extends GameObjectLoader {
         if (siegeModeAvailable) {
             try {
                 siegeModeFacingDirection = Unit.class.getField(reader.readLine("siege mode facing direction")).getByte(null);
-            } catch (NoSuchFieldException ex) {
-                ex.printStackTrace();
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) {}
 
             try {
                 siegeModeRequiredTechId = reader.readLine("siege mode required tech id");
