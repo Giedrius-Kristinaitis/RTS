@@ -90,6 +90,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         state.explorationData.init((short) map.getWidth(), (short) map.getHeight());
 
         explorationDataManager.setExplorationData(state.explorationData);
+        explorationDataManager.initVisibilityData((short) map.getWidth(), (short) map.getHeight());
     }
 
     /**

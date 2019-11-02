@@ -11,6 +11,9 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.movement.MovementAdapter;
 import com.gasis.rts.math.MathUtils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Manages player's exploration data
  */
@@ -19,6 +22,13 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
     // exploration data to manage
     protected ExplorationDataInterface explorationData;
 
+    // visibility data by unit
+    protected VisibilityEntry[][] visibilityData;
+
+    // map dimensions
+    protected short mapWidth;
+    protected short mapHeight;
+
     /**
      * Sets exploration data to manage
      *
@@ -26,6 +36,25 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
      */
     public void setExplorationData(ExplorationDataInterface explorationData) {
         this.explorationData = explorationData;
+    }
+
+    /**
+     * Initializes visibility data array
+     *
+     * @param mapWidth map width
+     * @param mapHeight map height
+     */
+    public void initVisibilityData(short mapWidth, short mapHeight) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+
+        visibilityData = new VisibilityEntry[mapWidth][mapHeight];
+
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                visibilityData[x][y] = new VisibilityEntry();
+            }
+        }
     }
 
     /**
@@ -54,7 +83,7 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
      * @param unit the unit that just started moving
      */
     @Override
-    public void startedMoving(Unit unit) {
+    public void stoppedMoving(Unit unit) {
         setAreaVisibility(unit, true);
     }
 
@@ -85,18 +114,28 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
      * @param visibility area visibility
      */
     protected void setAreaVisibility(GameObject object, boolean visibility) {
-        boolean siegeMode = object instanceof Unit && ((Unit) object).isInSiegeMode();
+        boolean siegeMode = object instanceof Unit && ((Unit) object).isSiegeModeAvailable();
 
-        short sightRange = (short) (siegeMode ? object.getDefensiveSpecs().getSiegeModeSightRange() : object.getDefensiveSpecs().getSightRange());
+        short areaRange = (short) (siegeMode ? object.getDefensiveSpecs().getSiegeModeSightRange() : object.getDefensiveSpecs().getSightRange());
+        short sightRange = (short) (siegeMode && ((Unit) object).isInSiegeMode() ? object.getDefensiveSpecs().getSiegeModeSightRange() : object.getDefensiveSpecs().getSightRange());
 
-        short startX = (short) (object.getCenterX() / Block.BLOCK_WIDTH - sightRange);
-        short endX = (short) (startX + sightRange * 2);
-        short startY = (short) (object.getCenterY() / Block.BLOCK_HEIGHT - sightRange);
-        short endY = (short) (startY + sightRange * 2);
+        short startX = (short) ((object.getCenterX() / Block.BLOCK_WIDTH - areaRange) - 1);
+        short endX = (short) ((startX + areaRange * 2) + 2);
+        short startY = (short) ((object.getCenterY() / Block.BLOCK_HEIGHT - areaRange) - 1);
+        short endY = (short) ((startY + areaRange * 2) + 2);
 
         for (short x = startX; x <= endX; x++) {
             for (short y = startY; y <= endY; y++) {
                 if (MathUtils.distance(x + 0.5f, object.getCenterX() / Block.BLOCK_WIDTH, y + 0.5f, object.getCenterY() / Block.BLOCK_HEIGHT) > sightRange) {
+                    if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight) {
+                        visibilityData[x][y].objects.remove(object);
+
+                        if (visibilityData[x][y].objects.size() == 0) {
+                            visibilityData[x][y].visibility = false;
+                            explorationData.setVisible(x, y, false);
+                        }
+                    }
+
                     continue;
                 }
 
@@ -104,8 +143,34 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
                     explorationData.setExplored(x, y, true);
                 }
 
-                explorationData.setVisible(x, y, visibility);
+                boolean visible = visibility;
+
+                if (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight) {
+                    if (visibility) {
+                        visibilityData[x][y].visibility = true;
+                        visibilityData[x][y].objects.add(object);
+                    } else {
+                        visibilityData[x][y].objects.remove(object);
+
+                        if (visibilityData[x][y].objects.size() == 0) {
+                            visibilityData[x][y].visibility = false;
+                        }
+                    }
+
+                    visible = visibilityData[x][y].visibility;
+                }
+
+                explorationData.setVisible(x, y, visible);
             }
         }
+    }
+
+    /**
+     * Used to keep track of block visibility by unit
+     */
+    protected class VisibilityEntry {
+
+        protected Set<GameObject> objects = new HashSet<GameObject>();
+        protected boolean visibility;
     }
 }
