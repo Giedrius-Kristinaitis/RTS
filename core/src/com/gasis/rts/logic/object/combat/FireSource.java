@@ -93,6 +93,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the source's required tech
+     *
      * @return
      */
     public String getRequiredTechId() {
@@ -119,6 +120,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Checks if the source is enabled or not
+     *
      * @return
      */
     public boolean isEnabled() {
@@ -136,6 +138,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the sound effect
+     *
      * @return
      */
     public String getSoundEffect() {
@@ -153,10 +156,11 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Checks if all animations have finished
+     *
      * @return
      */
     public boolean allAnimationsFinished() {
-        for (ProjectileAnimation animation: animations) {
+        for (ProjectileAnimation animation : animations) {
             if (!animation.hasFinished()) {
                 return false;
             }
@@ -176,6 +180,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the fire source's damage coefficient
+     *
      * @return
      */
     public float getDamageCoefficient() {
@@ -202,6 +207,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the maximum possible deviation from the target
+     *
      * @return
      */
     public float getProjectileDeviation() {
@@ -210,6 +216,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Checks if the source is present when the holder in siege mode
+     *
      * @return
      */
     public boolean isPresentInSiegeMode() {
@@ -227,6 +234,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Checks if the source is present when the holder is not in siege mode
+     *
      * @return
      */
     public boolean isPresentOutOfSiegeMode() {
@@ -244,6 +252,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the fire points of the fire source
+     *
      * @return
      */
     public List<Point> getFirePoints() {
@@ -274,6 +283,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the gun count of the fire source
+     *
      * @return
      */
     public byte getGunCount() {
@@ -282,6 +292,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the speed of the projectile
+     *
      * @return
      */
     public float getProjectileSpeed() {
@@ -335,6 +346,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the x coordinate of the fire source
+     *
      * @return
      */
     public float getX() {
@@ -343,6 +355,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the y coordinate of the fire source
+     *
      * @return
      */
     public float getY() {
@@ -351,6 +364,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the fire/projectile type of the fire source
+     *
      * @return
      */
     public byte getFireType() {
@@ -368,6 +382,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
 
     /**
      * Gets the scale of the projectile
+     *
      * @return
      */
     public byte getProjectileScale() {
@@ -390,7 +405,7 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      */
     @Override
     public void finished(Animation animation) {
-        for (TargetReachListener listener: targetReachListeners) {
+        for (TargetReachListener listener : targetReachListeners) {
             boolean projectileExplosive = false;
 
             if (fireType == FIRE_TYPE_SHELL || fireType == FIRE_TYPE_MISSILE) {
@@ -405,8 +420,8 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * Fires a shot at the specified target coordinates
      *
      * @param facingDirection the direction the firing thing is facing
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
+     * @param targetX         x coordinate of the target
+     * @param targetY         y coordinate of the target
      */
     public void fire(byte facingDirection, float targetX, float targetY) {
         float deviatedTargetX = targetX + projectileDeviation * random.nextFloat() * (random.nextBoolean() ? -1 : 1);
@@ -430,9 +445,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * Creates a new projectile animation
      *
      * @param facingDirection the direction the firing thing is facing
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
-     * @param explosiveEnd is the end animation an explosion
+     * @param targetX         x coordinate of the target
+     * @param targetY         y coordinate of the target
+     * @param explosiveEnd    is the end animation an explosion
      * @return
      */
     protected ProjectileAnimation createProjectileAnimation(byte facingDirection, float targetX, float targetY, boolean explosiveEnd) {
@@ -495,8 +510,8 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * Creates a bullet animation
      *
      * @param facingDirection the direction the firing thing is facing
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
+     * @param targetX         x coordinate of the target
+     * @param targetY         y coordinate of the target
      * @return
      */
     protected ProjectileAnimation createBulletAnimation(byte facingDirection, float targetX, float targetY) {
@@ -542,8 +557,8 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * Creates a shell animation
      *
      * @param facingDirection the direction the firing thing is facing
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
+     * @param targetX         x coordinate of the target
+     * @param targetY         y coordinate of the target
      * @return
      */
     protected ProjectileAnimation createShellAnimation(byte facingDirection, float targetX, float targetY) {
@@ -649,8 +664,8 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      */
     @Override
     public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
-        for (ProjectileAnimation animation: animations) {
-            animation.render(batch, resources, renderQueue);
+        for (ProjectileAnimation animation : animations) {
+            renderQueue.addTopLayerRenderable(animation, animation.getStartingX(), animation.getStartingY());
         }
     }
 }
