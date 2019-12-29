@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -32,7 +33,7 @@ public class BlockMapRenderer implements MapRenderer {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         // position and dimensions of the rendered map portion (window)
         short windowX = (short) Math.max(0, (short) renderX - 3);
         short windowY = (short) Math.max(0, (short) renderY - 3);
@@ -50,7 +51,7 @@ public class BlockMapRenderer implements MapRenderer {
                     }
 
                     if (block instanceof VisibleBlock) {
-                        ((VisibleBlock) block).render(batch, resources);
+                        ((VisibleBlock) block).render(batch, resources, renderQueue);
                     }
                 }
             }

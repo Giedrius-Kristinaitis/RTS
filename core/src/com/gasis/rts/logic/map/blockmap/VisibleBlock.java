@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.map.blockmap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -74,7 +75,7 @@ public class VisibleBlock extends Block implements Renderable {
      * @param res object used to access assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources res) {
+    public void render(SpriteBatch batch, Resources res, RenderQueueInterface renderQueue) {
         for (BlockImage image: images) {
             batch.draw(
                     res.atlas(Constants.FOLDER_ATLASES + image.atlas).findRegion(image.texture),

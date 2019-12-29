@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.animation.Animation;
@@ -647,9 +648,9 @@ public class FireSource implements Updatable, Renderable, AnimationFinishListene
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         for (ProjectileAnimation animation: animations) {
-            animation.render(batch, resources);
+            animation.render(batch, resources, renderQueue);
         }
     }
 }

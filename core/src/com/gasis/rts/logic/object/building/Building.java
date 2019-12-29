@@ -15,6 +15,7 @@ import com.gasis.rts.logic.object.research.TechReasearcher;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.object.unit.UnitLoader;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.task.ResourceProviderTask;
 import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.logic.tech.Tech;
@@ -871,7 +872,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (!destroyed) {
             if (!renderDamagedTextures(batch, resources)) {
                 batch.draw(
@@ -889,14 +890,14 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
             if (!beingConstructed && ((animationsWhenActive && (producing || researching)) || (animationsWhenIdle && !producing && !researching)) && (electricityAvailable || electricityRequirement == 0)) {
                 for (Animation animation : animations) {
-                    animation.render(batch, resources);
+                    animation.render(batch, resources, renderQueue);
                 }
             }
 
             renderHp(batch, resources);
 
             if (renderGatherPoint && gatherPoint != null) {
-                renderGatherPoint(batch, resources);
+                renderGatherPoint(batch, resources, renderQueue);
             }
 
             if (producing || researching) {
@@ -969,10 +970,10 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      * @param batch sprite batch to draw to
      * @param resources game's assets
      */
-    protected void renderGatherPoint(SpriteBatch batch, Resources resources) {
+    protected void renderGatherPoint(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         gatherPointAnimation.setCenterX((int) (gatherPoint.x) * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f);
         gatherPointAnimation.setCenterY((int) (gatherPoint.y) * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
-        gatherPointAnimation.render(batch, resources);
+        gatherPointAnimation.render(batch, resources, renderQueue);
     }
 
     /**

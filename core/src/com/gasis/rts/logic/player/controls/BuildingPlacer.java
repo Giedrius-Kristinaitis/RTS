@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
@@ -239,7 +240,7 @@ public class BuildingPlacer implements Renderable {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (placing) {
             batch.setColor(1, 1, 1, textureOpacity);
             batch.draw(resources.atlas(Constants.FOLDER_ATLASES + buildingAtlas).findRegion(buildingTexture), buildingCenterX - buildingWidth / 2f, buildingY, buildingWidth, buildingHeight);

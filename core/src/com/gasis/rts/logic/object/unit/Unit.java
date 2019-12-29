@@ -17,6 +17,7 @@ import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -1692,19 +1693,19 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (!destroyed) {
             renderSelectionCircle(batch, resources);
 
             // render the siege mode transition animation if present
             if (siegeModeTransitionAnimation != null) {
-                siegeModeTransitionAnimation.render(batch, resources);
+                siegeModeTransitionAnimation.render(batch, resources, renderQueue);
                 renderStillUnit = false;
             }
 
             if (siegeModeTransitionAnimation == null && moving && movementAnimation != null) {
                 // render the moving animation
-                movementAnimation.render(batch, resources);
+                movementAnimation.render(batch, resources, renderQueue);
                 renderStillUnit = false;
             }
 
@@ -1743,7 +1744,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
         }
 
         if (firingLogic != null) {
-            firingLogic.render(batch, resources);
+            firingLogic.render(batch, resources, renderQueue);
         }
 
         renderStillUnit = true;

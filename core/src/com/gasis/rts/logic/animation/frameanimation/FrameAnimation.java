@@ -3,6 +3,7 @@ package com.gasis.rts.logic.animation.frameanimation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -751,7 +752,7 @@ public class FrameAnimation implements Animation {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (delayTime < delay) {
             return;
         }

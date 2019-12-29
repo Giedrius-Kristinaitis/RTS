@@ -6,6 +6,7 @@ import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -448,25 +449,25 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      */
     @Override
     @SuppressWarnings("Duplicates")
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (!destroyed) {
             if (renderHp) {
                 renderHp = false;
-                super.render(batch, resources);
+                super.render(batch, resources, renderQueue);
                 renderHp = true;
             } else {
-                super.render(batch, resources);
+                super.render(batch, resources, renderQueue);
             }
         }
 
         for (RotatingGun gun : rotatingGuns.values()) {
             if (gun.isCurrentlyPresent()) {
-                gun.render(batch, resources);
+                gun.render(batch, resources, renderQueue);
             }
         }
 
         if (firingLogic != null) {
-            firingLogic.render(batch, resources);
+            firingLogic.render(batch, resources, renderQueue);
         }
 
         if (!destroyed) {

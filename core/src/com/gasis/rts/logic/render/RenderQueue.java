@@ -16,10 +16,13 @@ public class RenderQueue implements RenderQueueInterface {
     // objects to render
     protected Set<Entry> renderables = new TreeSet<Entry>();
 
+    // objects that will be rendered after all other objects ignoring their z-index
+    protected Set<Entry> topLayerRenderables = new TreeSet<Entry>();
+
     // instances of entries (to avoid creating new instances every frame)
     protected List<Entry> entryInstances = new ArrayList<Entry>();
 
-    // reused entry index
+    // reused entry index (used to make entry instance list bigger if needed)
     protected int entryIndex;
 
     /**
@@ -31,6 +34,30 @@ public class RenderQueue implements RenderQueueInterface {
      */
     @Override
     public void addRenderable(Renderable renderable, float x, float y) {
+        addRenderableToSet(renderable, x, y, renderables);
+    }
+
+    /**
+     * Adds a renderable to be rendered above all other renderables ignoring their z-index
+     *
+     * @param renderable renderable to render
+     * @param x          object's x
+     * @param y          object's y
+     */
+    @Override
+    public void addTopLayerRenderable(Renderable renderable, float x, float y) {
+        addRenderableToSet(renderable, x, y, topLayerRenderables);
+    }
+
+    /**
+     * Adds a renderable to the given set
+     *
+     * @param renderable  renderable to add
+     * @param x           object's x
+     * @param y           object's y
+     * @param renderables set to add to
+     */
+    protected void addRenderableToSet(Renderable renderable, float x, float y, Set<Entry> renderables) {
         if (entryIndex == entryInstances.size()) {
             entryInstances.add(new Entry());
         }
@@ -63,9 +90,21 @@ public class RenderQueue implements RenderQueueInterface {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
-        for (Entry entry: renderables) {
-            entry.renderable.render(batch, resources);
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
+        renderSet(renderables, batch, resources, renderQueue);
+        renderSet(topLayerRenderables, batch, resources, renderQueue);
+    }
+
+    /**
+     * Renders all renderables from the given set
+     *
+     * @param set       set with renderables
+     * @param batch     sprite batch to draw to
+     * @param resources game's assets
+     */
+    protected void renderSet(Set<Entry> set, SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
+        for (Entry entry : set) {
+            entry.renderable.render(batch, resources, renderQueue);
         }
     }
 
@@ -75,6 +114,7 @@ public class RenderQueue implements RenderQueueInterface {
     @Override
     public void clearQueue() {
         renderables.clear();
+        topLayerRenderables.clear();
         entryIndex = 0;
     }
 

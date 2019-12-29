@@ -6,6 +6,7 @@ import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.combat.RotatingGun;
 import com.gasis.rts.logic.object.combat.TargetReachListener;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class RotatingGunUnit extends Unit {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public RotatingGunUnit(BlockMap map) {
@@ -36,7 +38,7 @@ public class RotatingGunUnit extends Unit {
     public void setCenterX(float x) {
         super.setCenterX(x);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             updateGunPosition(gun);
         }
     }
@@ -50,7 +52,7 @@ public class RotatingGunUnit extends Unit {
     public void setCenterY(float y) {
         super.setCenterY(y);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             updateGunPosition(gun);
         }
     }
@@ -59,7 +61,7 @@ public class RotatingGunUnit extends Unit {
      * Adds a rotating gun to the unit
      *
      * @param name name used to identify the gun
-     * @param gun gun to add
+     * @param gun  gun to add
      */
     public void addGun(String name, RotatingGun gun) {
         gun.getFiringLogic().setOwner(this);
@@ -77,7 +79,7 @@ public class RotatingGunUnit extends Unit {
         super.doDamage(attack);
 
         if (destroyed) {
-            for (RotatingGun gun: guns.values()) {
+            for (RotatingGun gun : guns.values()) {
                 gun.setDestroyed(true);
             }
 
@@ -95,7 +97,7 @@ public class RotatingGunUnit extends Unit {
     @Override
     public boolean canBeRemoved() {
         if (super.canBeRemoved()) {
-            for (RotatingGun gun: guns.values()) {
+            for (RotatingGun gun : guns.values()) {
                 if (gun.isCurrentlyPresent() && !gun.canBeRemoved()) {
                     return false;
                 }
@@ -117,7 +119,7 @@ public class RotatingGunUnit extends Unit {
         super.rotateToDirection(facingDirection);
 
         // if there is no target, rotate the guns as well
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (gun.isCurrentlyPresent() && !gun.hasTarget()) {
                 gun.rotateToDirection(facingDirection);
             }
@@ -145,7 +147,7 @@ public class RotatingGunUnit extends Unit {
     public void addTargetReachedListener(TargetReachListener listener) {
         super.addTargetReachedListener(listener);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.addTargetReachedListener(listener);
         }
     }
@@ -159,7 +161,7 @@ public class RotatingGunUnit extends Unit {
     public void removeTargetReachListener(TargetReachListener listener) {
         super.removeTargetReachListener(listener);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.removeTargetReachListener(listener);
         }
     }
@@ -174,7 +176,7 @@ public class RotatingGunUnit extends Unit {
         super.update(delta);
 
         // update the rotating guns
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (gun.isCurrentlyPresent()) {
                 updateGunPosition(gun);
                 gun.update(siegeModeTransitionAnimation != null, delta, true);
@@ -210,7 +212,7 @@ public class RotatingGunUnit extends Unit {
     public void aimAt(float targetX, float targetY) {
         super.aimAt(targetX, targetY);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.aimAt(targetX, targetY);
         }
     }
@@ -224,7 +226,7 @@ public class RotatingGunUnit extends Unit {
     public void aimAt(GameObject target) {
         super.aimAt(target);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.aimAt(target);
         }
     }
@@ -236,7 +238,7 @@ public class RotatingGunUnit extends Unit {
     public void removeTarget() {
         super.removeTarget();
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.removeTarget();
         }
     }
@@ -248,7 +250,7 @@ public class RotatingGunUnit extends Unit {
     public void removeEnqueuedShots() {
         super.removeEnqueuedShots();
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             gun.removeEnqueuedShots();
         }
     }
@@ -262,7 +264,7 @@ public class RotatingGunUnit extends Unit {
     public void setSecondaryTargetObject(GameObject secondaryTargetObject) {
         super.setSecondaryTargetObject(secondaryTargetObject);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (!gun.hasSecondaryTarget()) {
                 gun.setSecondaryTargetObject(secondaryTargetObject);
             }
@@ -277,7 +279,7 @@ public class RotatingGunUnit extends Unit {
     @Override
     public boolean isMainTargetReachable() {
         if (super.isMainTargetReachable()) {
-            for (RotatingGun gun: guns.values()) {
+            for (RotatingGun gun : guns.values()) {
                 if (gun.isCurrentlyPresent() && !gun.isMainTargetReachable()) {
                     return false;
                 }
@@ -298,7 +300,7 @@ public class RotatingGunUnit extends Unit {
     protected float getMaximumValidAttackRange() {
         float minGunRange = Float.MAX_VALUE;
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (gun.isCurrentlyPresent()) {
                 if (gun.getIndividualRange() > 0 && gun.getIndividualRange() < minGunRange) {
                     minGunRange = gun.getIndividualRange();
@@ -325,21 +327,21 @@ public class RotatingGunUnit extends Unit {
      */
     @Override
     @SuppressWarnings("Duplicates")
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (!destroyed) {
             if (renderHp) {
                 renderHp = false;
-                super.render(batch, resources);
+                super.render(batch, resources, renderQueue);
                 renderHp = true;
             } else {
-                super.render(batch, resources);
+                super.render(batch, resources, renderQueue);
             }
         }
 
         // render the rotating guns
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (gun.isCurrentlyPresent()) {
-                gun.render(batch, resources);
+                gun.render(batch, resources, renderQueue);
             }
         }
 
@@ -358,7 +360,7 @@ public class RotatingGunUnit extends Unit {
     public void techResearched(Player player, String tech) {
         super.techResearched(player, tech);
 
-        for (RotatingGun gun: guns.values()) {
+        for (RotatingGun gun : guns.values()) {
             if (gun.getRequiredTechId() != null && gun.getRequiredTechId().equalsIgnoreCase(tech)) {
                 gun.setCurrentlyPresent(true);
             }

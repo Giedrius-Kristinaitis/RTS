@@ -2,6 +2,7 @@ package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
@@ -80,7 +81,7 @@ public abstract class Selector implements Renderable {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
 
     }
 

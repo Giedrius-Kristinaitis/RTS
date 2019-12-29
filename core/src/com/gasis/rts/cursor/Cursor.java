@@ -8,6 +8,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -139,8 +140,8 @@ public class Cursor {
      * Plays a cursor animation
      *
      * @param animation animation to play
-     * @param x x coordinate in world system
-     * @param y y coordinate in world system
+     * @param x         x coordinate in world system
+     * @param y         y coordinate in world system
      */
     public static void playCursorAnimation(byte animation, float x, float y) {
         switch (animation) {
@@ -159,8 +160,8 @@ public class Cursor {
      * Plays a cursor animation
      *
      * @param animation animation to play
-     * @param x animation x
-     * @param y animation y
+     * @param x         animation x
+     * @param y         animation y
      */
     private static void playCursorAnimation(FrameAnimation animation, float x, float y) {
         animation.resetAnimation();
@@ -194,12 +195,12 @@ public class Cursor {
     /**
      * Renders cursor animation
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
-    public static void renderAnimation(SpriteBatch batch, Resources resources) {
+    public static void renderAnimation(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (currentAnimation != null) {
-            currentAnimation.render(batch, resources);
+            currentAnimation.render(batch, resources, renderQueue);
         }
     }
 

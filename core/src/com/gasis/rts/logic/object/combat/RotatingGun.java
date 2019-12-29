@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
@@ -974,7 +975,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (!currentlyPresent) {
             return;
         }
@@ -990,7 +991,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
         }
 
         if (firingLogic != null) {
-            firingLogic.render(batch, resources);
+            firingLogic.render(batch, resources, renderQueue);
         }
     }
 }

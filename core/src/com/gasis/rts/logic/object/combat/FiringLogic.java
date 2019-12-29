@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
@@ -363,9 +364,9 @@ public class FiringLogic implements Renderable, OwnerProvider {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         for (FireSource source: fireSources.values()) {
-            source.render(batch, resources);
+            source.render(batch, resources, renderQueue);
         }
     }
 

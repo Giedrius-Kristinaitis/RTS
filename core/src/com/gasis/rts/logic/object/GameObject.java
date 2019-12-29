@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
@@ -397,7 +398,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
      * @param resources game assets
      */
     @Override
-    public abstract void render(SpriteBatch batch, Resources resources);
+    public abstract void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue);
 
     /**
      * Checks if the object can be safely removed from object list

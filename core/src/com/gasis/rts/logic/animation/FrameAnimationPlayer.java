@@ -1,6 +1,7 @@
 package com.gasis.rts.logic.animation;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
@@ -53,9 +54,9 @@ public class FrameAnimationPlayer implements AnimationPlayerInterface, Animation
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         for (FrameAnimation animation: animations) {
-            animation.render(batch, resources);
+            animation.render(batch, resources, renderQueue);
         }
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.resources.Resources;
 
@@ -294,17 +295,17 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
         if (fireAnimation != null && !fireAnimationFinished) {
-            fireAnimation.render(batch, resources);
+            fireAnimation.render(batch, resources, renderQueue);
         }
 
         if (targetReached) {
             if (endAnimation != null && !endAnimationFinished) {
-                endAnimation.render(batch, resources);
+                endAnimation.render(batch, resources, renderQueue);
             }
         } else {
-            projectile.render(batch, resources);
+            projectile.render(batch, resources, renderQueue);
         }
     }
 }

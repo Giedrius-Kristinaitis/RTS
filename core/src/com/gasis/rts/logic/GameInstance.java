@@ -189,18 +189,18 @@ public class GameInstance implements Updatable {
      * @param batch sprite batch to draw sprites with
      */
     public void draw(SpriteBatch batch) {
-        mapRenderer.render(batch, resources);
+        mapRenderer.render(batch, resources, renderQueue);
 
         drawObjects(batch);
 
-        animationPlayer.render(batch, resources);
+        animationPlayer.render(batch, resources, renderQueue);
 
         mapRenderer.renderFogOfWar(batch, resources);
 
-        playerControls.render(batch, resources);
-        playerControls2.render(batch, resources);
+        playerControls.render(batch, resources, renderQueue);
+        playerControls2.render(batch, resources, renderQueue);
 
-        Cursor.renderAnimation(batch, resources);
+        Cursor.renderAnimation(batch, resources, renderQueue);
     }
 
     /**
@@ -216,7 +216,7 @@ public class GameInstance implements Updatable {
             renderBuildings(player.getBuildings());
         }
 
-        renderQueue.render(batch, resources);
+        renderQueue.render(batch, resources, renderQueue);
     }
 
     /**

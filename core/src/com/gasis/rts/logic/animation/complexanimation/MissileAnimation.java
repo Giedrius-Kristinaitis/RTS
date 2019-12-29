@@ -5,6 +5,7 @@ import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
@@ -34,14 +35,14 @@ public class MissileAnimation extends ProjectileAnimation {
      * Class constructor
      *
      * @param explosionScale scale of the explosion animation
-     * @param missileScale scale of the fire animation and missile
+     * @param missileScale   scale of the fire animation and missile
      */
     public MissileAnimation(float missileScale, float explosionScale) {
         super(
                 FrameAnimationFactory.getInstance().create("missile"),
                 FrameAnimationFactory.getInstance().create("missile_launch"),
                 FrameAnimationFactory.getInstance().create("projectile_explosion")
-             );
+        );
 
         trailScale = missileScale;
 
@@ -51,7 +52,7 @@ public class MissileAnimation extends ProjectileAnimation {
     /**
      * Initializes the animation
      *
-     * @param missileScale scale of the missile
+     * @param missileScale   scale of the missile
      * @param explosionScale scale of the explosion
      */
     private void initialize(float missileScale, float explosionScale) {
@@ -131,12 +132,12 @@ public class MissileAnimation extends ProjectileAnimation {
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
-        super.render(batch, resources);
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
+        super.render(batch, resources, renderQueue);
 
         if (spawnTrails || timeSinceTrailSpawn < trailSpawnInterval) {
-            for (FrameAnimation animation: smokeTrails) {
-                animation.render(batch, resources);
+            for (FrameAnimation animation : smokeTrails) {
+                animation.render(batch, resources, renderQueue);
             }
         }
     }

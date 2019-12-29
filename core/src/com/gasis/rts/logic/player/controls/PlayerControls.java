@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.gasis.rts.cursor.Cursor;
+import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
@@ -125,7 +126,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     protected ControlContextMultiplexer constructControlContextMultiplexer(Set<Unit> units) {
         ControlContextMultiplexer multiplexer = new ControlContextMultiplexer();
 
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             String controlContext = unit.getControlContextName();
             multiplexer.addControlContext(controlContexts.get(controlContext));
         }
@@ -139,7 +140,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     protected void loadControlContexts() {
         FileHandle dir = Gdx.files.internal(Constants.FOLDER_CONTROL_CONTEXTS);
 
-        for (FileHandle file: dir.list()) {
+        for (FileHandle file : dir.list()) {
             if (!file.isDirectory()) {
                 loadControlContext(file);
             }
@@ -224,8 +225,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     /**
      * Called when the screen was touched or a mouse button was pressed
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
@@ -251,8 +252,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     /**
      * Called when a finger was lifted or a mouse button was released
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
@@ -272,8 +273,8 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
     /**
      * Called when a touch drag event occurs
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event
      */
     public void touchDragged(float x, float y, int pointer) {
@@ -330,7 +331,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void stopSelectedUnits() {
         if (unitSelector.getSelectedUnits() != null) {
-            for (Unit unit: unitSelector.getSelectedUnits()) {
+            for (Unit unit : unitSelector.getSelectedUnits()) {
                 controlledPlayer.getUnitMover().stopUnit(unit);
             }
         }
@@ -354,7 +355,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void orderUnitsToMove(short x, short y) {
         if (controlledPlayer.getSelectedUnits() != null) {
-            for (Unit unit: controlledPlayer.getSelectedUnits()) {
+            for (Unit unit : controlledPlayer.getSelectedUnits()) {
                 if (unit.aimedAtGround()) {
                     unit.removeTarget();
                     unit.removeEnqueuedShots();
@@ -453,7 +454,7 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      */
     protected void removeSelectedUnitTargets() {
         if (controlledPlayer.getSelectedUnits() != null && controlledPlayer.getSelectedUnits().size() > 0) {
-            for (Unit unit: controlledPlayer.getSelectedUnits()) {
+            for (Unit unit : controlledPlayer.getSelectedUnits()) {
                 unit.removeTarget();
             }
         }
@@ -540,10 +541,10 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
      * @param resources game assets
      */
     @Override
-    public void render(SpriteBatch batch, Resources resources) {
-        buildingPlacer.render(batch, resources);
-        unitSelector.render(batch, resources);
-        buildingSelector.render(batch, resources);
+    public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
+        buildingPlacer.render(batch, resources, renderQueue);
+        unitSelector.render(batch, resources, renderQueue);
+        buildingSelector.render(batch, resources, renderQueue);
     }
 
     /**
