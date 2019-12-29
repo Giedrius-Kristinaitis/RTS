@@ -240,10 +240,10 @@ public class GameInstance implements Updatable {
      */
     protected void renderBuildings(Set<Building> buildings) {
         for (Building building : buildings) {
-            if (shouldBeRendered(building)) {
+            if (shouldBeRendered(building) || building.isRenderGatherPoint()) {
                 boolean render = false;
 
-                for (Point block: building.getOccupiedBlocks()) {
+                for (Point block : building.getOccupiedBlocks()) {
                     if (explorationData.isExplored((short) block.x, (short) block.y)) {
                         render = true;
                         break;

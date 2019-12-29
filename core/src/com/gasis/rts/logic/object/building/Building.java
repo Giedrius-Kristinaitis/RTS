@@ -1101,4 +1101,12 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
             this.texture = texture;
         }
     }
+
+    /**
+     * Checks if the building's gather point needs to be rendered
+     * @return
+     */
+    public boolean isRenderGatherPoint() {
+        return renderGatherPoint;
+    }
 }
