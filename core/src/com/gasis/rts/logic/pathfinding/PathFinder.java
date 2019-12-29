@@ -50,9 +50,9 @@ public class PathFinder implements PathFinderInterface {
      * @param y       destination y (in block map coordinates)
      */
     @Override
-    public void findPathsToObjects(Iterable<Unit> objects, short x, short y) {
+    public void findPathsToObjects(Iterable<Unit> objects, short x, short y, boolean forceFind) {
         for (Unit unit: objects) {
-            depthFirst(unit, x, y);
+            depthFirst(unit, x, y, forceFind);
         }
     }
 
@@ -62,8 +62,8 @@ public class PathFinder implements PathFinderInterface {
      * @param y      destination y (in block map coordinates)
      */
     @Override
-    public void findPathToObject(Unit object, short x, short y) {
-        depthFirst(object, x, y);
+    public void findPathToObject(Unit object, short x, short y, boolean forceFind) {
+        depthFirst(object, x, y, forceFind);
     }
 
     /**
@@ -72,10 +72,10 @@ public class PathFinder implements PathFinderInterface {
      * @param object object to find the path for
      */
     @Override
-    public void refindPathToObject(Unit object) {
+    public void refindPathToObject(Unit object, boolean forceFind) {
         for (PathGroup group: groups) {
             if (group.foundPaths.containsKey(object)) {
-                depthFirst(object, (short) group.foundPaths.get(object).getLast().x, (short) group.foundPaths.get(object).getLast().y);
+                depthFirst(object, (short) group.foundPaths.get(object).getLast().x, (short) group.foundPaths.get(object).getLast().y, forceFind);
                 break;
             }
         }
@@ -128,14 +128,14 @@ public class PathFinder implements PathFinderInterface {
      * @param x destination x
      * @param y destination y
      */
-    protected void depthFirst(Unit object, short x, short y) {
+    protected void depthFirst(Unit object, short x, short y, boolean forceFind) {
         if (newestGroup == null) {
             throw new IllegalStateException("No path groups created");
         }
 
         long currentTimestamp = System.currentTimeMillis();
 
-        if (currentTimestamp - object.getLastPathFindingTimestamp() < 1000f / (float) MAX_PATH_FINDS_PER_SECOND) {
+        if (!forceFind && currentTimestamp - object.getLastPathFindingTimestamp() < 1000f / (float) MAX_PATH_FINDS_PER_SECOND) {
             return;
         }
 

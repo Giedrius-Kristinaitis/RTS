@@ -363,13 +363,14 @@ public class PlayerControls implements Updatable, Renderable, BuildingSelectionL
                 unit.setMovingToTarget(false);
             }
 
+            stopSelectedUnits();
+
             if (pressedKey == Input.Keys.A) {
-                stopSelectedUnits();
                 removeSelectedUnitTargets();
                 controlledPlayer.getUnitMover().attackMoveUnits(controlledPlayer.getSelectedUnits(), x, y, true);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_ATTACK, x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
             } else {
-                controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y);
+                controlledPlayer.getUnitMover().moveUnits(controlledPlayer.getSelectedUnits(), x, y, true);
                 Cursor.playCursorAnimation(Cursor.ANIMATION_MOVE, x * Block.BLOCK_WIDTH + Block.BLOCK_WIDTH / 2f, y * Block.BLOCK_HEIGHT + Block.BLOCK_HEIGHT / 2f);
             }
         }

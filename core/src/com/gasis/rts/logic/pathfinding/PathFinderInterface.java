@@ -17,7 +17,7 @@ public interface PathFinderInterface {
      * @param x destination x (in block map coordinates)
      * @param y destination y (in block map coordinates)
      */
-    void findPathsToObjects(Iterable<Unit> objects, short x, short y);
+    void findPathsToObjects(Iterable<Unit> objects, short x, short y, boolean forceFind);
 
     /**
      *
@@ -25,14 +25,14 @@ public interface PathFinderInterface {
      * @param x destination x (in block map coordinates)
      * @param y destination y (in block map coordinates)
      */
-    void findPathToObject(Unit object, short x, short y);
+    void findPathToObject(Unit object, short x, short y, boolean forceFind);
 
     /**
      * Re-finds the given object's path to it's destination
      *
      * @param object object to find the path for
      */
-    void refindPathToObject(Unit object);
+    void refindPathToObject(Unit object, boolean forceFind);
 
     /**
      * Creates a new path group

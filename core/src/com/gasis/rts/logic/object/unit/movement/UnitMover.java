@@ -90,7 +90,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
         units.add(unit);
 
         if (!unit.isAttackMove()) {
-            moveUnits(units, x, y);
+            moveUnits(units, x, y, false);
         } else {
             attackMoveUnits(units, x, y, false);
         }
@@ -103,7 +103,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param x x of the block in block map coordinates
      * @param y y of the block in block map coordinates
      */
-    public void moveUnits(Set<Unit> units, short x, short y) {
+    public void moveUnits(Set<Unit> units, short x, short y, boolean forceMove) {
         if (units.size() > 1) {
             resetLastPathFindingTimestamps(units);
         }
@@ -120,7 +120,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
             pathFinder.newGroup(group.units);
         }
 
-        calculateDestinationsAndMoveUnits(group, x, y);
+        calculateDestinationsAndMoveUnits(group, x, y, forceMove);
 
         addMovementListeners(units);
         initializeMovementStates(units);
@@ -160,7 +160,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                     unit.setAttackMoveDestination(destination);
                     unit.setMovingToTarget(true);
 
-                    removeUnitAndFindPath(unit, x, y);
+                    removeUnitAndFindPath(unit, x, y, false);
                 }
 
                 addMovementListeners(units);
@@ -168,7 +168,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
             }
         } else {
             for (Unit unit: units) {
-                removeUnitAndFindPath(unit, x, y);
+                removeUnitAndFindPath(unit, x, y, false);
                 movementStates.put(unit, false);
             }
         }
@@ -181,13 +181,13 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param x destination x
      * @param y destination y
      */
-    protected void removeUnitAndFindPath(Unit unit, short x, short y) {
+    protected void removeUnitAndFindPath(Unit unit, short x, short y, boolean forceMove) {
         Set<Unit> pathGroup = new HashSet<Unit>();
         pathGroup.add(unit);
 
         pathFinder.removePathForObject(unit);
         pathFinder.newGroup(pathGroup);
-        pathFinder.findPathToObject(unit, x, y);
+        pathFinder.findPathToObject(unit, x, y, forceMove);
     }
 
     /**
@@ -197,7 +197,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param destX destination x
      * @param destY destination y
      */
-    protected void calculateDestinationsAndMoveUnits(UnitGroup group, short destX, short destY) {
+    protected void calculateDestinationsAndMoveUnits(UnitGroup group, short destX, short destY, boolean forceMove) {
         try {
             if (group.units.isEmpty()) {
                 return;
@@ -213,13 +213,13 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
              * READER DISCRETION IS ADVISED
              */
 
-            pathFinder.findPathToObject(unitDistances.pollFirst().unit, destX, destY);
+            pathFinder.findPathToObject(unitDistances.pollFirst().unit, destX, destY, forceMove);
 
             while (!unitDistances.isEmpty()) {
                 // loop through the top side
                 for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
                     if (!unitDistances.isEmpty()) {
-                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY + (short) (currentIterationSize / 2)));
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY + (short) (currentIterationSize / 2)), forceMove);
                     } else {
                         break;
                     }
@@ -228,7 +228,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 // loop through the bottom side
                 for (int x = destX - (short) (currentIterationSize / 2); x <= destX + (short) (currentIterationSize / 2); x++) {
                     if (!unitDistances.isEmpty()) {
-                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY - (short) (currentIterationSize / 2)));
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) x, (short) (destY - (short) (currentIterationSize / 2)), forceMove);
                     } else {
                         break;
                     }
@@ -237,7 +237,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 // loop through the left side
                 for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
                     if (!unitDistances.isEmpty()) {
-                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX - (short) (currentIterationSize / 2)), (short) y);
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX - (short) (currentIterationSize / 2)), (short) y, forceMove);
                     } else {
                         break;
                     }
@@ -246,7 +246,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 // loop through the right side
                 for (int y = destY - (short) ((currentIterationSize - 1) / 2); y <= destY + (short) ((currentIterationSize - 1) / 2); y++) {
                     if (!unitDistances.isEmpty()) {
-                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX + (short) (currentIterationSize / 2)), (short) y);
+                        pathFinder.findPathToObject(unitDistances.pollFirst().unit, (short) (destX + (short) (currentIterationSize / 2)), (short) y, forceMove);
                     } else {
                         break;
                     }
@@ -415,7 +415,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                                 anyGroupUnitOrderedToMove = true;
                                 anyGroupUnitWasActive = true;
                             } else if (occupyingUnit == null || (!occupyingUnit.isMoving() && !group.units.contains(occupyingUnit))) {
-                                pathFinder.refindPathToObject(unit);
+                                pathFinder.refindPathToObject(unit, false);
                                 anyGroupUnitWasActive = true;
                             }
                         } else if (nextPathPoint == null && !group.attackMove && System.currentTimeMillis() - unit.getLastPathFindingTimestamp() >= 1000f / (float) PathFinder.MAX_PATH_FINDS_PER_SECOND) {
