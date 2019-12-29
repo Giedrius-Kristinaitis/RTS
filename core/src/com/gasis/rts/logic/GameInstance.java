@@ -12,7 +12,6 @@ import com.gasis.rts.cursor.Cursor;
 import com.gasis.rts.logic.animation.FrameAnimationPlayer;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.faction.Faction;
-import com.gasis.rts.logic.map.MapRenderer;
 import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
