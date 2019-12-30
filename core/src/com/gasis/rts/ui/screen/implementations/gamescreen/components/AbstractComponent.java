@@ -6,7 +6,7 @@ import com.gasis.rts.logic.GameInstance;
 /**
  * Abstract UI component
  */
-public class AbstractComponent extends Actor {
+public abstract class AbstractComponent extends Actor {
 
     // game instance
     protected GameInstance game;
@@ -28,4 +28,12 @@ public class AbstractComponent extends Actor {
     public GameInstance getGameInstance() {
         return game;
     }
+
+    /**
+     * Called when the stage resizes
+     *
+     * @param width  stage width
+     * @param height stage height
+     */
+    public void resize(int width, int height) { }
 }
