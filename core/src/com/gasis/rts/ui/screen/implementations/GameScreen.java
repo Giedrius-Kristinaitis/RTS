@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.gasis.rts.logic.GameInstance;
 import com.gasis.rts.ui.screen.abstractions.StagedScreen;
+import com.gasis.rts.ui.screen.implementations.gamescreen.components.Minimap;
 
 /**
  * Game screen. Displays game world and ui
@@ -15,30 +18,48 @@ public class GameScreen extends StagedScreen {
     // instance of the game-world
     private GameInstance game;
 
+    // minimap component
+    private Minimap minimap;
+
     /**
-     * Called when the screen becomes the current screen
+     * Called when the screen needs to be initialized
      */
     @Override
-    public void show() {
+    public void initialize() {
+        super.initialize();
+
         game = new GameInstance(resources);
         game.setCamera((OrthographicCamera) port.getCamera());
         game.setViewport(port);
+
+        // create UI components
+        minimap = new Minimap();
+        minimap.setGameInstance(game);
     }
 
     /**
      * Performs ui setup
+     *
      * @param stage stage to put ui widgets in
      */
     @Override
     public void setupUI(Stage stage) {
+        Table layout = new Table();
+        layout.setFillParent(true);
 
+        // add ui components
+        layout.align(Align.topLeft).add(minimap).padLeft(25).padTop(25).width(256).height(256);
+
+        layout.pack();
+        stage.addActor(layout);
     }
 
     /**
      * Draws the game
+     *
      * @param delta time elapsed since last render
      * @param batch batch used to draw sprites to
-     * @param cam world's camera
+     * @param cam   world's camera
      */
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera cam, float delta) {
@@ -65,6 +86,7 @@ public class GameScreen extends StagedScreen {
 
     /**
      * Updates the game state
+     *
      * @param delta time elapsed since last update
      */
     @Override
@@ -74,7 +96,8 @@ public class GameScreen extends StagedScreen {
 
     /**
      * Called when the size of the window changes
-     * @param width new width of the window
+     *
+     * @param width  new width of the window
      * @param height new height of the window
      */
     @Override
@@ -82,6 +105,9 @@ public class GameScreen extends StagedScreen {
         super.resize(width, height);
         port.update(width, height, true);
         game.screenSizeChanged(width, height);
+
+        // resize ui components
+        minimap.resize(width, height);
     }
 
     /**

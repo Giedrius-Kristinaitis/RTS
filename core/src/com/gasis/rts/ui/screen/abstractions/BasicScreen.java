@@ -44,6 +44,7 @@ public abstract class BasicScreen extends ScreenAdapter {
 
     /**
      * Called when the screen should render itself. Clears the screen with black
+     *
      * @param delta time elapsed since last render
      */
     @Override
@@ -57,6 +58,7 @@ public abstract class BasicScreen extends ScreenAdapter {
         // of course I could call draw() before update() to avoid this issue,
         // but I think it is better for game state to update before drawing, so...
         if (!disposed) {
+            port.apply();
             port.getCamera().update();
             draw(batch, (OrthographicCamera) port.getCamera(), delta);
             draw(shapeRenderer, (OrthographicCamera) port.getCamera(), delta);
@@ -68,7 +70,7 @@ public abstract class BasicScreen extends ScreenAdapter {
      *
      * @param delta time elapsed since last render
      * @param batch batch used to draw sprites to
-     * @param cam world's camera
+     * @param cam   world's camera
      */
     public abstract void draw(SpriteBatch batch, OrthographicCamera cam, float delta);
 
@@ -76,19 +78,22 @@ public abstract class BasicScreen extends ScreenAdapter {
      * Draws shapes
      *
      * @param shapeRenderer renderer to draw shapes to
-     * @param delta time elapsed since last render
-     * @param cam world's camera
+     * @param delta         time elapsed since last render
+     * @param cam           world's camera
      */
-    public void draw(ShapeRenderer shapeRenderer, OrthographicCamera cam, float delta) {}
+    public void draw(ShapeRenderer shapeRenderer, OrthographicCamera cam, float delta) {
+    }
 
     /**
      * Called when the screen should update itself
+     *
      * @param delta time elapsed since last update
      */
     public abstract void update(float delta);
 
     /**
      * Sets resources object
+     *
      * @param resources resources to be used
      */
     public void setResources(Resources resources) {
@@ -97,6 +102,7 @@ public abstract class BasicScreen extends ScreenAdapter {
 
     /**
      * Sets screen switcher
+     *
      * @param screenSwitcher
      */
     public void setScreenSwitcher(ScreenSwitcher screenSwitcher) {
@@ -110,6 +116,17 @@ public abstract class BasicScreen extends ScreenAdapter {
      */
     public void setViewport(Viewport port) {
         this.port = port;
+    }
+
+    /**
+     * Called when the window resizes
+     *
+     * @param width  window width
+     * @param height window height
+     */
+    @Override
+    public void resize(int width, int height) {
+        port.update(width, height, true);
     }
 
     /**

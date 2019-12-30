@@ -23,6 +23,7 @@ import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.PlayerInitializer;
 import com.gasis.rts.logic.player.controls.PlayerControls;
+import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 import com.gasis.rts.logic.player.exploration.ExplorationDataMultiplexer;
 import com.gasis.rts.logic.render.RenderQueue;
 import com.gasis.rts.math.Point;
@@ -518,5 +519,32 @@ public class GameInstance implements Updatable {
      */
     public void unloadResources() {
         Cursor.dispose();
+    }
+
+    /**
+     * Gets the game map
+     *
+     * @return
+     */
+    public BlockMap getMap() {
+        return map;
+    }
+
+    /**
+     * Gets game assets
+     *
+     * @return
+     */
+    public Resources getResources() {
+        return resources;
+    }
+
+    /**
+     * Gets exploration data
+     *
+     * @return
+     */
+    public ExplorationDataInterface getExplorationData() {
+        return explorationData;
     }
 }

@@ -20,7 +20,7 @@ public abstract class StagedScreen extends ScreenWithInput {
     public void initialize() {
         super.initialize();
 
-        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new ScreenViewport());
     }
 
     /**
@@ -34,19 +34,22 @@ public abstract class StagedScreen extends ScreenWithInput {
 
     /**
      * Called when the screen should render itself
+     *
      * @param delta time elapsed since last render
      */
     @Override
     public void render(float delta) {
         super.render(delta);
 
+        stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
     }
 
     /**
      * Called when the window is resized
-     * @param width new width of the window
+     *
+     * @param width  new width of the window
      * @param height new height of the window
      */
     @Override
@@ -61,6 +64,7 @@ public abstract class StagedScreen extends ScreenWithInput {
 
     /**
      * Gets this screen's input processor
+     *
      * @return input processor
      */
     @Override

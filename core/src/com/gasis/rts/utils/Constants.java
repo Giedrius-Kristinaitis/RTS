@@ -44,4 +44,14 @@ public class Constants {
     public static final String CURSOR_TEXTURE_ATTACK = "cursor_attack";
     public static final String UNEXPLORED_AREA = "unexplored_area";
     public static final String FOG_OF_WAR = "fog_of_war";
+
+    // minimap textures
+    public static final String MINIMAP_ATLAS = "minimap.atlas";
+    public static final String MINIMAP_BLOCK_UNEXPLORED = "block_unexplored";
+    public static final String MINIMAP_BLOCK_EXPLORED_INVISIBLE = "block_explored_invisible";
+    public static final String MINIMAP_BLOCK_VISIBLE = "block_visible";
+    public static final String MINIMAP_BLOCK_TERRAIN_OBJECT = "block_terrain_object";
+    public static final String MINIMAP_BLOCK_OBJECT_PREFIX = "block_object_";
+    public static final String MINIMAP_HEAVY_UNIT_PREFIX = "heavy_unit_";
+    public static final String MINIMAP_LIGHT_UNIT_PREFIX = "light_unit_";
 }
