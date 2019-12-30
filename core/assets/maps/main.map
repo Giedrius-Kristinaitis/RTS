@@ -7,3 +7,4 @@ base location: 67 8
 seed: 2019
 command: dirt 0 0 75 75 rectangle 1
 command: grass 0 0 75 75 rectangle 0.4
+command: water 30 30 15 15 circle 0.5
