@@ -48,7 +48,7 @@ public class GameScreen extends StagedScreen {
         layout.setFillParent(true);
 
         // add ui components
-        layout.align(Align.topLeft).add(minimap).padLeft(25).padTop(25).width(256).height(256);
+        layout.align(Align.topLeft).add(minimap).width(312).height(312);
 
         layout.pack();
         stage.addActor(layout);
