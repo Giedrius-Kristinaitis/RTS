@@ -1,5 +1,9 @@
 width: 75
 height: 75
+base location: 8 8
+base location: 8 67
+base location: 67 67
+base location: 67 8
 seed: 2019
 command: dirt 0 0 75 75 rectangle 1
 command: grass 0 0 75 75 rectangle 0.4

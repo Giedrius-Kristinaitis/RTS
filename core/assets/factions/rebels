@@ -13,6 +13,7 @@ building: tech_center_rebels
 building: landmine_rebels_light
 building: landmine_rebels_medium
 building: landmine_rebels_heavy
+initial building: headquarters_rebels
 soundtrack: music_rebels_1.mp3
 soundtrack: music_rebels_2.mp3
 soundtrack: music_rebels_3.mp3

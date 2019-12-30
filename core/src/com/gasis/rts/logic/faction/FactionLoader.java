@@ -36,12 +36,14 @@ public class FactionLoader {
     // faction's music
     protected List<String> soundtrack = new ArrayList<String>();
 
+    // the building that the faction starts with
+    protected String initialBuilding;
+
     /**
      * Loads a faction
      *
      * @param file the faction file
-     * @param map the game's map
-     *
+     * @param map  the game's map
      * @return
      */
     public boolean load(FileHandle file, BlockMap map) {
@@ -82,13 +84,14 @@ public class FactionLoader {
     protected void readMetaData(FileLineReader reader) {
         name = reader.readLine("name");
         defaultControlContextName = reader.readLine("default control context");
+        initialBuilding = reader.readLine("initial building");
     }
 
     /**
      * Initializes the faction's unit loaders
      *
      * @param reader file line reader to read data from
-     * @param map the game's map
+     * @param map    the game's map
      */
     protected void initializeUnitLoaders(FileLineReader reader, BlockMap map) {
         List<String> units = reader.readLines("unit");
@@ -107,7 +110,7 @@ public class FactionLoader {
      * Initializes the faction's building loaders
      *
      * @param reader file line reader to read data from
-     * @param map the game's map
+     * @param map    the game's map
      */
     protected void initializeBuildingLoaders(FileLineReader reader, BlockMap map) {
         List<String> buildings = reader.readLines("building");
@@ -139,6 +142,7 @@ public class FactionLoader {
         faction.setUnitLoaders(unitLoaders);
         faction.setBuildingLoaders(buildingLoaders);
         faction.setSoundtrack(soundtrack);
+        faction.setInitialBuilding(initialBuilding);
 
         return faction;
     }

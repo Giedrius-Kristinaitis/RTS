@@ -21,6 +21,7 @@ import com.gasis.rts.logic.object.combat.DestructionHandler;
 import com.gasis.rts.logic.object.combat.TargetAssigner;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.player.PlayerInitializer;
 import com.gasis.rts.logic.player.controls.PlayerControls;
 import com.gasis.rts.logic.player.exploration.ExplorationDataMultiplexer;
 import com.gasis.rts.logic.render.RenderQueue;
@@ -96,6 +97,9 @@ public class GameInstance implements Updatable {
     // map exploration data
     private ExplorationDataMultiplexer explorationData;
 
+    // initializes players' state
+    private PlayerInitializer playerInitializer;
+
     /**
      * Default class constructor
      *
@@ -144,6 +148,10 @@ public class GameInstance implements Updatable {
         players.add(one);
 
         targetAssigner.setPlayers(players, map);
+
+        // initialize players
+        playerInitializer = new PlayerInitializer();
+        playerInitializer.initializePlayers(players, map);
 
         // initialize soundtracks
         initializeSoundtrack(two.getFaction());

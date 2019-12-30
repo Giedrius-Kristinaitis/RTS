@@ -28,6 +28,26 @@ public class Faction {
     // factions music
     protected List<String> soundtrack = new ArrayList<String>();
 
+    // the building that the faction starts with
+    protected String initialBuilding;
+
+    /**
+     * Sets the faction's initial building
+     *
+     * @param initialBuilding name of the initial building
+     */
+    public void setInitialBuilding(String initialBuilding) {
+        this.initialBuilding = initialBuilding;
+    }
+
+    /**
+     * Gets the faction's initial building
+     * @return
+     */
+    public String getInitialBuilding() {
+        return initialBuilding;
+    }
+
     /**
      * Gets the name of the default control context
      * @return

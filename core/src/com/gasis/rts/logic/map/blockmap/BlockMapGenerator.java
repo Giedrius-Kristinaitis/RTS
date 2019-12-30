@@ -3,7 +3,9 @@ package com.gasis.rts.logic.map.blockmap;
 import com.badlogic.gdx.files.FileHandle;
 import com.gasis.rts.filehandling.FileLineReader;
 import com.gasis.rts.logic.map.MapGenerator;
+import com.gasis.rts.math.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,17 +16,17 @@ public class BlockMapGenerator implements MapGenerator {
 
     /**
      * Map generation command format:
-     *
+     * <p>
      * [name of the terrain] [x] [y] [width] [height] [shape] [thickness]
-     *
+     * <p>
      * Explanations:
-     *  - name of the terrain: grass, dirt, or water
-     *  - x: x of the bottom left corner of the terrain shape
-     *  - y: y of the bottom left corner of the terrain shape
-     *  - width: width of the terrain shape
-     *  - height: height of the terrain shape
-     *  - shape: type of the terrain shape: circle or rectangle
-     *  - thickness: thickness of the terrain between 0 and 1
+     * - name of the terrain: grass, dirt, or water
+     * - x: x of the bottom left corner of the terrain shape
+     * - y: y of the bottom left corner of the terrain shape
+     * - width: width of the terrain shape
+     * - height: height of the terrain shape
+     * - shape: type of the terrain shape: circle or rectangle
+     * - thickness: thickness of the terrain between 0 and 1
      */
 
     // used to generate random structures and their properties
@@ -34,7 +36,6 @@ public class BlockMapGenerator implements MapGenerator {
      * Generates a map from a script file
      *
      * @param scriptFile file to generate the map from
-     *
      * @return generated map, null if there was an error parsing the map script
      */
     @Override
@@ -52,6 +53,8 @@ public class BlockMapGenerator implements MapGenerator {
             // initialize the map and other objects
             BlockMap map = new BlockMap(width, height);
 
+            map.setBaseLocations(readBaseLocations(reader));
+
             random.setSeed(seed);
 
             // create map layers
@@ -62,7 +65,7 @@ public class BlockMapGenerator implements MapGenerator {
             // look at the beginning of the file to see the command format
             List<String> commands = reader.readLines("command");
 
-            for (String command: commands) {
+            for (String command : commands) {
                 processCommand(command, map);
             }
 
@@ -76,10 +79,31 @@ public class BlockMapGenerator implements MapGenerator {
     }
 
     /**
+     * Reads starting base locations
+     *
+     * @param reader reader to read from
+     * @return
+     */
+    protected List<Point> readBaseLocations(FileLineReader reader) {
+        List<Point> locations = new ArrayList<Point>();
+
+        for (String location : reader.readLines("base location")) {
+            String[] data = location.split(" ");
+
+            locations.add(new Point(
+                    Float.parseFloat(data[0]),
+                    Float.parseFloat(data[1])
+            ));
+        }
+
+        return locations;
+    }
+
+    /**
      * Processes a map script command
      *
      * @param command command to process
-     * @param map map to apply the command to
+     * @param map     map to apply the command to
      */
     protected void processCommand(String command, BlockMap map) {
         String[] data = command.split(" ");
@@ -110,7 +134,7 @@ public class BlockMapGenerator implements MapGenerator {
      * Adds terrain type to the map
      *
      * @param data data of the terrain command
-     * @param map map to add the terrain to
+     * @param map  map to add the terrain to
      */
     protected void addTerrain(String[] data, BlockMap map) {
         short[] dimensions = parseDimensions(data);
@@ -132,10 +156,10 @@ public class BlockMapGenerator implements MapGenerator {
      * Adds a terrain block to the map
      *
      * @param terrainType type of the terrain block
-     * @param x x coordinate of the block
-     * @param y y coordinate of the block
-     * @param thickness thickness of the terrain
-     * @param layer map layer to add the terrain block to
+     * @param x           x coordinate of the block
+     * @param y           y coordinate of the block
+     * @param thickness   thickness of the terrain
+     * @param layer       map layer to add the terrain block to
      */
     protected void addTerrainBlock(String terrainType, short x, short y, float thickness, BlockMapLayer layer) {
         if (x < 0 || x >= layer.getWidth() || y < 0 || y >= layer.getHeight()) {
@@ -209,9 +233,9 @@ public class BlockMapGenerator implements MapGenerator {
      * Adds a rectangular piece of terrain to the map
      *
      * @param terrainType type of the terrain
-     * @param dimensions position and dimensions of the terrain piece
-     * @param thickness thickness of the terrain
-     * @param layer map layer to add the terrain to
+     * @param dimensions  position and dimensions of the terrain piece
+     * @param thickness   thickness of the terrain
+     * @param layer       map layer to add the terrain to
      */
     protected void addTerrainRectangle(String terrainType, short[] dimensions, float thickness, BlockMapLayer layer) {
         for (short x = dimensions[0]; x < dimensions[0] + dimensions[2]; x++) {
@@ -225,9 +249,9 @@ public class BlockMapGenerator implements MapGenerator {
      * Adds a round (or elliptic) piece of terrain to the map
      *
      * @param terrainType type of the terrain
-     * @param dimensions position and dimensions of the terrain piece
-     * @param thickness thickness of the terrain
-     * @param layer map layer to add the terrain to
+     * @param dimensions  position and dimensions of the terrain piece
+     * @param thickness   thickness of the terrain
+     * @param layer       map layer to add the terrain to
      */
     protected void addTerrainCircle(String terrainType, short[] dimensions, float thickness, BlockMapLayer layer) {
         /*

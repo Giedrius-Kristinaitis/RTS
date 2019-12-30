@@ -3,9 +3,11 @@ package com.gasis.rts.logic.map.blockmap;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapLayer;
 import com.gasis.rts.logic.object.GameObject;
+import com.gasis.rts.math.Point;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 2D map made of blocks (or tiles)
@@ -24,10 +26,13 @@ public class BlockMap implements Map {
     // how many pieces of junk can exist on a single block at any time
     protected final int MAX_PIECES_OF_JUNK = 4;
 
+    // all possible starting base locations
+    protected List<Point> baseLocations;
+
     /**
      * Initializes an empty map
      *
-     * @param width width of the map in blocks
+     * @param width  width of the map in blocks
      * @param height height of the map in block
      */
     public BlockMap(short width, short height) {
@@ -38,13 +43,13 @@ public class BlockMap implements Map {
     /**
      * Adds a piece junk to the specified block
      *
-     * @param atlas junk atlas name
+     * @param atlas       junk atlas name
      * @param junkTexture name of the junk texture
-     * @param blockX block x
-     * @param blockY block y
-     * @param offsetX junk texture's offset in x axis
-     * @param offsetY junk texture's offset in y axis
-     * @param scale junk texture's scale
+     * @param blockX      block x
+     * @param blockY      block y
+     * @param offsetX     junk texture's offset in x axis
+     * @param offsetY     junk texture's offset in y axis
+     * @param scale       junk texture's scale
      */
     public void addJunk(String atlas, String junkTexture, short blockX, short blockY, float offsetX, float offsetY, float scale) {
         if (blockX < 0 || blockY < 0 || blockX >= width || blockY >= height) {
@@ -83,8 +88,8 @@ public class BlockMap implements Map {
     /**
      * Occupies a map block
      *
-     * @param x x of the block
-     * @param y y of the block
+     * @param x        x of the block
+     * @param y        y of the block
      * @param occupier new occupying object
      */
     public void occupyBlock(short x, short y, GameObject occupier) {
@@ -98,8 +103,8 @@ public class BlockMap implements Map {
     /**
      * Occupies a map block
      *
-     * @param x x of the block
-     * @param y y of the block
+     * @param x        x of the block
+     * @param y        y of the block
      * @param occupier new occupying passable object
      */
     public void occupyBlockPassable(short x, short y, GameObject occupier) {
@@ -198,7 +203,7 @@ public class BlockMap implements Map {
     /**
      * Adds a new layer to the map
      *
-     * @param layer layer to add
+     * @param layer  layer to add
      * @param bottom should the layer be added to the bottom or not
      */
     public void addMapLayer(BlockMapLayer layer, boolean bottom) {
@@ -231,7 +236,7 @@ public class BlockMap implements Map {
      * @return map layer, null if not found
      */
     public MapLayer getLayerByName(String name) {
-        for (MapLayer layer: layers) {
+        for (MapLayer layer : layers) {
             BlockMapLayer blockLayer = (BlockMapLayer) layer;
 
             if (blockLayer.getName().equals(name)) {
@@ -253,6 +258,7 @@ public class BlockMap implements Map {
 
     /**
      * Gets the width of the map in blocks
+     *
      * @return
      */
     @Override
@@ -262,10 +268,30 @@ public class BlockMap implements Map {
 
     /**
      * Gets the height of the map in blocks
+     *
      * @return
      */
     @Override
     public float getHeight() {
         return height;
+    }
+
+    /**
+     * Gets all possible locations for a base
+     *
+     * @return
+     */
+    @Override
+    public List<Point> getBaseLocations() {
+        return baseLocations;
+    }
+
+    /**
+     * Sets the possible starting base locations
+     *
+     * @param baseLocations starting base locations
+     */
+    public void setBaseLocations(List<Point> baseLocations) {
+        this.baseLocations = baseLocations;
     }
 }

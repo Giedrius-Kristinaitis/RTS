@@ -98,6 +98,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public BuildingLoader(BlockMap map) {
@@ -192,7 +193,8 @@ public class BuildingLoader extends GameObjectLoader {
         // read damaged textures
         try {
             damagedTextures = reader.readLines("damaged texture");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         // read damage points
         try {
@@ -200,7 +202,7 @@ public class BuildingLoader extends GameObjectLoader {
 
             damagePoints = new ArrayList<Point>();
 
-            for (String pointData: points) {
+            for (String pointData : points) {
                 String[] data = pointData.trim().split(" ");
 
                 damagePoints.add(new Point(
@@ -210,7 +212,8 @@ public class BuildingLoader extends GameObjectLoader {
             }
 
             damageTextureCount = Integer.parseInt(reader.readLine("damage texture count"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -228,7 +231,8 @@ public class BuildingLoader extends GameObjectLoader {
 
             taskExecutedPeriodically = Boolean.parseBoolean(reader.readLine(providerTask + " task executed periodically"));
             taskPeriod = Float.parseFloat(reader.readLine(providerTask + " task execution period"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -249,7 +253,8 @@ public class BuildingLoader extends GameObjectLoader {
 
         try {
             electricityRequirement = Integer.parseInt(reader.readLine("electricity requirement"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             landmine = Boolean.parseBoolean(reader.readLine("landmine"));
@@ -263,7 +268,8 @@ public class BuildingLoader extends GameObjectLoader {
             } else if (scale.equalsIgnoreCase("heavy")) {
                 landmineScale = FireSource.HEAVY;
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -374,6 +380,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the building's placement texture
+     *
      * @return
      */
     public String getPlacementTexture() {
@@ -382,6 +389,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the name of the loaded object's texture atlas
+     *
      * @return
      */
     public String getAtlas() {
@@ -390,6 +398,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the building's width in blocks
+     *
      * @return
      */
     public byte getWidthInBlocks() {
@@ -398,6 +407,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the building's height in blocks
+     *
      * @return
      */
     public byte getHeightInBlocks() {
@@ -406,6 +416,7 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the building's offensive specs
+     *
      * @return
      */
     public OffensiveSpecs getOffensiveSpecs() {
@@ -414,9 +425,19 @@ public class BuildingLoader extends GameObjectLoader {
 
     /**
      * Gets the building's defensive specs
+     *
      * @return
      */
     public DefensiveSpecs getDefensiveSpecs() {
         return defensiveSpecs;
+    }
+
+    /**
+     * Gets the building's construction time
+     *
+     * @return
+     */
+    public float getConstructionTime() {
+        return constructionTime;
     }
 }
