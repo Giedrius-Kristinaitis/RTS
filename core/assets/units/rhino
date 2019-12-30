@@ -44,8 +44,8 @@ g texture south: rhino_gun_south
 g texture south west: rhino_gun_south_west
 g texture west: rhino_gun_west
 g texture north west: rhino_gun_north_west
-g recoil: 1
-g recoil resistance: 0.75
+g recoil: 1.5
+g recoil resistance: 0.8
 g rotation speed: 4
 g relative x north: 0
 g relative y north: 0
