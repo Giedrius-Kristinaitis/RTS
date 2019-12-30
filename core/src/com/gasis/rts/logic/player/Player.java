@@ -77,6 +77,9 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     // manages exploration data
     protected ExplorationDataManager explorationDataManager = new ExplorationDataManager();
 
+    // player color
+    protected String color;
+
     /**
      * Default class constructor
      */
@@ -91,6 +94,24 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
         explorationDataManager.setExplorationData(state.explorationData);
         explorationDataManager.initVisibilityData((short) map.getWidth(), (short) map.getHeight());
+    }
+
+    /**
+     * Gets the player's color
+     *
+     * @return
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Sets the player's color
+     *
+     * @param color
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**
@@ -129,11 +150,11 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
     public void addResearchedTech(String techId) {
         researchedTechs.add(techId);
 
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             unit.techResearched(this, techId);
         }
 
-        for (Building building: buildings) {
+        for (Building building : buildings) {
             building.techResearched(this, techId);
         }
     }
@@ -150,6 +171,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the unit mover used by the player
+     *
      * @return
      */
     public UnitMover getUnitMover() {
@@ -230,6 +252,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the building that is currently selected
+     *
      * @return
      */
     public Building getSelectedBuilding() {
@@ -238,6 +261,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the units that are currently selected
+     *
      * @return
      */
     public Set<Unit> getSelectedUnits() {
@@ -248,7 +272,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      * Initializes the player's data with the given faction
      *
      * @param factionFile the faction file
-     * @param map the game's map
+     * @param map         the game's map
      */
     public void initialize(FileHandle factionFile, BlockMap map) {
         FactionLoader loader = new FactionLoader();
@@ -274,7 +298,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         unit.addDestructionListener(explorationDataManager);
         unit.addSiegeModeListener(explorationDataManager);
 
-        for (String tech: researchedTechs) {
+        for (String tech : researchedTechs) {
             unit.techResearched(this, tech);
         }
 
@@ -305,7 +329,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
         building.addUnitProductionListener(explorationDataManager);
         building.addDestructionListener(explorationDataManager);
 
-        for (String tech: researchedTechs) {
+        for (String tech : researchedTechs) {
             building.techResearched(this, tech);
         }
 
@@ -319,6 +343,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the units that the player owns
+     *
      * @return
      */
     public Set<Unit> getUnits() {
@@ -327,6 +352,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the buildings that the player owns
+     *
      * @return
      */
     public Set<Building> getBuildings() {
@@ -335,6 +361,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the current state
+     *
      * @return
      */
     public PlayerState getState() {
@@ -352,6 +379,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the player's id
+     *
      * @return
      */
     public Long getId() {
@@ -369,6 +397,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
 
     /**
      * Gets the player's faction
+     *
      * @return
      */
     public Faction getFaction() {
@@ -436,7 +465,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      */
     @Override
     public void electricityGained(int amount) {
-        for (Building building: buildings) {
+        for (Building building : buildings) {
             if (!building.isElectricityAvailable() && state.availableElectricity - state.usedElectricity >= building.getElectricityRequirement()) {
                 state.usedElectricity += building.getElectricityRequirement();
                 building.setElectricityAvailable(true);
@@ -451,7 +480,7 @@ public class Player implements DestructionListener, Updatable, ElectricityListen
      */
     @Override
     public void electricityLost(int amount) {
-        for (Building building: buildings) {
+        for (Building building : buildings) {
             if (building.isElectricityAvailable() && state.availableElectricity < state.usedElectricity) {
                 state.usedElectricity -= building.getElectricityRequirement();
                 building.setElectricityAvailable(false);

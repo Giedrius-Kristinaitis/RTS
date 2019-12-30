@@ -144,6 +144,9 @@ public class GameInstance implements Updatable {
         one.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "rebels"), map);
         two.initialize(Gdx.files.internal(Constants.FOLDER_FACTIONS + "confederation"), map);
 
+        one.setColor("red");
+        two.setColor("blue");
+
         players.add(two);
         players.add(one);
 
