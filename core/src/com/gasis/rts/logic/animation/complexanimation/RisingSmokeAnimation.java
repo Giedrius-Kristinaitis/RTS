@@ -47,7 +47,7 @@ public class RisingSmokeAnimation implements Animation {
      */
     @Override
     public void update(float delta) {
-        for (FrameAnimation animation: smokeBalls) {
+        for (FrameAnimation animation : smokeBalls) {
             animation.update(delta);
         }
     }
@@ -60,7 +60,7 @@ public class RisingSmokeAnimation implements Animation {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
-        for (FrameAnimation animation: smokeBalls) {
+        for (FrameAnimation animation : smokeBalls) {
             animation.render(batch, resources, renderQueue);
         }
     }

@@ -147,6 +147,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public Building(BlockMap map) {
@@ -204,6 +205,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Checks if the building has electricity
+     *
      * @return
      */
     public boolean isElectricityAvailable() {
@@ -221,6 +223,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's electricity requirement
+     *
      * @return
      */
     public int getElectricityRequirement() {
@@ -328,7 +331,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      * @param unit the unit that was just produced
      */
     protected void notifyUnitProductionListeners(Unit unit) {
-        for (UnitProductionListener listener: unitProductionListeners) {
+        for (UnitProductionListener listener : unitProductionListeners) {
             listener.unitProduced(unit);
         }
     }
@@ -386,6 +389,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Checks if the building is being constructed
+     *
      * @return
      */
     public boolean isBeingConstructed() {
@@ -441,6 +445,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the closest point to the spawn point that is empty
+     *
      * @return
      */
     protected Point getClosestPointToSpawnPoint() {
@@ -542,7 +547,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      */
     private void initializeFrameAnimations() {
         if (frameAnimations != null && frameAnimations.size() != 0) {
-            for (Map.Entry<Point, String> animation: frameAnimations.entrySet()) {
+            for (Map.Entry<Point, String> animation : frameAnimations.entrySet()) {
                 FrameAnimation frameAnimation = FrameAnimationFactory.getInstance().create(
                         animation.getValue(),
                         getCenterX() + animation.getKey().x,
@@ -564,7 +569,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      */
     private void initializeComplexAnimations() {
         if (complexAnimations != null && complexAnimations.size() != 0) {
-            for (Map.Entry<Point, String> animation: complexAnimations.entrySet()) {
+            for (Map.Entry<Point, String> animation : complexAnimations.entrySet()) {
                 Animation complexAnimation = null;
 
                 if (animation.getValue().equalsIgnoreCase("rising smoke")) {
@@ -601,6 +606,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the name of the building's texture
+     *
      * @return
      */
     public String getTexture() {
@@ -651,6 +657,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's occupied blocks
+     *
      * @return
      */
     public List<Point> getOccupiedBlocks() {
@@ -763,10 +770,10 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
         for (int i = 0; i < count; i++) {
             Point point = null;
 
-            for (Point point2: damagePoints) {
+            for (Point point2 : damagePoints) {
                 boolean exists = false;
 
-                for (DamageTexture texture: damagePointTextures) {
+                for (DamageTexture texture : damagePointTextures) {
                     if (texture.point == point2) {
                         exists = true;
                         break;
@@ -830,7 +837,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      * Notifies construction listeners that the building has been constructed
      */
     protected void notifyConstructionListeners() {
-        for (BuildingConstructionListener listener: constructionListeners) {
+        for (BuildingConstructionListener listener : constructionListeners) {
             listener.buildingConstructed(this);
         }
     }
@@ -919,11 +926,11 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     /**
      * Renders the building's damage point textures
      *
-     * @param batch sprite batch to draw tp
+     * @param batch     sprite batch to draw tp
      * @param resources game's assets
      */
     protected void renderDamagePointTextures(SpriteBatch batch, Resources resources) {
-        for (DamageTexture damageTexture: damagePointTextures) {
+        for (DamageTexture damageTexture : damagePointTextures) {
             batch.draw(
                     resources.atlas(Constants.BUILDING_DAMAGE_ATLAS).findRegion(damageTexture.texture),
                     getCenterX() - damageTexture.point.x - DAMAGE_POINT_TEXTURE_WIDTH / 2f,
@@ -937,7 +944,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     /**
      * Renders the building's damaged textures
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     protected boolean renderDamagedTextures(SpriteBatch batch, Resources resources) {
@@ -967,7 +974,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     /**
      * Renders the building's gather point
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     protected void renderGatherPoint(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
@@ -979,7 +986,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     /**
      * Renders the current production/research progress
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     protected void renderProgress(SpriteBatch batch, Resources resources) {
@@ -1011,6 +1018,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's width in blocks
+     *
      * @return
      */
     public byte getWidthInBlocks() {
@@ -1028,6 +1036,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's height in blocks
+     *
      * @return
      */
     public byte getHeightInBlocks() {
@@ -1045,6 +1054,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's x in blocks
+     *
      * @return
      */
     public short getXInBlocks() {
@@ -1062,6 +1072,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Gets the building's y in blocks
+     *
      * @return
      */
     public short getYInBlocks() {
@@ -1105,6 +1116,7 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
 
     /**
      * Checks if the building's gather point needs to be rendered
+     *
      * @return
      */
     public boolean isRenderGatherPoint() {

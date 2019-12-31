@@ -42,6 +42,7 @@ public class Faction {
 
     /**
      * Gets the faction's initial building
+     *
      * @return
      */
     public String getInitialBuilding() {
@@ -50,6 +51,7 @@ public class Faction {
 
     /**
      * Gets the name of the default control context
+     *
      * @return
      */
     public String getDefaultControlContextName() {
@@ -85,6 +87,7 @@ public class Faction {
 
     /**
      * Gets the unit loaders of the faction
+     *
      * @return
      */
     public Map<String, UnitLoader> getUnitLoaders() {
@@ -93,6 +96,7 @@ public class Faction {
 
     /**
      * Gets the building loaders of the faction
+     *
      * @return
      */
     public Map<String, BuildingLoader> getBuildingLoaders() {
@@ -110,6 +114,7 @@ public class Faction {
 
     /**
      * Gets the name of the faction
+     *
      * @return
      */
     public String getName() {
@@ -118,6 +123,7 @@ public class Faction {
 
     /**
      * Gets the faction's soundtract
+     *
      * @return
      */
     public List<String> getSoundtrack() {

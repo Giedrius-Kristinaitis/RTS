@@ -1,8 +1,6 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.animation.Animation;
 import com.gasis.rts.logic.animation.AnimationFinishListener;
@@ -10,6 +8,8 @@ import com.gasis.rts.logic.animation.complexanimation.MissileAnimation;
 import com.gasis.rts.logic.animation.complexanimation.ProjectileAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;

@@ -3,8 +3,6 @@ package com.gasis.rts.logic.pathfinding;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.math.Point;
 
-import java.util.List;
-
 /**
  * Finds paths on a block map
  */
@@ -14,16 +12,15 @@ public interface PathFinderInterface {
      * Finds paths from all given objects to the destination point
      *
      * @param objects objects to find paths for
-     * @param x destination x (in block map coordinates)
-     * @param y destination y (in block map coordinates)
+     * @param x       destination x (in block map coordinates)
+     * @param y       destination y (in block map coordinates)
      */
     void findPathsToObjects(Iterable<Unit> objects, short x, short y, boolean forceFind);
 
     /**
-     *
      * @param object object to find the path for
-     * @param x destination x (in block map coordinates)
-     * @param y destination y (in block map coordinates)
+     * @param x      destination x (in block map coordinates)
+     * @param y      destination y (in block map coordinates)
      */
     void findPathToObject(Unit object, short x, short y, boolean forceFind);
 

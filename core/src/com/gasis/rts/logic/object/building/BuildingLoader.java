@@ -8,7 +8,6 @@ import com.gasis.rts.logic.object.combat.*;
 import com.gasis.rts.logic.task.ElectricityProviderTask;
 import com.gasis.rts.logic.task.FinanceProviderTask;
 import com.gasis.rts.logic.task.ResourceProviderTask;
-import com.gasis.rts.logic.task.Task;
 import com.gasis.rts.math.Point;
 
 import java.util.ArrayList;

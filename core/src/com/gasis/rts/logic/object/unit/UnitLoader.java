@@ -67,6 +67,7 @@ public class UnitLoader extends GameObjectLoader {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public UnitLoader(BlockMap map) {
@@ -97,15 +98,18 @@ public class UnitLoader extends GameObjectLoader {
         if (siegeModeAvailable) {
             try {
                 siegeModeFacingDirection = Unit.class.getField(reader.readLine("siege mode facing direction")).getByte(null);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
 
             try {
                 siegeModeRequiredTechId = reader.readLine("siege mode required tech id");
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
 
             try {
                 autoSiegeModeSupported = Boolean.parseBoolean(reader.readLine("auto siege mode"));
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
 
             defensiveSpecs.setSiegeModeSightRange(Float.parseFloat(reader.readLine("siege mode sight range")));
 
@@ -198,6 +202,7 @@ public class UnitLoader extends GameObjectLoader {
 
     /**
      * Reads the unit's production data
+     *
      * @param reader file reader to read data from
      */
     protected void readProductionData(FileLineReader reader) {
@@ -276,6 +281,7 @@ public class UnitLoader extends GameObjectLoader {
 
     /**
      * Gets the unit's production time in seconds
+     *
      * @return
      */
     public float getProductionTime() {
@@ -284,6 +290,7 @@ public class UnitLoader extends GameObjectLoader {
 
     /**
      * Gets the unit's offensive specs
+     *
      * @return
      */
     public OffensiveSpecs getOffensiveSpecs() {
@@ -292,6 +299,7 @@ public class UnitLoader extends GameObjectLoader {
 
     /**
      * Gets the unit's defensive specs
+     *
      * @return
      */
     public DefensiveSpecs getDefensiveSpecs() {

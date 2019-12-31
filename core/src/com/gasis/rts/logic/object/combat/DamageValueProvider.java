@@ -7,6 +7,7 @@ public interface DamageValueProvider {
 
     /**
      * Gets damage value
+     *
      * @return
      */
     float getDamage();

@@ -105,7 +105,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * @param object object to notify about
      */
     protected void notifyEnemiesAboutExistence(GameObject object) {
-        for (Player player: players) {
+        for (Player player : players) {
             if (player.isAllied(object.getOwner()) || player == object.getOwner()) {
                 continue;
             }
@@ -119,11 +119,11 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * Sets the target object for the object's enemy units if they have no target and the
      * object is in range
      *
-     * @param enemy enemy player
+     * @param enemy  enemy player
      * @param object target object
      */
     protected void assignTargetToEnemyUnits(Player enemy, GameObject object) {
-        for (Unit unit: enemy.getUnits()) {
+        for (Unit unit : enemy.getUnits()) {
             assignTargetToUnit(unit, object);
         }
     }
@@ -132,11 +132,11 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * Sets the target object for the object's enemy buildings if they have no target and the
      * object is in range
      *
-     * @param enemy enemy player
+     * @param enemy  enemy player
      * @param object target object
      */
     protected void assignTargetToEnemyBuildings(Player enemy, GameObject object) {
-        for (Building building: enemy.getBuildings()) {
+        for (Building building : enemy.getBuildings()) {
             if (!(building instanceof OffensiveBuilding) || building.isBeingConstructed()) {
                 continue;
             }
@@ -148,7 +148,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
     /**
      * Assigns a target to a unit
      *
-     * @param unit unit to assign the target to
+     * @param unit   unit to assign the target to
      * @param target the target
      */
     protected void assignTargetToUnit(Unit unit, GameObject target) {
@@ -173,7 +173,7 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      * Assigns a target to a building
      *
      * @param building building to assign the target to
-     * @param target the target
+     * @param target   the target
      */
     protected void assignTargetToBuilding(OffensiveBuilding building, GameObject target) {
         if (target instanceof Landmine) {
@@ -284,7 +284,6 @@ public class TargetAssigner extends MovementAdapter implements BuildingPlacement
      *
      * @param object object to assign the target to
      * @param target the target
-
      */
     protected void assignTargetToObject(GameObject object, GameObject target) {
         if (object instanceof Unit) {

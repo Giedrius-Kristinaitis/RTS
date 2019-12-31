@@ -1,13 +1,13 @@
 package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.building.Building;
 import com.gasis.rts.logic.object.building.BuildingLoader;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
@@ -59,6 +59,7 @@ public class BuildingPlacer implements Renderable {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public BuildingPlacer(BlockMap map) {
@@ -89,7 +90,7 @@ public class BuildingPlacer implements Renderable {
      * @param building the building that was just placed
      */
     protected void notifyPlacementListeners(Building building) {
-        for (BuildingPlacementListener listener: placementListeners) {
+        for (BuildingPlacementListener listener : placementListeners) {
             listener.buildingPlaced(building);
         }
     }
@@ -177,6 +178,7 @@ public class BuildingPlacer implements Renderable {
 
     /**
      * Checks if any building is being placed right now
+     *
      * @return
      */
     public boolean isPlacing() {
@@ -221,10 +223,10 @@ public class BuildingPlacer implements Renderable {
      * @return
      */
     protected boolean canPlaceInCurrentPosition() {
-        for (Point block: blocks) {
+        for (Point block : blocks) {
             if (map.isBlockOccupied((short) block.x, (short) block.y)
-                || !map.isBlockPassable((short) block.x, (short) block.y)
-                || block.x < 0 || block.y < 0 || block.x >= map.getWidth() || block.y >= map.getHeight()) {
+                    || !map.isBlockPassable((short) block.x, (short) block.y)
+                    || block.x < 0 || block.y < 0 || block.x >= map.getWidth() || block.y >= map.getHeight()) {
 
                 return false;
             }

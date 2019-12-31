@@ -96,6 +96,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Checks if the end animation has finished
+     *
      * @return
      */
     public boolean hasEndAnimationFinished() {
@@ -108,6 +109,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Checks if the projectile has reached it's target
+     *
      * @return
      */
     public boolean hasProjectileReachedTarget() {
@@ -129,6 +131,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Gets the x coordinate of firing location
+     *
      * @return
      */
     public float getStartingX() {
@@ -137,6 +140,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Gets the y coordinate of firing location
+     *
      * @return
      */
     public float getStartingY() {
@@ -145,6 +149,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Gets the x coordinate of the target
+     *
      * @return
      */
     public float getTargetX() {
@@ -153,6 +158,7 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
 
     /**
      * Gets the y coordinate of the target
+     *
      * @return
      */
     public float getTargetY() {
@@ -162,8 +168,8 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     /**
      * Sets the trajectory of the projectile
      *
-     * @param x starting x coordinate
-     * @param y starting y coordinate
+     * @param x       starting x coordinate
+     * @param y       starting y coordinate
      * @param targetX target x coordinate
      * @param targetY target y coordinate
      */
@@ -217,8 +223,8 @@ public class ProjectileAnimation implements Animation, AnimationFinishListener {
     /**
      * Rotates the projectile animation to match the firing direction
      *
-     * @param x starting x coordinate
-     * @param y starting y coordinate
+     * @param x       starting x coordinate
+     * @param y       starting y coordinate
      * @param targetX target x coordinate
      * @param targetY target y coordinate
      */

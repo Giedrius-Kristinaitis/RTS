@@ -36,15 +36,18 @@ public abstract class Tech {
 
         try {
             id = reader.readLine("id");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             researchTime = Float.parseFloat(reader.readLine("research time"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             requiredTechId = reader.readLine("required tech id");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         loadData(reader);
     }
@@ -59,6 +62,7 @@ public abstract class Tech {
 
     /**
      * Gets the tech's research time
+     *
      * @return
      */
     public float getResearchTime() {
@@ -67,6 +71,7 @@ public abstract class Tech {
 
     /**
      * Gets the tech's id
+     *
      * @return
      */
     public String getId() {

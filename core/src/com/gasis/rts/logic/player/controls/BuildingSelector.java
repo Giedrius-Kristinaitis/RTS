@@ -23,6 +23,7 @@ public class BuildingSelector extends Selector {
 
     /**
      * Default class constructor
+     *
      * @param player
      */
     public BuildingSelector(BlockMap map, Player player) {
@@ -50,8 +51,8 @@ public class BuildingSelector extends Selector {
     /**
      * Called when the screen was touched or a mouse button was pressed
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
@@ -108,7 +109,7 @@ public class BuildingSelector extends Selector {
      * Notifies all building selection listeners that a building was selected
      */
     protected void notifySelectionListeners() {
-        for (BuildingSelectionListener listener: listeners) {
+        for (BuildingSelectionListener listener : listeners) {
             listener.buildingSelected(selectedBuilding);
         }
     }
@@ -117,7 +118,7 @@ public class BuildingSelector extends Selector {
      * Notifies all building deselection listeners that a building was deselected
      */
     protected void notifyDeselectionListeners() {
-        for (BuildingSelectionListener listener: listeners) {
+        for (BuildingSelectionListener listener : listeners) {
             listener.buildingDeselected();
         }
     }
@@ -137,6 +138,7 @@ public class BuildingSelector extends Selector {
 
     /**
      * Gets currently selected building
+     *
      * @return
      */
     public Building getSelectedBuilding() {

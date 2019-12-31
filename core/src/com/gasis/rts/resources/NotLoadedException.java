@@ -7,6 +7,7 @@ public class NotLoadedException extends RuntimeException {
 
     /**
      * Default class constructor
+     *
      * @param message exception message
      */
     public NotLoadedException(String message) {

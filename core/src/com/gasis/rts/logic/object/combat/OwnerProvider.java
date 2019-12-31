@@ -9,6 +9,7 @@ public interface OwnerProvider {
 
     /**
      * Gets the owner of an object
+     *
      * @return
      */
     GameObject getOwner();

@@ -39,6 +39,7 @@ public class UnitSelector extends Selector {
 
     /**
      * Default class constructor
+     *
      * @param player
      */
     public UnitSelector(BlockMap map, Player player) {
@@ -66,8 +67,8 @@ public class UnitSelector extends Selector {
     /**
      * Called when the screen was touched or a mouse button was pressed
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
@@ -106,8 +107,8 @@ public class UnitSelector extends Selector {
     /**
      * Called when a finger was lifted or a mouse button was released
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
@@ -127,8 +128,8 @@ public class UnitSelector extends Selector {
     /**
      * Called when a touch drag event occurs
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event
      */
     @Override
@@ -145,7 +146,7 @@ public class UnitSelector extends Selector {
      * Selects player's units that currently are in the selection rectangle
      */
     protected void selectUnitsInSelectionRectangle() {
-        for (Unit unit: player.getUnits()) {
+        for (Unit unit : player.getUnits()) {
             if (isInSelectionRectangle(unit.getCenterX(), unit.getCenterY())) {
                 unit.setRenderSelectionCircle(true);
                 unit.setRenderHp(true);
@@ -162,7 +163,7 @@ public class UnitSelector extends Selector {
      * Notifies unit selection listeners that units were selected
      */
     protected void notifySelectionListeners() {
-        for (UnitSelectionListener listener: listeners) {
+        for (UnitSelectionListener listener : listeners) {
             listener.unitsSelected(selectedUnits);
         }
     }
@@ -171,7 +172,7 @@ public class UnitSelector extends Selector {
      * Notifies unit deselection listeners that units were deselected
      */
     protected void notifyDeselectionListeners() {
-        for (UnitSelectionListener listener: listeners) {
+        for (UnitSelectionListener listener : listeners) {
             listener.unitsDeselected();
         }
     }
@@ -180,7 +181,7 @@ public class UnitSelector extends Selector {
      * Deselects all currently selected units
      */
     public void deselectUnits() {
-        for (Unit unit: selectedUnits) {
+        for (Unit unit : selectedUnits) {
             unit.setRenderHp(false);
             unit.setRenderSelectionCircle(false);
         }
@@ -208,6 +209,7 @@ public class UnitSelector extends Selector {
 
     /**
      * Gets all currently selected units
+     *
      * @return
      */
     public Set<Unit> getSelectedUnits() {

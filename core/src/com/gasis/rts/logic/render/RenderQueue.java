@@ -126,7 +126,8 @@ public class RenderQueue implements RenderQueueInterface {
         protected Renderable renderable;
         protected float zIndex;
 
-        protected Entry() {}
+        protected Entry() {
+        }
 
         protected Entry(float zIndex, Renderable renderable) {
             this.zIndex = zIndex;

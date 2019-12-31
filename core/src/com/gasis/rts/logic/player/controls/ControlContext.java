@@ -22,7 +22,7 @@ public class ControlContext {
     /**
      * Loads the control context
      *
-     * @param file control context description file
+     * @param file   control context description file
      * @param placer building placer used when initializing placement techs
      */
     public boolean load(FileHandle file, BuildingPlacer placer) {
@@ -50,7 +50,7 @@ public class ControlContext {
             return;
         }
 
-        for (String tech: techList) {
+        for (String tech : techList) {
             loadTech(reader, tech, placer);
         }
     }

@@ -11,7 +11,7 @@ public interface TechListener {
      * Called when a tech gets researched
      *
      * @param player the player the tech was applied to
-     * @param tech the researched tech
+     * @param tech   the researched tech
      */
     void techResearched(Player player, String tech);
 }

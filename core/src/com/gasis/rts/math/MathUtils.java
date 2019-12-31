@@ -12,7 +12,6 @@ public class MathUtils {
      * @param y1 y of the first point
      * @param x2 x of the second point
      * @param y2 y of the second point
-     *
      * @return angle in degrees
      */
     public static float angle(float x1, float y1, float x2, float y2) {

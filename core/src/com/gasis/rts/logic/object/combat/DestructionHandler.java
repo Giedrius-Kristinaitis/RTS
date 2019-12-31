@@ -43,12 +43,12 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
     /**
      * Gets called when a projectile reaches it's target
      *
-     * @param targetX x coordinate of the target
-     * @param targetY y coordinate of the target
-     * @param damage the damage caused by the projectile
+     * @param targetX   x coordinate of the target
+     * @param targetY   y coordinate of the target
+     * @param damage    the damage caused by the projectile
      * @param explosive is the projectile that reached the target explosive or not
-     * @param scale the scale of the projectile
-     * @param shooter the object that launched the shot
+     * @param scale     the scale of the projectile
+     * @param shooter   the object that launched the shot
      */
     @Override
     public void targetReached(float targetX, float targetY, float damage, boolean explosive, byte scale, GameObject shooter) {
@@ -80,11 +80,11 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
      * Deals damage to the specified block and if the projectile is explosive, deals
      * damage to nearby blocks
      *
-     * @param x target's block x
-     * @param y target's block y
-     * @param damage damage dealt by the projectile
+     * @param x         target's block x
+     * @param y         target's block y
+     * @param damage    damage dealt by the projectile
      * @param explosive is the projectile explosive
-     * @param shooter the object that launched the shot
+     * @param shooter   the object that launched the shot
      */
     protected void dealDamage(short x, short y, float damage, boolean explosive, GameObject shooter) {
         GameObject occupyingObject = map.getOccupyingObject(x, y);
@@ -117,7 +117,7 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
             neighbourObjects.add(map.getOccupyingObject((short) (x - 1), y));
             neighbourObjects.add(map.getOccupyingObject((short) (x - 1), (short) (y + 1)));
 
-            for (GameObject object: neighbourObjects) {
+            for (GameObject object : neighbourObjects) {
                 if (object != null && object != occupyingObject && !object.isDestroyed()) {
                     object.doDamage(damage * 0.25f);
 
@@ -182,7 +182,7 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
      *
      * @param targetX target x
      * @param targetY target y
-     * @param scale projectile's scale
+     * @param scale   projectile's scale
      */
     protected void createCrater(float targetX, float targetY, byte scale) {
         short blockX = (short) (targetX / Block.BLOCK_WIDTH);
@@ -199,7 +199,7 @@ public class DestructionHandler implements TargetReachListener, LandmineListener
             craterTexture = Constants.LARGE_CRATER_PREFIX + random.nextInt(Constants.LARGE_CRATER_COUNT);
 
             if (scale == FireSource.MEDIUM) {
-                textureScale = Math.min(1.25f , 0.75f + random.nextFloat());
+                textureScale = Math.min(1.25f, 0.75f + random.nextFloat());
             }
         } else if (scale == FireSource.SMALL) {
             textureScale = 0.4f;

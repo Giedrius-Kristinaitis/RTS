@@ -13,6 +13,7 @@ public abstract class OffensiveGameObject extends GameObject {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public OffensiveGameObject(BlockMap map) {
@@ -21,6 +22,7 @@ public abstract class OffensiveGameObject extends GameObject {
 
     /**
      * Gets the offensive specs of the object
+     *
      * @return
      */
     public OffensiveSpecs getOffensiveSpecs() {

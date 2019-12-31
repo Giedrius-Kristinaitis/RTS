@@ -60,6 +60,7 @@ public abstract class GameObjectLoader {
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public GameObjectLoader(BlockMap map) {
@@ -70,7 +71,6 @@ public abstract class GameObjectLoader {
      * Loads a game object from the given file
      *
      * @param file file to load from
-     *
      * @return true if the object was loaded successfully
      */
     public final boolean load(FileHandle file) {
@@ -103,34 +103,41 @@ public abstract class GameObjectLoader {
 
         try {
             passable = Boolean.parseBoolean(reader.readLine("passable"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             destructionAnimationName = reader.readLine("destruction animation");
             destructionAnimationScale = Float.parseFloat(reader.readLine("destruction animation scale"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             junkAtlas = reader.readLine("junk texture atlas");
             junkTexture = reader.readLine("junk texture");
             junkScale = Float.parseFloat(reader.readLine("junk scale"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             hpBarWidth = Float.parseFloat(reader.readLine("hp bar width"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             hpBarYOffset = Float.parseFloat(reader.readLine("hp bar height offset"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             hpBarXOffset = Float.parseFloat(reader.readLine("hp bar horizontal offset"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             healingSpeed = Float.parseFloat(reader.readLine("healing speed"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -149,6 +156,7 @@ public abstract class GameObjectLoader {
 
     /**
      * Gets the code of the loaded object
+     *
      * @return
      */
     public String getCode() {
@@ -157,6 +165,7 @@ public abstract class GameObjectLoader {
 
     /**
      * Gets the width of the object
+     *
      * @return
      */
     public float getWidth() {
@@ -165,6 +174,7 @@ public abstract class GameObjectLoader {
 
     /**
      * Gets the height of the object
+     *
      * @return
      */
     public float getHeight() {
@@ -173,6 +183,7 @@ public abstract class GameObjectLoader {
 
     /**
      * Gets the name of the building's control context
+     *
      * @return
      */
     public String getControlContextName() {

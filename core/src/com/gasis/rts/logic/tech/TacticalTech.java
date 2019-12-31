@@ -51,6 +51,7 @@ public class TacticalTech extends Tech {
     protected void loadData(FileLineReader reader) {
         try {
             action = reader.readLine("action");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 }

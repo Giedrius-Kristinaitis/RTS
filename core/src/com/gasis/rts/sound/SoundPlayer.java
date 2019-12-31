@@ -70,9 +70,9 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
     /**
      * Plays a sound effect with spatial effect
      *
-     * @param name name of the sound effect
+     * @param name   name of the sound effect
      * @param volume volume of the effect
-     * @param pan pan of the effect (between -1 and 1)
+     * @param pan    pan of the effect (between -1 and 1)
      */
     private void playSpatialSoundEffect(String name, float volume, float pan) {
         if (playCounts.containsKey(name) && playCounts.get(name) >= MAX_SAME_SOUND_PLAYS_PER_SECOND) {
@@ -116,7 +116,7 @@ public class SoundPlayer implements SoundPlayerInterface, Updatable {
     public void update(float delta) {
         if (timer >= 1f) {
             if (!playCounts.isEmpty()) {
-                for (String name: playCounts.keySet()) {
+                for (String name : playCounts.keySet()) {
                     playCounts.put(name, 0);
                 }
             }

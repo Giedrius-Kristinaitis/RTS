@@ -9,6 +9,7 @@ public abstract class ScreenWithInput extends BasicScreen implements InputProces
 
     /**
      * Gets this screen's input processor
+     *
      * @return input processor
      */
     public InputProcessor getInputProcessor() {

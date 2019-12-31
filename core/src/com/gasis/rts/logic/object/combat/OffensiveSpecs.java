@@ -14,7 +14,8 @@ public class OffensiveSpecs {
     /**
      * Default class constructor
      */
-    public OffensiveSpecs() { }
+    public OffensiveSpecs() {
+    }
 
     /**
      * Constructor with arguments
@@ -44,6 +45,7 @@ public class OffensiveSpecs {
 
     /**
      * Gets the attack when in siege mode
+     *
      * @return
      */
     public float getSiegeModeAttack() {
@@ -61,6 +63,7 @@ public class OffensiveSpecs {
 
     /**
      * Gets the attack range when in siege mode
+     *
      * @return
      */
     public float getSiegeModeAttackRange() {
@@ -78,6 +81,7 @@ public class OffensiveSpecs {
 
     /**
      * Gets the attack
+     *
      * @return
      */
     public float getAttack() {
@@ -95,6 +99,7 @@ public class OffensiveSpecs {
 
     /**
      * Gets the speed
+     *
      * @return
      */
     public float getSpeed() {
@@ -117,6 +122,7 @@ public class OffensiveSpecs {
 
     /**
      * Gets the attack range
+     *
      * @return
      */
     public float getAttackRange() {

@@ -24,12 +24,14 @@ public interface Aimable {
 
     /**
      * Checks if this object has a target
+     *
      * @return
      */
     boolean hasTarget();
 
     /**
      * Checks if the object has a target object
+     *
      * @return
      */
     boolean hasTargetObject();
@@ -46,18 +48,21 @@ public interface Aimable {
 
     /**
      * Checks if the object is aimed at the ground or not
+     *
      * @return
      */
     boolean aimedAtGround();
 
     /**
      * Gets target x
+     *
      * @return
      */
     float getTargetX();
 
     /**
      * Gets target y
+     *
      * @return
      */
     float getTargetY();

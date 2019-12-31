@@ -9,6 +9,7 @@ public interface UnitProducer {
 
     /**
      * Queues up a unit to be produced
+     *
      * @param unit loader of the unit
      */
     void queueUp(UnitLoader unit);

@@ -13,7 +13,8 @@ public class DefensiveSpecs {
     /**
      * Default class constructor
      */
-    public DefensiveSpecs() {}
+    public DefensiveSpecs() {
+    }
 
     /**
      * Constructor with arguments
@@ -40,6 +41,7 @@ public class DefensiveSpecs {
 
     /**
      * Gets the sight range when in siege mode
+     *
      * @return
      */
     public float getSiegeModeSightRange() {
@@ -57,6 +59,7 @@ public class DefensiveSpecs {
 
     /**
      * Gets the defence
+     *
      * @return
      */
     public float getDefence() {
@@ -74,6 +77,7 @@ public class DefensiveSpecs {
 
     /**
      * Gets the maximum amount of hp the object can have
+     *
      * @return
      */
     public float getMaxHp() {
@@ -91,6 +95,7 @@ public class DefensiveSpecs {
 
     /**
      * Gets the sight range
+     *
      * @return
      */
     public float getSightRange() {

@@ -93,7 +93,7 @@ public class Resources {
      * Fills the tiled maps map with assets
      */
     private void fillMapsMap() {
-        for (String map: maps.keySet()) {
+        for (String map : maps.keySet()) {
             maps.put(map, assetManager.get(map, TiledMap.class));
         }
     }
@@ -102,7 +102,7 @@ public class Resources {
      * Fills the skins map with assets
      */
     private void fillSkinsMap() {
-        for (String skin: skins.keySet()) {
+        for (String skin : skins.keySet()) {
             skins.put(skin, assetManager.get(skin, Skin.class));
         }
     }
@@ -111,7 +111,7 @@ public class Resources {
      * Fills the fonts map with assets
      */
     private void fillFontMap() {
-        for (String font: fonts.keySet()) {
+        for (String font : fonts.keySet()) {
             fonts.put(font, assetManager.get(font, BitmapFont.class));
         }
     }
@@ -120,7 +120,7 @@ public class Resources {
      * Fills the music map with assets
      */
     private void fillMusicMap() {
-        for (String music: this.music.keySet()) {
+        for (String music : this.music.keySet()) {
             this.music.put(music, assetManager.get(music, Music.class));
         }
     }
@@ -129,7 +129,7 @@ public class Resources {
      * Fills the sounds map with assets
      */
     private void fillSoundMap() {
-        for (String sound: sounds.keySet()) {
+        for (String sound : sounds.keySet()) {
             sounds.put(sound, assetManager.get(sound, Sound.class));
         }
     }
@@ -138,7 +138,7 @@ public class Resources {
      * Fills the textureAtlases map with assets
      */
     private void fillTextureAtlasMap() {
-        for (String textureAtlas: textureAtlases.keySet()) {
+        for (String textureAtlas : textureAtlases.keySet()) {
             textureAtlases.put(textureAtlas, assetManager.get(textureAtlas, TextureAtlas.class));
         }
     }
@@ -147,7 +147,7 @@ public class Resources {
      * Fills textures map with assets
      */
     private void fillTextureMap() {
-        for (String texture: textures.keySet()) {
+        for (String texture : textures.keySet()) {
             textures.put(texture, assetManager.get(texture, Texture.class));
         }
     }
@@ -169,6 +169,7 @@ public class Resources {
 
     /**
      * Returns a number between 0 and 1 indicating loading percentage
+     *
      * @return progress
      */
     public float getProgress() {
@@ -181,7 +182,7 @@ public class Resources {
      * @param assets map containing asset file names and types
      */
     public void load(Map<String, Class> assets) {
-        for (Map.Entry<String, Class> asset: assets.entrySet()) {
+        for (Map.Entry<String, Class> asset : assets.entrySet()) {
             load(asset.getKey(), asset.getValue());
         }
     }
@@ -216,7 +217,7 @@ public class Resources {
      * @param maps maps to load
      */
     public void loadMaps(String... maps) {
-        for (String map: maps) {
+        for (String map : maps) {
             loadMap(map);
         }
     }
@@ -235,6 +236,7 @@ public class Resources {
 
     /**
      * Gets a loaded tiled map from the asset manager
+     *
      * @param name file name of the map
      * @return
      */
@@ -248,6 +250,7 @@ public class Resources {
 
     /**
      * Gets a loaded texture from the asset manager
+     *
      * @param name file name of the texture
      * @return loaded texture
      */
@@ -261,6 +264,7 @@ public class Resources {
 
     /**
      * Gets a loaded texture atlas from the asset manager
+     *
      * @param name file name of the atlas
      * @return loaded texture atlas
      */
@@ -274,6 +278,7 @@ public class Resources {
 
     /**
      * Gets a loaded bitmap font from the asset manager
+     *
      * @param name file name of the font
      * @return loaded bitmap font
      */
@@ -287,6 +292,7 @@ public class Resources {
 
     /**
      * Gets a loaded music instance from the asset manager
+     *
      * @param name file name of the music instance
      * @return loaded music instance
      */
@@ -329,7 +335,7 @@ public class Resources {
     /**
      * Unloads all specified assets
      *
-     * @param assets assets to unload
+     * @param assets  assets to unload
      * @param classes class types of the same index assets
      */
     public void unload(String[] assets, Class[] classes) {
@@ -341,7 +347,7 @@ public class Resources {
     /**
      * Unloads a single asset
      *
-     * @param name file name of the asset
+     * @param name  file name of the asset
      * @param clazz class type of the asset
      */
     public void unload(String name, Class clazz) {

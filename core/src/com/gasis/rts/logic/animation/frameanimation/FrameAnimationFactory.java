@@ -26,7 +26,8 @@ public class FrameAnimationFactory implements AnimationFactory {
     /**
      * Class constructor
      */
-    private FrameAnimationFactory() { }
+    private FrameAnimationFactory() {
+    }
 
     /**
      * Loads all the animations from animation files
@@ -39,7 +40,7 @@ public class FrameAnimationFactory implements AnimationFactory {
         FileHandle directory = Gdx.files.internal(Constants.FOLDER_ANIMATIONS);
 
         // get all files in the animations directory
-        for (FileHandle file: directory.list()) {
+        for (FileHandle file : directory.list()) {
             if (!file.isDirectory()) {
                 FrameAnimationLoader loader = new FrameAnimationLoader();
 
@@ -54,6 +55,7 @@ public class FrameAnimationFactory implements AnimationFactory {
 
     /**
      * Gets the instance of the frame animation factory
+     *
      * @return
      */
     public static FrameAnimationFactory getInstance() {
@@ -86,13 +88,12 @@ public class FrameAnimationFactory implements AnimationFactory {
     /**
      * Creates a new instance of the specified frame animation
      *
-     * @param name name of the animation
-     * @param x starting x position
-     * @param y starting y position
+     * @param name   name of the animation
+     * @param x      starting x position
+     * @param y      starting y position
      * @param finalX ending x position
      * @param finalY ending y position
      * @param center are the given coordinates of the center point
-     *
      * @return new animation instance
      */
     public FrameAnimation create(String name, float x, float y, float finalX, float finalY, boolean center) {

@@ -27,6 +27,7 @@ public class FiringData {
 
     /**
      * Gets the normal shot count
+     *
      * @return
      */
     public byte getShotCount() {
@@ -44,6 +45,7 @@ public class FiringData {
 
     /**
      * Gets siege mode shot count
+     *
      * @return
      */
     public byte getSiegeModeShotCount() {
@@ -61,6 +63,7 @@ public class FiringData {
 
     /**
      * Gets normal reload speed
+     *
      * @return
      */
     public float getReloadSpeed() {
@@ -78,6 +81,7 @@ public class FiringData {
 
     /**
      * Gets siege mode reload speed
+     *
      * @return
      */
     public float getSiegeModeReloadSpeed() {
@@ -95,6 +99,7 @@ public class FiringData {
 
     /**
      * Gets normal shot interval
+     *
      * @return
      */
     public float getShotInterval() {
@@ -112,6 +117,7 @@ public class FiringData {
 
     /**
      * Gets siege mode shot interval
+     *
      * @return
      */
     public float getSiegeModeShotInterval() {

@@ -47,7 +47,6 @@ public class FrameAnimationLoader extends AnimationLoader {
      * Loads the animation from a file
      *
      * @param animationFile animation file to load
-     *
      * @return true if the animation was loaded successfully
      */
     @Override
@@ -72,7 +71,6 @@ public class FrameAnimationLoader extends AnimationLoader {
      * Reads the data of the animation
      *
      * @param reader file line reader reader to read from
-     *
      * @throws Exception
      */
     protected void readData(FileLineReader reader) {
@@ -92,7 +90,6 @@ public class FrameAnimationLoader extends AnimationLoader {
      * Reads the frames of the animation
      *
      * @param reader file line reader to read from
-     *
      * @throws Exception
      */
     protected void readFrames(FileLineReader reader) {

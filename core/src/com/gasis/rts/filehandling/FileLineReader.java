@@ -21,7 +21,7 @@ public class FileLineReader {
     /**
      * Class constructor. Initializes the buffered reader
      *
-     * @param input stream to read data from
+     * @param input     stream to read data from
      * @param separator the thing used to split line title from the content
      */
     public FileLineReader(InputStream input, String separator) {
@@ -55,11 +55,10 @@ public class FileLineReader {
      * Reads the line with the given title
      *
      * @param title title of the line
-     *
      * @return read line, null if the line was not found
      */
     public String readLine(String title) {
-        for (String line: lines) {
+        for (String line : lines) {
             String[] data = line.split(separator);
 
             if (data[0].trim().equalsIgnoreCase(title)) {
@@ -79,7 +78,7 @@ public class FileLineReader {
     public List<String> readLines(String title) {
         List<String> titledLines = new ArrayList<String>();
 
-        for (String line: lines) {
+        for (String line : lines) {
             String[] data = line.split(separator);
 
             if (data[0].trim().equalsIgnoreCase(title)) {

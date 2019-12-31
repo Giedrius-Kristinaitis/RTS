@@ -1,12 +1,12 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.Rotatable;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.math.MathUtils;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
@@ -108,6 +108,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the gun's required tech
+     *
      * @return
      */
     public String getRequiredTechId() {
@@ -125,6 +126,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the gun's individual reload speed
+     *
      * @return
      */
     public float getIndividualReloadSpeed() {
@@ -156,6 +158,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the gun's individual range
+     *
      * @return
      */
     public float getIndividualRange() {
@@ -173,6 +176,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun has a secondary target
+     *
      * @return
      */
     public boolean hasSecondaryTarget() {
@@ -202,6 +206,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun can be removed
+     *
      * @return
      */
     public boolean canBeRemoved() {
@@ -227,6 +232,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun is currently present
+     *
      * @return
      */
     public boolean isCurrentlyPresent() {
@@ -235,6 +241,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the name of the texture atlas used by the gun
+     *
      * @return
      */
     public String getAtlas() {
@@ -252,6 +259,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the offensive specs of the object
+     *
      * @return
      */
     public OffensiveSpecs getOffensiveSpecs() {
@@ -363,6 +371,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the relative x coordinates of the gun
+     *
      * @return
      */
     public List<Float> getRelativeX() {
@@ -371,6 +380,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the relative y coordinates of the gun
+     *
      * @return
      */
     public List<Float> getRelativeY() {
@@ -397,6 +407,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the recoil generated when firing
+     *
      * @return
      */
     public float getRecoil() {
@@ -414,6 +425,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun is in siege mode
+     *
      * @return
      */
     public boolean isInSiegeMode() {
@@ -469,6 +481,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the firing logic of the gun
+     *
      * @return
      */
     public FiringLogic getFiringLogic() {
@@ -486,6 +499,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the textures of the gun
+     *
      * @return
      */
     public List<String> getTextures() {
@@ -495,7 +509,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     /**
      * Adds a new fire source to the gun
      *
-     * @param name name used to identify the source
+     * @param name   name used to identify the source
      * @param source fire source to add
      */
     public void addFireSource(String name, FireSource source) {
@@ -504,6 +518,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the resistance of the recoil force
+     *
      * @return
      */
     public float getRecoilResistance() {
@@ -521,6 +536,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the rotation speed of the gun
+     *
      * @return
      */
     public float getRotationSpeed() {
@@ -538,6 +554,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the facing direction of the gun
+     *
      * @return
      */
     public byte getFacingDirection() {
@@ -555,6 +572,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the width of the gun
+     *
      * @return
      */
     public float getWidth() {
@@ -563,6 +581,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the height of the gun
+     *
      * @return
      */
     public float getHeight() {
@@ -607,6 +626,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the x coordinate of the rotation point
+     *
      * @return
      */
     public float getRotationPointX() {
@@ -615,6 +635,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Gets the y coordinate of the rotation point
+     *
      * @return
      */
     public float getRotationPointY() {
@@ -704,8 +725,8 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
      * Updates the state of the gun
      *
      * @param togglingSiegeMode is the holder switching between siege mode right now
-     * @param delta time elapsed since the last update
-     * @param updateTarget should the target also be updated
+     * @param delta             time elapsed since the last update
+     * @param updateTarget      should the target also be updated
      */
     public void update(boolean togglingSiegeMode, float delta, boolean updateTarget) {
         if (!currentlyPresent) {
@@ -859,6 +880,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun can reach it's main target or not
+     *
      * @return
      */
     public boolean isMainTargetReachable() {
@@ -883,6 +905,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun can reach it's secondary target or not
+     *
      * @return
      */
     public boolean isSecondaryTargetReachable() {
@@ -925,6 +948,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
 
     /**
      * Checks if the gun is currently rotating
+     *
      * @return
      */
     public boolean isRotating() {
@@ -971,7 +995,7 @@ public class RotatingGun implements Updatable, Renderable, Rotatable, Aimable, D
     /**
      * Renders the gun to the screen
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game assets
      */
     @Override

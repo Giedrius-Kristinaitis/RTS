@@ -20,7 +20,7 @@ public class BlockMapZoomer {
     /**
      * Updates the camera's zoom
      *
-     * @param cam game camera
+     * @param cam   game camera
      * @param delta time elapsed since the last update
      */
     public void updateMapZoom(OrthographicCamera cam, float delta) {

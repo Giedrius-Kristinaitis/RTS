@@ -51,7 +51,7 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void findPathsToObjects(Iterable<Unit> objects, short x, short y, boolean forceFind) {
-        for (Unit unit: objects) {
+        for (Unit unit : objects) {
             depthFirst(unit, x, y, forceFind);
         }
     }
@@ -73,7 +73,7 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void refindPathToObject(Unit object, boolean forceFind) {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             if (group.foundPaths.containsKey(object)) {
                 depthFirst(object, (short) group.foundPaths.get(object).getLast().x, (short) group.foundPaths.get(object).getLast().y, forceFind);
                 break;
@@ -90,8 +90,8 @@ public class PathFinder implements PathFinderInterface {
     public void newGroup(Iterable<Unit> units) {
         PathGroup group = new PathGroup();
 
-        for (Unit unit: units) {
-            for (PathGroup group1: groups) {
+        for (Unit unit : units) {
+            for (PathGroup group1 : groups) {
                 group1.foundPaths.remove(unit);
             }
 
@@ -107,13 +107,13 @@ public class PathFinder implements PathFinderInterface {
      * Removes empty path groups to avoid memory leaking
      */
     protected void removeEmptyGroups() {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             if (group.foundPaths.isEmpty()) {
                 groupsToRemove.add(group);
             }
         }
 
-        for (PathGroup group: groupsToRemove) {
+        for (PathGroup group : groupsToRemove) {
             groups.remove(group);
         }
 
@@ -125,8 +125,8 @@ public class PathFinder implements PathFinderInterface {
      * and saves the found path
      *
      * @param object the object for which the path will be found
-     * @param x destination x
-     * @param y destination y
+     * @param x      destination x
+     * @param y      destination y
      */
     protected void depthFirst(Unit object, short x, short y, boolean forceFind) {
         if (newestGroup == null) {
@@ -228,9 +228,8 @@ public class PathFinder implements PathFinderInterface {
      * Forms a path for a unit
      *
      * @param visitedPointsInOrder all points visited by the path finding algorithm in order from first to last
-     * @param allVisitedPoints all points visited by the algorithm in random order (used for quicker searching)
-     * @param visitedPointIndex the index in visited point list up to which to construct the path
-     *
+     * @param allVisitedPoints     all points visited by the algorithm in random order (used for quicker searching)
+     * @param visitedPointIndex    the index in visited point list up to which to construct the path
      * @return
      */
     protected Deque<Point> formPath(List<Point> visitedPointsInOrder, Set<Point> allVisitedPoints, int visitedPointIndex) {
@@ -247,7 +246,7 @@ public class PathFinder implements PathFinderInterface {
 
             addNeighboursToList(neighbours, current);
 
-            for (Point neighbour: neighbours) {
+            for (Point neighbour : neighbours) {
                 if (allVisitedPoints.contains(neighbour)) {
                     if (visitedPointsInOrder.indexOf(neighbour) < i) {
                         next = neighbour;
@@ -270,7 +269,7 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Adds all neighbour points of the given point to the given list
      *
-     * @param list list to add neighbours to
+     * @param list  list to add neighbours to
      * @param point point to get neighbours from
      */
     protected void addNeighboursToList(List<Point> list, Point point) {
@@ -287,11 +286,11 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Gets point's neighbour that is not visited and is the closest to the destination
      *
-     * @param unit the unit the algorithm is finding path for
+     * @param unit          the unit the algorithm is finding path for
      * @param visitedPoints points that have been visited so far
-     * @param neighbours instance of a list that will be used to store neighbours (just to avoid memory leaking)
-     * @param point current point in the algorithm
-     * @param destination algorithm's destination point
+     * @param neighbours    instance of a list that will be used to store neighbours (just to avoid memory leaking)
+     * @param point         current point in the algorithm
+     * @param destination   algorithm's destination point
      * @return
      */
     protected Point getBestNotVisitedNeighbour(Unit unit, Set<Point> visitedPoints, List<Point> neighbours, Point point, Point destination) {
@@ -302,7 +301,7 @@ public class PathFinder implements PathFinderInterface {
         Point next = null;
         float minDistance = Float.MAX_VALUE;
 
-        for (Point neighbor: neighbours) {
+        for (Point neighbor : neighbours) {
             if (blockAvailable(unit, visitedPoints, neighbor)) {
                 float distance = MathUtils.distance(neighbor.x, destination.x, neighbor.y, destination.y);
 
@@ -323,9 +322,9 @@ public class PathFinder implements PathFinderInterface {
     /**
      * Checks if a point is available for a path
      *
-     * @param unit the unit the algorithm is finding path for
+     * @param unit          the unit the algorithm is finding path for
      * @param visitedPoints points visited so far by the algorithm
-     * @param point point to check
+     * @param point         point to check
      * @return
      */
     protected boolean blockAvailable(Unit unit, Set<Point> visitedPoints, Point point) {
@@ -349,7 +348,7 @@ public class PathFinder implements PathFinderInterface {
      * @return
      */
     protected PathGroup getGroup(Unit unit) {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             if (group.foundPaths.containsKey(unit)) {
                 return group;
             }
@@ -384,7 +383,7 @@ public class PathFinder implements PathFinderInterface {
      * @param unit unit associated with a path
      */
     public void removePathForObject(Unit unit) {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             group.foundPaths.remove(unit);
         }
     }
@@ -398,7 +397,7 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public Point getNextPathPointForObject(Unit object) {
         try {
-            for (PathGroup group: groups) {
+            for (PathGroup group : groups) {
                 if (group.foundPaths.containsKey(object)) {
                     return group.foundPaths.get(object).peek();
                 }
@@ -418,13 +417,14 @@ public class PathFinder implements PathFinderInterface {
     @Override
     public void removeNextPathPoint(Unit object) {
         try {
-            for (PathGroup group: groups) {
+            for (PathGroup group : groups) {
                 if (group.foundPaths.containsKey(object)) {
                     group.foundPaths.get(object).pop();
                     break;
                 }
             }
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+        }
     }
 
     /**
@@ -432,7 +432,7 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public void clearAllPaths() {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             group.foundPaths.clear();
         }
 
@@ -448,7 +448,7 @@ public class PathFinder implements PathFinderInterface {
      */
     @Override
     public com.gasis.rts.math.Point getFinalDestination(Unit unit) {
-        for (PathGroup group: groups) {
+        for (PathGroup group : groups) {
             if (group.foundPaths != null) {
                 if (group.foundPaths.containsKey(unit) && group.foundPaths.get(unit) != null && !group.foundPaths.get(unit).isEmpty()) {
                     return group.foundPaths.get(unit).getLast();

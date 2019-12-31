@@ -24,6 +24,7 @@ public interface ExplorationDataInterface {
 
     /**
      * Checks if a cell is explored
+     *
      * @param x
      * @param y
      * @return

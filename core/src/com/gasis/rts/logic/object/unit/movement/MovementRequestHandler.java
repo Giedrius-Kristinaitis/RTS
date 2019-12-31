@@ -11,8 +11,8 @@ public interface MovementRequestHandler {
      * Handles a unit's movement request
      *
      * @param unit the unit that requested to be moved
-     * @param x destination x
-     * @param y destination y
+     * @param x    destination x
+     * @param y    destination y
      */
     void handleMovementRequest(Unit unit, short x, short y);
 }

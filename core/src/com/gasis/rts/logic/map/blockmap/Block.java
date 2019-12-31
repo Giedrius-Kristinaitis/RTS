@@ -35,6 +35,7 @@ public class Block {
 
     /**
      * Checks if the block is passable or not
+     *
      * @return
      */
     public boolean isPassable() {
@@ -43,6 +44,7 @@ public class Block {
 
     /**
      * Sets the passable value for this block
+     *
      * @param passable new passable value
      */
     public void setPassable(boolean passable) {
@@ -64,6 +66,7 @@ public class Block {
 
     /**
      * Gets the block's passable object
+     *
      * @return
      */
     public GameObject getPassableObject() {
@@ -90,6 +93,7 @@ public class Block {
 
     /**
      * Gets the x coordinate of the block
+     *
      * @return x coordinate
      */
     public short getX() {
@@ -98,6 +102,7 @@ public class Block {
 
     /**
      * Gets the y coordinate of the block
+     *
      * @return y coordinate
      */
     public short getY() {

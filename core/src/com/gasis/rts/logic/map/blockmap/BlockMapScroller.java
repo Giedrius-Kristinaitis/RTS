@@ -54,7 +54,7 @@ public class BlockMapScroller {
     /**
      * Sets the halves of screen dimensions
      *
-     * @param halfWidth new half width
+     * @param halfWidth  new half width
      * @param halfHeight new half height
      */
     public void setHalfScreenDimensions(float halfWidth, float halfHeight) {
@@ -65,7 +65,7 @@ public class BlockMapScroller {
     /**
      * Sets the dimensions of the screen
      *
-     * @param screenWidth new screen width
+     * @param screenWidth  new screen width
      * @param screenHeight new screen height
      */
     public void setScreenDimensions(int screenWidth, int screenHeight) {

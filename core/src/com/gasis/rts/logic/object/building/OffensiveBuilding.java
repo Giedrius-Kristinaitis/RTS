@@ -41,6 +41,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public OffensiveBuilding(BlockMap map) {
@@ -62,7 +63,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                 firingLogic.removeEnqueuedShots();
             }
 
-            for (RotatingGun gun: rotatingGuns.values()) {
+            for (RotatingGun gun : rotatingGuns.values()) {
                 gun.setDestroyed(true);
             }
         }
@@ -78,7 +79,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         if (!super.canBeRemoved()) {
             return false;
         } else {
-            for (RotatingGun gun: rotatingGuns.values()) {
+            for (RotatingGun gun : rotatingGuns.values()) {
                 if (gun.isCurrentlyPresent() && !gun.canBeRemoved()) {
                     return false;
                 }
@@ -98,7 +99,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
             firingLogic.addTargetReachedListener(listener);
         }
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             gun.addTargetReachedListener(listener);
         }
     }
@@ -113,7 +114,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
             firingLogic.removeTargetReachListener(listener);
         }
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             gun.removeTargetReachListener(listener);
         }
     }
@@ -139,6 +140,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
     /**
      * Gets the offensive specs of the building
+     *
      * @return
      */
     public OffensiveSpecs getOffensiveSpecs() {
@@ -149,7 +151,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * Adds a rotating gun to the building
      *
      * @param name name used to identify the gun
-     * @param gun the gun to add
+     * @param gun  the gun to add
      */
     public void addGun(String name, RotatingGun gun) {
         gun.getFiringLogic().setOwner(this);
@@ -189,7 +191,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * Notifies target removal listeners that the object's target has been removed
      */
     protected void notifyTargetRemovalListeners() {
-        for (TargetRemovalListener listener: targetRemovalListeners) {
+        for (TargetRemovalListener listener : targetRemovalListeners) {
             listener.targetRemoved(this);
         }
     }
@@ -205,7 +207,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
         target = new Point(targetX, targetY);
         targetObject = null;
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             if (gun.isCurrentlyPresent()) {
                 gun.aimAt(targetX, targetY);
             }
@@ -221,7 +223,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
     public void aimAt(GameObject target) {
         targetObject = target;
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             if (gun.isCurrentlyPresent()) {
                 gun.aimAt(target);
             }
@@ -268,7 +270,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
             firingLogic.removeEnqueuedShots();
         }
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             gun.removeEnqueuedShots();
         }
     }
@@ -355,7 +357,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * Updates the x coordinates of the rotation point of all rotating guns
      */
     protected void updateGunRotationPointX() {
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             gun.setRotationPointX(getCenterX() + gun.getRelativeX().get(0));
         }
     }
@@ -364,7 +366,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
      * Updates the y coordinates of the rotation point of all rotating guns
      */
     protected void updateGunRotationPointY() {
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             gun.setRotationPointY(getCenterY() + gun.getRelativeY().get(0));
         }
     }
@@ -383,7 +385,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
                     delta, getCenterX(), getCenterY());
         }
 
-        for (RotatingGun gun: rotatingGuns.values()) {
+        for (RotatingGun gun : rotatingGuns.values()) {
             if (gun.isCurrentlyPresent()) {
                 gun.update(false, delta, electricityAvailable || electricityRequirement == 0);
             }
@@ -477,6 +479,7 @@ public class OffensiveBuilding extends Building implements Aimable, DamageValueP
 
     /**
      * Gets the building's firing logic
+     *
      * @return
      */
     public FiringLogic getFiringLogic() {

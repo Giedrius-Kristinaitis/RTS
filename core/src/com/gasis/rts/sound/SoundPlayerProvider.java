@@ -12,6 +12,7 @@ public class SoundPlayerProvider {
 
     /**
      * Gets sound player instance
+     *
      * @return
      */
     public static SoundPlayerInterface getSoundPlayer() {

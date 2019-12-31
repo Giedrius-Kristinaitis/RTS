@@ -100,15 +100,15 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * Moves the given units to the specified block on the map
      *
      * @param units units to move
-     * @param x x of the block in block map coordinates
-     * @param y y of the block in block map coordinates
+     * @param x     x of the block in block map coordinates
+     * @param y     y of the block in block map coordinates
      */
     public void moveUnits(Set<Unit> units, short x, short y, boolean forceMove) {
         if (units.size() > 1) {
             resetLastPathFindingTimestamps(units);
         }
 
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             unit.setAttackMove(false);
             unit.setAttackMoveDestination(null);
         }
@@ -132,7 +132,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param units units to reset timestamps for
      */
     protected void resetLastPathFindingTimestamps(Set<Unit> units) {
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             unit.setLastPathFindingTimestamp(System.currentTimeMillis() - 1000);
         }
     }
@@ -140,9 +140,9 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
     /**
      * Moves the given units to the specified block on the map in attack move mode
      *
-     * @param units units to move
-     * @param x x of the block in block map coordinates
-     * @param y y of the block in block map coordinates
+     * @param units    units to move
+     * @param x        x of the block in block map coordinates
+     * @param y        y of the block in block map coordinates
      * @param newGroup should a new group of units be created
      */
     public void attackMoveUnits(Set<Unit> units, short x, short y, boolean newGroup) {
@@ -167,7 +167,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
                 initializeMovementStates(units);
             }
         } else {
-            for (Unit unit: units) {
+            for (Unit unit : units) {
                 removeUnitAndFindPath(unit, x, y, false);
                 movementStates.put(unit, false);
             }
@@ -178,8 +178,8 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * Removes a unit's path and refinds it
      *
      * @param unit unit to refind path for
-     * @param x destination x
-     * @param y destination y
+     * @param x    destination x
+     * @param y    destination y
      */
     protected void removeUnitAndFindPath(Unit unit, short x, short y, boolean forceMove) {
         Set<Unit> pathGroup = new HashSet<Unit>();
@@ -254,18 +254,19 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
 
                 currentIterationSize += 2;
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     /**
      * Calculates each unit's distance to the destination point
      *
      * @param units units to calculate distance for
-     * @param x destination x
-     * @param y destination y
+     * @param x     destination x
+     * @param y     destination y
      */
     protected void calculateUnitDistances(Set<Unit> units, short x, short y) {
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             UnitDistance distance = new UnitDistance();
             distance.unit = unit;
             distance.distance = MathUtils.distance((short) (unit.getCenterX() / Block.BLOCK_WIDTH), x, (short) (unit.getCenterY() / Block.BLOCK_HEIGHT), y);
@@ -277,14 +278,14 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * Creates a unit group from the given units
      *
      * @param units units to form the group from
-     * @param x destination x
-     * @param y destination y
+     * @param x     destination x
+     * @param y     destination y
      * @return
      */
     protected UnitGroup createUnitGroup(Set<Unit> units, short x, short y) {
         UnitGroup group = new UnitGroup();
 
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             removeUnitFromAllGroups(unit);
 
             if (!unit.isInSiegeMode()) {
@@ -306,7 +307,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param unit unit to remove
      */
     protected void removeUnitFromAllGroups(Unit unit) {
-        for (UnitGroup group: groups) {
+        for (UnitGroup group : groups) {
             if (group.units.contains(unit)) {
                 group.units.remove(unit);
                 pathFinder.removePathForObject(unit);
@@ -321,7 +322,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param units units for which the state will be initialized
      */
     protected void initializeMovementStates(Set<Unit> units) {
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             if (!movementStates.containsKey(unit)) {
                 movementStates.put(unit, false);
             }
@@ -334,7 +335,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param units units to which the listeners will be added
      */
     protected void addMovementListeners(Set<Unit> units) {
-        for (Unit unit: units) {
+        for (Unit unit : units) {
             unit.addMovementListener(this);
         }
     }
@@ -367,7 +368,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      * @param unit unit to stop
      */
     public void stopUnit(Unit unit) {
-        for (UnitGroup group: groups) {
+        for (UnitGroup group : groups) {
             if (group.units.contains(unit)) {
                 pathFinder.removePathForObject(unit);
                 movementStates.remove(unit);
@@ -392,7 +393,7 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
      */
     @Override
     public void update(float delta) {
-        for (UnitGroup group: groups) {
+        for (UnitGroup group : groups) {
             anyGroupUnitWasActive = false;
             anyGroupUnitOrderedToMove = false;
 
@@ -463,8 +464,8 @@ public class UnitMover implements Updatable, MovementListener, MovementRequestHa
         }
 
         if (groupsToRemove.size() > 0) {
-            for (UnitGroup group: groupsToRemove) {
-                for (Unit unit: group.units) {
+            for (UnitGroup group : groupsToRemove) {
+                for (Unit unit : group.units) {
                     pathFinder.removePathForObject(unit);
                     movementStates.remove(unit);
                     unit.removeMovementListener(this);

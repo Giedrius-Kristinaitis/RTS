@@ -41,7 +41,7 @@ public class ExplorationDataManager extends MovementAdapter implements BuildingC
     /**
      * Initializes visibility data array
      *
-     * @param mapWidth map width
+     * @param mapWidth  map width
      * @param mapHeight map height
      */
     public void initVisibilityData(short mapWidth, short mapHeight) {

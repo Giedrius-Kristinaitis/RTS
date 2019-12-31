@@ -12,7 +12,8 @@ public class Point implements Comparable<Point> {
     /**
      * Default class constructor
      */
-    public Point() {}
+    public Point() {
+    }
 
     /**
      * Constructor with arguments
@@ -59,6 +60,7 @@ public class Point implements Comparable<Point> {
 
     /**
      * Gets the hash code of the point
+     *
      * @return
      */
     @Override

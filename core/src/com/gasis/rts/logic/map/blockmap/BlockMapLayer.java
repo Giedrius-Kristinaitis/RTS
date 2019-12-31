@@ -21,7 +21,7 @@ public class BlockMapLayer implements MapLayer {
     /**
      * Default class constructor. Initializes the block array
      *
-     * @param width width of the layer in blocks
+     * @param width  width of the layer in blocks
      * @param height height of the layer in blocks
      */
     public BlockMapLayer(String name, short width, short height) {
@@ -36,8 +36,8 @@ public class BlockMapLayer implements MapLayer {
      * Adds a block to the layer
      *
      * @param block block to add
-     * @param x x coordinate of the block
-     * @param y y coordinate of the block
+     * @param x     x coordinate of the block
+     * @param y     y coordinate of the block
      */
     public void addBlock(Block block, short x, short y) {
         block.setX(x);
@@ -69,6 +69,7 @@ public class BlockMapLayer implements MapLayer {
 
     /**
      * Sets the name of the layer
+     *
      * @param name new name
      */
     public void setName(String name) {
@@ -86,6 +87,7 @@ public class BlockMapLayer implements MapLayer {
 
     /**
      * Gets the width of the layer in blocks
+     *
      * @return
      */
     public short getWidth() {
@@ -94,6 +96,7 @@ public class BlockMapLayer implements MapLayer {
 
     /**
      * Gets the height of the layer in blocks
+     *
      * @return
      */
     public short getHeight() {
@@ -102,6 +105,7 @@ public class BlockMapLayer implements MapLayer {
 
     /**
      * Sets the width of the layer
+     *
      * @param width new width in blocks
      */
     public void setWidth(short width) {
@@ -110,6 +114,7 @@ public class BlockMapLayer implements MapLayer {
 
     /**
      * Sets the height of the layer
+     *
      * @param height new height in blocks
      */
     public void setHeight(short height) {

@@ -40,7 +40,7 @@ public class ExplorationDataMultiplexer implements ExplorationDataInterface {
      */
     @Override
     public void setExplored(short x, short y, boolean explored) {
-        for (ExplorationDataInterface data: this.data) {
+        for (ExplorationDataInterface data : this.data) {
             data.setExplored(x, y, explored);
         }
     }
@@ -54,7 +54,7 @@ public class ExplorationDataMultiplexer implements ExplorationDataInterface {
      */
     @Override
     public boolean isExplored(short x, short y) {
-        for (ExplorationDataInterface data: this.data) {
+        for (ExplorationDataInterface data : this.data) {
             if (data.isExplored(x, y)) {
                 return true;
             }
@@ -72,7 +72,7 @@ public class ExplorationDataMultiplexer implements ExplorationDataInterface {
      */
     @Override
     public void setVisible(short x, short y, boolean visible) {
-        for (ExplorationDataInterface data: this.data) {
+        for (ExplorationDataInterface data : this.data) {
             data.setVisible(x, y, visible);
         }
     }
@@ -86,7 +86,7 @@ public class ExplorationDataMultiplexer implements ExplorationDataInterface {
      */
     @Override
     public boolean isVisible(short x, short y) {
-        for (ExplorationDataInterface data: this.data) {
+        for (ExplorationDataInterface data : this.data) {
             if (data.isVisible(x, y)) {
                 return true;
             }

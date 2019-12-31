@@ -1,14 +1,14 @@
 package com.gasis.rts.logic.object;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.DefensiveSpecs;
 import com.gasis.rts.logic.object.combat.DestructionListener;
 import com.gasis.rts.logic.object.research.TechListener;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.resources.Resources;
 import com.gasis.rts.utils.Constants;
 
@@ -92,6 +92,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public GameObject(BlockMap map) {
@@ -163,6 +164,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the combat specs of the object
+     *
      * @return
      */
     public DefensiveSpecs getDefensiveSpecs() {
@@ -189,13 +191,14 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
      * Notifies all destruction listeners that the object has been destroyed
      */
     protected void notifyDestructionListeners() {
-        for (DestructionListener listener: destructionListeners) {
+        for (DestructionListener listener : destructionListeners) {
             listener.objectDestroyed(this);
         }
     }
 
     /**
      * Gets the code of the object
+     *
      * @return
      */
     public String getCode() {
@@ -204,6 +207,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the id of the object
+     *
      * @return
      */
     public Long getId() {
@@ -230,6 +234,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Checks if the object is passable
+     *
      * @return
      */
     public boolean isPassable() {
@@ -256,6 +261,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the current hp of the object
+     *
      * @return
      */
     public float getHp() {
@@ -264,6 +270,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the name of the of the texture atlas
+     *
      * @return
      */
     public String getAtlas() {
@@ -272,6 +279,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the x coordinate of the object
+     *
      * @return
      */
     public float getX() {
@@ -280,6 +288,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the y coordinate of the object
+     *
      * @return
      */
     public float getY() {
@@ -288,6 +297,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the width of the building
+     *
      * @return
      */
     public float getWidth() {
@@ -296,6 +306,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the height of the building
+     *
      * @return
      */
     public float getHeight() {
@@ -394,7 +405,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
     /**
      * Renders the object to the screen
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game assets
      */
     @Override
@@ -402,6 +413,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Checks if the object can be safely removed from object list
+     *
      * @return
      */
     public abstract boolean canBeRemoved();
@@ -413,12 +425,14 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the x coordinate of it's occupied block (used for targeting the object)
+     *
      * @return
      */
     public abstract float getOccupiedBlockX();
 
     /**
      * Gets the y coordinate of it's occupied block (used for targeting the object)
+     *
      * @return
      */
     public abstract float getOccupiedBlockY();
@@ -426,7 +440,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
     /**
      * Renders the object's hp bar
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     protected void renderHp(SpriteBatch batch, Resources resources) {
@@ -473,6 +487,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the name of the building's control context
+     *
      * @return
      */
     public String getControlContextName() {
@@ -499,6 +514,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the owner of the object
+     *
      * @return
      */
     public Player getOwner() {
@@ -516,6 +532,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the name of the destruction animation
+     *
      * @return
      */
     public String getDestructionAnimationName() {
@@ -533,6 +550,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the scale of the destruction animation
+     *
      * @return
      */
     public float getDestructionAnimationScale() {
@@ -541,6 +559,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Checks if the object is destroyed
+     *
      * @return
      */
     public boolean isDestroyed() {
@@ -549,6 +568,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the junk texture
+     *
      * @return
      */
     public String getJunkTexture() {
@@ -566,6 +586,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the junk scale
+     *
      * @return
      */
     public float getJunkScale() {
@@ -583,6 +604,7 @@ public abstract class GameObject implements Updatable, Renderable, Damageable, T
 
     /**
      * Gets the name of the junk texture atlas
+     *
      * @return
      */
     public String getJunkAtlas() {

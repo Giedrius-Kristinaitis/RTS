@@ -5,5 +5,5 @@ package com.gasis.rts.ui.screen.implementations.gamescreen.components;
  */
 public class ObjectStats extends AbstractComponent {
 
-    
+
 }

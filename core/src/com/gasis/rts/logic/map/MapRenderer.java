@@ -98,7 +98,7 @@ public interface MapRenderer extends Renderable, Updatable {
     /**
      * Renders for of war
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     void renderFogOfWar(SpriteBatch batch, Resources resources);

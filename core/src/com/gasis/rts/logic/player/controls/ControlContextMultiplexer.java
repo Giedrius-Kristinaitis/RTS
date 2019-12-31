@@ -15,7 +15,7 @@ public class ControlContextMultiplexer extends ControlContext {
      * @param context context to add
      */
     public void addControlContext(ControlContext context) {
-        for (Map.Entry<String, Tech> tech: context.techs.entrySet()) {
+        for (Map.Entry<String, Tech> tech : context.techs.entrySet()) {
             techs.put(tech.getKey(), tech.getValue());
         }
     }

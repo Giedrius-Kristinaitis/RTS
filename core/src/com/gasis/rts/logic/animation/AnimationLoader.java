@@ -14,7 +14,6 @@ public abstract class AnimationLoader {
      * Loads the animation from a file
      *
      * @param animationFile animation file to load
-     *
      * @return true if the animation was loaded successfully
      */
     public abstract boolean load(FileHandle animationFile);

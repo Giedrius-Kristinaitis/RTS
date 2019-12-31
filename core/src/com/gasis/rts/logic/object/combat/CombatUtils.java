@@ -15,8 +15,8 @@ public class CombatUtils {
     /**
      * Gets the facing direction for the unit at (x, y) which is aiming at (x2, y2)
      *
-     * @param x x of the unit
-     * @param y y of the unit
+     * @param x  x of the unit
+     * @param y  y of the unit
      * @param x2 x of the target
      * @param y2 y of the target
      * @return facing direction
@@ -47,8 +47,7 @@ public class CombatUtils {
      * Creates firing logic for the given fire sources
      *
      * @param fireSources fire sources to create logic for
-     * @param firingData firing data
-     *
+     * @param firingData  firing data
      * @return newly created firing logic
      */
     public static FiringLogic createFiringLogic(List<FireSource> fireSources, FiringData firingData) {
@@ -87,10 +86,9 @@ public class CombatUtils {
     /**
      * Creates a new rotating gun with the given data
      *
-     * @param data data for the rotating gun
+     * @param data       data for the rotating gun
      * @param firingData firing data
-     * @param specs offensive specs of the holder
-     *
+     * @param specs      offensive specs of the holder
      * @return newly created rotating gun
      */
     public static RotatingGun createRotatingGun(Map.Entry<RotatingGun, List<FireSource>> data, FiringData firingData, OffensiveSpecs specs) {
@@ -119,19 +117,18 @@ public class CombatUtils {
     /**
      * Creates a fire source
      *
-     * @param type                 type of the fire/projectile
-     * @param scale                scale of the fire/projectile
-     * @param gunCount             how many guns are firing
-     * @param projectileSpeed      speed of the projectile
-     * @param firePoints           list of fire points
-     * @param presentInSiegeMode   is the source present in siege mode
+     * @param type                  type of the fire/projectile
+     * @param scale                 scale of the fire/projectile
+     * @param gunCount              how many guns are firing
+     * @param projectileSpeed       speed of the projectile
+     * @param firePoints            list of fire points
+     * @param presentInSiegeMode    is the source present in siege mode
      * @param presentOutOfSiegeMode is the source present when not in siege mode
-     * @param projectileDeviation  how much can the projectile deviate from it's target
-     * @param damageCoefficient    damage coefficient between 0 and 1
-     * @param soundEffect          sound effect when firing
-     * @param requiredTechId       source's required tech
-     * @param enabled              is the source enabled by default
-     *
+     * @param projectileDeviation   how much can the projectile deviate from it's target
+     * @param damageCoefficient     damage coefficient between 0 and 1
+     * @param soundEffect           sound effect when firing
+     * @param requiredTechId        source's required tech
+     * @param enabled               is the source enabled by default
      * @return newly created fire source
      */
     public static FireSource createFireSource(byte type, byte scale, byte gunCount, float projectileSpeed, List<Point> firePoints, boolean presentInSiegeMode, boolean presentOutOfSiegeMode, float projectileDeviation, float damageCoefficient, String soundEffect, String requiredTechId, boolean enabled) {

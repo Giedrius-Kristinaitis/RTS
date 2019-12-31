@@ -12,10 +12,10 @@ import com.gasis.rts.logic.object.OffensiveGameObject;
 import com.gasis.rts.logic.object.Rotatable;
 import com.gasis.rts.logic.object.building.Landmine;
 import com.gasis.rts.logic.object.combat.*;
-import com.gasis.rts.logic.object.unit.movement.PathInfoProvider;
 import com.gasis.rts.logic.object.unit.movement.Movable;
 import com.gasis.rts.logic.object.unit.movement.MovementListener;
 import com.gasis.rts.logic.object.unit.movement.MovementRequestHandler;
+import com.gasis.rts.logic.object.unit.movement.PathInfoProvider;
 import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.math.MathUtils;
@@ -204,6 +204,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Default class constructor
+     *
      * @param map
      */
     public Unit(BlockMap map) {
@@ -212,6 +213,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the timestamp at which the unit's path was last found
+     *
      * @return
      */
     public long getLastPathFindingTimestamp() {
@@ -252,6 +254,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit is 'attack-moving'
+     *
      * @return
      */
     public boolean isAttackMove() {
@@ -326,7 +329,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Notifies siege mode listeners that the unit has just toggled siege mode
      */
     public void notifySiegeModeListeners() {
-        for (SiegeModeListener listener: siegeModeListeners) {
+        for (SiegeModeListener listener : siegeModeListeners) {
             listener.siegeModeToggled(this);
         }
     }
@@ -353,7 +356,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Notifies target removal listeners that the object's target has been removed
      */
     protected void notifyTargetRemovalListeners() {
-        for (TargetRemovalListener listener: targetRemovalListeners) {
+        for (TargetRemovalListener listener : targetRemovalListeners) {
             listener.targetRemoved(this);
         }
     }
@@ -436,13 +439,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the block in front of the unit is available
+     *
      * @return
      */
     protected boolean destinationAvailable() {
         Point destination = getDestinationBlock();
 
         if ((map.isBlockOccupied((short) destination.x, (short) destination.y) && !map.getOccupyingObject((short) destination.x, (short) destination.y).isPassable())
-            || !map.isBlockPassable((short) destination.x, (short) destination.y)) {
+                || !map.isBlockPassable((short) destination.x, (short) destination.y)) {
             return false;
         }
 
@@ -451,6 +455,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the block in front of the unit is out of the map's bounds
+     *
      * @return
      */
     protected boolean forwardBlockOutOfMapBounds() {
@@ -510,6 +515,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the unit's destination block
+     *
      * @return
      */
     protected Point getDestinationBlock() {
@@ -614,7 +620,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Notifies unit's movement listeners that the unit has started moving
      */
     protected void notifyMovementStartListeners() {
-        for (MovementListener listener: movementListeners) {
+        for (MovementListener listener : movementListeners) {
             listener.startedMoving(this);
         }
     }
@@ -623,7 +629,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Notifies movement listeners that the unit is unable to move in it's current state
      */
     protected void notifyUnableToMoveListeners() {
-        for (MovementListener listener: movementListeners) {
+        for (MovementListener listener : movementListeners) {
             listener.unableToMoveInCurrentState(this);
         }
     }
@@ -632,7 +638,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
      * Notifies unit's movement listeners that the unit has reached it's destination
      */
     protected void notifyDestinationListeners() {
-        for (MovementListener listener: movementListeners) {
+        for (MovementListener listener : movementListeners) {
             listener.stoppedMoving(this);
         }
     }
@@ -705,6 +711,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit has a secondary target
+     *
      * @return
      */
     public boolean hasSecondaryTarget() {
@@ -785,6 +792,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the siege mode textures the unit is using
+     *
      * @return
      */
     public Iterable<String> getSiegeModeTextures() {
@@ -804,6 +812,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the firing logic of the unit
+     *
      * @return
      */
     public FiringLogic getFiringLogic() {
@@ -813,7 +822,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     /**
      * Adds a new fire source to the unit
      *
-     * @param name name used to identify the source
+     * @param name   name used to identify the source
      * @param source fire source to add
      */
     public void addFireSource(String name, FireSource source) {
@@ -822,6 +831,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the duration of the unit's firing texture usage after firing a shot
+     *
      * @return
      */
     public float getFiringTextureUsageDuration() {
@@ -864,6 +874,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the firing textures of the unit
+     *
      * @return
      */
     public Iterable<String> getFiringTextures() {
@@ -872,6 +883,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the direction the unit is facing when in siege mode
+     *
      * @return
      */
     public byte getSiegeModeFacingDirection() {
@@ -916,6 +928,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit is currently in siege mode
+     *
      * @return
      */
     public boolean isInSiegeMode() {
@@ -1040,6 +1053,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the animation names for siege mode transitions
+     *
      * @return
      */
     public Iterable<String> getSiegeModeTransitionAnimationNames() {
@@ -1048,6 +1062,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if siege mode is available for the unit
+     *
      * @return
      */
     public boolean isSiegeModeAvailable() {
@@ -1065,6 +1080,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit is moving
+     *
      * @return
      */
     public boolean isMoving() {
@@ -1120,6 +1136,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the names of the movement animations
+     *
      * @return
      */
     public Iterable<String> getMovementAnimationNames() {
@@ -1148,6 +1165,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the direction the unit is facing
+     *
      * @return
      */
     public byte getFacingDirection() {
@@ -1165,6 +1183,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the textures of the unit
+     *
      * @return
      */
     public Iterable<String> getStillTextures() {
@@ -1173,6 +1192,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit is currently rotating
+     *
      * @return
      */
     public boolean isRotating() {
@@ -1209,6 +1229,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the occupied block
+     *
      * @return
      */
     public Point getOccupiedBlock() {
@@ -1504,6 +1525,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit can reach it's main target
+     *
      * @return
      */
     public boolean isMainTargetReachable() {
@@ -1528,13 +1550,14 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if any fire source is enabled
+     *
      * @return
      */
     protected boolean anyFireSourceEnabled() {
         boolean anySourceEnabled = false;
 
         if (firingLogic != null) {
-            for (FireSource source: firingLogic.getFireSources()) {
+            for (FireSource source : firingLogic.getFireSources()) {
                 if (source.isEnabled()) {
                     anySourceEnabled = true;
                 }
@@ -1546,6 +1569,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Checks if the unit can reach it's secondary target
+     *
      * @return
      */
     public boolean isSecondaryTargetReachable() {
@@ -1588,6 +1612,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the maximum valid range from which the unit can currently attack
+     *
      * @return
      */
     protected float getMaximumValidAttackRange() {
@@ -1600,6 +1625,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the point from which the unit can range it's target
+     *
      * @return
      */
     protected Point getPointToRangeTarget() {
@@ -1758,7 +1784,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     /**
      * Renders the unit's selection circle if required
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     protected void renderSelectionCircle(SpriteBatch batch, Resources resources) {
@@ -1786,7 +1812,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
     @Override
     public void techResearched(Player player, String tech) {
         if (firingLogic != null) {
-            for (FireSource source: firingLogic.getFireSources()) {
+            for (FireSource source : firingLogic.getFireSources()) {
                 if (source.getRequiredTechId() != null && source.getRequiredTechId().equalsIgnoreCase(tech)) {
                     source.setEnabled(true);
                 }
@@ -1796,6 +1822,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the unit's final center x
+     *
      * @return
      */
     public float getFinalCenterX() {
@@ -1804,6 +1831,7 @@ public class Unit extends OffensiveGameObject implements AnimationFinishListener
 
     /**
      * Gets the unit's final center y
+     *
      * @return
      */
     public float getFinalCenterY() {

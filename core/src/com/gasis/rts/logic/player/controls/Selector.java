@@ -2,12 +2,12 @@ package com.gasis.rts.logic.player.controls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.player.Player;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.resources.Resources;
 
 /**
@@ -38,31 +38,34 @@ public abstract class Selector implements Renderable {
     /**
      * Called when the screen was touched or a mouse button was pressed
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
-    public void touchDown(float x, float y, int pointer, int button) { }
+    public void touchDown(float x, float y, int pointer, int button) {
+    }
 
     /**
      * Called when a finger was lifted or a mouse button was released
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event.
      * @param button  the button
      */
-    public void touchUp(float x, float y, int pointer, int button) { }
+    public void touchUp(float x, float y, int pointer, int button) {
+    }
 
     /**
      * Called when a touch drag event occurs
      *
-     * @param x x coordinate relative to the bottom left map corner
-     * @param y y coordinate relative to the bottom left map corner
+     * @param x       x coordinate relative to the bottom left map corner
+     * @param y       y coordinate relative to the bottom left map corner
      * @param pointer the pointer for the event
      */
-    public void touchDragged(float x, float y, int pointer) { }
+    public void touchDragged(float x, float y, int pointer) {
+    }
 
     /**
      * Called when the mouse is moved
@@ -99,7 +102,7 @@ public abstract class Selector implements Renderable {
     /**
      * Renders selection corners for the specified object
      *
-     * @param object object to render corners for
+     * @param object        object to render corners for
      * @param shapeRenderer renderer to draw shapes to
      */
     protected void renderSelectionCorners(ShapeRenderer shapeRenderer, GameObject object) {
@@ -124,12 +127,12 @@ public abstract class Selector implements Renderable {
      * Renders a single selection corner
      *
      * @param shapeRenderer renderer to draw shapes to
-     * @param x1 x of the first point
-     * @param y1 y of the first point
-     * @param x2 x of the second point
-     * @param y2 y of the second point
-     * @param x3 x of the third point
-     * @param y3 y of the third point
+     * @param x1            x of the first point
+     * @param y1            y of the first point
+     * @param x2            x of the second point
+     * @param y2            y of the second point
+     * @param x3            x of the third point
+     * @param y3            y of the third point
      */
     protected void renderCorner(ShapeRenderer shapeRenderer, float x1, float y1, float x2, float y2, float x3, float y3) {
         shapeRenderer.line(x1, y1, x2, y2);

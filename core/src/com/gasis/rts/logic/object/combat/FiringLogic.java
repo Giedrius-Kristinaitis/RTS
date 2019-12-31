@@ -1,14 +1,17 @@
 package com.gasis.rts.logic.object.combat;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.math.Point;
 import com.gasis.rts.resources.Resources;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Logic for firing shots from fire sources
@@ -71,6 +74,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets the owner of the firing logic
+     *
      * @return
      */
     @Override
@@ -80,10 +84,11 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Checks if the firing logic can be removed (all projectile animations have finished)
+     *
      * @return
      */
     public boolean canBeRemoved() {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             if (!source.allAnimationsFinished()) {
                 return false;
             }
@@ -98,7 +103,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
      * @param listener listener to add
      */
     public void addTargetReachedListener(TargetReachListener listener) {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             source.addTargetReachListener(listener);
         }
     }
@@ -109,7 +114,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
      * @param listener listener to remove
      */
     public void removeTargetReachListener(TargetReachListener listener) {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             source.removeTargetReachListener(listener);
         }
     }
@@ -120,13 +125,14 @@ public class FiringLogic implements Renderable, OwnerProvider {
      * @param provider provider to use
      */
     public void setDamageProvider(DamageValueProvider provider) {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             source.setDamageProvider(provider);
         }
     }
 
     /**
      * Gets the normal shot count
+     *
      * @return
      */
     public byte getShotCount() {
@@ -144,6 +150,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets siege mode shot count
+     *
      * @return
      */
     public byte getSiegeModeShotCount() {
@@ -161,6 +168,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets normal reload speed
+     *
      * @return
      */
     public float getReloadSpeed() {
@@ -178,6 +186,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets siege mode reload speed
+     *
      * @return
      */
     public float getSiegeModeReloadSpeed() {
@@ -195,6 +204,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets normal shot interval
+     *
      * @return
      */
     public float getShotInterval() {
@@ -212,6 +222,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets siege mode shot interval
+     *
      * @return
      */
     public float getSiegeModeShotInterval() {
@@ -230,7 +241,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
     /**
      * Adds a fire source
      *
-     * @param name name used to identify the source
+     * @param name   name used to identify the source
      * @param source source to add
      */
     public void addFireSource(String name, FireSource source) {
@@ -260,6 +271,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Checks if there are enqueued shots
+     *
      * @return
      */
     public boolean hasEnqueuedShots() {
@@ -277,16 +289,15 @@ public class FiringLogic implements Renderable, OwnerProvider {
      * Updates the state of the object
      *
      * @param togglingSiegeMode is the firing thing switching between siege mode right now
-     * @param siegeMode is the firing thing in siege mode
-     * @param facingDirection the direction the firing thing is facing
-     * @param delta time elapsed since the last update
-     * @param x x coordinate to which the firing points are relative
-     * @param y y coordinate to which the firing points are relative
-     *
+     * @param siegeMode         is the firing thing in siege mode
+     * @param facingDirection   the direction the firing thing is facing
+     * @param delta             time elapsed since the last update
+     * @param x                 x coordinate to which the firing points are relative
+     * @param y                 y coordinate to which the firing points are relative
      * @return true if a shot was fired
      */
     public boolean update(boolean togglingSiegeMode, boolean siegeMode, byte facingDirection, float delta, float x, float y) {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             source.update(delta);
         }
 
@@ -316,11 +327,10 @@ public class FiringLogic implements Renderable, OwnerProvider {
     /**
      * Launches a shot at the target
      *
-     * @param siegeMode is the firing thing in siege mode
+     * @param siegeMode       is the firing thing in siege mode
      * @param facingDirection the direction the firing thing is facing
-     * @param x x coordinate to which the firing points are relative
-     * @param y y coordinate to which the firing points are relative
-     *
+     * @param x               x coordinate to which the firing points are relative
+     * @param y               y coordinate to which the firing points are relative
      * @return true if a shot was fired
      */
     private boolean launchShot(boolean siegeMode, byte facingDirection, float x, float y) {
@@ -365,7 +375,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
      */
     @Override
     public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
-        for (FireSource source: fireSources.values()) {
+        for (FireSource source : fireSources.values()) {
             source.render(batch, resources, renderQueue);
         }
     }
@@ -383,6 +393,7 @@ public class FiringLogic implements Renderable, OwnerProvider {
 
     /**
      * Gets all logic's fire sources
+     *
      * @return
      */
     public Iterable<FireSource> getFireSources() {

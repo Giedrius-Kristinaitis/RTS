@@ -2,7 +2,6 @@ package com.gasis.rts.logic.object.building;
 
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.combat.LandmineListener;
-import com.gasis.rts.math.Point;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +53,7 @@ public class Landmine extends OffensiveBuilding {
 
     /**
      * Gets the landmine's scale
+     *
      * @return
      */
     public byte getScale() {
@@ -64,7 +64,7 @@ public class Landmine extends OffensiveBuilding {
      * Detonates the landmine
      */
     public void detonate() {
-        for (LandmineListener listener: listeners) {
+        for (LandmineListener listener : listeners) {
             listener.landmineDetonated(this);
         }
     }

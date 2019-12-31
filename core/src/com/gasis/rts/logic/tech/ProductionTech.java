@@ -38,6 +38,7 @@ public class ProductionTech extends Tech {
     protected void loadData(FileLineReader reader) {
         try {
             unit = reader.readLine("unit");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 }

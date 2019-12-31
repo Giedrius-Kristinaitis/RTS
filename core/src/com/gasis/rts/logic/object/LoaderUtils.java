@@ -17,7 +17,6 @@ public class LoaderUtils {
      * Reads fire sources of the unit
      *
      * @param reader reader to read data from
-     *
      * @return list of fire sources
      */
     public static List<FireSource> readFireSources(FileLineReader reader) {
@@ -29,7 +28,7 @@ public class LoaderUtils {
             return fireSources;
         }
 
-        for (String source: sources) {
+        for (String source : sources) {
             fireSources.add(readFireSource(source, reader));
         }
 
@@ -40,14 +39,13 @@ public class LoaderUtils {
      * Reads fire sources of the unit
      *
      * @param prefixes prefixes of the fire sources' data
-     * @param reader reader to read data from
-     *
+     * @param reader   reader to read data from
      * @return list of fire sources
      */
     public static List<FireSource> readFireSources(String[] prefixes, FileLineReader reader) {
         List<FireSource> fireSources = new ArrayList<FireSource>();
 
-        for (String prefix: prefixes) {
+        for (String prefix : prefixes) {
             fireSources.add(readFireSource(prefix, reader));
         }
 
@@ -97,7 +95,8 @@ public class LoaderUtils {
 
         try {
             fireSource.setSoundEffect(reader.readLine(prefix + " sound effect"));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             String requiredTech = reader.readLine(prefix + " required tech id");
@@ -108,7 +107,8 @@ public class LoaderUtils {
             } else {
                 fireSource.setEnabled(true);
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         List<Point> firePoints = new ArrayList<Point>();
 
@@ -175,7 +175,6 @@ public class LoaderUtils {
      * Reads rotating guns of the unit if there are any
      *
      * @param reader reader to read data from
-     *
      * @return map of rotating guns with it's fire sources
      */
     public static Map<RotatingGun, List<FireSource>> readRotatingGuns(FileLineReader reader) {
@@ -187,7 +186,7 @@ public class LoaderUtils {
             return rotatingGuns;
         }
 
-        for (String gun: guns) {
+        for (String gun : guns) {
             Map.Entry<RotatingGun, List<FireSource>> entry = readRotatingGun(gun, reader);
 
             rotatingGuns.put(entry.getKey(), entry.getValue());
@@ -258,15 +257,18 @@ public class LoaderUtils {
             } else {
                 rotatingGun.setCurrentlyPresent(true);
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             rotatingGun.setIndividualRange(Float.parseFloat(reader.readLine(prefix + " individual range")));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         try {
             rotatingGun.setIndividualReloadSpeed(Float.parseFloat(reader.readLine(prefix + " individual reload speed")));
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
         Object[] lines = reader.readLines(prefix + " fire source").toArray();
 

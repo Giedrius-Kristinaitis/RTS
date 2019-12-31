@@ -128,6 +128,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the delay of the animation
+     *
      * @return
      */
     public float getDelay() {
@@ -170,6 +171,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the final x coordinate of the animation
+     *
      * @return
      */
     public float getFinalX() {
@@ -178,6 +180,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the final y coordinate of the animation
+     *
      * @return
      */
     public float getFinalY() {
@@ -204,6 +207,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial rotation
+     *
      * @return
      */
     public float getInitialRotation() {
@@ -257,6 +261,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial x coordinate
+     *
      * @return
      */
     public float getInitialX() {
@@ -265,6 +270,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial y coordinate
+     *
      * @return
      */
     public float getInitialY() {
@@ -273,6 +279,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial scale
+     *
      * @return
      */
     public float getInitialScale() {
@@ -299,6 +306,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial x coordinate of the center point
+     *
      * @return
      */
     public float getInitialCenterX() {
@@ -307,6 +315,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the initial y coordinate of the center point
+     *
      * @return
      */
     public float getInitialCenterY() {
@@ -342,6 +351,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the rotation speed (how many degrees in one second)
+     *
      * @return
      */
     public float getRotationSpeed() {
@@ -350,6 +360,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the final scale of the animation
+     *
      * @return
      */
     public float getFinalScale() {
@@ -376,6 +387,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the texture atlas of the animation
+     *
      * @return
      */
     public String getAtlas() {
@@ -411,6 +423,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the x coordinate of the animation
+     *
      * @return
      */
     public float getX() {
@@ -419,6 +432,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the y coordinate of the animation
+     *
      * @return
      */
     public float getY() {
@@ -427,6 +441,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the width of the animation
+     *
      * @return
      */
     public float getWidth() {
@@ -435,6 +450,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the height of the animation
+     *
      * @return
      */
     public float getHeight() {
@@ -443,6 +459,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the rotation of the animation in degrees
+     *
      * @return
      */
     public float getRotation() {
@@ -514,6 +531,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the x position of the center point of the animation
+     *
      * @return
      */
     public float getCenterX() {
@@ -522,6 +540,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the y position of the center point of the animation
+     *
      * @return
      */
     public float getCenterY() {
@@ -530,6 +549,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the scale of the animation
+     *
      * @return
      */
     public float getScale() {
@@ -547,6 +567,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Checks if the animation is looping or not
+     *
      * @return
      */
     public boolean isLooping() {
@@ -564,6 +585,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the frame change interval
+     *
      * @return
      */
     public float getUpdateInterval() {
@@ -581,6 +603,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Gets the duration of the animation
+     *
      * @return
      */
     public float getDuration() {
@@ -589,6 +612,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Checks if the animation is played in reverse
+     *
      * @return
      */
     public boolean isReversed() {
@@ -610,6 +634,7 @@ public class FrameAnimation implements Animation {
 
     /**
      * Checks if the animation has finished yet
+     *
      * @return
      */
     @Override

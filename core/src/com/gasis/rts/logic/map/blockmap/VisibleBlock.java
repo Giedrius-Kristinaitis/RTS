@@ -20,9 +20,9 @@ public class VisibleBlock extends Block implements Renderable {
     /**
      * Adds a new image to be drawn in the block.
      *
-     * @param image name of the image texture. Format - "atlas_name/texture_region_name"
+     * @param image  name of the image texture. Format - "atlas_name/texture_region_name"
      * @param bottom should the image be inserted in the bottom of the block (meaning it
-     * is being drawn first, and other images are drawn after it)
+     *               is being drawn first, and other images are drawn after it)
      */
     public void addImage(BlockImage image, boolean bottom) {
         if (bottom) {
@@ -41,6 +41,7 @@ public class VisibleBlock extends Block implements Renderable {
 
     /**
      * Gets the number of images on this block
+     *
      * @return
      */
     public int imageCount() {
@@ -49,6 +50,7 @@ public class VisibleBlock extends Block implements Renderable {
 
     /**
      * Gets the image that is at the bottom
+     *
      * @return
      */
     public BlockImage getBottomImage() {
@@ -72,11 +74,11 @@ public class VisibleBlock extends Block implements Renderable {
      * Renders the block to the screen
      *
      * @param batch sprite batch to draw the map to
-     * @param res object used to access assets
+     * @param res   object used to access assets
      */
     @Override
     public void render(SpriteBatch batch, Resources res, RenderQueueInterface renderQueue) {
-        for (BlockImage image: images) {
+        for (BlockImage image : images) {
             batch.draw(
                     res.atlas(Constants.FOLDER_ATLASES + image.atlas).findRegion(image.texture),
                     x * Block.BLOCK_WIDTH + image.offsetX,

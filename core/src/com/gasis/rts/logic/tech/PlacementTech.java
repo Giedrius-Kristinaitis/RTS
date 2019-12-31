@@ -54,6 +54,7 @@ public class PlacementTech extends Tech {
     protected void loadData(FileLineReader reader) {
         try {
             building = reader.readLine("building");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 }

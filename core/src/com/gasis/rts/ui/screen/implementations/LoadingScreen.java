@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.ui.screen.abstractions.BasicScreen;
 import com.gasis.rts.resources.NotLoadedException;
+import com.gasis.rts.ui.screen.abstractions.BasicScreen;
 
 import java.util.Map;
 
@@ -37,10 +37,10 @@ public class LoadingScreen extends BasicScreen {
      * Default class constructor
      *
      * @param screenToSwitch screen to switch to when done loading
-     * @param image image to display while loading
-     * @param unloadImage should the image be unloaded once done
-     * @param assets assets to load
-     * @param maps tiled maps to load
+     * @param image          image to display while loading
+     * @param unloadImage    should the image be unloaded once done
+     * @param assets         assets to load
+     * @param maps           tiled maps to load
      */
     public LoadingScreen(BasicScreen screenToSwitch, String image, boolean unloadImage, Map<String, Class> assets, String[] maps) {
         this.screenToSwitch = screenToSwitch;
@@ -59,7 +59,7 @@ public class LoadingScreen extends BasicScreen {
 
         try {
             texture = resources.texture(image);
-        } catch(NotLoadedException ex) {
+        } catch (NotLoadedException ex) {
             resources.load(image, Texture.class);
             resources.finishLoading();
 
@@ -90,7 +90,7 @@ public class LoadingScreen extends BasicScreen {
      *
      * @param delta time elapsed since last render
      * @param batch batch used to draw sprites to
-     * @param cam world's camera
+     * @param cam   world's camera
      */
     @Override
     public void draw(SpriteBatch batch, OrthographicCamera cam, float delta) {
@@ -121,7 +121,7 @@ public class LoadingScreen extends BasicScreen {
      * @param assets assets to load
      */
     private void loadAssets(Map<String, Class> assets) {
-        for (Map.Entry<String, Class> asset: assets.entrySet()) {
+        for (Map.Entry<String, Class> asset : assets.entrySet()) {
             resources.load(asset.getKey(), asset.getValue());
         }
     }

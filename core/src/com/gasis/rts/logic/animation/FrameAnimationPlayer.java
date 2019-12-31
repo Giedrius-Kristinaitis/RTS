@@ -1,10 +1,10 @@
 package com.gasis.rts.logic.animation;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gasis.rts.logic.render.RenderQueueInterface;
-import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.logic.Updatable;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimation;
+import com.gasis.rts.logic.render.RenderQueueInterface;
+import com.gasis.rts.logic.render.Renderable;
 import com.gasis.rts.resources.Resources;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class FrameAnimationPlayer implements AnimationPlayerInterface, Animation
      */
     @Override
     public void render(SpriteBatch batch, Resources resources, RenderQueueInterface renderQueue) {
-        for (FrameAnimation animation: animations) {
+        for (FrameAnimation animation : animations) {
             animation.render(batch, resources, renderQueue);
         }
     }
@@ -67,12 +67,12 @@ public class FrameAnimationPlayer implements AnimationPlayerInterface, Animation
      */
     @Override
     public void update(float delta) {
-        for (FrameAnimation animation: animations) {
+        for (FrameAnimation animation : animations) {
             animation.update(delta);
         }
 
         if (animationsToRemove.size() > 0) {
-            for (FrameAnimation animation: animationsToRemove) {
+            for (FrameAnimation animation : animationsToRemove) {
                 animations.remove(animation);
             }
         }

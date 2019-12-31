@@ -55,7 +55,7 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
      * @param player player to apply to
      */
     private void applyUnitStatIncreases(Player player) {
-        for (UnitLoader loader: player.getFaction().getUnitLoaders().values()) {
+        for (UnitLoader loader : player.getFaction().getUnitLoaders().values()) {
             if (objectCodes.contains(loader.getCode())) {
                 applyStatIncreaseToSpecs(player, loader.getCode(), loader.getDefensiveSpecs(), loader.getOffensiveSpecs());
             }
@@ -65,13 +65,13 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
     /**
      * Applies spec increases to spec instances
      *
-     * @param player which player does the tech apply to
+     * @param player     which player does the tech apply to
      * @param objectCode object's code
-     * @param def defensive specs
-     * @param off offensive specs
+     * @param def        defensive specs
+     * @param off        offensive specs
      */
     private void applyStatIncreaseToSpecs(Player player, String objectCode, DefensiveSpecs def, OffensiveSpecs off) {
-        for (Map.Entry<String, Float> stat: statIncreases.entrySet()) {
+        for (Map.Entry<String, Float> stat : statIncreases.entrySet()) {
             if (stat.getKey().equalsIgnoreCase("attack")) {
                 off.setAttack(off.getAttack() + stat.getValue());
             } else if (stat.getKey().equalsIgnoreCase("siege mode attack")) {
@@ -99,18 +99,18 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
     /**
      * Modifies objects' hp on hp stat increase
      *
-     * @param player object owner
-     * @param code object code
+     * @param player   object owner
+     * @param code     object code
      * @param oldMaxHp the old max hp value for the objects
      */
     private void modifyObjectHp(Player player, String code, float oldMaxHp) {
-        for (GameObject object: player.getUnits()) {
+        for (GameObject object : player.getUnits()) {
             if (object.getCode().equals(code)) {
                 object.setHp(object.getHp() + object.getDefensiveSpecs().getMaxHp() - oldMaxHp);
             }
         }
 
-        for (GameObject object: player.getBuildings()) {
+        for (GameObject object : player.getBuildings()) {
             if (object.getCode().equals(code)) {
                 object.setHp(object.getHp() + object.getDefensiveSpecs().getMaxHp() - oldMaxHp);
             }
@@ -123,7 +123,7 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
      * @param player player to apply to
      */
     private void applyBuildingStatIncreases(Player player) {
-        for (BuildingLoader loader: player.getFaction().getBuildingLoaders().values()) {
+        for (BuildingLoader loader : player.getFaction().getBuildingLoaders().values()) {
             if (objectCodes.contains(loader.getCode())) {
                 applyStatIncreaseToSpecs(player, loader.getCode(), loader.getDefensiveSpecs(), loader.getOffensiveSpecs());
             }
@@ -144,9 +144,10 @@ public class UpgradeTech extends Tech implements TechApplicationListener {
 
             List<String> stats = reader.readLines("stat increase");
 
-            for (String stat: stats) {
+            for (String stat : stats) {
                 statIncreases.put(stat, Float.parseFloat(reader.readLine(stat + " increased by")));
             }
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 }
