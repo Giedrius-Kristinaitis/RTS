@@ -145,7 +145,10 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        game.touchDown(screenX, screenY, pointer, button);
+        if (!minimap.touchDown(screenX, screenY, pointer, button)) {
+            game.touchDown(screenX, screenY, pointer, button);
+        }
+
         return true;
     }
 
@@ -160,7 +163,10 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        game.touchUp(screenX, screenY, pointer, button);
+        if (!minimap.touchUp(screenX, screenY, pointer, button)) {
+            game.touchUp(screenX, screenY, pointer, button);
+        }
+
         return true;
     }
 
@@ -187,7 +193,10 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        game.mouseMoved(screenX, screenY);
+        if (!minimap.mouseMoved(screenX, screenY)) {
+            game.mouseMoved(screenX, screenY);
+        }
+        
         return true;
     }
 
