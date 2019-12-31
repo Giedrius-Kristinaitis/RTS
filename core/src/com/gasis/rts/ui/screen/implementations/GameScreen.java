@@ -196,7 +196,7 @@ public class GameScreen extends StagedScreen {
         if (!minimap.mouseMoved(screenX, screenY)) {
             game.mouseMoved(screenX, screenY);
         }
-        
+
         return true;
     }
 

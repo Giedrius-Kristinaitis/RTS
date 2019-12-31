@@ -135,4 +135,15 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
     public boolean scrolled(int amount) {
         return false;
     }
+
+    /**
+     * Checks if the given coordinates are inside the components bounds
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean inBounds(float x, float y) {
+        return x >= getX() && y >= getY() && x <= getX() + getWidth() && y <= getY() + getHeight();
+    }
 }
