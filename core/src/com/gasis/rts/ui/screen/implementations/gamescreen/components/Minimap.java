@@ -220,4 +220,44 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
     public Bounds getRenderBounds() {
         return renderBounds;
     }
+
+    /**
+     * Called when the screen was touched or a mouse button was pressed
+     *
+     * @param screenX The x coordinate, origin is in the upper left corner
+     * @param screenY The y coordinate, origin is in the upper left corner
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return super.touchDown(screenX, screenY, pointer, button);
+    }
+
+    /**
+     * Called when a finger was lifted or a mouse button was released
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer the pointer for the event.
+     * @param button  the button
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return super.touchUp(screenX, screenY, pointer, button);
+    }
+
+    /**
+     * Called when the mouse was moved without any buttons being pressed. Will not be called on iOS.
+     *
+     * @param screenX
+     * @param screenY
+     * @return whether the input was processed
+     */
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return super.mouseMoved(screenX, screenY);
+    }
 }
