@@ -1,7 +1,6 @@
 package com.gasis.rts.ui.screen.implementations.gamescreen.components;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
 import com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.Bounds;
