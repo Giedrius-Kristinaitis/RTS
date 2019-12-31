@@ -55,4 +55,6 @@ public class Constants {
     public static final String MINIMAP_HEAVY_UNIT_PREFIX = "heavy_unit_";
     public static final String MINIMAP_LIGHT_UNIT_PREFIX = "light_unit_";
     public static final String MINIMAP_BOUNDS = "bounds";
+    public static final String MINIMAP_BORDER_RIGHT = "border_right";
+    public static final String MINIMAP_BORDER_BOTTOM = "border_bottom";
 }

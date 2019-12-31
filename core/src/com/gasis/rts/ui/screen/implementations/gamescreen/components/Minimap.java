@@ -21,6 +21,18 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
     protected float blockWidth;
     protected float blockHeight;
 
+    // border sizes
+    protected float rightBorderWidth;
+    protected float rightBorderHeight;
+    protected float bottomBorderWidth;
+    protected float bottomBorderHeight;
+
+    // border offsets
+    protected float rightBorderOffsetX;
+    protected float rightBorderOffsetY;
+    protected float bottomBorderOffsetX;
+    protected float bottomBorderOffsetY;
+
     // current render bounds
     protected Bounds renderBounds;
 
@@ -71,6 +83,31 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
         renderContents(batch);
         navigator.render(batch, game.getResources());
         batch.setColor(1, 1, 1, 1);
+
+        renderBorders(batch);
+    }
+
+    /**
+     * Renders the minimap's borders
+     *
+     * @param batch batch to draw to
+     */
+    protected void renderBorders(Batch batch) {
+        batch.draw(
+                game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BORDER_RIGHT),
+                getX() + rightBorderOffsetX,
+                getY() + rightBorderOffsetY,
+                rightBorderWidth,
+                rightBorderHeight
+        );
+
+        batch.draw(
+                game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BORDER_BOTTOM),
+                getX() + bottomBorderOffsetX,
+                getY() + bottomBorderOffsetY,
+                bottomBorderWidth,
+                bottomBorderHeight
+        );
     }
 
     /**
@@ -164,6 +201,15 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
     public void resize(int width, int height) {
         blockWidth = getWidth() / game.getMap().getWidth();
         blockHeight = getHeight() / game.getMap().getHeight();
+
+        rightBorderWidth = getWidth() * 0.15f;
+        rightBorderHeight = getHeight() * 1.07f;
+        bottomBorderWidth = getWidth();
+        bottomBorderHeight = getHeight() * 0.08f;
+
+        rightBorderOffsetX = getWidth();
+        rightBorderOffsetY = -(rightBorderHeight - getHeight());
+        bottomBorderOffsetY = -getHeight() * 0.05f;
     }
 
     /**
