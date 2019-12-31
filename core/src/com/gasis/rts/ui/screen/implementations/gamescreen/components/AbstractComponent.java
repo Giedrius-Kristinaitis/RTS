@@ -1,12 +1,12 @@
 package com.gasis.rts.ui.screen.implementations.gamescreen.components;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.gasis.rts.logic.GameInstance;
 
 /**
  * Abstract UI component
  */
-public abstract class AbstractComponent extends Actor {
+public abstract class AbstractComponent extends Table {
 
     // game instance
     protected GameInstance game;
@@ -35,5 +35,6 @@ public abstract class AbstractComponent extends Actor {
      * @param width  stage width
      * @param height stage height
      */
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+    }
 }
