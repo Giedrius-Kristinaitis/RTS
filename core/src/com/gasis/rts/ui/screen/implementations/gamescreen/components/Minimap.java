@@ -1,21 +1,42 @@
 package com.gasis.rts.ui.screen.implementations.gamescreen.components;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.gasis.rts.logic.map.blockmap.Block;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.Bounds;
+import com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.BoundsProvider;
+import com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.Navigator;
 import com.gasis.rts.utils.Constants;
 
 /**
  * Minimap showing map elements
  */
-public class Minimap extends AbstractComponent {
+public class Minimap extends AbstractComponent implements BoundsProvider {
 
     // minimap's opacity
-    protected final float OPACITY = 0.75f;
+    protected final float OPACITY = 0.9f;
 
     // block size
     protected float blockWidth;
     protected float blockHeight;
+
+    // current render bounds
+    protected Bounds renderBounds;
+
+    // minimap navigator
+    protected Navigator navigator;
+
+    /**
+     * Class constructor
+     */
+    public Minimap() {
+        super();
+
+        renderBounds = new Bounds();
+        navigator = new Navigator();
+        navigator.setBoundsProvider(this);
+    }
 
     /**
      * Updates the minimap
@@ -26,7 +47,17 @@ public class Minimap extends AbstractComponent {
     public void act(float delta) {
         super.act(delta);
 
+        updateRenderBounds();
+    }
 
+    /**
+     * Updates the current render bounds
+     */
+    protected void updateRenderBounds() {
+        renderBounds.start.x = getX() + blockWidth * game.getRenderBoundsProvider().getRenderX();
+        renderBounds.start.y = getY() + blockHeight * game.getRenderBoundsProvider().getRenderY();
+        renderBounds.end.x = Math.min(renderBounds.start.x + blockWidth * game.getRenderBoundsProvider().getRenderWidth(), getX() + blockWidth * game.getMap().getWidth());
+        renderBounds.end.y = Math.min(renderBounds.start.y + blockHeight * game.getRenderBoundsProvider().getRenderHeight(), getY() + blockHeight * game.getMap().getHeight());
     }
 
     /**
@@ -38,6 +69,7 @@ public class Minimap extends AbstractComponent {
 
         batch.setColor(1, 1, 1, OPACITY);
         renderContents(batch);
+        navigator.render(batch, game.getResources());
         batch.setColor(1, 1, 1, 1);
     }
 
@@ -132,5 +164,15 @@ public class Minimap extends AbstractComponent {
     public void resize(int width, int height) {
         blockWidth = getWidth() / game.getMap().getWidth();
         blockHeight = getHeight() / game.getMap().getHeight();
+    }
+
+    /**
+     * Gets the current render bounds in block coordinates
+     *
+     * @return
+     */
+    @Override
+    public Bounds getRenderBounds() {
+        return renderBounds;
     }
 }

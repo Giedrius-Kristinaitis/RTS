@@ -3,6 +3,7 @@ package com.gasis.rts.logic.map.blockmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gasis.rts.logic.map.Map;
 import com.gasis.rts.logic.map.MapRenderer;
+import com.gasis.rts.logic.map.RenderBoundsProvider;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 import com.gasis.rts.logic.render.RenderQueueInterface;
 import com.gasis.rts.resources.Resources;
@@ -12,7 +13,7 @@ import com.gasis.rts.utils.Constants;
  * Renders a block map to the screen
  */
 @SuppressWarnings("Duplicates")
-public class BlockMapRenderer implements MapRenderer {
+public class BlockMapRenderer implements MapRenderer, RenderBoundsProvider {
 
     // position and dimensions of the rendered area
     protected float renderX;
@@ -41,7 +42,7 @@ public class BlockMapRenderer implements MapRenderer {
         short windowWidth = (short) Math.min(map.getWidth() - windowX, (short) renderWidth + 6);
         short windowHeight = (short) Math.min(map.getHeight() - windowY, (short) renderHeight + 6);
 
-        for (BlockMapLayer layer: map.getLayers()) {
+        for (BlockMapLayer layer : map.getLayers()) {
             for (short x = windowX; x < windowX + windowWidth; x++) {
                 for (short y = windowY; y < windowY + windowHeight; y++) {
                     Block block = layer.getBlock(x, y);
@@ -61,7 +62,7 @@ public class BlockMapRenderer implements MapRenderer {
     /**
      * Renders for of war
      *
-     * @param batch sprite batch to draw to
+     * @param batch     sprite batch to draw to
      * @param resources game's assets
      */
     @Override
@@ -258,5 +259,45 @@ public class BlockMapRenderer implements MapRenderer {
     @Override
     public float getActualRenderHeightInWorldCoordinates() {
         return (renderHeight + 6f) * Block.BLOCK_HEIGHT;
+    }
+
+    /**
+     * Gets render x
+     *
+     * @return
+     */
+    @Override
+    public float getRenderX() {
+        return renderX;
+    }
+
+    /**
+     * Gets render y
+     *
+     * @return
+     */
+    @Override
+    public float getRenderY() {
+        return renderY;
+    }
+
+    /**
+     * Gets render width
+     *
+     * @return
+     */
+    @Override
+    public float getRenderWidth() {
+        return renderWidth;
+    }
+
+    /**
+     * Gets render height
+     *
+     * @return
+     */
+    @Override
+    public float getRenderHeight() {
+        return renderHeight;
     }
 }

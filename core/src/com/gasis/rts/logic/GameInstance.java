@@ -12,6 +12,7 @@ import com.gasis.rts.cursor.Cursor;
 import com.gasis.rts.logic.animation.FrameAnimationPlayer;
 import com.gasis.rts.logic.animation.frameanimation.FrameAnimationFactory;
 import com.gasis.rts.logic.faction.Faction;
+import com.gasis.rts.logic.map.RenderBoundsProvider;
 import com.gasis.rts.logic.map.blockmap.*;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.building.Building;
@@ -443,7 +444,7 @@ public class GameInstance implements Updatable {
      * @param screenY
      * @return
      */
-    protected Vector3 convertScreenCoordsToWorldCoords(int screenX, int screenY) {
+    public Vector3 convertScreenCoordsToWorldCoords(int screenX, int screenY) {
         screenCoords.x = screenX;
         screenCoords.y = screenY;
         cam.unproject(screenCoords, viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
@@ -546,5 +547,23 @@ public class GameInstance implements Updatable {
      */
     public ExplorationDataInterface getExplorationData() {
         return explorationData;
+    }
+
+    /**
+     * Gets render bounds provider
+     *
+     * @return
+     */
+    public RenderBoundsProvider getRenderBoundsProvider() {
+        return mapRenderer;
+    }
+
+    /**
+     * Gets the world's camera
+     *
+     * @return
+     */
+    public OrthographicCamera getCam() {
+        return cam;
     }
 }

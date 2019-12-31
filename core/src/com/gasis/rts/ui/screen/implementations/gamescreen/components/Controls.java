@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class Controls extends AbstractComponent {
 
     /**
-     * Updates the minimap
+     * Updates the controls
      *
      * @param delta time elapsed since the last update
      */
@@ -20,7 +20,7 @@ public class Controls extends AbstractComponent {
     }
 
     /**
-     * Draws the minimap
+     * Draws the controls
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {

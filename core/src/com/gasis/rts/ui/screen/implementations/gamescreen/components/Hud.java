@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class Hud extends AbstractComponent {
 
     /**
-     * Updates the minimap
+     * Updates the hud
      *
      * @param delta time elapsed since the last update
      */
@@ -20,7 +20,7 @@ public class Hud extends AbstractComponent {
     }
 
     /**
-     * Draws the minimap
+     * Draws the hud
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
