@@ -9,6 +9,9 @@ import com.gasis.rts.ui.screen.component.Minimap;
  */
 public class DesktopMinimapBehavior extends ComponentBehaviorAdapter {
 
+    // was the touch drag event initiated inside the bounds of the minimap
+    protected boolean dragInitiatedInsideMinimap;
+
     /**
      * Performs touch down behavior
      *
@@ -21,9 +24,27 @@ public class DesktopMinimapBehavior extends ComponentBehaviorAdapter {
      */
     @Override
     public boolean behaveTouchDown(AbstractComponent component, float x, float y, int pointer, int button) {
+        dragInitiatedInsideMinimap = true;
+
         execute((Minimap) component, x, y);
 
         return true;
+    }
+
+    /**
+     * Performs touch up behavior
+     *
+     * @param component
+     * @param x
+     * @param y
+     * @param pointer
+     * @param button
+     * @return
+     */
+    @Override
+    public boolean behaveTouchUp(AbstractComponent component, float x, float y, int pointer, int button) {
+        dragInitiatedInsideMinimap = false;
+        return false;
     }
 
     /**
@@ -37,9 +58,12 @@ public class DesktopMinimapBehavior extends ComponentBehaviorAdapter {
      */
     @Override
     public boolean behaveTouchDragged(AbstractComponent component, float x, float y, int pointer) {
-        execute((Minimap) component, x, y);
+        if (dragInitiatedInsideMinimap) {
+            execute((Minimap) component, x, y);
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     /**
