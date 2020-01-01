@@ -145,6 +145,9 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
     // the tech that is currently being researched
     protected Tech currentlyResearchedTech;
 
+    // queued up units
+    protected Map<Integer, UnitLoader> queuedUnits = new HashMap<Integer, UnitLoader>();
+
     /**
      * Default class constructor
      *
@@ -421,10 +424,14 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
      */
     @Override
     public void queueUp(UnitLoader unit) {
-        if (!researching && !producing && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
-            producedUnitLoader = unit;
-            progress = 0;
-            producing = true;
+        if (!researching && !beingConstructed && (electricityAvailable || electricityRequirement == 0)) {
+            if (!producing) {
+                producedUnitLoader = unit;
+                progress = 0;
+                producing = true;
+            } else {
+                queuedUnits.put(queuedUnits.size(), unit);
+            }
         }
     }
 
@@ -859,6 +866,11 @@ public class Building extends GameObject implements UnitProducer, TechReasearche
                 if (producing && owner.getState().units < owner.getState().maxUnits) {
                     spawnUnit();
                     producing = false;
+
+                    if (!queuedUnits.isEmpty()) {
+                        queueUp(queuedUnits.get(queuedUnits.size() - 1));
+                        queuedUnits.remove(queuedUnits.size() - 1);
+                    }
                 } else if (researching) {
                     if (currentlyResearchedTech instanceof TechApplicationListener) {
                         ((TechApplicationListener) currentlyResearchedTech).applied(owner);
