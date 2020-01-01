@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.gasis.rts.ui.Behavior;
 
 /**
  * Screen class with a stage and input handling
@@ -12,6 +13,9 @@ public abstract class StagedScreen extends ScreenWithInput {
 
     // stage used by this screen
     private Stage stage;
+
+    // ui behavior
+    protected Behavior behavior;
 
     /**
      * Performs required initialization
@@ -75,6 +79,15 @@ public abstract class StagedScreen extends ScreenWithInput {
         input.addProcessor(super.getInputProcessor());
 
         return input;
+    }
+
+    /**
+     * Sets UI behavior
+     *
+     * @param behavior
+     */
+    public void setBehavior(Behavior behavior) {
+        this.behavior = behavior;
     }
 
     /**

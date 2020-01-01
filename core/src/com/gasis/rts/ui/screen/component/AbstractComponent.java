@@ -12,6 +12,9 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
     // game instance
     protected GameInstance game;
 
+    // component's behavior
+    protected ComponentBehavior behavior;
+
     /**
      * Sets the game instance
      *
@@ -83,7 +86,7 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        return behavior != null && behavior.behaveTouchDown(this, screenX, screenY, pointer, button);
     }
 
     /**
@@ -97,7 +100,7 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        return behavior != null && behavior.behaveTouchUp(this, screenX, screenY, pointer, button);
     }
 
     /**
@@ -110,7 +113,7 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        return behavior != null && behavior.behaveTouchDragged(this, screenX, screenY, pointer);
     }
 
     /**
@@ -122,7 +125,7 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        return behavior != null && behavior.behaveMouseMoved(this, screenX, screenY);
     }
 
     /**
@@ -145,5 +148,14 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     public boolean inBounds(float x, float y) {
         return x >= getX() && y >= getY() && x <= getX() + getWidth() && y <= getY() + getHeight();
+    }
+
+    /**
+     * Sets the component's behavior
+     *
+     * @param behavior
+     */
+    public void setBehavior(ComponentBehavior behavior) {
+        this.behavior = behavior;
     }
 }

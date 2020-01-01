@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gasis.rts.resources.Resources;
+import com.gasis.rts.ui.Behavior;
 import com.gasis.rts.ui.screen.abstractions.BasicScreen;
 import com.gasis.rts.ui.screen.abstractions.ScreenSwitcher;
 import com.gasis.rts.ui.screen.abstractions.ScreenWithInput;
+import com.gasis.rts.ui.screen.abstractions.StagedScreen;
 import com.gasis.rts.ui.screen.implementations.GameScreen;
 import com.gasis.rts.ui.screen.implementations.LoadingScreen;
 import com.gasis.rts.utils.Constants;
@@ -30,6 +32,18 @@ public class Main extends Game implements ScreenSwitcher {
 
     // viewport used by all screens
     private final Viewport port = new FillViewport(Constants.WIDTH, Constants.HEIGHT);
+
+    // ui behavior
+    private Behavior behavior;
+
+    /**
+     * Class constructor
+     *
+     * @param behavior
+     */
+    public Main(Behavior behavior) {
+        this.behavior = behavior;
+    }
 
     /**
      * Performs initialization. Called automatically by libGDX
@@ -100,6 +114,12 @@ public class Main extends Game implements ScreenSwitcher {
         }
 
         this.currentScreen = screen;
+
+        // set current behavior if the screen is a staged screen
+        if (currentScreen instanceof StagedScreen) {
+            ((StagedScreen) currentScreen).setBehavior(behavior);
+        }
+
         this.currentScreen.setViewport(port);
         this.currentScreen.setResources(resources);
         this.currentScreen.initialize();

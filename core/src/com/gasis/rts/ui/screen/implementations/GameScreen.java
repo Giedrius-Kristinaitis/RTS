@@ -32,9 +32,10 @@ public class GameScreen extends StagedScreen {
         game.setCamera((OrthographicCamera) port.getCamera());
         game.setViewport(port);
 
-        // create UI component
+        // create UI components
         minimap = new Minimap();
         minimap.setGameInstance(game);
+        minimap.setBehavior(behavior.getMinimapBehavior());
     }
 
     /**
