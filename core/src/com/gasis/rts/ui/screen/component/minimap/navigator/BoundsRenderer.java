@@ -1,9 +1,9 @@
-package com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.navigator;
+package com.gasis.rts.ui.screen.component.minimap.navigator;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.gasis.rts.logic.render.SimpleRenderable;
 import com.gasis.rts.resources.Resources;
-import com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap.BoundsProvider;
+import com.gasis.rts.ui.screen.component.minimap.BoundsProvider;
 import com.gasis.rts.utils.Constants;
 
 /**

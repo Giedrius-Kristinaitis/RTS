@@ -1,4 +1,4 @@
-package com.gasis.rts.ui.screen.implementations.gamescreen.components.minimap;
+package com.gasis.rts.ui.screen.component.minimap;
 
 /**
  * Provides render bounds

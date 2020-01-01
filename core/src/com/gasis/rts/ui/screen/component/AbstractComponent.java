@@ -1,4 +1,4 @@
-package com.gasis.rts.ui.screen.implementations.gamescreen.components;
+package com.gasis.rts.ui.screen.component;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -137,7 +137,7 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
     }
 
     /**
-     * Checks if the given coordinates are inside the components bounds
+     * Checks if the given coordinates are inside the component bounds
      *
      * @param x
      * @param y

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.gasis.rts.logic.GameInstance;
 import com.gasis.rts.ui.screen.abstractions.StagedScreen;
-import com.gasis.rts.ui.screen.implementations.gamescreen.components.Minimap;
+import com.gasis.rts.ui.screen.component.Minimap;
 
 /**
  * Game screen. Displays game world and ui
@@ -32,7 +32,7 @@ public class GameScreen extends StagedScreen {
         game.setCamera((OrthographicCamera) port.getCamera());
         game.setViewport(port);
 
-        // create UI components
+        // create UI component
         minimap = new Minimap();
         minimap.setGameInstance(game);
     }
@@ -47,7 +47,7 @@ public class GameScreen extends StagedScreen {
         Table layout = new Table();
         layout.setFillParent(true);
 
-        // add ui components
+        // add ui component
         layout.align(Align.topLeft).add(minimap).width(312).height(312);
 
         layout.pack();
@@ -106,7 +106,7 @@ public class GameScreen extends StagedScreen {
         port.update(width, height, true);
         game.screenSizeChanged(width, height);
 
-        // resize ui components
+        // resize ui component
         minimap.resize(width, height);
     }
 
