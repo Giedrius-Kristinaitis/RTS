@@ -7,5 +7,5 @@ import com.gasis.rts.ui.screen.component.ComponentBehaviorAdapter;
  */
 public class DesktopMinimapBehavior extends ComponentBehaviorAdapter {
 
-
+    
 }

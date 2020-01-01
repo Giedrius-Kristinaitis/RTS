@@ -1,5 +1,6 @@
 package com.gasis.rts.ui.screen.component;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.gasis.rts.logic.GameInstance;
@@ -86,6 +87,10 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (!screenCoordsInBounds(screenX, screenY)) {
+            return false;
+        }
+
         return behavior != null && behavior.behaveTouchDown(this, screenX, screenY, pointer, button);
     }
 
@@ -100,6 +105,10 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (!screenCoordsInBounds(screenX, screenY)) {
+            return false;
+        }
+
         return behavior != null && behavior.behaveTouchUp(this, screenX, screenY, pointer, button);
     }
 
@@ -113,6 +122,10 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (!screenCoordsInBounds(screenX, screenY)) {
+            return false;
+        }
+
         return behavior != null && behavior.behaveTouchDragged(this, screenX, screenY, pointer);
     }
 
@@ -125,6 +138,10 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
      */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (!screenCoordsInBounds(screenX, screenY)) {
+            return false;
+        }
+
         return behavior != null && behavior.behaveMouseMoved(this, screenX, screenY);
     }
 
@@ -140,14 +157,14 @@ public abstract class AbstractComponent extends Table implements InputProcessor 
     }
 
     /**
-     * Checks if the given coordinates are inside the component bounds
+     * Checks if the given screen coordinates are in the component's bounds
      *
-     * @param x
-     * @param y
+     * @param screenX
+     * @param screenY
      * @return
      */
-    public boolean inBounds(float x, float y) {
-        return x >= getX() && y >= getY() && x <= getX() + getWidth() && y <= getY() + getHeight();
+    public boolean screenCoordsInBounds(int screenX, int screenY) {
+        return screenX >= getX() && screenX <= getX() + getWidth() && Gdx.graphics.getHeight() - screenY >= getY() && Gdx.graphics.getHeight() - screenY <= getY() + getHeight();
     }
 
     /**
