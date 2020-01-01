@@ -49,7 +49,7 @@ public class Minimap extends AbstractComponent implements BoundsProvider, Minima
         super();
 
         renderBounds = new Bounds();
-        navigator = new Navigator();
+        navigator = new MinimapNavigator();
         contentRenderer = new ContentRenderer();
     }
 
@@ -227,5 +227,14 @@ public class Minimap extends AbstractComponent implements BoundsProvider, Minima
     @Override
     public float getBlockHeight() {
         return blockHeight;
+    }
+
+    /**
+     * Gets the minimap navigator
+     *
+     * @return
+     */
+    public Navigator getNavigator() {
+        return navigator;
     }
 }

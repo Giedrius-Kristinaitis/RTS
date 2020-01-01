@@ -182,7 +182,10 @@ public class GameScreen extends StagedScreen {
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        game.touchDragged(screenX, screenY, pointer);
+        if (!minimap.touchDragged(screenX, screenY, pointer)) {
+            game.touchDragged(screenX, screenY, pointer);
+        }
+        
         return true;
     }
 

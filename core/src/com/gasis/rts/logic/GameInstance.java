@@ -498,6 +498,13 @@ public class GameInstance implements Updatable {
     }
 
     /**
+     * Updates map scroller by force
+     */
+    public void forceUpdateMapScroller() {
+        mapScroller.updateMapScroll(cam, 0.01f); // delta not really important here
+    }
+
+    /**
      * Sets the camera for the game
      *
      * @param cam camera to use
