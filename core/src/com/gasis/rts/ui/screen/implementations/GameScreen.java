@@ -36,6 +36,7 @@ public class GameScreen extends StagedScreen {
         minimap = new Minimap();
         minimap.setGameInstance(game);
         minimap.setBehavior(behavior.getMinimapBehavior());
+        minimap.setPlayer(game.getPlayers().get(0));
     }
 
     /**

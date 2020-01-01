@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.gasis.rts.logic.map.blockmap.BlockMap;
 import com.gasis.rts.logic.object.GameObject;
 import com.gasis.rts.logic.object.unit.Unit;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.logic.player.exploration.ExplorationDataInterface;
 import com.gasis.rts.logic.render.SimpleRenderable;
 import com.gasis.rts.resources.Resources;
@@ -25,6 +26,9 @@ public class ContentRenderer implements SimpleRenderable {
 
     // player's exploration data
     protected ExplorationDataInterface explorationData;
+
+    // player the minimap is rendered for
+    protected Player player;
 
     /**
      * Renders the object
@@ -65,6 +69,8 @@ public class ContentRenderer implements SimpleRenderable {
                                     dimensionsProvider.getBlockWidth(),
                                     dimensionsProvider.getBlockHeight()
                             );
+
+                            renderObject(batch, resources, x, y, false);
                         } else {
                             batch.draw(
                                     resources.atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_VISIBLE),
@@ -92,30 +98,43 @@ public class ContentRenderer implements SimpleRenderable {
                                     dimensionsProvider.getBlockHeight()
                             );
 
-                            GameObject occupyingObject = map.getOccupyingObject(x, y);
-
-                            if (occupyingObject != null) {
-                                if (occupyingObject instanceof Unit) {
-                                    batch.draw(
-                                            resources.atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_HEAVY_UNIT_PREFIX + occupyingObject.getOwner().getColor()),
-                                            dimensionsProvider.getMinimapX() + x * dimensionsProvider.getBlockWidth(),
-                                            dimensionsProvider.getMinimapY() + y * dimensionsProvider.getBlockHeight(),
-                                            dimensionsProvider.getBlockWidth(),
-                                            dimensionsProvider.getBlockHeight()
-                                    );
-                                } else {
-                                    batch.draw(
-                                            resources.atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_OBJECT_PREFIX + occupyingObject.getOwner().getColor()),
-                                            dimensionsProvider.getMinimapX() + x * dimensionsProvider.getBlockWidth(),
-                                            dimensionsProvider.getMinimapY() + y * dimensionsProvider.getBlockHeight(),
-                                            dimensionsProvider.getBlockWidth(),
-                                            dimensionsProvider.getBlockHeight()
-                                    );
-                                }
-                            }
+                            renderObject(batch, resources, x, y, true);
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Renders a game object
+     *
+     * @param batch
+     * @param resources
+     * @param x
+     * @param y
+     * @param renderEnemy
+     */
+    protected void renderObject(Batch batch, Resources resources, short x, short y, boolean renderEnemy) {
+        GameObject occupyingObject = map.getOccupyingObject(x, y);
+
+        if (occupyingObject != null) {
+            if (occupyingObject instanceof Unit && (renderEnemy || occupyingObject.getOwner().isAllied(player))) {
+                batch.draw(
+                        resources.atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_HEAVY_UNIT_PREFIX + occupyingObject.getOwner().getColor()),
+                        dimensionsProvider.getMinimapX() + x * dimensionsProvider.getBlockWidth(),
+                        dimensionsProvider.getMinimapY() + y * dimensionsProvider.getBlockHeight(),
+                        dimensionsProvider.getBlockWidth(),
+                        dimensionsProvider.getBlockHeight()
+                );
+            } else {
+                batch.draw(
+                        resources.atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_OBJECT_PREFIX + occupyingObject.getOwner().getColor()),
+                        dimensionsProvider.getMinimapX() + x * dimensionsProvider.getBlockWidth(),
+                        dimensionsProvider.getMinimapY() + y * dimensionsProvider.getBlockHeight(),
+                        dimensionsProvider.getBlockWidth(),
+                        dimensionsProvider.getBlockHeight()
+                );
             }
         }
     }
@@ -170,5 +189,14 @@ public class ContentRenderer implements SimpleRenderable {
      */
     public void setExplorationData(ExplorationDataInterface explorationData) {
         this.explorationData = explorationData;
+    }
+
+    /**
+     * Sets the player
+     *
+     * @param player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

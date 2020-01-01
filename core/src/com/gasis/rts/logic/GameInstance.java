@@ -566,4 +566,13 @@ public class GameInstance implements Updatable {
     public OrthographicCamera getCam() {
         return cam;
     }
+
+    /**
+     * Gets all players
+     *
+     * @return
+     */
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

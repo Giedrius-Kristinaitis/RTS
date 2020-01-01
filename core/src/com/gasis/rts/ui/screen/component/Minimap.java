@@ -2,6 +2,7 @@ package com.gasis.rts.ui.screen.component;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.gasis.rts.logic.GameInstance;
+import com.gasis.rts.logic.player.Player;
 import com.gasis.rts.ui.screen.component.minimap.*;
 import com.gasis.rts.utils.Constants;
 
@@ -38,6 +39,9 @@ public class Minimap extends AbstractComponent implements BoundsProvider, Minima
     // renders minimap content
     protected ContentRenderer contentRenderer;
 
+    // the player minimap is rendered for
+    protected Player player;
+
     /**
      * Class constructor
      */
@@ -47,6 +51,17 @@ public class Minimap extends AbstractComponent implements BoundsProvider, Minima
         renderBounds = new Bounds();
         navigator = new Navigator();
         contentRenderer = new ContentRenderer();
+    }
+
+    /**
+     * Sets the player
+     *
+     * @param player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+
+        contentRenderer.setPlayer(player);
     }
 
     /**
