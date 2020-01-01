@@ -1,17 +1,14 @@
 package com.gasis.rts.ui.screen.component;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.gasis.rts.logic.object.GameObject;
-import com.gasis.rts.logic.object.unit.Unit;
-import com.gasis.rts.ui.screen.component.minimap.Bounds;
-import com.gasis.rts.ui.screen.component.minimap.BoundsProvider;
-import com.gasis.rts.ui.screen.component.minimap.Navigator;
+import com.gasis.rts.logic.GameInstance;
+import com.gasis.rts.ui.screen.component.minimap.*;
 import com.gasis.rts.utils.Constants;
 
 /**
  * Minimap showing map elements
  */
-public class Minimap extends AbstractComponent implements BoundsProvider {
+public class Minimap extends AbstractComponent implements BoundsProvider, MinimapDimensionsProvider {
 
     // minimap's opacity
     protected final float OPACITY = 0.9f;
@@ -38,6 +35,9 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
     // minimap navigator
     protected Navigator navigator;
 
+    // renders minimap content
+    protected ContentRenderer contentRenderer;
+
     /**
      * Class constructor
      */
@@ -46,7 +46,22 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
 
         renderBounds = new Bounds();
         navigator = new Navigator();
-        navigator.setBoundsProvider(this);
+        contentRenderer = new ContentRenderer();
+    }
+
+    /**
+     * Sets the game instance
+     *
+     * @param game game instance
+     */
+    @Override
+    public void setGameInstance(GameInstance game) {
+        super.setGameInstance(game);
+
+        contentRenderer.setBoundsProvider(this);
+        contentRenderer.setDimensionsProvider(this);
+        contentRenderer.setMap(game.getMap());
+        contentRenderer.setExplorationData(game.getExplorationData());
     }
 
     /**
@@ -79,8 +94,7 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
         super.draw(batch, parentAlpha);
 
         batch.setColor(1, 1, 1, OPACITY);
-        renderContents(batch);
-        navigator.render(batch, game.getResources());
+        contentRenderer.render(batch, game.getResources());
         batch.setColor(1, 1, 1, 1);
 
         renderBorders(batch);
@@ -107,87 +121,6 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
                 bottomBorderWidth,
                 bottomBorderHeight
         );
-    }
-
-    /**
-     * Renders the minimap's contents
-     *
-     * @param batch batch to draw to
-     */
-    protected void renderContents(Batch batch) {
-        for (short x = 0; x < game.getMap().getWidth(); x++) {
-            for (short y = 0; y < game.getMap().getHeight(); y++) {
-                if (!game.getExplorationData().isExplored(x, y)) {
-                    batch.draw(
-                            game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_UNEXPLORED),
-                            getX() + x * blockWidth,
-                            getY() + y * blockHeight,
-                            blockWidth,
-                            blockHeight
-                    );
-                } else {
-                    if (!game.getExplorationData().isVisible(x, y)) {
-                        if (game.getMap().isBlockPassable(x, y)) {
-                            batch.draw(
-                                    game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_EXPLORED_INVISIBLE),
-                                    getX() + x * blockWidth,
-                                    getY() + y * blockHeight,
-                                    blockWidth,
-                                    blockHeight
-                            );
-                        } else {
-                            batch.draw(
-                                    game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_VISIBLE),
-                                    getX() + x * blockWidth,
-                                    getY() + y * blockHeight,
-                                    blockWidth,
-                                    blockHeight
-                            );
-                        }
-                    } else {
-                        if (!game.getMap().isBlockPassable(x, y)) {
-                            batch.draw(
-                                    game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_TERRAIN_OBJECT),
-                                    getX() + x * blockWidth,
-                                    getY() + y * blockHeight,
-                                    blockWidth,
-                                    blockHeight
-                            );
-                        } else {
-                            batch.draw(
-                                    game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_VISIBLE),
-                                    getX() + x * blockWidth,
-                                    getY() + y * blockHeight,
-                                    blockWidth,
-                                    blockHeight
-                            );
-
-                            GameObject occupyingObject = game.getMap().getOccupyingObject(x, y);
-
-                            if (occupyingObject != null) {
-                                if (occupyingObject instanceof Unit) {
-                                    batch.draw(
-                                            game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_HEAVY_UNIT_PREFIX + occupyingObject.getOwner().getColor()),
-                                            getX() + x * blockWidth,
-                                            getY() + y * blockHeight,
-                                            blockWidth,
-                                            blockHeight
-                                    );
-                                } else {
-                                    batch.draw(
-                                            game.getResources().atlas(Constants.FOLDER_ATLASES + Constants.MINIMAP_ATLAS).findRegion(Constants.MINIMAP_BLOCK_OBJECT_PREFIX + occupyingObject.getOwner().getColor()),
-                                            getX() + x * blockWidth,
-                                            getY() + y * blockHeight,
-                                            blockWidth,
-                                            blockHeight
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -219,5 +152,65 @@ public class Minimap extends AbstractComponent implements BoundsProvider {
     @Override
     public Bounds getRenderBounds() {
         return renderBounds;
+    }
+
+    /**
+     * Gets the minimap's x
+     *
+     * @return
+     */
+    @Override
+    public float getMinimapX() {
+        return getX();
+    }
+
+    /**
+     * Gets the minimap's y
+     *
+     * @return
+     */
+    @Override
+    public float getMinimapY() {
+        return getY();
+    }
+
+    /**
+     * Gets the minimap's width
+     *
+     * @return
+     */
+    @Override
+    public float getMinimapWidth() {
+        return getWidth();
+    }
+
+    /**
+     * Gets the minimap's height
+     *
+     * @return
+     */
+    @Override
+    public float getMinimapHeight() {
+        return getHeight();
+    }
+
+    /**
+     * Gets the width of a block
+     *
+     * @return
+     */
+    @Override
+    public float getBlockWidth() {
+        return blockWidth;
+    }
+
+    /**
+     * Gets the height of a block
+     *
+     * @return
+     */
+    @Override
+    public float getBlockHeight() {
+        return blockHeight;
     }
 }
